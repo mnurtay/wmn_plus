@@ -18,3 +18,10 @@ class LoginUserEvent extends LoginEvent {
   @override
   List<Object> get props => [username, password];
 }
+
+class LoginDoctorEvent extends LoginEvent {
+  LoginDoctorEvent();
+
+  @override
+  List<Object> get props => [null];
+}

@@ -29,3 +29,11 @@ class AuthenticatedAuthState extends AuthState {
   @override
   List<Object> get props => [user];
 }
+
+class AuthenticatedDoctorAuthState extends AuthState {
+  final User user;
+  AuthenticatedDoctorAuthState({@required this.user});
+
+  @override
+  List<Object> get props => [user];
+}

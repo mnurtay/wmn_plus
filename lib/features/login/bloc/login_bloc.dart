@@ -33,5 +33,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         yield FailureLoginState(error: error.toString());
       }
     }
+    if (event is LoginDoctorEvent){
+      
+    }
   }
 }

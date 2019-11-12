@@ -3,15 +3,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wmn_plus/features/auth/bloc/bloc.dart';
 import 'package:wmn_plus/features/login/bloc/bloc.dart';
-import 'package:wmn_plus/features/login/ui/page/login_form.dart';
-import 'package:wmn_plus/features/login/ui/page/login_title.dart';
+import 'package:wmn_plus/features/login/ui/page/doctor_login_form.dart';
 
-class LoginPage extends StatefulWidget {
+class DoctorLoginPage extends StatefulWidget {
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _DoctorLoginPageState createState() => _DoctorLoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _DoctorLoginPageState extends State<DoctorLoginPage> {
   AuthBloc _authBloc;
   LoginBloc _loginBloc;
 
@@ -51,8 +50,15 @@ class _LoginPageState extends State<LoginPage> {
         child: Center(
           child: Column(
             children: <Widget>[
-              LoginTitle(),
-              LoginForm(
+              Container(
+                height: 50,
+                color: Colors.white,
+              ),
+              Container(
+                height: 200,
+                child: Image.asset("assets/doctor_login_logo.png"),
+              ),
+              DoctorLoginForm(
                 authBloc: _authBloc,
                 loginBloc: _loginBloc,
               ),
@@ -62,5 +68,4 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
-
 }
