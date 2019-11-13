@@ -14,7 +14,7 @@ class LoginTitle extends StatelessWidget {
         fontWeight: FontWeight.w500,
         letterSpacing: 0);
     return Container(
-      height: 200,
+      height: ScreenUtil.getInstance().setHeight(500),
       child: Image.asset("assets/login_logo.png"),
     );
   }

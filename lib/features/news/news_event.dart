@@ -5,8 +5,7 @@ import 'dart:developer' as developer;
 
 @immutable
 abstract class NewsEvent {
-  Future<NewsState> applyAsync(
-      {NewsState currentState, NewsBloc bloc});
+  Future<NewsState> applyAsync({NewsState currentState, NewsBloc bloc});
   final NewsRepository _newsRepository = NewsRepository();
 }
 
@@ -18,25 +17,39 @@ class UnNewsEvent extends NewsEvent {
 }
 
 class LoadNewsEvent extends NewsEvent {
-   
-  final bool isError;
+  @override
+  String toString() => 'LoadNewsEvent';
+  final int category;
+  LoadNewsEvent({@required this.category});
+
+  @override
+  Future<NewsState> applyAsync({NewsState currentState, NewsBloc bloc}) async {
+    print("applyAsync");
+    try {
+      return InNewsState(0, this.category);
+    } catch (_, stackTrace) {
+      developer.log('$_',
+          name: 'LoadNewsEvent', error: _, stackTrace: stackTrace);
+      return ErrorNewsState(0, _?.toString());
+    }
+  }
+}
+
+class CategoryChangedNewsEvent extends NewsEvent {
+  final int category;
+
   @override
   String toString() => 'LoadNewsEvent';
 
-  LoadNewsEvent(this.isError);
+  CategoryChangedNewsEvent({@required this.category});
 
   @override
-  Future<NewsState> applyAsync(
-      {NewsState currentState, NewsBloc bloc}) async {
+  Future<NewsState> applyAsync({NewsState currentState, NewsBloc bloc}) async {
     try {
-      if (currentState is InNewsState) {
-        return currentState.getNewVersion();
-      }
-      await Future.delayed(Duration(seconds: 3));
-      var news = this._newsRepository.test(this.isError);
-      return InNewsState(0, "Hello world");
+      return CategoryNewsState(0, category);
     } catch (_, stackTrace) {
-      developer.log('$_', name: 'LoadNewsEvent', error: _, stackTrace: stackTrace);
+      developer.log('$_',
+          name: 'LoadNewsEvent', error: _, stackTrace: stackTrace);
       return ErrorNewsState(0, _?.toString());
     }
   }

@@ -40,21 +40,42 @@ class UnNewsState extends NewsState {
 
 /// Initialized
 class InNewsState extends NewsState {
-  final String hello;
 
-  InNewsState(version, this.hello) : super(version, [hello]);
+  final int category;
+
+  InNewsState(version, this.category) : super(version, [category]);
 
   @override
-  String toString() => 'InNewsState $hello';
+  String toString() => 'InNewsState $category';
 
   @override
   InNewsState getStateCopy() {
-    return InNewsState(this.version, this.hello);
+    return InNewsState(this.version, this.category);
   }
 
   @override
   InNewsState getNewVersion() {
-    return InNewsState(version+1, this.hello);
+    return InNewsState(version+1, category);
+  }
+}
+
+class CategoryNewsState extends NewsState {
+
+  final int category;
+
+  CategoryNewsState(version, this.category) : super(version, [category]);
+
+  @override
+  String toString() => 'InNewsState $category';
+
+  @override
+  InNewsState getStateCopy() {
+    return InNewsState(this.version, this.category);
+  }
+
+  @override
+  InNewsState getNewVersion() {
+    return InNewsState(version+1, category);
   }
 }
 
