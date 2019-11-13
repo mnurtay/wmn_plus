@@ -57,7 +57,8 @@ class _LoginFormState extends State<DoctorLoginForm> {
         LoginState state,
       ) {
         return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
+          padding: EdgeInsets.symmetric(
+              horizontal: ScreenUtil.getInstance().setWidth(80)),
           child: Column(
             children: <Widget>[
               TextField(
@@ -70,7 +71,7 @@ class _LoginFormState extends State<DoctorLoginForm> {
                       fillColor: Colors.grey,
                       labelText: "Телефон")),
               SizedBox(
-                height: 25,
+                height: ScreenUtil.getInstance().setHeight(50),
               ),
               TextFormField(
                 controller: passwordController,
@@ -98,7 +99,7 @@ class _LoginFormState extends State<DoctorLoginForm> {
                 ),
               ),
               SizedBox(
-                height: 25,
+                height: ScreenUtil.getInstance().setHeight(80),
               ),
               RaisedButton(
                 shape: RoundedRectangleBorder(
@@ -109,8 +110,9 @@ class _LoginFormState extends State<DoctorLoginForm> {
                   _onLoginButtonPressed();
                 },
                 child: Container(
-                  height: 25,
-                  margin: EdgeInsets.all(15),
+                  height: ScreenUtil.getInstance().setHeight(70),
+                  margin:
+                      EdgeInsets.all(ScreenUtil.getInstance().setHeight(30)),
                   child: Center(
                     child: Text(
                       "Войти",

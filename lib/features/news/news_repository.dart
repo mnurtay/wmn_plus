@@ -8,4 +8,9 @@ class NewsRepository {
   void test(bool isError) {
     this._newsProvider.test(isError);
   }
+
+  Future<List<NewsModel>> getNewsList(int pageIndex, int category) async {
+      List<NewsModel> news = await _newsProvider.fetchMoreNews(pageIndex, category);
+      return news;
+  }
 }
