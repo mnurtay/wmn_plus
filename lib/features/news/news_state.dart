@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
+import 'package:wmn_plus/features/news/index.dart';
 
 @immutable
 abstract class NewsState extends Equatable {
@@ -40,21 +41,42 @@ class UnNewsState extends NewsState {
 
 /// Initialized
 class InNewsState extends NewsState {
-  final String hello;
 
-  InNewsState(version, this.hello) : super(version, [hello]);
+  final List<NewsModel> newsList;
+
+  InNewsState(version, this.newsList) : super(version, [newsList]);
 
   @override
-  String toString() => 'InNewsState $hello';
+  String toString() => 'InNewsState $newsList';
 
   @override
   InNewsState getStateCopy() {
-    return InNewsState(this.version, this.hello);
+    return InNewsState(this.version, this.newsList);
   }
 
   @override
   InNewsState getNewVersion() {
-    return InNewsState(version+1, this.hello);
+    return InNewsState(version+1, newsList);
+  }
+}
+
+class CategoryOneNewsState extends NewsState {
+
+  final int category;
+
+  CategoryOneNewsState(version, this.category) : super(version, [category]);
+
+  @override
+  String toString() => 'InNewsState $category';
+
+  @override
+  CategoryOneNewsState getStateCopy() {
+    return CategoryOneNewsState(this.version, this.category);
+  }
+
+  @override
+  CategoryOneNewsState getNewVersion() {
+    return CategoryOneNewsState(version+1, category);
   }
 }
 

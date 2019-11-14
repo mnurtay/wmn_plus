@@ -32,3 +32,18 @@ class EditAuthEvent extends AuthEvent {
   @override
   List<Object> get props => [user];
 }
+
+class ChangeAppModeFertilityEvent extends AuthEvent {
+  @override
+  List<Object> get props => [];
+}
+
+class ChangeAppModeClimaxEvent extends AuthEvent {
+  @override
+  List<Object> get props => [];
+}
+
+class ChangeAppModePregnantEvent extends AuthEvent {
+  @override
+  List<Object> get props => [];
+}

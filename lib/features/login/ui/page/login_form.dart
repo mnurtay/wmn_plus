@@ -56,111 +56,116 @@ class _LoginFormState extends State<LoginForm> {
         BuildContext context,
         LoginState state,
       ) {
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Column(
-            children: <Widget>[
-              TextField(
-                  keyboardType: TextInputType.phone,
-                  controller: loginController,
+        return Container(
+          height: MediaQuery.of(context).size.height,
+          margin: EdgeInsets.all(ScreenUtil.getInstance().setHeight(80)),
+          child: Center(
+            child: Column(
+              children: <Widget>[
+                TextField(
+                    keyboardType: TextInputType.phone,
+                    controller: loginController,
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12.0),
+                        ),
+                        focusColor: Colors.red,
+                        fillColor: Colors.grey,
+                        labelText: "Телефон")),
+                SizedBox(
+                  height: ScreenUtil.getInstance().setHeight(50),
+                ),
+                TextFormField(
+                  controller: passwordController,
+                  keyboardType: TextInputType.text,
+                  obscureText:
+                      passwordVisible, //This will obscure text dynamically
                   decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12.0),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12.0)),
+                    labelText: 'Пароль',
+                    // Here is key idea
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        // Based on passwordVisible state choose the icon
+                        passwordVisible
+                            ? Icons.visibility
+                            : Icons.visibility_off,
+                        color: Theme.of(context).accentColor,
                       ),
-                      focusColor: Colors.red,
-                      fillColor: Colors.grey,
-                      labelText: "Телефон")),
-              SizedBox(
-                height: 25,
-              ),
-              TextFormField(
-                controller: passwordController,
-                keyboardType: TextInputType.text,
-                obscureText:
-                    passwordVisible, //This will obscure text dynamically
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12.0)),
-                  labelText: 'Пароль',
-                  // Here is key idea
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      // Based on passwordVisible state choose the icon
-                      passwordVisible ? Icons.visibility : Icons.visibility_off,
-                      color: Theme.of(context).accentColor,
-                    ),
-                    onPressed: () {
-                      // Update the state i.e. toogle the state of passwordVisible variable
-                      setState(() {
-                        passwordVisible = !passwordVisible;
-                      });
-                    },
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 25,
-              ),
-              RaisedButton(
-                shape: RoundedRectangleBorder(
-                  borderRadius: new BorderRadius.circular(12.0),
-                ),
-                color: Color(0xffD748DA),
-                onPressed: () {
-                  _onLoginButtonPressed();
-                },
-                child: Container(
-                  height: 25,
-                  margin: EdgeInsets.all(15),
-                  child: Center(
-                    child: Text(
-                      "Войти",
-                      style: TextStyle(color: Colors.white),
+                      onPressed: () {
+                        // Update the state i.e. toogle the state of passwordVisible variable
+                        setState(() {
+                          passwordVisible = !passwordVisible;
+                        });
+                      },
                     ),
                   ),
                 ),
-              ),
-              SizedBox(height: 20),
-              RaisedButton(
-                shape: RoundedRectangleBorder(
-                  borderRadius: new BorderRadius.circular(12.0),
+                SizedBox(
+                  height: ScreenUtil.getInstance().setHeight(70),
                 ),
-                color: Color(0xffFD99FF),
-                onPressed: () {
-                  _onDoctorButtonPressed();
-                },
-                child: Container(
-                  height: 25,
-                  margin: EdgeInsets.all(15),
-                  child: Center(
-                    child: Text(
-                      "Я врач",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              RaisedButton(
-                shape: RoundedRectangleBorder(
+                RaisedButton(
+                  shape: RoundedRectangleBorder(
                     borderRadius: new BorderRadius.circular(12.0),
-                    side: BorderSide(color: Color(0xFFD748DA))),
-                color: Colors.white,
-                onPressed: () {},
-                child: Container(
-                  height: 25,
-                  margin: EdgeInsets.all(15),
-                  child: Center(
-                    child: Text(
-                      "Регистрация",
-                      style: TextStyle(color: Color(0xFFD748DA)),
+                  ),
+                  color: Color(0xffD748DA),
+                  onPressed: () {
+                    _onLoginButtonPressed();
+                  },
+                  child: Container(
+                    height: ScreenUtil.getInstance().setHeight(70),
+                    margin: EdgeInsets.all(15),
+                    child: Center(
+                      child: Text(
+                        "Войти",
+                        style: TextStyle(color: Colors.white),
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
+                SizedBox(height: ScreenUtil.getInstance().setHeight(40)),
+                RaisedButton(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: new BorderRadius.circular(12.0),
+                  ),
+                  color: Color(0xffFD99FF),
+                  onPressed: () {
+                    _onDoctorButtonPressed();
+                  },
+                  child: Container(
+                    height: 25,
+                    margin: EdgeInsets.all(15),
+                    child: Center(
+                      child: Text(
+                        "Я врач",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: ScreenUtil.getInstance().setHeight(80),
+                ),
+                RaisedButton(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: new BorderRadius.circular(12.0),
+                      side: BorderSide(color: Color(0xFFD748DA))),
+                  color: Colors.white,
+                  onPressed: () {},
+                  child: Container(
+                    height: ScreenUtil.getInstance().setHeight(70),
+                    margin: EdgeInsets.all(15),
+                    child: Center(
+                      child: Text(
+                        "Регистрация",
+                        style: TextStyle(color: Color(0xFFD748DA)),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         );
       },

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wmn_plus/features/news/index.dart';
 
 class NewsScreen extends StatefulWidget {
@@ -20,12 +21,15 @@ class NewsScreen extends StatefulWidget {
 class NewsScreenState extends State<NewsScreen> {
   final NewsBloc _newsBloc;
   NewsScreenState(this._newsBloc);
+  List<String> _category = ['A', 'B', 'C', 'D']; // Option 2
+  String _selectedCategory;
+  int _categoryPosition = 0;
 
   @override
   void initState() {
     super.initState();
-    widget._newsBloc.add(UnNewsEvent());
-    widget._newsBloc.add(LoadNewsEvent(false));
+    // widget._newsBloc.add(UnNewsEvent());
+    widget._newsBloc.add(LoadNewsEvent(category: _categoryPosition));
   }
 
   @override
@@ -35,92 +39,149 @@ class NewsScreenState extends State<NewsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<NewsBloc, NewsState>(
-        bloc: widget._newsBloc,
-        builder: (
-          BuildContext context,
-          NewsState currentState,
-        ) {
-          if (currentState is UnNewsState) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          if (currentState is ErrorNewsState) {
-            return Center(
-                child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(currentState.errorMessage ?? 'Error'),
-                Padding(
-                  padding: const EdgeInsets.only(top: 32.0),
-                  child: RaisedButton(
-                    color: Colors.blue,
-                    child: Text("reload"),
-                    onPressed: () {},
+    ScreenUtil.instance =
+        ScreenUtil(width: 828, height: 1792, allowFontScaling: true)
+          ..init(context);
+
+    return SingleChildScrollView(
+      child: Container(
+          height: MediaQuery.of(context).size.height,
+          margin: EdgeInsets.all(ScreenUtil.getInstance().setHeight(20)),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Row(
+                children: <Widget>[
+                  Container(
+                    margin:
+                        EdgeInsets.all(ScreenUtil.getInstance().setHeight(20)),
+                    child: Text(
+                      "Новости",
+                      style: TextStyle(
+                          fontSize: ScreenUtil.getInstance().setSp(50)),
+                    ),
                   ),
-                ),
-              ],
-            ));
-          }
-          if (currentState is InNewsState) {
-            return SingleChildScrollView(
-              child: Container(
-                  height: MediaQuery.of(context).size.height,
-                  margin: EdgeInsets.all(16),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        "Новости",
-                        style: TextStyle(fontSize: 24),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Expanded(
-                        child: ListView.builder(
-                          itemCount: 5,
-                          itemBuilder: (context, position) {
-                            return buildNewsItem(context);
+                  Expanded(
+                    child: Container(),
+                  ),
+                  DropdownButton(
+                    hint: Text(
+                        'Выбрать категорию новостей'), // Not necessary for Option 1
+                    value: _selectedCategory,
+                    onChanged: (newValue) {
+                      setState(() {
+                        for (int i = 0; i < _category.length; i++) {
+                          if (newValue == _category[i]) {
+                            _categoryPosition = i;
+                            widget._newsBloc.add(LoadNewsEvent(category: i));
+                          }
+                        }
+                        _selectedCategory = newValue;
+                      });
+                    },
+                    items: _category.map((location) {
+                      return DropdownMenuItem(
+                        child: new Text(location),
+                        value: location,
+                      );
+                    }).toList(),
+                  )
+                ],
+              ),
+              SizedBox(
+                height: ScreenUtil.getInstance().setHeight(25),
+              ),
+              new BlocBuilder<NewsBloc, NewsState>(
+                  bloc: widget._newsBloc,
+                  builder: (
+                    BuildContext context,
+                    NewsState currentState,
+                  ) {
+                    if (currentState is UnNewsState) {
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+                    if (currentState is ErrorNewsState) {
+                      return Center(
+                          child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text(currentState.errorMessage ?? 'Error'),
+                        ],
+                      ));
+                    }
+                    if (currentState is InNewsState) {
+                      print("InNewsState + ${currentState.newsList}");
+                      // if (currentState.newsList == null){
+                      //   return Container();
+                      // }
+                      return Expanded(
+                        child: new ListView.builder(
+                          padding: EdgeInsets.all(
+                              ScreenUtil.getInstance().setHeight(30)),
+                          itemCount: currentState.newsList.length,
+                          itemBuilder: (context, index) {
+                            return buildNewsItem(
+                                context, currentState.newsList[index]);
                           },
                         ),
-                      )
-                    ],
-                  )),
-            );
-          }
-          return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text("Flutter files: done"),
-                Padding(
-                  padding: const EdgeInsets.only(top: 32.0),
-                  child: RaisedButton(
-                    color: Colors.red,
-                    child: Text("throw error"),
-                    onPressed: () {},
-                  ),
-                ),
-              ],
-            ),
-          );
-        });
+                      );
+                      // return new Expanded(
+                      //   child: new PagewiseListView(
+                      //       pageSize: 10,
+                      //       padding: EdgeInsets.all(
+                      //           ScreenUtil.getInstance().setHeight(30)),
+                      //       itemBuilder: (context, entry, index) {
+                      //         return buildNewsItem(context, entry);
+                      //       },
+                      //       pageFuture: (pageIndex) {
+                      //         //Direct to repository
+                      //         var newsList = new NewsRepository().getNewsList(
+                      //             pageIndex, currentState.category);
+                      //         return newsList;
+                      //       }),
+                      // );
+                    }
+                    if (currentState is CategoryOneNewsState) {
+                      // return new Expanded(
+                      //   child: new PagewiseListView(
+                      //       pageSize: 9,
+                      //       padding: EdgeInsets.all(
+                      //           ScreenUtil.getInstance().setHeight(30)),
+                      //       itemBuilder: (context, entry, index) {
+                      //         return buildNewsItem(context, entry);
+                      //       },
+                      //       pageFuture: (pageIndex) {
+                      //         //Direct to repository
+                      //         var newsList = new NewsRepository().getNewsList(
+                      //             pageIndex, 1);
+                      //         return newsList;
+                      //       }),
+                      // );
+                      // return Container(height: 50, color: Colors.black);
+                    }
+                    return Center(child: Text("Development"));
+                  })
+            ],
+          )),
+    );
   }
 
-  Container buildNewsItem(BuildContext context) {
+  Widget buildNewsItem(BuildContext context, NewsModel data) {
     return Container(
-        margin: EdgeInsets.only(bottom: 10),
-        height: 250,
+        margin: EdgeInsets.only(bottom: ScreenUtil.getInstance().setHeight(25)),
+        height: ScreenUtil.getInstance().setHeight(500),
         width: MediaQuery.of(context).size.width,
         child: Container(
           alignment: Alignment.bottomLeft,
           child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Text("Беременность у женщин",
-                style: TextStyle(fontSize: 24, color: Colors.white)),
+            padding: EdgeInsets.all(ScreenUtil.getInstance().setHeight(50)),
+            child: Text(data.name,
+                style: TextStyle(
+                    fontSize: ScreenUtil.getInstance().setSp(50),
+                    color: Colors.white)),
           ),
           decoration: BoxDecoration(
               color: Colors.black38, borderRadius: BorderRadius.circular(16)),

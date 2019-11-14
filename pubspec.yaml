@@ -15,6 +15,7 @@ dependencies:
   equatable: ^0.6.1
   flutter_screenutil: ^0.6.0
   shared_preferences: ^0.5.3+5
+  flutter_pagewise: ^1.2.3
 
 dev_dependencies:
   flutter_test:

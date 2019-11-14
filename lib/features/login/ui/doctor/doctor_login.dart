@@ -55,7 +55,7 @@ class _DoctorLoginPageState extends State<DoctorLoginPage> {
                 color: Colors.white,
               ),
               Container(
-                height: 200,
+                height: ScreenUtil.getInstance().setHeight(500),
                 child: Image.asset("assets/doctor_login_logo.png"),
               ),
               DoctorLoginForm(
