@@ -23,11 +23,33 @@ class _ProfilePageState extends State<ProfilePage> {
         title: Text('Profile Page'),
       ),
       body: Center(
-        child: RaisedButton(
-          onPressed: () {
-            _authBloc.add(LoggedOutAuthEvent());
-          },
-          child: Text('Logout'),
+        child: Column(
+          children: <Widget>[
+            RaisedButton(
+              onPressed: () {
+                _authBloc.add(LoggedOutAuthEvent());
+              },
+              child: Text('Logout'),
+            ),
+            RaisedButton(
+              onPressed: () {
+                _authBloc.add(ChangeAppModeFertilityEvent());
+              },
+              child: Text('Fertility'),
+            ),
+             RaisedButton(
+              onPressed: () {
+                _authBloc.add(ChangeAppModeClimaxEvent());
+              },
+              child: Text('Climax'),
+            ),
+             RaisedButton(
+              onPressed: () {
+                // _authBloc.add(LoggedInAuthEvent());
+              },
+              child: Text('Pregnant'),
+            )
+          ],
         ),
       ),
     );

@@ -30,6 +30,30 @@ class AuthenticatedAuthState extends AuthState {
   List<Object> get props => [user];
 }
 
+class AuthenticatedFertilityModeState extends AuthState {
+  final User user;
+  AuthenticatedFertilityModeState({@required this.user});
+
+  @override
+  List<Object> get props => [user];
+}
+
+class AuthenticatedPregnantModeState extends AuthState {
+  final User user;
+  AuthenticatedPregnantModeState({@required this.user});
+
+  @override
+  List<Object> get props => [user];
+}
+
+class AuthenticatedClimaxModeState extends AuthState {
+  final User user;
+  AuthenticatedClimaxModeState({@required this.user});
+
+  @override
+  List<Object> get props => [user];
+}
+
 class AuthenticatedDoctorAuthState extends AuthState {
   final User user;
   AuthenticatedDoctorAuthState({@required this.user});

@@ -32,6 +32,24 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       yield AuthenticatedAuthState(user: currentUser);
     }
 
+    if (event is ChangeAppModeFertilityEvent) {
+      await Future.delayed(Duration(seconds: 1)); // post request to change mode
+      final currentUser = await userRepository.getCurrentUser();
+      yield AuthenticatedFertilityModeState(user: currentUser);
+    }
+
+    if (event is ChangeAppModePregnantEvent) {
+      await Future.delayed(Duration(seconds: 1)); // post request to change mode
+      final currentUser = await userRepository.getCurrentUser();
+      yield AuthenticatedAuthState(user: currentUser); //pregnancy default mode
+    }
+    
+    if (event is ChangeAppModeClimaxEvent) {
+      await Future.delayed(Duration(seconds: 1)); // post request to change mode
+      final currentUser = await userRepository.getCurrentUser();
+      yield AuthenticatedClimaxModeState(user: currentUser);
+    }
+
     // App Edit mechanism
     if (event is EditAuthEvent) {
       // yield LoadingAuthState();
