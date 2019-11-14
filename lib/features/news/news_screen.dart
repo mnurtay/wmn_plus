@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wmn_plus/features/news/index.dart';
-import 'package:flutter_pagewise/flutter_pagewise.dart';
 
 class NewsScreen extends StatefulWidget {
   const NewsScreen({
@@ -24,7 +23,7 @@ class NewsScreenState extends State<NewsScreen> {
   NewsScreenState(this._newsBloc);
   List<String> _category = ['A', 'B', 'C', 'D']; // Option 2
   String _selectedCategory;
-  int _categoryPosition = 0; // Option 2
+  int _categoryPosition = 0;
 
   @override
   void initState() {
@@ -55,7 +54,8 @@ class NewsScreenState extends State<NewsScreen> {
               Row(
                 children: <Widget>[
                   Container(
-                    margin: EdgeInsets.all(ScreenUtil.getInstance().setHeight(20)),
+                    margin:
+                        EdgeInsets.all(ScreenUtil.getInstance().setHeight(20)),
                     child: Text(
                       "Новости",
                       style: TextStyle(
@@ -74,8 +74,7 @@ class NewsScreenState extends State<NewsScreen> {
                         for (int i = 0; i < _category.length; i++) {
                           if (newValue == _category[i]) {
                             _categoryPosition = i;
-                            widget._newsBloc
-                                .add(CategoryChangedNewsEvent(category: i));
+                            widget._newsBloc.add(LoadNewsEvent(category: i));
                           }
                         }
                         _selectedCategory = newValue;
@@ -114,41 +113,55 @@ class NewsScreenState extends State<NewsScreen> {
                       ));
                     }
                     if (currentState is InNewsState) {
-                      print("InNewsState + ${currentState.category}");
-                      return new Expanded(
-                        child: new PagewiseListView(
-                            pageSize: 10,
-                             padding: EdgeInsets.all(
-                                ScreenUtil.getInstance().setHeight(30)),
-                            itemBuilder: (context, entry, index) {
-                              return buildNewsItem(context, entry);
-                            },
-                            pageFuture: (pageIndex) {
-                              //Direct to repository
-                              var newsList = new NewsRepository().getNewsList(
-                                  pageIndex, currentState.category);
-                              return newsList;
-                            }),
+                      print("InNewsState + ${currentState.newsList}");
+                      // if (currentState.newsList == null){
+                      //   return Container();
+                      // }
+                      return Expanded(
+                        child: new ListView.builder(
+                          padding: EdgeInsets.all(
+                              ScreenUtil.getInstance().setHeight(30)),
+                          itemCount: currentState.newsList.length,
+                          itemBuilder: (context, index) {
+                            return buildNewsItem(
+                                context, currentState.newsList[index]);
+                          },
+                        ),
                       );
+                      // return new Expanded(
+                      //   child: new PagewiseListView(
+                      //       pageSize: 10,
+                      //       padding: EdgeInsets.all(
+                      //           ScreenUtil.getInstance().setHeight(30)),
+                      //       itemBuilder: (context, entry, index) {
+                      //         return buildNewsItem(context, entry);
+                      //       },
+                      //       pageFuture: (pageIndex) {
+                      //         //Direct to repository
+                      //         var newsList = new NewsRepository().getNewsList(
+                      //             pageIndex, currentState.category);
+                      //         return newsList;
+                      //       }),
+                      // );
                     }
-                    if (currentState is CategoryNewsState) {
-                      return new Expanded(
-                        child: new PagewiseListView(
-                            pageSize: 10,
-                            padding: EdgeInsets.all(
-                                ScreenUtil.getInstance().setHeight(30)),
-                            itemBuilder: (context, entry, index) {
-                              return buildNewsItem(context, entry);
-                            },
-                            pageFuture: (pageIndex) {
-                              //Direct to repository
-                              var newsList = new NewsRepository().getNewsList(
-                                  pageIndex, currentState.category);
-                              return newsList;
-                            }),
-                      );
+                    if (currentState is CategoryOneNewsState) {
+                      // return new Expanded(
+                      //   child: new PagewiseListView(
+                      //       pageSize: 9,
+                      //       padding: EdgeInsets.all(
+                      //           ScreenUtil.getInstance().setHeight(30)),
+                      //       itemBuilder: (context, entry, index) {
+                      //         return buildNewsItem(context, entry);
+                      //       },
+                      //       pageFuture: (pageIndex) {
+                      //         //Direct to repository
+                      //         var newsList = new NewsRepository().getNewsList(
+                      //             pageIndex, 1);
+                      //         return newsList;
+                      //       }),
+                      // );
+                      // return Container(height: 50, color: Colors.black);
                     }
-
                     return Center(child: Text("Development"));
                   })
             ],

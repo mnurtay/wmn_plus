@@ -26,7 +26,10 @@ class LoadNewsEvent extends NewsEvent {
   Future<NewsState> applyAsync({NewsState currentState, NewsBloc bloc}) async {
     print("applyAsync");
     try {
-      return InNewsState(0, this.category);
+      print(category);
+      var newsList = await NewsRepository().getNewsList(0, category);
+      if (newsList == null) return InNewsState(0, []);
+      return InNewsState(0, newsList);
     } catch (_, stackTrace) {
       developer.log('$_',
           name: 'LoadNewsEvent', error: _, stackTrace: stackTrace);
@@ -46,7 +49,7 @@ class CategoryChangedNewsEvent extends NewsEvent {
   @override
   Future<NewsState> applyAsync({NewsState currentState, NewsBloc bloc}) async {
     try {
-      return CategoryNewsState(0, category);
+      if (category == 1) return CategoryOneNewsState(0, category);
     } catch (_, stackTrace) {
       developer.log('$_',
           name: 'LoadNewsEvent', error: _, stackTrace: stackTrace);
