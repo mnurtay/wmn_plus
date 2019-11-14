@@ -1,0 +1,14 @@
+{
+  "@@last_modified": "2019-06-27T23:38:38.868199",
+  "heyWorld": "Hey Welt",
+  "@heyWorld": {
+    "description": "Einfaches Wort zur Begrüßung",
+    "type": "text",
+    "placeholders": {}
+  },
+   "News": "Novosty",
+  "@News": {
+    "type": "text",
+    "placeholders": {}
+  }
+}

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wmn_plus/features/auth/bloc/bloc.dart';
 import 'package:wmn_plus/features/auth/ui/page/loading_page.dart';
@@ -8,6 +9,7 @@ import 'package:wmn_plus/features/auth/ui/page/splash_page.dart';
 import 'package:wmn_plus/features/login/ui/doctor/doctor_login.dart';
 import 'package:wmn_plus/features/login/ui/page/login_page.dart';
 import 'package:wmn_plus/features/news/news_page.dart';
+import 'package:wmn_plus/locale/app_localization.dart';
 import 'package:wmn_plus/util/config.dart';
 
 ThemeData THEME_MODE_PREGNANCY = ThemeData(
@@ -76,7 +78,7 @@ class _AppState extends State<App> {
             if (state is AuthenticatedFertilityModeState) {
               return AuthenticatedFertilityApp();
             }
-            if (state is AuthenticatedClimaxModeState){
+            if (state is AuthenticatedClimaxModeState) {
               return AuthenticatedClimaxApp();
             }
           },
@@ -132,8 +134,16 @@ class UnauthenticatedApp extends StatelessWidget {
 
 /// --- The Authenticated for PREGNANT MODE routes ---
 class AuthenticatedApp extends StatelessWidget {
+  AppLocalizationDelegate _localeOverrideDelegate =
+      AppLocalizationDelegate(Locale('ru', 'RU'));
   Widget buildRoutes(BuildContext context) {
     return MaterialApp(
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        _localeOverrideDelegate
+      ],
+      supportedLocales: [const Locale('ru', 'RU'), const Locale('kz', 'KZ')],
       debugShowCheckedModeBanner: false,
       theme: THEME_MODE_PREGNANCY,
       routes: {
@@ -195,7 +205,6 @@ class AuthenticatedClimaxApp extends StatelessWidget {
     return buildRoutes(context);
   }
 }
-
 
 class AuthenticatedDoctorApp extends StatelessWidget {
   Widget buildRoutes(BuildContext context) {
@@ -354,6 +363,7 @@ class _BottomNavigationFertilityControllerState
     );
   }
 }
+
 /// CLIMAX BOTTOM NAVIGATION
 class BottomNavigationClimaxController extends StatefulWidget {
   @override
