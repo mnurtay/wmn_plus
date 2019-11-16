@@ -2,19 +2,29 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wmn_plus/features/auth/ui/page/profile_page.dart';
-import 'package:wmn_plus/features/news/news_page.dart';
+import 'package:wmn_plus/features/news/index.dart';
 import 'package:wmn_plus/locale/app_localization.dart';
 import 'package:wmn_plus/navigation/bottom_navigation.dart';
 import 'package:wmn_plus/util/config.dart';
 
 ThemeData THEME = ThemeData(
-  accentColor: Color(0xff474DDF),
-  primaryColor: Color(0xff474DDF),
+  accentColor: Color(0xffD748DA),
+  primaryColor: Color(0xffD748DA),
 );
 
-class AuthenticatedDoctorRoutes extends StatelessWidget {
-  AppLocalizationDelegate _localeOverrideDelegate =
-      AppLocalizationDelegate(Locale('ru', 'RU'));
+class AuthenticatedPregnantRoutes extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => _PregnantRoutes();
+}
+
+class _PregnantRoutes extends State<AuthenticatedPregnantRoutes> {
+  AppLocalizationDelegate _localeOverrideDelegate;
+
+  @override
+  void initState() {
+    _localeOverrideDelegate = AppLocalizationDelegate(Locale('ru', 'RU'));
+    super.initState();
+  }
 
   Widget buildRoutes(BuildContext context) {
     return MaterialApp(
@@ -25,8 +35,8 @@ class AuthenticatedDoctorRoutes extends StatelessWidget {
       ],
       supportedLocales: [
         const Locale('ru', 'RU'),
+        const Locale('en', 'US'),
         const Locale('kz', 'KZ'),
-        const Locale('en', 'EN')
       ],
       debugShowCheckedModeBanner: false,
       theme: THEME,

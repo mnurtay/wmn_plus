@@ -8,13 +8,13 @@ import 'package:wmn_plus/navigation/bottom_navigation.dart';
 import 'package:wmn_plus/util/config.dart';
 
 ThemeData THEME = ThemeData(
-  accentColor: Color(0xff474DDF),
-  primaryColor: Color(0xff474DDF),
+  accentColor: Colors.red,
+  primaryColor: Colors.red,
 );
 
-class AuthenticatedDoctorRoutes extends StatelessWidget {
+class AuthenticatedFertilityRoutes extends StatelessWidget {
   AppLocalizationDelegate _localeOverrideDelegate =
-      AppLocalizationDelegate(Locale('ru', 'RU'));
+      AppLocalizationDelegate(Locale('kz', 'KZ'));
 
   Widget buildRoutes(BuildContext context) {
     return MaterialApp(

@@ -8,11 +8,16 @@ import 'package:wmn_plus/navigation/bottom_navigation.dart';
 import 'package:wmn_plus/util/config.dart';
 
 ThemeData THEME = ThemeData(
-  accentColor: Color(0xff474DDF),
-  primaryColor: Color(0xff474DDF),
+  accentColor: Colors.brown,
+  primaryColor: Colors.brown,
 );
 
-class AuthenticatedDoctorRoutes extends StatelessWidget {
+class AuthenticatedClimaxRoutes extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => _ClimaxRoutes();
+}
+
+class _ClimaxRoutes extends State<AuthenticatedClimaxRoutes> {
   AppLocalizationDelegate _localeOverrideDelegate =
       AppLocalizationDelegate(Locale('ru', 'RU'));
 
