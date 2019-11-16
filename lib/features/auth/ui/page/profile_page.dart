@@ -71,10 +71,18 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ),
             ),
+            RaisedButton(
+              onPressed: () {
+                setState(() {
+                  AppLocalization.load(Locale('en', 'EN'));
+                }); // _authBloc.add(LoggedInAuthEvent());
+              },
+              child: Text('ENG'),
+            ),
             Expanded(
               flex: 1,
               child: Text(
-                AppLocalization.of(context).heyWorld,
+                AppLocalization.of(context).novosty,
                 style: TextStyle(fontSize: 20),
               ),
             )

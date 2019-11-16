@@ -135,7 +135,7 @@ class UnauthenticatedApp extends StatelessWidget {
 /// --- The Authenticated for PREGNANT MODE routes ---
 class AuthenticatedApp extends StatelessWidget {
   AppLocalizationDelegate _localeOverrideDelegate =
-      AppLocalizationDelegate(Locale('ru', 'RU'));
+      AppLocalizationDelegate(Locale('kz', 'KZ'));
   Widget buildRoutes(BuildContext context) {
     return MaterialApp(
       localizationsDelegates: [
@@ -143,7 +143,11 @@ class AuthenticatedApp extends StatelessWidget {
         GlobalWidgetsLocalizations.delegate,
         _localeOverrideDelegate
       ],
-      supportedLocales: [const Locale('ru', 'RU'), const Locale('kz', 'KZ')],
+      supportedLocales: [
+        const Locale('ru', 'RU'),
+        const Locale('en', 'US'),
+        const Locale('kz', 'KZ'),
+      ],
       debugShowCheckedModeBanner: false,
       theme: THEME_MODE_PREGNANCY,
       routes: {
@@ -164,8 +168,20 @@ class AuthenticatedApp extends StatelessWidget {
 
 /// --- The Authenticated Fertility routes ---
 class AuthenticatedFertilityApp extends StatelessWidget {
+  AppLocalizationDelegate _localeOverrideDelegate =
+      AppLocalizationDelegate(Locale('kz', 'KZ'));
   Widget buildRoutes(BuildContext context) {
     return MaterialApp(
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        _localeOverrideDelegate
+      ],
+      supportedLocales: [
+        const Locale('ru', 'RU'),
+        const Locale('kz', 'KZ'),
+        const Locale('en', 'EN')
+      ],
       debugShowCheckedModeBanner: false,
       theme: THEME_MODE_FERT,
       routes: {
@@ -186,8 +202,15 @@ class AuthenticatedFertilityApp extends StatelessWidget {
 
 /// --- The Authenticated Fertility routes ---
 class AuthenticatedClimaxApp extends StatelessWidget {
+  AppLocalizationDelegate _localeOverrideDelegate =
+      AppLocalizationDelegate(Locale('ru', 'RU'));
   Widget buildRoutes(BuildContext context) {
     return MaterialApp(
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        _localeOverrideDelegate
+      ],
       debugShowCheckedModeBanner: false,
       theme: THEME_MODE_CLIMAX,
       routes: {
@@ -251,6 +274,7 @@ class _BottomNavigationControllerState
     ScreenUtil.instance = ScreenUtil(
         width: DEVICE_WIDTH, height: DEVICE_HEIGHT, allowFontScaling: true)
       ..init(context);
+
     return SafeArea(
       child: Scaffold(
         body: _pageOptions[_selectedPage],

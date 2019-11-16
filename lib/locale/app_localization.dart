@@ -3,9 +3,9 @@ import 'package:intl/intl.dart';
 import '../l10n/messages_all.dart';
 
 class AppLocalization {
-  
   static Future<AppLocalization> load(Locale locale) {
-    final String name = locale.countryCode.isEmpty ? locale.languageCode : locale.toString();
+    final String name =
+        locale.countryCode.isEmpty ? locale.languageCode : locale.toString();
     final String localeName = Intl.canonicalizedLocale(name);
     return initializeMessages(localeName).then((_) {
       Intl.defaultLocale = localeName;
@@ -16,7 +16,7 @@ class AppLocalization {
   static AppLocalization of(BuildContext context) {
     return Localizations.of<AppLocalization>(context, AppLocalization);
   }
-  
+
   // list of locales
   String get heyWorld {
     return Intl.message(
@@ -25,22 +25,24 @@ class AppLocalization {
       desc: 'Simpel word for greeting ',
     );
   }
-  String get novosty{
+
+  String get novosty {
     return Intl.message('News');
   }
 }
 
-class AppLocalizationDelegate extends LocalizationsDelegate<AppLocalization>{
+class AppLocalizationDelegate extends LocalizationsDelegate<AppLocalization> {
   final Locale overriddenLocale;
 
   const AppLocalizationDelegate(this.overriddenLocale);
 
   @override
-  bool isSupported(Locale locale) => ['ru', 'kz'].contains(locale.languageCode);
+  bool isSupported(Locale locale) =>
+      ['ru', 'kz', 'en'].contains(locale.languageCode);
 
   @override
   Future<AppLocalization> load(Locale locale) => AppLocalization.load(locale);
 
   @override
-  bool shouldReload(LocalizationsDelegate<AppLocalization> old) => false; 
+  bool shouldReload(LocalizationsDelegate<AppLocalization> old) => false;
 }
