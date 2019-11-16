@@ -42,8 +42,8 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart';
 
 void main() {
-  // SystemChrome.setPreferredOrientations(
-  //     [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
-  // SystemChrome.setEnabledSystemUIOverlays([]);
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+  SystemChrome.setEnabledSystemUIOverlays([]);
   runApp(App());
 }

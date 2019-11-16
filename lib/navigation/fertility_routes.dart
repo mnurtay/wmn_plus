@@ -49,6 +49,10 @@ class AuthenticatedFertilityRoutes extends StatelessWidget {
 final List pageOptions = [
   NewsPage(),
   ProfilePage(),
+  ProfilePage(),
+  ProfilePage(),
+  ProfilePage(),
+  ProfilePage(),
 ];
 
 final List<BottomNavigationBarItem> barItems = [
@@ -56,6 +60,22 @@ final List<BottomNavigationBarItem> barItems = [
   BottomNavigationBarItem(
     icon: Icon(Icons.list),
     title: Text('Новости'),
+  ),
+  BottomNavigationBarItem(
+    icon: Icon(Icons.calendar_today),
+    title: Text('Месячные'),
+  ),
+  BottomNavigationBarItem(
+    icon: Icon(Icons.shop_two),
+    title: Text('Cкидки и Акции'),
+  ),
+  BottomNavigationBarItem(
+    icon: Icon(Icons.shopping_cart),
+    title: Text('Магазин'),
+  ),
+  BottomNavigationBarItem(
+    icon: Icon(Icons.chat),
+    title: Text('Чат'),
   ),
   // --- PROFILE PAGE
   BottomNavigationBarItem(
