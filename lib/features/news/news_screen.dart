@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wmn_plus/features/news/index.dart';
+import 'package:wmn_plus/locale/app_localization.dart';
 
 class NewsScreen extends StatefulWidget {
   const NewsScreen({
@@ -57,7 +58,7 @@ class NewsScreenState extends State<NewsScreen> {
                     margin:
                         EdgeInsets.all(ScreenUtil.getInstance().setHeight(20)),
                     child: Text(
-                      "Новости",
+                      AppLocalization.of(context).novosty,
                       style: TextStyle(
                           fontSize: ScreenUtil.getInstance().setSp(50)),
                     ),
