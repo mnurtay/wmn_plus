@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wmn_plus/features/auth/bloc/bloc.dart';
 import 'package:wmn_plus/features/auth/ui/page/loading_page.dart';
@@ -8,6 +9,7 @@ import 'package:wmn_plus/features/auth/ui/page/splash_page.dart';
 import 'package:wmn_plus/features/login/ui/doctor/doctor_login.dart';
 import 'package:wmn_plus/features/login/ui/page/login_page.dart';
 import 'package:wmn_plus/features/news/news_page.dart';
+import 'package:wmn_plus/locale/app_localization.dart';
 import 'package:wmn_plus/util/config.dart';
 
 ThemeData THEME_MODE_PREGNANCY = ThemeData(
@@ -134,8 +136,20 @@ class UnauthenticatedApp extends StatelessWidget {
 
 /// --- The Authenticated for PREGNANT MODE routes ---
 class AuthenticatedApp extends StatelessWidget {
+  AppLocalizationDelegate _localeOverrideDelegate =
+      AppLocalizationDelegate(Locale('kz', 'KZ'));
   Widget buildRoutes(BuildContext context) {
     return MaterialApp(
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        _localeOverrideDelegate
+      ],
+      supportedLocales: [
+        const Locale('ru', 'RU'),
+        const Locale('en', 'US'),
+        const Locale('kz', 'KZ'),
+      ],
       debugShowCheckedModeBanner: false,
       theme: THEME_MODE_PREGNANCY,
       routes: {
@@ -156,8 +170,20 @@ class AuthenticatedApp extends StatelessWidget {
 
 /// --- The Authenticated Fertility routes ---
 class AuthenticatedFertilityApp extends StatelessWidget {
+  AppLocalizationDelegate _localeOverrideDelegate =
+      AppLocalizationDelegate(Locale('kz', 'KZ'));
   Widget buildRoutes(BuildContext context) {
     return MaterialApp(
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        _localeOverrideDelegate
+      ],
+      supportedLocales: [
+        const Locale('ru', 'RU'),
+        const Locale('kz', 'KZ'),
+        const Locale('en', 'EN')
+      ],
       debugShowCheckedModeBanner: false,
       theme: THEME_MODE_FERT,
       routes: {
@@ -178,8 +204,15 @@ class AuthenticatedFertilityApp extends StatelessWidget {
 
 /// --- The Authenticated Fertility routes ---
 class AuthenticatedClimaxApp extends StatelessWidget {
+  AppLocalizationDelegate _localeOverrideDelegate =
+      AppLocalizationDelegate(Locale('ru', 'RU'));
   Widget buildRoutes(BuildContext context) {
     return MaterialApp(
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        _localeOverrideDelegate
+      ],
       debugShowCheckedModeBanner: false,
       theme: THEME_MODE_CLIMAX,
       routes: {
@@ -243,6 +276,7 @@ class _BottomNavigationControllerState
     ScreenUtil.instance = ScreenUtil(
         width: DEVICE_WIDTH, height: DEVICE_HEIGHT, allowFontScaling: true)
       ..init(context);
+
     return SafeArea(
       child: Scaffold(
         body: _pageOptions[_selectedPage],

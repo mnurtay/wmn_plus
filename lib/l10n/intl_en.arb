@@ -1,0 +1,14 @@
+{
+  "@@last_modified": "2019-11-14T17:25:25.923816",
+  "heyWorld": "Hey World",
+  "@heyWorld": {
+    "description": "Simpel word for greeting ",
+    "type": "text",
+    "placeholders": {}
+  },
+  "News": "News",
+  "@News": {
+    "type": "text",
+    "placeholders": {}
+  }
+}
