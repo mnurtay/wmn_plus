@@ -27,7 +27,11 @@ class AppLocalization {
   }
 
   String get novosty {
-    return Intl.message('News');
+    return Intl.message(
+      'News',
+      name: 'novosty',
+      desc: 'Word for news',
+    );
   }
 }
 
