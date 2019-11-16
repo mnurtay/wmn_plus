@@ -21,8 +21,10 @@ ThemeData THEME_MODE_FERT =
 ThemeData THEME_MODE_CLIMAX =
     ThemeData(accentColor: Colors.brown, primaryColor: Colors.brown);
 
-ThemeData THEME_MODE_DOCTOR =
-    ThemeData(accentColor: Color(0xff474DDF), primaryColor: Color(0xff474DDF));
+ThemeData THEME_MODE_DOCTOR = ThemeData(
+  accentColor: Color(0xff474DDF),
+  primaryColor: Color(0xff474DDF),
+);
 
 class App extends StatefulWidget {
   @override
@@ -76,7 +78,7 @@ class _AppState extends State<App> {
             if (state is AuthenticatedFertilityModeState) {
               return AuthenticatedFertilityApp();
             }
-            if (state is AuthenticatedClimaxModeState){
+            if (state is AuthenticatedClimaxModeState) {
               return AuthenticatedClimaxApp();
             }
           },
@@ -195,7 +197,6 @@ class AuthenticatedClimaxApp extends StatelessWidget {
     return buildRoutes(context);
   }
 }
-
 
 class AuthenticatedDoctorApp extends StatelessWidget {
   Widget buildRoutes(BuildContext context) {
@@ -354,6 +355,7 @@ class _BottomNavigationFertilityControllerState
     );
   }
 }
+
 /// CLIMAX BOTTOM NAVIGATION
 class BottomNavigationClimaxController extends StatefulWidget {
   @override
