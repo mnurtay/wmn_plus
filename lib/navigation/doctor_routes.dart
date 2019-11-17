@@ -8,6 +8,14 @@ import 'package:wmn_plus/navigation/bottom_navigation.dart';
 import 'package:wmn_plus/util/config.dart';
 
 ThemeData THEME = ThemeData(
+  textTheme: TextTheme(
+    // --- APP BAR TEXT STYLE
+    title: TextStyle(
+        fontSize: ScreenUtil().setSp(65),
+        color: Colors.white,
+        fontWeight: FontWeight.w500,
+        letterSpacing: 0.2),
+  ),
   accentColor: Color(0xff474DDF),
   primaryColor: Color(0xff474DDF),
 );

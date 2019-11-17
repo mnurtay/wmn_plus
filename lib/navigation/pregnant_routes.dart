@@ -2,12 +2,31 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wmn_plus/features/auth/ui/page/profile_page.dart';
+import 'package:wmn_plus/features/consultation/ui/page/consultation_page.dart';
 import 'package:wmn_plus/features/news/index.dart';
 import 'package:wmn_plus/locale/app_localization.dart';
 import 'package:wmn_plus/navigation/bottom_navigation.dart';
 import 'package:wmn_plus/util/config.dart';
 
 ThemeData THEME = ThemeData(
+  textTheme: TextTheme(
+    // --- APP BAR TEXT STYLE
+    title: TextStyle(
+        fontSize: ScreenUtil().setSp(65),
+        color: Colors.white,
+        fontWeight: FontWeight.w500,
+        letterSpacing: 0.2),
+    display1: TextStyle(
+        fontSize: ScreenUtil().setSp(60),
+        fontWeight: FontWeight.w500,
+        color: Colors.black,
+        letterSpacing: 0.1),
+    display2: TextStyle(
+        fontSize: ScreenUtil().setSp(40),
+        fontWeight: FontWeight.w400,
+        color: Colors.grey,
+        letterSpacing: 0.1),
+  ),
   accentColor: Color(0xffD748DA),
   primaryColor: Color(0xffD748DA),
 );
@@ -61,7 +80,7 @@ final List pageOptions = [
   ProfilePage(),
   ProfilePage(),
   ProfilePage(),
-  ProfilePage(),
+  ConsultationPage(),
   ProfilePage(),
 ];
 
@@ -85,7 +104,7 @@ final List<BottomNavigationBarItem> barItems = [
   ),
   BottomNavigationBarItem(
     icon: Icon(Icons.chat),
-    title: Text('Чат'),
+    title: Text('Консультация'),
   ),
   // --- PROFILE PAGE
   BottomNavigationBarItem(
