@@ -14,9 +14,28 @@ ThemeData THEME = ThemeData(
     // --- APP BAR TEXT STYLE
     title: TextStyle(
         fontSize: ScreenUtil().setSp(65),
-        color: Colors.white,
+        color: Colors.black,
         fontWeight: FontWeight.w500,
         letterSpacing: 0.2),
+    display1: TextStyle(
+        fontSize: ScreenUtil().setSp(60),
+        fontWeight: FontWeight.w500,
+        color: Colors.black,
+        letterSpacing: 0.1),
+    display2: TextStyle(
+        fontSize: ScreenUtil().setSp(40),
+        fontWeight: FontWeight.w400,
+        color: Colors.grey,
+        letterSpacing: 0.1),
+    // --- DEFAULT STYLE
+    body1: TextStyle(
+        fontSize: ScreenUtil().setSp(50),
+        fontWeight: FontWeight.w400,
+        color: Colors.black),
+    body2: TextStyle(
+        color: Colors.black,
+        fontSize: ScreenUtil().setSp(50),
+        fontWeight: FontWeight.w500),
   ),
   accentColor: Colors.red,
   primaryColor: Colors.red,
