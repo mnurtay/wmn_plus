@@ -19,6 +19,7 @@ dependencies:
   shared_preferences: ^0.5.3+5
   flutter_pagewise: ^1.2.3
   intl_translation: ^0.17.7
+  web_socket_channel: ^1.1.0
 
 dev_dependencies:
   flutter_test:

@@ -2,19 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wmn_plus/util/config.dart';
 
-class ConsultationData extends StatefulWidget {
+class NewConsultationData extends StatefulWidget {
   @override
-  _ConsultationDataState createState() => _ConsultationDataState();
+  _NewConsultationDataState createState() => _NewConsultationDataState();
 }
 
-class _ConsultationDataState extends State<ConsultationData> {
+class _NewConsultationDataState extends State<NewConsultationData> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          titleContent(context),
           SizedBox(height: ScreenUtil().setHeight(20)),
           categoriesContent(context),
           SizedBox(height: ScreenUtil().setHeight(40)),
@@ -35,8 +34,8 @@ class _ConsultationDataState extends State<ConsultationData> {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: <Widget>[
               Text('Консультации', style: Theme.of(context).textTheme.display1),
-              Text('Посмотреть все',
-                  style: Theme.of(context).textTheme.display2),
+              // Text('Посмотреть все',
+              //     style: Theme.of(context).textTheme.display2),
             ],
           ),
           SizedBox(height: ScreenUtil().setHeight(40)),
@@ -47,10 +46,6 @@ class _ConsultationDataState extends State<ConsultationData> {
   }
 
   Widget chatList(BuildContext context) {
-    TextStyle textStyle = TextStyle(
-        color: Colors.black,
-        fontSize: ScreenUtil().setSp(50),
-        fontWeight: FontWeight.w500);
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -70,7 +65,7 @@ class _ConsultationDataState extends State<ConsultationData> {
             decoration: BoxDecoration(
                 borderRadius:
                     BorderRadius.all(Radius.circular(ScreenUtil().setSp(40))),
-                color: Colors.red,
+                color: Colors.grey,
                 image: DecorationImage(
                     image: NetworkImage(
                         'https://static.makeuseof.com/wp-content/uploads/2015/11/perfect-profile-picture-all-about-face.jpg'),
@@ -87,7 +82,8 @@ class _ConsultationDataState extends State<ConsultationData> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Text('Dr. Gary Hawkins', style: textStyle),
+                      Text('Dr. Gary Hawkins',
+                          style: Theme.of(context).textTheme.body2),
                       Text('10.05.2019',
                           style: Theme.of(context).textTheme.display2),
                     ],
@@ -121,8 +117,11 @@ class _ConsultationDataState extends State<ConsultationData> {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: <Widget>[
               Text('Категории', style: Theme.of(context).textTheme.display1),
-              Text('Посмотреть все',
-                  style: Theme.of(context).textTheme.display2),
+              GestureDetector(
+                onTap: () {},
+                child: Text('Посмотреть все',
+                    style: Theme.of(context).textTheme.display2),
+              ),
             ],
           ),
         ),
@@ -144,58 +143,20 @@ class _ConsultationDataState extends State<ConsultationData> {
         fontSize: ScreenUtil().setSp(42),
         fontWeight: FontWeight.w300,
         color: Colors.white);
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(30)),
-      padding: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(40)),
-      decoration: BoxDecoration(
-        color: object['color'],
-        borderRadius: BorderRadius.all(Radius.circular(ScreenUtil().setSp(25))),
-      ),
-      child: Center(
-        child: Text(object['value'], style: textStyle),
-      ),
-    );
-  }
-
-  Widget titleContent(BuildContext context) {
-    TextStyle textStyle = TextStyle(
-        fontSize: ScreenUtil().setSp(55),
-        fontWeight: FontWeight.w200,
-        letterSpacing: 0.2);
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(ScreenUtil().setSp(100)),
-          bottomRight: Radius.circular(ScreenUtil().setSp(100)),
+    return GestureDetector(
+      onTap: () {},
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(30)),
+        padding: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(40)),
+        decoration: BoxDecoration(
+          color: object['color'],
+          borderRadius:
+              BorderRadius.all(Radius.circular(ScreenUtil().setSp(25))),
+        ),
+        child: Center(
+          child: Text(object['value'], style: textStyle),
         ),
       ),
-      padding: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(50)),
-      height: ScreenUtil().setHeight(450),
-      width: ScreenUtil().width,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          SizedBox(height: ScreenUtil().setHeight(120)),
-          titleIcons(context),
-          SizedBox(height: ScreenUtil().setHeight(40)),
-          Text('Найди своего', style: textStyle),
-          Text(
-            'Консультанта',
-            style: textStyle.copyWith(
-                fontWeight: FontWeight.w600, fontSize: ScreenUtil().setSp(75)),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget titleIcons(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: <Widget>[
-        Icon(Icons.short_text, size: ScreenUtil().setSp(80)),
-      ],
     );
   }
 }
