@@ -8,10 +8,10 @@ const double DEVICE_HEIGHT = 1920;
 const String BACKEND_URL = '';
 
 // DOCTORS CATEGORIES
-const List<Map> DOCTOR_CATEGORIES = [
-  {'value': 'Акушер-гинекологи', 'color': Color(0xFF5F9EA0)},
-  {'value': 'Эндокринологи', 'color': Color(0xFFFF69B4)}, 
-  {'value': 'Психологи/Психотерапевты', 'color': Color(0xFF6A5ACD)},
-  {'value': 'Педиатры', 'color': Color(0xFFFA8072)},
-  {'value': 'Аллергологи', 'color': Color(0xFFA0522D)},
+const List<String> DOCTOR_CATEGORIES = [
+  'Акушер-гинекологи',
+  'Эндокринологи', 
+  'Психологи/Психотерапевты',
+  'Педиатры',
+  'Аллергологи',
 ];

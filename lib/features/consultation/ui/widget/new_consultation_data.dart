@@ -17,7 +17,7 @@ class _NewConsultationDataState extends State<NewConsultationData> {
           SizedBox(height: ScreenUtil().setHeight(20)),
           categoriesContent(context),
           SizedBox(height: ScreenUtil().setHeight(40)),
-          chatsContent(context),
+          // chatsContent(context),
         ],
       ),
     );
@@ -112,25 +112,15 @@ class _NewConsultationDataState extends State<NewConsultationData> {
           padding: EdgeInsets.symmetric(
               horizontal: ScreenUtil().setWidth(30),
               vertical: ScreenUtil().setHeight(30)),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: <Widget>[
-              Text('Категории', style: Theme.of(context).textTheme.display1),
-              GestureDetector(
-                onTap: () {},
-                child: Text('Посмотреть все',
-                    style: Theme.of(context).textTheme.display2),
-              ),
-            ],
-          ),
+          child: Text('Категории', style: Theme.of(context).textTheme.display1),
         ),
         Container(
-          height: ScreenUtil().setHeight(190),
-          child: ListView(
-            scrollDirection: Axis.horizontal,
-            children: DOCTOR_CATEGORIES.map((object) {
-              return categoriesList(context, object);
+          padding: EdgeInsets.symmetric(
+              horizontal: ScreenUtil().setWidth(30),
+              vertical: ScreenUtil().setHeight(30)),
+          child: Column(
+            children: DOCTOR_CATEGORIES.map((value) {
+              return categoriesList(context, value);
             }).toList(),
           ),
         ),
@@ -138,23 +128,26 @@ class _NewConsultationDataState extends State<NewConsultationData> {
     );
   }
 
-  Widget categoriesList(BuildContext context, Map object) {
-    TextStyle textStyle = TextStyle(
-        fontSize: ScreenUtil().setSp(42),
-        fontWeight: FontWeight.w300,
-        color: Colors.white);
+  Widget categoriesList(BuildContext context, String value) {
     return GestureDetector(
       onTap: () {},
       child: Container(
-        margin: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(30)),
-        padding: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(40)),
+        width: ScreenUtil().width,
+        padding: EdgeInsets.symmetric(
+            horizontal: ScreenUtil().setWidth(40),
+            vertical: ScreenUtil().setHeight(40)),
+        margin: EdgeInsets.only(bottom: ScreenUtil().setHeight(40)),
         decoration: BoxDecoration(
-          color: object['color'],
+          color: Colors.white,
           borderRadius:
               BorderRadius.all(Radius.circular(ScreenUtil().setSp(25))),
         ),
-        child: Center(
-          child: Text(object['value'], style: textStyle),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Text(value, style: Theme.of(context).textTheme.body1),
+            Icon(Icons.arrow_forward_ios, size: ScreenUtil().setSp(50)),
+          ],
         ),
       ),
     );
