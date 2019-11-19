@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:wmn_plus/features/consultation/ui/widget/new_consultation_data.dart';
+import 'package:wmn_plus/util/config.dart';
 
 class NewConsultationPage extends StatefulWidget {
   @override
@@ -17,52 +17,73 @@ class _NewConsultationPageState extends State<NewConsultationPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFFEFEFEF),
-      appBar: PreferredSize(
-        preferredSize: Size(null, ScreenUtil().setHeight(300)),
-        child: headerContent(context),
+      appBar: AppBar(
+        title: Text('Новая консультация'),
+        backgroundColor: Colors.white,
+        textTheme: Theme.of(context).textTheme,
+        iconTheme: IconThemeData(color: Colors.black),
+        centerTitle: false,
+        elevation: 0,
       ),
-      body: NewConsultationData(),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            SizedBox(height: ScreenUtil().setHeight(20)),
+            categoriesContent(context),
+            SizedBox(height: ScreenUtil().setHeight(40)),
+          ],
+        ),
+      ),
     );
   }
 
-  Widget headerContent(BuildContext context) {
-    TextStyle textStyle = TextStyle(
-        fontSize: ScreenUtil().setSp(50),
-        fontWeight: FontWeight.w200,
-        letterSpacing: 0.2);
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(ScreenUtil().setSp(85)),
-          bottomRight: Radius.circular(ScreenUtil().setSp(85)),
+  Widget categoriesContent(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Container(
+          padding: EdgeInsets.symmetric(
+              horizontal: ScreenUtil().setWidth(30),
+              vertical: ScreenUtil().setHeight(30)),
+          child: Text('Категории', style: Theme.of(context).textTheme.display1),
         ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.6),
-            blurRadius: 15.0,
+        Container(
+          padding: EdgeInsets.symmetric(
+              horizontal: ScreenUtil().setWidth(30),
+              vertical: ScreenUtil().setHeight(30)),
+          child: Column(
+            children: DOCTOR_CATEGORIES.map((value) {
+              return categoriesList(context, value);
+            }).toList(),
           ),
-        ],
-      ),
-      padding: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(50)),
-      // height: ScreenUtil().setHeight(400),
-      // width: ScreenUtil().width,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          SizedBox(height: ScreenUtil().setHeight(100)),
-          GestureDetector(
-            onTap: () => Navigator.pop(context),
-            child: Icon(Icons.arrow_back_ios, size: ScreenUtil().setSp(60)),
-          ),
-          SizedBox(height: ScreenUtil().setHeight(40)),
-          Text('Найди своего', style: textStyle),
-          Text(
-            'Консультанта',
-            style: textStyle.copyWith(
-                fontWeight: FontWeight.w600, fontSize: ScreenUtil().setSp(75)),
-          ),
-        ],
+        ),
+      ],
+    );
+  }
+
+  Widget categoriesList(BuildContext context, String value) {
+    return GestureDetector(
+      onTap: () =>
+          Navigator.pushNamed(context, '/doctors_list', arguments: value),
+      child: Container(
+        width: ScreenUtil().width,
+        padding: EdgeInsets.symmetric(
+            horizontal: ScreenUtil().setWidth(40),
+            vertical: ScreenUtil().setHeight(40)),
+        margin: EdgeInsets.only(bottom: ScreenUtil().setHeight(40)),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius:
+              BorderRadius.all(Radius.circular(ScreenUtil().setSp(25))),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Text(value, style: Theme.of(context).textTheme.body1),
+            Icon(Icons.arrow_forward_ios, size: ScreenUtil().setSp(50)),
+          ],
+        ),
       ),
     );
   }

@@ -3,6 +3,8 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wmn_plus/features/auth/ui/page/profile_page.dart';
 import 'package:wmn_plus/features/consultation/ui/page/chat_list_page.dart';
+import 'package:wmn_plus/features/consultation/ui/page/chat_page.dart';
+import 'package:wmn_plus/features/consultation/ui/page/doctors_list_page.dart';
 import 'package:wmn_plus/features/consultation/ui/page/new_consultation_page.dart';
 import 'package:wmn_plus/features/news/index.dart';
 import 'package:wmn_plus/locale/app_localization.dart';
@@ -73,6 +75,15 @@ class _PregnantRoutes extends State<AuthenticatedPregnantRoutes> {
         '/': (BuildContext context) =>
             BottomNavigation(pageOptions: pageOptions, barItems: barItems),
         '/new_consultation': (BuildContext context) => NewConsultationPage(),
+        '/chat_page': (BuildContext context) => ChatPage(),
+      },
+      onGenerateRoute: (RouteSettings settings) {
+        if (settings.name == '/doctors_list') {
+          return MaterialPageRoute(
+              builder: (BuildContext context) =>
+                  DoctorsListPage(category: settings.arguments));
+        }
+        return null;
       },
     );
   }
