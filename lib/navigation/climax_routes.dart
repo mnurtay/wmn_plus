@@ -3,6 +3,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wmn_plus/features/auth/ui/page/profile_page.dart';
 import 'package:wmn_plus/features/consultation/ui/page/chat_list_page.dart';
+import 'package:wmn_plus/features/consultation/ui/page/chat_page.dart';
 import 'package:wmn_plus/features/consultation/ui/page/doctors_list_page.dart';
 import 'package:wmn_plus/features/consultation/ui/page/new_consultation_page.dart';
 import 'package:wmn_plus/features/news/news_page.dart';
@@ -15,9 +16,28 @@ ThemeData THEME = ThemeData(
     // --- APP BAR TEXT STYLE
     title: TextStyle(
         fontSize: ScreenUtil().setSp(65),
-        color: Colors.white,
+        color: Colors.black,
         fontWeight: FontWeight.w500,
         letterSpacing: 0.2),
+    display1: TextStyle(
+        fontSize: ScreenUtil().setSp(60),
+        fontWeight: FontWeight.w500,
+        color: Colors.black,
+        letterSpacing: 0.1),
+    display2: TextStyle(
+        fontSize: ScreenUtil().setSp(40),
+        fontWeight: FontWeight.w400,
+        color: Colors.grey,
+        letterSpacing: 0.1),
+    // --- DEFAULT STYLE
+    body1: TextStyle(
+        fontSize: ScreenUtil().setSp(50),
+        fontWeight: FontWeight.w400,
+        color: Colors.black),
+    body2: TextStyle(
+        color: Colors.black,
+        fontSize: ScreenUtil().setSp(50),
+        fontWeight: FontWeight.w500),
   ),
   accentColor: Colors.brown,
   primaryColor: Colors.brown,
@@ -50,6 +70,7 @@ class _ClimaxRoutes extends State<AuthenticatedClimaxRoutes> {
         '/': (BuildContext context) =>
             BottomNavigation(pageOptions: pageOptions, barItems: barItems),
         '/new_consultation': (BuildContext context) => NewConsultationPage(),
+        '/chat_page': (BuildContext context) => ChatPage(),
       },
       onGenerateRoute: (RouteSettings settings) {
         if (settings.name == '/doctors_list') {
