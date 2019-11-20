@@ -1,0 +1,25 @@
+{
+    "title": "Привет",
+    "news": "Жаналыктар",
+    "calendar": "Кунтузбе",
+    "discount": "Скидкалар",
+    "shop": "Интернет-дукен",
+    "chat": "Сойлесу",
+    "profil": "Адам",
+    "msg": "Hello {} in the {} world ",
+    "clickMe": "Нажми меня",
+    "profile": {
+      "reset_password": {
+        "title": "Reset Password",
+        "username": "Username",
+        "password": "password"
+      }
+    },
+    "clicked": {
+      "zero": "You clicked {} times!",
+      "one": "You clicked {} time!",
+      "other": "You clicked {} times!"
+    }
+  }
+  
+  

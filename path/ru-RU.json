@@ -1,0 +1,24 @@
+{
+  "title": "Привет",
+  "news": "Новости",
+  "calendar": "Календарь",
+  "discount": "Скидки и акции",
+  "shop": "Интернет-магазин",
+  "chat": "Консультация",
+  "profil": "Профиль",
+  "msg": "Hello {} in the {} world ",
+  "clickMe": "Нажми меня",
+  "profile": {
+    "reset_password": {
+      "title": "Reset Password",
+      "username": "Username",
+      "password": "password"
+    }
+  },
+  "clicked": {
+    "zero": "You clicked {} times!",
+    "one": "You clicked {} time!",
+    "other": "You clicked {} times!"
+  }
+}
+

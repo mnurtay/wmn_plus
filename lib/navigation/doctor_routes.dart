@@ -21,21 +21,8 @@ ThemeData THEME = ThemeData(
 );
 
 class AuthenticatedDoctorRoutes extends StatelessWidget {
-  AppLocalizationDelegate _localeOverrideDelegate =
-      AppLocalizationDelegate(Locale('ru', 'RU'));
-
   Widget buildRoutes(BuildContext context) {
     return MaterialApp(
-      localizationsDelegates: [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        _localeOverrideDelegate
-      ],
-      supportedLocales: [
-        const Locale('ru', 'RU'),
-        const Locale('kz', 'KZ'),
-        const Locale('en', 'EN')
-      ],
       debugShowCheckedModeBanner: false,
       theme: THEME,
       routes: {

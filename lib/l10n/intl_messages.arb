@@ -1,13 +1,14 @@
 {
-  "@@last_modified": "2019-11-14T17:25:25.923816",
+  "@@last_modified": "2019-11-16T10:10:29.665201",
   "heyWorld": "Hey World",
   "@heyWorld": {
     "description": "Simpel word for greeting ",
     "type": "text",
     "placeholders": {}
   },
-  "News": "Newsss",
-  "@News": {
+  "novosty": "News",
+  "@novosty": {
+    "description": "Word for news",
     "type": "text",
     "placeholders": {}
   }

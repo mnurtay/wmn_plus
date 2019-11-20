@@ -20,6 +20,7 @@ dependencies:
   flutter_pagewise: ^1.2.3
   intl_translation: ^0.17.7
   web_socket_channel: ^1.1.0
+  easy_localization: ^1.3.1
 
 dev_dependencies:
   flutter_test:
@@ -31,3 +32,9 @@ flutter:
   assets:
     - assets/login_logo.png
     - assets/doctor_login_logo.png
+    - path/en-US.json
+    - path/ru-RU.json
+    - path/ar-DZ.json
+    - path/kk-KZ.json
+    - assets/doctor_login_logo.png
+

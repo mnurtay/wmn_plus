@@ -1,3 +1,5 @@
+import 'package:easy_localization/easy_localization.dart';
+import 'package:easy_localization/easy_localization_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -49,42 +51,45 @@ class AuthenticatedPregnantRoutes extends StatefulWidget {
 }
 
 class _PregnantRoutes extends State<AuthenticatedPregnantRoutes> {
-  AppLocalizationDelegate _localeOverrideDelegate;
-
   @override
   void initState() {
-    _localeOverrideDelegate = AppLocalizationDelegate(Locale('ru', 'RU'));
     super.initState();
   }
 
   Widget buildRoutes(BuildContext context) {
-    return MaterialApp(
-      localizationsDelegates: [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        _localeOverrideDelegate
-      ],
-      supportedLocales: [
-        const Locale('ru', 'RU'),
-        const Locale('en', 'US'),
-        const Locale('kz', 'KZ'),
-      ],
-      debugShowCheckedModeBanner: false,
-      theme: THEME,
-      routes: {
-        '/': (BuildContext context) =>
-            BottomNavigation(pageOptions: pageOptions, barItems: barItems),
-        '/new_consultation': (BuildContext context) => NewConsultationPage(),
-        '/chat_page': (BuildContext context) => ChatPage(),
-      },
-      onGenerateRoute: (RouteSettings settings) {
-        if (settings.name == '/doctors_list') {
-          return MaterialPageRoute(
-              builder: (BuildContext context) =>
-                  DoctorsListPage(category: settings.arguments));
-        }
-        return null;
-      },
+    var data = EasyLocalizationProvider.of(context).data;
+    return EasyLocalizationProvider(
+      data: data,
+      child: MaterialApp(
+        localizationsDelegates: [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          //app-specific localization
+          EasylocaLizationDelegate(locale: data.locale, path: 'path'),
+        ],
+        supportedLocales: [
+          Locale('ru', 'RU'),
+          Locale('en', 'US'),
+          Locale('kk', 'KZ')
+        ],
+        locale: data.savedLocale,
+        debugShowCheckedModeBanner: false,
+        theme: THEME,
+        routes: {
+          '/': (BuildContext context) => BottomNavigation(
+              pageOptions: pageOptions, barItems: barItems(context)),
+          '/new_consultation': (BuildContext context) => NewConsultationPage(),
+          '/chat_page': (BuildContext context) => ChatPage(),
+        },
+        onGenerateRoute: (RouteSettings settings) {
+          if (settings.name == '/doctors_list') {
+            return MaterialPageRoute(
+                builder: (BuildContext context) =>
+                    DoctorsListPage(category: settings.arguments));
+          }
+          return null;
+        },
+      ),
     );
   }
 
@@ -106,6 +111,36 @@ final List pageOptions = [
   ProfilePage(),
 ];
 
+List<BottomNavigationBarItem> barItems(BuildContext context) {
+  return [
+    // --- NEWS PAGE
+    BottomNavigationBarItem(
+      icon: Icon(Icons.list),
+      title: Text(AppLocalizations.of(context).tr('news')),
+    ),
+    BottomNavigationBarItem(
+      icon: Icon(Icons.calendar_today),
+      title: Text(AppLocalizations.of(context).tr('calendar')),
+    ),
+    BottomNavigationBarItem(
+      icon: Icon(Icons.shop_two),
+      title: Text(AppLocalizations.of(context).tr('discount')),
+    ),
+    BottomNavigationBarItem(
+      icon: Icon(Icons.shopping_cart),
+      title: Text(AppLocalizations.of(context).tr('shop')),
+    ),
+    BottomNavigationBarItem(
+      icon: Icon(Icons.chat),
+      title: Text(AppLocalizations.of(context).tr('chat')),
+    ),
+    // --- PROFILE PAGE
+    BottomNavigationBarItem(
+      icon: Icon(Icons.person),
+      title: Text(AppLocalizations.of(context).tr('profil')),
+    ),
+  ];
+}
 final List<BottomNavigationBarItem> barItems = [
   // --- NEWS PAGE
   BottomNavigationBarItem(
