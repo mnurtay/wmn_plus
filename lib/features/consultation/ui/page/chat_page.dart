@@ -1,0 +1,126 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:web_socket_channel/io.dart';
+import 'package:wmn_plus/features/consultation/ui/widget/chat_data.dart';
+
+class ChatPage extends StatefulWidget {
+  @override
+  _ChatPageState createState() => _ChatPageState();
+}
+
+class _ChatPageState extends State<ChatPage> {
+  final channel = IOWebSocketChannel.connect('ws://echo.websocket.org');
+  TextEditingController messageController = TextEditingController();
+  bool textFieldIsEmpty = true;
+
+  void _sendMessage() {
+    FocusScope.of(context).requestFocus(FocusNode());
+    if (messageController.text.isNotEmpty) {
+      channel.sink.add(messageController.text);
+      messageController.clear();
+    }
+    setState(() {
+      textFieldIsEmpty = true;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Color(0xFFEFEFEF),
+      appBar: appBar(context),
+      body: Column(
+        children: <Widget>[
+          Expanded(
+            child: ChatData(channel: channel),
+          ),
+          bottomBar(context),
+        ],
+      ),
+    );
+  }
+
+  Widget bottomBar(BuildContext context) {
+    return Container(
+      color: Colors.white,
+      padding: EdgeInsets.only(
+          top: ScreenUtil().setHeight(20),
+          bottom: ScreenUtil().setHeight(60),
+          left: ScreenUtil().setWidth(35),
+          right: ScreenUtil().setWidth(30)),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          // --- TEXT FIELD
+          Expanded(
+            child: TextField(
+              controller: messageController,
+              style: Theme.of(context).textTheme.body1,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                    borderSide: BorderSide.none,
+                    borderRadius: BorderRadius.all(
+                        Radius.circular(ScreenUtil().setSp(50)))),
+                filled: true,
+                fillColor: Color(0xFFEFEFEF),
+                contentPadding: EdgeInsets.symmetric(
+                    horizontal: ScreenUtil().setWidth(30),
+                    vertical: ScreenUtil().setHeight(20)),
+                hintText: 'Сообщение',
+              ),
+              onChanged: (value) {
+                setState(() {
+                  textFieldIsEmpty = value.isEmpty;
+                });
+              },
+            ),
+          ),
+          // --- SEND ICON
+          RotationTransition(
+            turns: AlwaysStoppedAnimation((textFieldIsEmpty ? 0 : -35) / 360),
+            child: IconButton(
+              icon: Icon(
+                Icons.send,
+                color: textFieldIsEmpty ? Colors.black : Colors.blue,
+                size: ScreenUtil().setSp(70),
+              ),
+              onPressed: _sendMessage,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget appBar(BuildContext context) {
+    return AppBar(
+      backgroundColor: Colors.white,
+      elevation: 0,
+      iconTheme: IconThemeData(color: Colors.black),
+      title: GestureDetector(
+        onTap: () {},
+        child: Row(
+          children: <Widget>[
+            CircleAvatar(
+              backgroundColor: Color(0xFFF5F5F5),
+              backgroundImage: NetworkImage(
+                  'https://www.aamc.org/sites/default/files/risking-everything-to-become-a-doctor-jirayut-new-latthivongskorn.jpg'),
+            ),
+            SizedBox(width: ScreenUtil().setWidth(30)),
+            Text(
+              'Dr. Gary Hawkins',
+              style: Theme.of(context).textTheme.body1,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    messageController.dispose();
+    channel.sink.close();
+    super.dispose();
+  }
+}

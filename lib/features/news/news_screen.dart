@@ -58,7 +58,7 @@ class NewsScreenState extends State<NewsScreen> {
                     margin:
                         EdgeInsets.all(ScreenUtil.getInstance().setHeight(20)),
                     child: Text(
-                      AppLocalization.of(context).novosty,
+                      'Новости',
                       style: TextStyle(
                           fontSize: ScreenUtil.getInstance().setSp(50)),
                     ),

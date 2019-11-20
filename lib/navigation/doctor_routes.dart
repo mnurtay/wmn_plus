@@ -8,26 +8,21 @@ import 'package:wmn_plus/navigation/bottom_navigation.dart';
 import 'package:wmn_plus/util/config.dart';
 
 ThemeData THEME = ThemeData(
+  textTheme: TextTheme(
+    // --- APP BAR TEXT STYLE
+    title: TextStyle(
+        fontSize: ScreenUtil().setSp(65),
+        color: Colors.white,
+        fontWeight: FontWeight.w500,
+        letterSpacing: 0.2),
+  ),
   accentColor: Color(0xff474DDF),
   primaryColor: Color(0xff474DDF),
 );
 
 class AuthenticatedDoctorRoutes extends StatelessWidget {
-  AppLocalizationDelegate _localeOverrideDelegate =
-      AppLocalizationDelegate(Locale('ru', 'RU'));
-
   Widget buildRoutes(BuildContext context) {
     return MaterialApp(
-      localizationsDelegates: [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        _localeOverrideDelegate
-      ],
-      supportedLocales: [
-        const Locale('ru', 'RU'),
-        const Locale('kz', 'KZ'),
-        const Locale('en', 'EN')
-      ],
       debugShowCheckedModeBanner: false,
       theme: THEME,
       routes: {

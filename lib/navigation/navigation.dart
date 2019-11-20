@@ -1,5 +1,8 @@
+import 'package:easy_localization/easy_localization_delegate.dart';
+import 'package:easy_localization/easy_localization_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wmn_plus/features/auth/bloc/bloc.dart';
 import 'package:wmn_plus/features/auth/ui/page/loading_page.dart';
@@ -40,6 +43,7 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
+    var data = EasyLocalizationProvider.of(context).data;
     return MultiBlocProvider(
       providers: [
         BlocProvider<AuthBloc>(
