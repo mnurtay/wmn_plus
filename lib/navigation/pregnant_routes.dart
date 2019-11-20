@@ -141,3 +141,31 @@ List<BottomNavigationBarItem> barItems(BuildContext context) {
     ),
   ];
 }
+final List<BottomNavigationBarItem> barItems = [
+  // --- NEWS PAGE
+  BottomNavigationBarItem(
+    icon: Icon(Icons.list),
+    title: Text('Новости'),
+  ),
+  BottomNavigationBarItem(
+    icon: Icon(Icons.calendar_today),
+    title: Text('Календарь'),
+  ),
+  BottomNavigationBarItem(
+    icon: Icon(Icons.shop_two),
+    title: Text('Cкидки и Акции'),
+  ),
+  BottomNavigationBarItem(
+    icon: Icon(Icons.shopping_cart),
+    title: Text('Магазин'),
+  ),
+  BottomNavigationBarItem(
+    icon: Icon(Icons.chat),
+    title: Text('Консультация'),
+  ),
+  // --- PROFILE PAGE
+  BottomNavigationBarItem(
+    icon: Icon(Icons.person),
+    title: Text('Профиль'),
+  ),
+];
