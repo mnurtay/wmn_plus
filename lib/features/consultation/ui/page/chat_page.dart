@@ -77,7 +77,7 @@ class _ChatPageState extends State<ChatPage> {
           ),
           // --- SEND ICON
           RotationTransition(
-            turns: AlwaysStoppedAnimation((textFieldIsEmpty ? 0 : -35) / 360),
+            turns: AlwaysStoppedAnimation((textFieldIsEmpty ? 0 : -20) / 360),
             child: IconButton(
               icon: Icon(
                 Icons.send,
