@@ -115,9 +115,6 @@ class NewsScreenState extends State<NewsScreen> {
                     }
                     if (currentState is InNewsState) {
                       print("InNewsState + ${currentState.newsList}");
-                      // if (currentState.newsList == null){
-                      //   return Container();
-                      // }
                       return Expanded(
                         child: new ListView.builder(
                           padding: EdgeInsets.all(
@@ -129,40 +126,8 @@ class NewsScreenState extends State<NewsScreen> {
                           },
                         ),
                       );
-                      // return new Expanded(
-                      //   child: new PagewiseListView(
-                      //       pageSize: 10,
-                      //       padding: EdgeInsets.all(
-                      //           ScreenUtil.getInstance().setHeight(30)),
-                      //       itemBuilder: (context, entry, index) {
-                      //         return buildNewsItem(context, entry);
-                      //       },
-                      //       pageFuture: (pageIndex) {
-                      //         //Direct to repository
-                      //         var newsList = new NewsRepository().getNewsList(
-                      //             pageIndex, currentState.category);
-                      //         return newsList;
-                      //       }),
-                      // );
                     }
-                    if (currentState is CategoryOneNewsState) {
-                      // return new Expanded(
-                      //   child: new PagewiseListView(
-                      //       pageSize: 9,
-                      //       padding: EdgeInsets.all(
-                      //           ScreenUtil.getInstance().setHeight(30)),
-                      //       itemBuilder: (context, entry, index) {
-                      //         return buildNewsItem(context, entry);
-                      //       },
-                      //       pageFuture: (pageIndex) {
-                      //         //Direct to repository
-                      //         var newsList = new NewsRepository().getNewsList(
-                      //             pageIndex, 1);
-                      //         return newsList;
-                      //       }),
-                      // );
-                      // return Container(height: 50, color: Colors.black);
-                    }
+
                     return Center(child: Text("Development"));
                   })
             ],
