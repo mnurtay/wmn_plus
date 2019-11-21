@@ -10,7 +10,6 @@ import 'package:wmn_plus/features/consultation/ui/page/doctors_list_page.dart';
 import 'package:wmn_plus/features/consultation/ui/page/new_consultation_page.dart';
 import 'package:wmn_plus/features/news/index.dart';
 import 'package:wmn_plus/features/news/news_detail/index.dart';
-import 'package:wmn_plus/locale/app_localization.dart';
 import 'package:wmn_plus/navigation/bottom_navigation.dart';
 import 'package:wmn_plus/util/config.dart';
 

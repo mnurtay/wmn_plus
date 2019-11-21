@@ -3,7 +3,6 @@ import 'package:easy_localization/easy_localization_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wmn_plus/features/auth/bloc/bloc.dart';
-import 'package:wmn_plus/locale/app_localization.dart';
 
 class ProfilePage extends StatefulWidget {
   @override

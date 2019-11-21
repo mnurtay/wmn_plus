@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wmn_plus/features/auth/ui/page/profile_page.dart';
 import 'package:wmn_plus/features/news/news_page.dart';
-import 'package:wmn_plus/locale/app_localization.dart';
 import 'package:wmn_plus/navigation/bottom_navigation.dart';
 import 'package:wmn_plus/util/config.dart';
 
