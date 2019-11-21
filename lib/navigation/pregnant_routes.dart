@@ -8,6 +8,7 @@ import 'package:wmn_plus/features/consultation/ui/page/chat_list_page.dart';
 import 'package:wmn_plus/features/consultation/ui/page/chat_page.dart';
 import 'package:wmn_plus/features/consultation/ui/page/doctors_list_page.dart';
 import 'package:wmn_plus/features/consultation/ui/page/new_consultation_page.dart';
+import 'package:wmn_plus/features/discounts/discounts_page.dart';
 import 'package:wmn_plus/features/news/index.dart';
 import 'package:wmn_plus/features/news/news_detail/index.dart';
 import 'package:wmn_plus/locale/app_localization.dart';
@@ -30,6 +31,11 @@ ThemeData THEME = ThemeData(
     display2: TextStyle(
         fontSize: ScreenUtil().setSp(40),
         fontWeight: FontWeight.w400,
+        color: Colors.grey,
+        letterSpacing: 0.1),
+    display3: TextStyle(
+        fontSize: ScreenUtil().setSp(60),
+        fontWeight: FontWeight.w800,
         color: Colors.grey,
         letterSpacing: 0.1),
     // --- DEFAULT STYLE
@@ -81,6 +87,7 @@ class _PregnantRoutes extends State<AuthenticatedPregnantRoutes> {
               pageOptions: pageOptions, barItems: barItems(context)),
           '/new_consultation': (BuildContext context) => NewConsultationPage(),
           '/news_detail': (BuildContext context) => NewsDetailPage(),
+          '/discounts': (BuildContext context) => DiscountsPage(),
           '/chat_page': (BuildContext context) => ChatPage(),
         },
         onGenerateRoute: (RouteSettings settings) {
@@ -107,7 +114,7 @@ class _PregnantRoutes extends State<AuthenticatedPregnantRoutes> {
 final List pageOptions = [
   NewsPage(),
   ProfilePage(),
-  ProfilePage(),
+  DiscountsPage(),
   ProfilePage(),
   ChatListPage(),
   ProfilePage(),
