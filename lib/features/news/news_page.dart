@@ -47,6 +47,4 @@ class NewsPage extends StatelessWidget {
       body: NewsScreen(newsBloc: _newsBloc),
     );
   }
-
-  Widget appBar(BuildContext context) {}
 }
