@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:web_socket_channel/io.dart';
+import 'package:wmn_plus/features/consultation/bloc/bloc.dart';
+import 'package:wmn_plus/features/consultation/model/Consultation.dart';
 
 class ChatListPage extends StatefulWidget {
   @override
@@ -8,8 +11,19 @@ class ChatListPage extends StatefulWidget {
 }
 
 class _ChatListPageState extends State<ChatListPage> {
+  ConsultationBloc consultationBloc;
+  List<Consultation> consultations = [];
   TextEditingController searchController = TextEditingController();
-  final channel = IOWebSocketChannel.connect('ws://194.146.43.98:8080/convlist?role=PAT&token=qwerty');
+  IOWebSocketChannel channel;
+  String oldData = '';
+
+  @override
+  void initState() {
+    consultationBloc = ConsultationBloc();
+    channel = IOWebSocketChannel.connect(
+        'ws://194.146.43.98:8080/convlist?role=PAT&token=qwerty');
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,20 +51,46 @@ class _ChatListPageState extends State<ChatListPage> {
     return StreamBuilder(
       stream: channel.stream,
       builder: (context, snapshot) {
-        // print(snapshot.data);
-        return Column(
-          children: <Widget>[
-            chatItem(context, isNewMess: true),
-            chatItem(context)
-          ],
-        );
+        if (snapshot.hasData && snapshot.data != oldData) {
+          oldData = snapshot.data;
+          consultationBloc
+              .add(ConsultationConfig(consultationList: snapshot.data));
+        }
+        return blocListener(context);
       },
     );
   }
 
-  Widget chatItem(BuildContext context, {bool isNewMess = false}) {
+  Widget blocListener(BuildContext context) {
+    return BlocListener(
+      bloc: consultationBloc,
+      listener: (context, state) {
+        if (state is FetchedConsultationState) {
+          setState(() {
+            consultations = state.consultations;
+          });
+        }
+      },
+      child: Column(
+        children: consultations.map((item) {
+          String search = searchController.text.toLowerCase();
+          String name = item.doctor.firstName.toLowerCase();
+          String surname = item.doctor.surname.toLowerCase();
+          if (search.isEmpty ||
+              search == name.substring(0, search.length) ||
+              search == surname.substring(0, search.length)) {
+            return chatItem(context, item);
+          }
+          return Container();
+        }).toList(),
+      ),
+    );
+  }
+
+  Widget chatItem(BuildContext context, Consultation consultation) {
     return GestureDetector(
-      onTap: () => Navigator.pushNamed(context, '/chat_page'),
+      onTap: () => Navigator.pushNamed(context, '/chat_page',
+          arguments: consultation.doctor),
       child: Container(
         decoration: BoxDecoration(
           color: Colors.white,
@@ -74,8 +114,7 @@ class _ChatListPageState extends State<ChatListPage> {
                       BorderRadius.all(Radius.circular(ScreenUtil().setSp(40))),
                   color: Color(0xFFF5F5F5),
                   image: DecorationImage(
-                      image: NetworkImage(
-                          'https://hcplive.s3.amazonaws.com/v1_media/_image/happydoctor.jpg'),
+                      image: NetworkImage(consultation.doctor.image),
                       fit: BoxFit.cover)),
             ),
             // --- CHAT INFORMATION
@@ -91,30 +130,32 @@ class _ChatListPageState extends State<ChatListPage> {
                       children: <Widget>[
                         Expanded(
                           child: Text(
-                            'Dr. Gary Hawkins',
+                            "${consultation.doctor.surname} ${consultation.doctor.firstName}",
                             style: Theme.of(context).textTheme.body2,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
-                        isNewMess
+                        consultation.newMessageCount != 0
                             ? Container(
                                 width: 30,
                                 height: 30,
                                 decoration: BoxDecoration(
                                     shape: BoxShape.circle, color: Colors.red),
                                 child: Center(
-                                  child: Text('3',
+                                  child: Text('${consultation.newMessageCount}',
                                       style: TextStyle(color: Colors.white)),
                                 ),
                               )
-                            : Text('10.05.2019',
+                            : Text('${consultation.date}',
                                 style: Theme.of(context).textTheme.display2),
                       ],
                     ),
                     SizedBox(height: ScreenUtil().setHeight(10)),
                     Text(
-                      'You: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi',
+                      consultation.messageFromMe
+                          ? "Вы: ${consultation.messageContent}"
+                          : consultation.messageContent,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.display2,
@@ -148,6 +189,9 @@ class _ChatListPageState extends State<ChatListPage> {
         fillColor: Color(0xFFF5F5F5),
         hintText: 'Поиск',
       ),
+      onChanged: (value) {
+        setState(() {});
+      },
       autocorrect: false,
       style: Theme.of(context).textTheme.body1,
     );

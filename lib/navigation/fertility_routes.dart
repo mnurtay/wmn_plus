@@ -55,13 +55,17 @@ class AuthenticatedFertilityRoutes extends StatelessWidget {
         '/': (BuildContext context) =>
             BottomNavigation(pageOptions: pageOptions, barItems: barItems),
         '/new_consultation': (BuildContext context) => NewConsultationPage(),
-        '/chat_page': (BuildContext context) => ChatPage(),
       },
       onGenerateRoute: (RouteSettings settings) {
         if (settings.name == '/doctors_list') {
           return MaterialPageRoute(
               builder: (BuildContext context) =>
                   DoctorsListPage(category: settings.arguments));
+        }
+        if (settings.name == '/chat_page') {
+          return MaterialPageRoute(
+              builder: (BuildContext context) =>
+                  ChatPage(doctor: settings.arguments));
         }
         return null;
       },

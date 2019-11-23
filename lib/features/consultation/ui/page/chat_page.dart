@@ -4,7 +4,12 @@ import 'package:web_socket_channel/io.dart';
 import 'package:wmn_plus/features/consultation/ui/widget/chat_data.dart';
 import 'dart:convert';
 
+import 'package:wmn_plus/features/doctor/model/Doctor.dart';
+
 class ChatPage extends StatefulWidget {
+  final Doctor doctor;
+  ChatPage({@required this.doctor});
+
   @override
   _ChatPageState createState() => _ChatPageState();
 }
@@ -20,7 +25,7 @@ class _ChatPageState extends State<ChatPage> {
     if (messageController.text.isNotEmpty) {
       Map object = {
         'status': 'SEND_MESSAGE',
-        'role': 'PAT',
+        'from': 'PAT',
         'content': messageController.text
       };
       channel.sink.add(json.encode(object));
@@ -75,6 +80,8 @@ class _ChatPageState extends State<ChatPage> {
                     vertical: ScreenUtil().setHeight(20)),
                 hintText: 'Сообщение',
               ),
+              onEditingComplete: _sendMessage,
+              autocorrect: false,
               onChanged: (value) {
                 setState(() {
                   textFieldIsEmpty = value.isEmpty;
@@ -110,12 +117,11 @@ class _ChatPageState extends State<ChatPage> {
           children: <Widget>[
             CircleAvatar(
               backgroundColor: Color(0xFFF5F5F5),
-              backgroundImage: NetworkImage(
-                  'https://www.aamc.org/sites/default/files/risking-everything-to-become-a-doctor-jirayut-new-latthivongskorn.jpg'),
+              backgroundImage: NetworkImage(widget.doctor.image),
             ),
             SizedBox(width: ScreenUtil().setWidth(30)),
             Text(
-              'Dr. Gary Hawkins',
+              "${widget.doctor.surname} ${widget.doctor.firstName}",
               style: Theme.of(context).textTheme.body1,
             ),
           ],

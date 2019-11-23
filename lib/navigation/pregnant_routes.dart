@@ -87,13 +87,17 @@ class _PregnantRoutes extends State<AuthenticatedPregnantRoutes> {
           '/new_consultation': (BuildContext context) => NewConsultationPage(),
           '/news_detail': (BuildContext context) => NewsDetailPage(),
           '/discounts': (BuildContext context) => DiscountsPage(),
-          '/chat_page': (BuildContext context) => ChatPage(),
         },
         onGenerateRoute: (RouteSettings settings) {
           if (settings.name == '/doctors_list') {
             return MaterialPageRoute(
                 builder: (BuildContext context) =>
                     DoctorsListPage(category: settings.arguments));
+          }
+          if (settings.name == '/chat_page') {
+            return MaterialPageRoute(
+                builder: (BuildContext context) =>
+                    ChatPage(doctor: settings.arguments));
           }
           return null;
         },

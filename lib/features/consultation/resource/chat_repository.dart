@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:wmn_plus/features/consultation/model/Chat.dart';
+import 'package:wmn_plus/features/consultation/model/Consultation.dart';
 
 class ChatRepository {
   List<Chat> chatConfig(
@@ -14,5 +15,11 @@ class ChatRepository {
       objectList.insert(0, Chat.parseObject(newMessage));
     }
     return objectList;
+  }
+
+  List<Consultation> consultationConfig({@required String consultationList}) {
+    List<Consultation> instanceList;
+    instanceList = Consultation.parseList(consultationList);
+    return instanceList;
   }
 }

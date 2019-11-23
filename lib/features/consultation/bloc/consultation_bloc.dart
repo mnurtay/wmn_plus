@@ -1,10 +1,12 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
+import 'package:wmn_plus/features/consultation/model/Consultation.dart';
 import 'package:wmn_plus/features/consultation/resource/chat_repository.dart';
 import './bloc.dart';
 
 // CONSULTATION BLOC
 class ConsultationBloc extends Bloc<ConsultationEvent, ConsultationState> {
+  ChatRepository chatRepository = ChatRepository();
   @override
   ConsultationState get initialState => InitialConsultationState();
 
@@ -12,7 +14,16 @@ class ConsultationBloc extends Bloc<ConsultationEvent, ConsultationState> {
   Stream<ConsultationState> mapEventToState(
     ConsultationEvent event,
   ) async* {
-    // TODO: Add Logic
+    if (event is ConsultationConfig) {
+      yield LoadingConsultationState();
+      try {
+        List<Consultation> consultations = chatRepository.consultationConfig(
+            consultationList: event.consultationList);
+        yield FetchedConsultationState(consultations: consultations);
+      } catch (e) {
+        print(e);
+      }
+    }
   }
 }
 
