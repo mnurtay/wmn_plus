@@ -9,7 +9,7 @@ class ChatListPage extends StatefulWidget {
 
 class _ChatListPageState extends State<ChatListPage> {
   TextEditingController searchController = TextEditingController();
-  final channel = IOWebSocketChannel.connect('ws://echo.websocket.org');
+  final channel = IOWebSocketChannel.connect('ws://194.146.43.98:8080/convlist?role=PAT&token=qwerty');
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +37,7 @@ class _ChatListPageState extends State<ChatListPage> {
     return StreamBuilder(
       stream: channel.stream,
       builder: (context, snapshot) {
+        // print(snapshot.data);
         return Column(
           children: <Widget>[
             chatItem(context, isNewMess: true),

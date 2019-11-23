@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:web_socket_channel/io.dart';
 import 'package:wmn_plus/features/consultation/ui/widget/chat_data.dart';
+import 'dart:convert';
 
 class ChatPage extends StatefulWidget {
   @override
@@ -9,14 +10,20 @@ class ChatPage extends StatefulWidget {
 }
 
 class _ChatPageState extends State<ChatPage> {
-  final channel = IOWebSocketChannel.connect('ws://echo.websocket.org');
+  final channel = IOWebSocketChannel.connect(
+      'ws://194.146.43.98:8080/conversation?token=qwerty&convID=27a3f1a3d555387ab7bf589ca716c295&role=PAT');
   TextEditingController messageController = TextEditingController();
   bool textFieldIsEmpty = true;
 
   void _sendMessage() {
     FocusScope.of(context).requestFocus(FocusNode());
     if (messageController.text.isNotEmpty) {
-      channel.sink.add(messageController.text);
+      Map object = {
+        'status': 'SEND_MESSAGE',
+        'role': 'PAT',
+        'content': messageController.text
+      };
+      channel.sink.add(json.encode(object));
       messageController.clear();
     }
     setState(() {

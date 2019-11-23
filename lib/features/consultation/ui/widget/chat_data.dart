@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
+import 'package:wmn_plus/features/consultation/bloc/bloc.dart';
+import 'package:wmn_plus/features/consultation/model/Chat.dart';
 
 class ChatData extends StatefulWidget {
   final WebSocketChannel channel;
@@ -11,26 +14,14 @@ class ChatData extends StatefulWidget {
 }
 
 class _ChatDataState extends State<ChatData> {
+  ChatBloc chatBloc;
   ScrollController scrollController = ScrollController();
-  List<Map> _message = [
-    {'from': 'doctor', 'message': 'Lorem', 'date': '18:25'},
-    {'from': 'me', 'message': 'Lorem ipsum', 'date': '18:25'},
-    {
-      'from': 'doctor',
-      'message':
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit Hello!',
-      'date': '18:23'
-    },
-    {
-      'from': 'me',
-      'message':
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit Hello Doctor!',
-      'date': '18:24'
-    },
-  ];
+  String oldData = '';
+  List<Chat> _messages = [];
 
   @override
   void initState() {
+    chatBloc = ChatBloc();
     super.initState();
   }
 
@@ -39,11 +30,27 @@ class _ChatDataState extends State<ChatData> {
     return StreamBuilder(
       stream: widget.channel.stream,
       builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          print('DATA: ${snapshot.data}');
+        if (snapshot.hasData && snapshot.data != oldData) {
+          oldData = snapshot.data;
+          chatBloc
+              .add(ChatConfig(chatHistory: _messages, newData: snapshot.data));
         }
-        return messages(context);
+        return blocListerner(context);
       },
+    );
+  }
+
+  Widget blocListerner(BuildContext context) {
+    return BlocListener(
+      bloc: chatBloc,
+      listener: (BuildContext context, ChatState state) {
+        if (state is FetchedChatState) {
+          setState(() {
+            _messages = state.messages;
+          });
+        }
+      },
+      child: messages(context),
     );
   }
 
@@ -53,42 +60,39 @@ class _ChatDataState extends State<ChatData> {
           vertical: ScreenUtil().setHeight(20),
           horizontal: ScreenUtil().setWidth(20)),
       controller: scrollController,
-      itemCount: _message.length,
+      itemCount: _messages.length,
       reverse: true,
       itemBuilder: (context, index) {
-        if (_message[index]['from'] == 'me')
-          return message(context, index, true);
-        else
-          return message(context, index, false);
+        return message(context, _messages[index]);
       },
     );
   }
 
-  Widget message(BuildContext context, int index, bool isMine) {
+  Widget message(BuildContext context, Chat chat) {
     final textStyle = TextStyle(
-        color: isMine ? Colors.white : Colors.black,
+        color: chat.sendByMe ? Colors.white : Colors.black,
         fontSize: ScreenUtil().setSp(45),
         fontWeight: FontWeight.w400);
     return Container(
-      alignment: isMine ? Alignment.centerRight : Alignment.centerLeft,
+      alignment: chat.sendByMe ? Alignment.centerRight : Alignment.centerLeft,
       padding: EdgeInsets.symmetric(
           vertical: ScreenUtil().setHeight(5),
           horizontal: ScreenUtil().setWidth(10)),
       child: Column(
         crossAxisAlignment:
-            isMine ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+            chat.sendByMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
         children: <Widget>[
           // --- MESSAGE
           Container(
             decoration: BoxDecoration(
-              color: isMine ? Color(0xFF7B68EE) : Color(0xFFD3D3D3),
+              color: chat.sendByMe ? Color(0xFF7B68EE) : Color(0xFFD3D3D3),
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(ScreenUtil().setSp(35)),
                 topRight: Radius.circular(ScreenUtil().setSp(30)),
-                bottomLeft: isMine
+                bottomLeft: chat.sendByMe
                     ? Radius.circular(ScreenUtil().setSp(35))
                     : Radius.zero,
-                bottomRight: isMine
+                bottomRight: chat.sendByMe
                     ? Radius.zero
                     : Radius.circular(ScreenUtil().setSp(35)),
               ),
@@ -97,12 +101,11 @@ class _ChatDataState extends State<ChatData> {
             padding: EdgeInsets.symmetric(
                 vertical: ScreenUtil().setHeight(25),
                 horizontal: ScreenUtil().setWidth(35)),
-            child: Text(_message[index]['message'], style: textStyle),
+            child: Text(chat.message, style: textStyle),
           ),
           // --- DATE
           SizedBox(height: ScreenUtil().setHeight(5)),
-          Text(_message[index]['date'],
-              style: Theme.of(context).textTheme.display2),
+          Text(chat.time, style: Theme.of(context).textTheme.display2),
         ],
       ),
     );
