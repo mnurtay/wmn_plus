@@ -62,10 +62,10 @@ class _NewConsultationPageState extends State<NewConsultationPage> {
     );
   }
 
-  Widget categoriesList(BuildContext context, String value) {
+  Widget categoriesList(BuildContext context, Map object) {
     return GestureDetector(
       onTap: () =>
-          Navigator.pushNamed(context, '/doctors_list', arguments: value),
+          Navigator.pushNamed(context, '/doctors_list', arguments: object),
       child: Container(
         width: ScreenUtil().width,
         padding: EdgeInsets.symmetric(
@@ -80,7 +80,7 @@ class _NewConsultationPageState extends State<NewConsultationPage> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Text(value, style: Theme.of(context).textTheme.body1),
+            Text(object['value'], style: Theme.of(context).textTheme.body1),
             Icon(Icons.arrow_forward_ios, size: ScreenUtil().setSp(50)),
           ],
         ),

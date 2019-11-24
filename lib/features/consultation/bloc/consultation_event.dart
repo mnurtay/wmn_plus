@@ -16,6 +16,14 @@ class ConsultationConfig extends ConsultationEvent {
   List<Object> get props => null;
 }
 
+class FetchDoctorsListEvent extends ConsultationEvent {
+  final int categoryId;
+  FetchDoctorsListEvent({@required this.categoryId});
+
+  @override
+  List<Object> get props => null;
+}
+
 // CHAT EVENT
 @immutable
 abstract class ChatEvent extends Equatable {}

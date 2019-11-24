@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
@@ -42,7 +44,7 @@ class Doctor extends Equatable {
     this.secondName = '',
     this.image =
         'https://hcplive.s3.amazonaws.com/v1_media/_image/happydoctor.jpg',
-    this.token = 'Token ',
+    this.token = 'qaz',
     this.positionId = 0,
     this.experience = 100,
     this.gender = 'male',
@@ -53,6 +55,38 @@ class Doctor extends Equatable {
     this.speciality = '',
     this.price = 1239,
   });
+
+  factory Doctor.parseObject(Map objectMap) {
+    Doctor instance = Doctor(
+        id: objectMap['id'],
+        firstName: objectMap['firstname'],
+        surname: objectMap['surname'],
+        secondName: objectMap['secondname'],
+        // image: objectMap['image'],
+        image: 'https://hcplive.s3.amazonaws.com/v1_media/_image/happydoctor.jpg',
+        token: objectMap['token'],
+        positionId: objectMap['positionId'],
+        experience: objectMap['experience'],
+        gender: objectMap['gender'],
+        englishlanguage: objectMap['englishlanguage'],
+        russianlanguage: objectMap['russianlanguage'],
+        kazakhlanguage: objectMap['kazakhlanguage'],
+        study: objectMap['study'],
+        speciality: objectMap['speciality'],
+        price: objectMap['price']);
+    return instance;
+  }
+
+  static List<Doctor> parseJsonToList(String jsonString) {
+    List<Doctor> instance = [];
+    Map objectList = json.decode(jsonString);
+    objectList['result'].forEach((item) {
+      instance.add(Doctor.parseObject(item));
+    });
+    return instance;
+  }
+
+  String get getToken => "wmn538179 ${this.token}";
 
   @override
   List<Object> get props => null;

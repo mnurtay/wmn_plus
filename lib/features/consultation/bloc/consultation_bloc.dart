@@ -14,12 +14,24 @@ class ConsultationBloc extends Bloc<ConsultationEvent, ConsultationState> {
   Stream<ConsultationState> mapEventToState(
     ConsultationEvent event,
   ) async* {
+    // Consultation Chat List
     if (event is ConsultationConfig) {
       yield LoadingConsultationState();
       try {
         List<Consultation> consultations = chatRepository.consultationConfig(
             consultationList: event.consultationList);
         yield FetchedConsultationState(consultations: consultations);
+      } catch (e) {
+        print(e);
+      }
+    }
+    // Fetching Doctors List By Category
+    if (event is FetchDoctorsListEvent) {
+      yield LoadingConsultationState();
+      try {
+        final doctors =
+            await chatRepository.fetchDoctorsList(categoryId: event.categoryId);
+        yield FetchedDoctorsListState(doctors: doctors);
       } catch (e) {
         print(e);
       }

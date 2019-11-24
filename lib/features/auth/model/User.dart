@@ -22,7 +22,7 @@ class User extends Equatable {
       this.firstName = 'anonymous',
       this.lastName = 'anonymoustoke',
       this.email = 'anonymous@gmail.com',
-      this.token = 'Token <empty>'});
+      this.token = 'qwerty'});
 
   factory User.parseJson(String jsonString) {
     Map objectMap = json.decode(jsonString);
@@ -75,7 +75,7 @@ class User extends Equatable {
   String get getFirstName => "${this.firstName}";
   String get getLastName => "${this.lastName}";
   String get getEmail => "${this.email}";
-  String get getToken => "Token ${this.token}";
+  String get getToken => "wmn538179 ${this.token}";
 
   @override
   List<Object> get props => [username, firstName, lastName, email, token];
