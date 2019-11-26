@@ -22,10 +22,24 @@ class DiscountsScreenState extends State<DiscountsScreen> {
   final DiscountsBloc _discountsBloc;
   DiscountsScreenState(this._discountsBloc);
 
+  List<String> _category = [
+    'Школы для беременных',
+    'Лабораторная/инструментальная диагностика',
+    'Массаж для взрослых и детей',
+    'Спа центры',
+    'Салоны красоты',
+    'Кафе/рестораны',
+    'Фитнес центры',
+    'После родов',
+    'Прочее'
+  ];
+  String _selectedCategory;
+  int _categoryPosition = 0;
+
   @override
   void initState() {
     super.initState();
-    // this._load();
+    widget._discountsBloc.add(LoadDiscountsEvent(0));
   }
 
   @override
@@ -38,64 +52,78 @@ class DiscountsScreenState extends State<DiscountsScreen> {
     ScreenUtil.instance =
         ScreenUtil(width: 828, height: 1792, allowFontScaling: true)
           ..init(context);
-    // return BlocBuilder<DiscountsBloc, DiscountsState>(
-    //     bloc: widget._discountsBloc,
-    //     builder: (
-    //       BuildContext context,
-    //       DiscountsState currentState,
-    //     ) {
-    //       if (currentState is UnDiscountsState) {
-    //         return Center(
-    //           child: CircularProgressIndicator(),
-    //         );
-    //       }
-    //       if (currentState is ErrorDiscountsState) {
-    //         return Center(
-    //             child: Column(
-    //           mainAxisAlignment: MainAxisAlignment.center,
-    //           children: <Widget>[
-    //             Text(currentState.errorMessage ?? 'Error'),
-    //             Padding(
-    //               padding: const EdgeInsets.only(top: 32.0),
-    //               child: RaisedButton(
-    //                 color: Colors.blue,
-    //                 child: Text("reload"),
-    //                 onPressed: () => this._load(),
-    //               ),
-    //             ),
-    //           ],
-    //         ));
-    //       }
-
-    //     });
     return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Expanded(
-          child: new ListView.builder(
-            padding: EdgeInsets.all(ScreenUtil.getInstance().setHeight(30)),
-            itemCount: 5,
-            itemBuilder: (context, index) {
-              // return buildItem(context);
-              return buildDiscountItem(context, "Медицинский центр");
+        Padding(
+          padding: EdgeInsets.all(ScreenUtil.getInstance().setHeight(30)),
+          child: DropdownButton(
+            hint: Text('Выбрать категорию'),
+            value: _selectedCategory,
+            onChanged: (newValue) {
+              setState(() {
+                for (int i = 0; i < _category.length; i++) {
+                  if (newValue == _category[i]) {
+                    _categoryPosition = i;
+                    _discountsBloc.add(LoadDiscountsEvent(i));
+                  }
+                }
+                _selectedCategory = newValue;
+              });
             },
+            items: _category.map((location) {
+              return DropdownMenuItem(
+                child: new Text(location),
+                value: location,
+              );
+            }).toList(),
           ),
         ),
+        BlocBuilder<DiscountsBloc, DiscountsState>(
+            bloc: widget._discountsBloc,
+            builder: (
+              BuildContext context,
+              DiscountsState currentState,
+            ) {
+              if (currentState is UnDiscountsState) {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+              if (currentState is ErrorDiscountsState) {
+                return Center();
+              }
+              if (currentState is InDiscountsState) {
+                return new Expanded(
+                  child: new ListView.builder(
+                    padding: EdgeInsets.all(
+                        ScreenUtil.getInstance().setHeight(50)),
+                    itemCount: currentState.discount.result.length,
+                    itemBuilder: (context, index) {
+                      // return buildItem(context);
+                      return buildDiscountItem(
+                          context, currentState.discount.result[index]);
+                    },
+                  ),
+                );
+              }
+            }),
       ],
     );
   }
 
-  // void _load([bool isError = false]) {
-  //   widget._discountsBloc.add(UnDiscountsEvent());
-  //   widget._discountsBloc.add(LoadDiscountsEvent(isError));
-  // }
   Widget buildItem(BuildContext context) {
     return Container(height: 100, color: Colors.red);
   }
 
-  Widget buildDiscountItem(BuildContext context, String s) {
+  Widget buildDiscountItem(
+    BuildContext context,
+    Result result,
+  ) {
     return InkWell(
       onTap: () {
-        Navigator.pushNamed(context, '/news_detail');
+        Navigator.pushNamed(context, '/discount_detail');
       },
       child: Container(
           margin:
@@ -108,27 +136,36 @@ class DiscountsScreenState extends State<DiscountsScreen> {
                 child: Stack(
                   children: <Widget>[
                     Positioned(
-                      child: Text("Медицинский центр", style: Theme.of(context).textTheme.body2,),
+                      child: Text(
+                        result.title,
+                        style: Theme.of(context).textTheme.body2,
+                      ),
                       top: 10,
                       left: 10,
                     ),
                     Positioned(
-                      child: Text("Узи органов", style: Theme.of(context).textTheme.display2,),
+                      child: Text(
+                        result.content,
+                        style: Theme.of(context).textTheme.display2,
+                      ),
                       top: 35,
                       left: 10,
                     ),
                     Positioned(
-                      child: Text("Пользуются: 99", style: Theme.of(context).textTheme.display2),
+                      child: Text("Пользуются: 99",
+                          style: Theme.of(context).textTheme.display2),
                       top: 65,
                       left: 10,
                     ),
                     Positioned(
-                      child: Text("от 1 100 тг.", style: Theme.of(context).textTheme.display3),
+                      child: Text("от 1 100 тг.",
+                          style: Theme.of(context).textTheme.display3),
                       bottom: 30,
                       right: 10,
                     ),
                     Positioned(
-                      child: Text("экономия от 2500 тг.", style: Theme.of(context).textTheme.display2),
+                      child: Text("экономия от 2500 тг.",
+                          style: Theme.of(context).textTheme.display2),
                       bottom: 10,
                       right: 10,
                     ),
@@ -137,7 +174,8 @@ class DiscountsScreenState extends State<DiscountsScreen> {
                 height: ScreenUtil.getInstance().setHeight(250),
                 decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.vertical(top: Radius.circular(16)))),
+                    borderRadius:
+                        BorderRadius.vertical(top: Radius.circular(16)))),
             decoration: BoxDecoration(
                 color: Colors.black38, borderRadius: BorderRadius.circular(10)),
           ),
@@ -145,9 +183,7 @@ class DiscountsScreenState extends State<DiscountsScreen> {
               borderRadius: BorderRadius.circular(10),
               color: Colors.black,
               image: DecorationImage(
-                  fit: BoxFit.fill,
-                  image: NetworkImage(
-                      "https://images.homify.com/images/a_0,c_limit,f_auto,h_1024,q_auto,w_1024/v1439301285/p/photo/image/477581/121102_0076/modern-clinics-photos-by-veridiana-negri-arquitetura.jpg")))),
+                  fit: BoxFit.fill, image: NetworkImage(result.imageUrl)))),
     );
   }
 }

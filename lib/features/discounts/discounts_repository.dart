@@ -5,7 +5,8 @@ class DiscountsRepository {
 
   DiscountsRepository();
 
-  void test(bool isError) {
-    this._discountsProvider.test(isError);
+  Future<Discount> getDiscountsList(int category) async {
+      var discounts = await _discountsProvider.fetchMoreDiscounts(category);
+      return discounts;
   }
 }
