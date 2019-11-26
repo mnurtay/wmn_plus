@@ -2,21 +2,33 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:web_socket_channel/io.dart';
 import 'package:wmn_plus/features/consultation/ui/widget/chat_data.dart';
+import 'dart:convert';
+
+import 'package:wmn_plus/features/doctor/model/Doctor.dart';
 
 class ChatPage extends StatefulWidget {
+  final Doctor doctor;
+  ChatPage({@required this.doctor});
+
   @override
   _ChatPageState createState() => _ChatPageState();
 }
 
 class _ChatPageState extends State<ChatPage> {
-  final channel = IOWebSocketChannel.connect('ws://echo.websocket.org');
+  final channel = IOWebSocketChannel.connect(
+      'ws://194.146.43.98:8080/conversation?token=qwerty&convID=27a3f1a3d555387ab7bf589ca716c295&role=PAT');
   TextEditingController messageController = TextEditingController();
   bool textFieldIsEmpty = true;
 
   void _sendMessage() {
     FocusScope.of(context).requestFocus(FocusNode());
     if (messageController.text.isNotEmpty) {
-      channel.sink.add(messageController.text);
+      Map object = {
+        'status': 'SEND_MESSAGE',
+        'from': 'PAT',
+        'content': messageController.text
+      };
+      channel.sink.add(json.encode(object));
       messageController.clear();
     }
     setState(() {
@@ -68,6 +80,8 @@ class _ChatPageState extends State<ChatPage> {
                     vertical: ScreenUtil().setHeight(20)),
                 hintText: 'Сообщение',
               ),
+              onEditingComplete: _sendMessage,
+              autocorrect: false,
               onChanged: (value) {
                 setState(() {
                   textFieldIsEmpty = value.isEmpty;
@@ -77,7 +91,7 @@ class _ChatPageState extends State<ChatPage> {
           ),
           // --- SEND ICON
           RotationTransition(
-            turns: AlwaysStoppedAnimation((textFieldIsEmpty ? 0 : -35) / 360),
+            turns: AlwaysStoppedAnimation((textFieldIsEmpty ? 0 : -20) / 360),
             child: IconButton(
               icon: Icon(
                 Icons.send,
@@ -103,12 +117,11 @@ class _ChatPageState extends State<ChatPage> {
           children: <Widget>[
             CircleAvatar(
               backgroundColor: Color(0xFFF5F5F5),
-              backgroundImage: NetworkImage(
-                  'https://www.aamc.org/sites/default/files/risking-everything-to-become-a-doctor-jirayut-new-latthivongskorn.jpg'),
+              backgroundImage: NetworkImage(widget.doctor.image),
             ),
             SizedBox(width: ScreenUtil().setWidth(30)),
             Text(
-              'Dr. Gary Hawkins',
+              "${widget.doctor.surname} ${widget.doctor.firstName}",
               style: Theme.of(context).textTheme.body1,
             ),
           ],

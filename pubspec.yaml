@@ -37,3 +37,5 @@ flutter:
     - path/ru-RU.json
     - path/ar-DZ.json
     - path/kk-KZ.json
+    - assets/doctor_login_logo.png
+

@@ -1,5 +1,3 @@
-import 'dart:convert';
-import 'package:http/http.dart';
 import 'package:wmn_plus/features/auth/model/User.dart';
 
 class AuthApiProvider {

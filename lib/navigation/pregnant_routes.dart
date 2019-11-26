@@ -12,7 +12,6 @@ import 'package:wmn_plus/features/discounts/discount_detail/index.dart';
 import 'package:wmn_plus/features/discounts/discounts_page.dart';
 import 'package:wmn_plus/features/news/index.dart';
 import 'package:wmn_plus/features/news/news_detail/index.dart';
-import 'package:wmn_plus/locale/app_localization.dart';
 import 'package:wmn_plus/navigation/bottom_navigation.dart';
 import 'package:wmn_plus/util/config.dart';
 
@@ -102,6 +101,10 @@ class _PregnantRoutes extends State<AuthenticatedPregnantRoutes> {
             return MaterialPageRoute(
                 builder: (BuildContext context) =>
                     NewsDetailPage(settings.arguments));
+          if (settings.name == '/chat_page') {
+            return MaterialPageRoute(
+                builder: (BuildContext context) =>
+                    ChatPage(doctor: settings.arguments));
           }
           return null;
         },

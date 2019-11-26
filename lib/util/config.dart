@@ -1,6 +1,4 @@
 // UI CONST
-import 'package:flutter/material.dart';
-
 const double DEVICE_WIDTH = 1080;
 const double DEVICE_HEIGHT = 1920;
 

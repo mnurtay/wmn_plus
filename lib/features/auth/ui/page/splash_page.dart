@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:wmn_plus/locale/app_localization.dart';
 
 class SplashPage extends StatelessWidget {
   @override

@@ -39,8 +39,6 @@ import 'package:easy_localization/easy_localization_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:wmn_plus/navigation/navigation.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:intl/intl.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
