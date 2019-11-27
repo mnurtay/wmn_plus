@@ -47,9 +47,7 @@ class _DoctorsListPageState extends State<DoctorsListPage> {
           return buildContent(context, state.doctors);
         }
         if (state is LoadingConsultationState) {
-          return Center(
-            child: CircularProgressIndicator(),
-          );
+          return Center(child: CircularProgressIndicator());
         }
         return Container();
       },
