@@ -12,18 +12,18 @@ abstract class NewsDetailEvent {
 
 class UnNewsDetailEvent extends NewsDetailEvent {
   @override
-  Future<NewsDetailState> applyAsync({NewsDetailState currentState, NewsDetailBloc bloc}) async {
+  Future<NewsDetailState> applyAsync(
+      {NewsDetailState currentState, NewsDetailBloc bloc}) async {
     return UnNewsDetailState(0);
   }
 }
 
 class LoadNewsDetailEvent extends NewsDetailEvent {
-   
-  final bool isError;
+  final String newsId;
   @override
   String toString() => 'LoadNewsDetailEvent';
 
-  LoadNewsDetailEvent(this.isError);
+  LoadNewsDetailEvent(this.newsId);
 
   @override
   Future<NewsDetailState> applyAsync(
@@ -32,11 +32,13 @@ class LoadNewsDetailEvent extends NewsDetailEvent {
       if (currentState is InNewsDetailState) {
         return currentState.getNewVersion();
       }
-      await Future.delayed(Duration(seconds: 2));
-      this._newsDetailRepository.test(this.isError);
-      return InNewsDetailState(0, "Hello world");
+      // await Future.delayed(Duration(seconds: 2));
+      NewsDetail newsDetail = await this._newsDetailRepository.fetchNewsDetail(newsId);
+      
+      return InNewsDetailState(0, newsDetail);
     } catch (_, stackTrace) {
-      developer.log('$_', name: 'LoadNewsDetailEvent', error: _, stackTrace: stackTrace);
+      developer.log('$_',
+          name: 'LoadNewsDetailEvent', error: _, stackTrace: stackTrace);
       return ErrorNewsDetailState(0, _?.toString());
     }
   }

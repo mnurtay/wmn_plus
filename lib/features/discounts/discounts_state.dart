@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
+import 'package:wmn_plus/features/discounts/index.dart';
 
 @immutable
 abstract class DiscountsState extends Equatable {
@@ -40,21 +41,21 @@ class UnDiscountsState extends DiscountsState {
 
 /// Initialized
 class InDiscountsState extends DiscountsState {
-  final String hello;
+  final Discount discount;
 
-  InDiscountsState(version, this.hello) : super(version, [hello]);
+  InDiscountsState(version, this.discount) : super(version, [discount]);
 
   @override
-  String toString() => 'InDiscountsState $hello';
+  String toString() => 'InDiscountsState';
 
   @override
   InDiscountsState getStateCopy() {
-    return InDiscountsState(this.version, this.hello);
+    return InDiscountsState(this.version, this.discount);
   }
 
   @override
   InDiscountsState getNewVersion() {
-    return InDiscountsState(version+1, this.hello);
+    return InDiscountsState(version+1, this.discount);
   }
 }
 
