@@ -8,6 +8,21 @@
   "profil": "Profile",
   "msg": "Hello {} in the {} world ",
   "clickMe": "Click me",
+  "settings": {
+    "share_app_child":{
+      "write_to_us": "Write us",
+      "write_to_wapp": "Write to Whatsapp",
+      "call_to_us": "Сall"
+    },
+    "change_language":"Change language",
+    "change_profile": "Edit profile",
+    "language_settings": "Language settings",
+    "сonnect_with_us": "Connect with us",
+    "share_app": "Share app",
+    "faq": "FAQ",
+    "about_us": "About us",
+    "exit": "Exit"
+  },
   "profile": {
     "reset_password": {
       "title": "Reset Password",

@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
+import 'package:wmn_plus/features/discounts/discount_detail/discount_detail_model.dart';
 
 abstract class DiscountDetailState extends Equatable {
   /// notify change state without deep clone state
@@ -39,7 +40,7 @@ class UnDiscountDetailState extends DiscountDetailState {
 
 /// Initialized
 class InDiscountDetailState extends DiscountDetailState {
-  final String hello;
+  final Discountdetail hello;
 
   InDiscountDetailState(version, this.hello) : super(version, [hello]);
 

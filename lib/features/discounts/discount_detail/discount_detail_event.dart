@@ -19,11 +19,11 @@ class UnDiscountDetailEvent extends DiscountDetailEvent {
 
 class LoadDiscountDetailEvent extends DiscountDetailEvent {
    
-  final bool isError;
+  final String id;
   @override
   String toString() => 'LoadDiscountDetailEvent';
 
-  LoadDiscountDetailEvent(this.isError);
+  LoadDiscountDetailEvent(this.id);
 
   @override
   Future<DiscountDetailState> applyAsync(
@@ -32,9 +32,10 @@ class LoadDiscountDetailEvent extends DiscountDetailEvent {
       if (currentState is InDiscountDetailState) {
         return currentState.getNewVersion();
       }
-      await Future.delayed(Duration(seconds: 2));
-      this._discountDetailRepository.test(this.isError);
-      return InDiscountDetailState(0, "Hello world");
+
+      Discountdetail discountdetail = await this._discountDetailRepository.fetchDiscountDetail(id);
+      
+      return InDiscountDetailState(0, discountdetail);
     } catch (_, stackTrace) {
       developer.log('$_', name: 'LoadDiscountDetailEvent', error: _, stackTrace: stackTrace);
       return ErrorDiscountDetailState(0, _?.toString());
