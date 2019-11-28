@@ -8,6 +8,21 @@
     "profil": "Адам",
     "msg": "Hello {} in the {} world ",
     "clickMe": "Нажми меня",
+    "settings": {
+      "share_app_child":{
+        "write_to_us": "Бизге жазу",
+        "write_to_wapp": "WhatsApp жазу",
+        "call_to_us": "Конырау шалу"
+      },
+      "change_language":"Тилди озгерту",
+      "change_profile": "Профильди озгерту",
+      "language_settings": "Тилди жондеу",
+      "сonnect_with_us": "Бизбен байланыс",
+      "share_app": "Приложениемен болису",
+      "faq": "FAQ",
+      "about_us": "Биз туралы",
+      "exit": "Шыгу"
+    },
     "profile": {
       "reset_password": {
         "title": "Reset Password",

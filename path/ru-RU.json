@@ -8,6 +8,21 @@
   "profil": "Профиль",
   "msg": "Hello {} in the {} world ",
   "clickMe": "Нажми меня",
+  "settings": {
+    "share_app_child":{
+      "write_to_us": "Написать нам",
+      "write_to_wapp": "Написать в WhatsApp",
+      "call_to_us": "Позвонить"
+    },
+    "change_language":"Изменить язык",
+    "change_profile": "Редактировать профиль",
+    "language_settings": "Настройки языка",
+    "сonnect_with_us": "Связаться с нами",
+    "share_app": "Поделиться с приложением",
+    "faq": "FAQ",
+    "about_us": "О нас",
+    "exit": "Выйти"
+  },
   "profile": {
     "reset_password": {
       "title": "Reset Password",
@@ -21,4 +36,3 @@
     "other": "You clicked {} times!"
   }
 }
-

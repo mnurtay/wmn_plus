@@ -12,6 +12,8 @@ import 'package:wmn_plus/features/discounts/discount_detail/index.dart';
 import 'package:wmn_plus/features/discounts/discounts_page.dart';
 import 'package:wmn_plus/features/news/index.dart';
 import 'package:wmn_plus/features/news/news_detail/index.dart';
+import 'package:wmn_plus/features/profile/profile_page.dart';
+import 'package:wmn_plus/features/profile/screen/language_screen.dart';
 import 'package:wmn_plus/navigation/bottom_navigation.dart';
 import 'package:wmn_plus/util/config.dart';
 
@@ -47,6 +49,10 @@ ThemeData THEME = ThemeData(
         color: Colors.black,
         fontSize: ScreenUtil().setSp(50),
         fontWeight: FontWeight.w500),
+    button: TextStyle(
+        color: Colors.black,
+        fontSize: ScreenUtil().setSp(50),
+        fontWeight: FontWeight.w500),
   ),
   accentColor: Color(0xffD748DA),
   primaryColor: Color(0xffD748DA),
@@ -68,47 +74,53 @@ class _PregnantRoutes extends State<AuthenticatedPregnantRoutes> {
     return EasyLocalizationProvider(
       data: data,
       child: MaterialApp(
-        localizationsDelegates: [
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          //app-specific localization
-          EasylocaLizationDelegate(locale: data.locale, path: 'path'),
-        ],
-        supportedLocales: [
-          Locale('ru', 'RU'),
-          Locale('en', 'US'),
-          Locale('kk', 'KZ')
-        ],
-        locale: data.savedLocale,
-        debugShowCheckedModeBanner: false,
-        theme: THEME,
-        routes: {
-          '/': (BuildContext context) => BottomNavigation(
-              pageOptions: pageOptions, barItems: barItems(context)),
-          '/new_consultation': (BuildContext context) => NewConsultationPage(),
-          
-          '/discounts': (BuildContext context) => DiscountsPage(),
-          '/discount_detail': (BuildContext context) => DiscountDetailPage(),
-          '/chat_page': (BuildContext context) => ChatPage(),
-        },
-        onGenerateRoute: (RouteSettings settings) {
-          if (settings.name == '/doctors_list') {
-            return MaterialPageRoute(
-                builder: (BuildContext context) =>
-                    DoctorsListPage(category: settings.arguments));
-          }
-          if (settings.name == '/news_detail') {
-            return MaterialPageRoute(
-                builder: (BuildContext context) =>
-                    NewsDetailPage(settings.arguments));
-          if (settings.name == '/chat_page') {
-            return MaterialPageRoute(
-                builder: (BuildContext context) =>
-                    ChatPage(doctor: settings.arguments));
-          }
-          return null;
-        },
-      ),
+          localizationsDelegates: [
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            //app-specific localization
+            EasylocaLizationDelegate(locale: data.locale, path: 'path'),
+          ],
+          supportedLocales: [
+            Locale('ru', 'RU'),
+            Locale('en', 'US'),
+            Locale('kk', 'KZ')
+          ],
+          locale: data.savedLocale,
+          debugShowCheckedModeBanner: false,
+          theme: THEME,
+          routes: {
+            '/': (BuildContext context) => BottomNavigation(
+                pageOptions: pageOptions, barItems: barItems(context)),
+            '/new_consultation': (BuildContext context) =>
+                NewConsultationPage(),
+            '/discounts': (BuildContext context) => DiscountsPage(),
+            '/chat_page': (BuildContext context) => ChatPage(),
+            '/settings_language': (BuildContext context) => LanguageSettings(),
+            '/profile': (BuildContext context) => ProfilPage()
+          },
+          onGenerateRoute: (RouteSettings settings) {
+            if (settings.name == '/doctors_list') {
+              return MaterialPageRoute(
+                  builder: (BuildContext context) =>
+                      DoctorsListPage(category: settings.arguments));
+            }
+            if (settings.name == '/news_detail') {
+              return MaterialPageRoute(
+                  builder: (BuildContext context) =>
+                      NewsDetailPage(settings.arguments));
+            }
+            if (settings.name == '/discount_detail') {
+              return MaterialPageRoute(
+                  builder: (BuildContext context) =>
+                      DiscountDetailPage(settings.arguments));
+            }
+            if (settings.name == '/chat_page') {
+              return MaterialPageRoute(
+                  builder: (BuildContext context) =>
+                      ChatPage(doctor: settings.arguments));
+            }
+            return null;
+          }),
     );
   }
 
@@ -127,7 +139,7 @@ final List pageOptions = [
   DiscountsPage(),
   ProfilePage(),
   ChatListPage(),
-  ProfilePage(),
+  ProfilPage(),
 ];
 
 List<BottomNavigationBarItem> barItems(BuildContext context) {

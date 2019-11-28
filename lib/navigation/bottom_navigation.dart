@@ -30,7 +30,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
     ScreenUtil.instance = ScreenUtil(
         width: DEVICE_WIDTH, height: DEVICE_HEIGHT, allowFontScaling: true)
       ..init(context);
-    return Scaffold(
+     return Scaffold(
       body: widget.pageOptions[selectedPage],
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.white,

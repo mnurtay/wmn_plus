@@ -56,8 +56,10 @@ class DiscountsScreenState extends State<DiscountsScreen> {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Padding(
-          padding: EdgeInsets.all(ScreenUtil.getInstance().setHeight(30)),
+        Container(
+          margin: EdgeInsets.only(
+            left: ScreenUtil.getInstance().setWidth(40),
+          ),
           child: DropdownButton(
             hint: Text('Выбрать категорию'),
             value: _selectedCategory,
@@ -97,8 +99,8 @@ class DiscountsScreenState extends State<DiscountsScreen> {
               if (currentState is InDiscountsState) {
                 return new Expanded(
                   child: new ListView.builder(
-                    padding: EdgeInsets.all(
-                        ScreenUtil.getInstance().setHeight(50)),
+                    padding:
+                        EdgeInsets.all(ScreenUtil.getInstance().setHeight(50)),
                     itemCount: currentState.discount.result.length,
                     itemBuilder: (context, index) {
                       // return buildItem(context);
@@ -123,7 +125,9 @@ class DiscountsScreenState extends State<DiscountsScreen> {
   ) {
     return InkWell(
       onTap: () {
-        Navigator.pushNamed(context, '/discount_detail');
+        print(result.id.toString());
+        Navigator.pushNamed(context, '/discount_detail',
+            arguments: result.id.toString());
       },
       child: Container(
           margin:
@@ -140,42 +144,43 @@ class DiscountsScreenState extends State<DiscountsScreen> {
                         result.title,
                         style: Theme.of(context).textTheme.body2,
                       ),
-                      top: 10,
-                      left: 10,
+                      top: ScreenUtil.getInstance().setHeight(40),
+                      left: ScreenUtil.getInstance().setHeight(30),
                     ),
                     Positioned(
                       child: Text(
                         result.content,
                         style: Theme.of(context).textTheme.display2,
                       ),
-                      top: 35,
-                      left: 10,
+                      top: ScreenUtil.getInstance().setHeight(100),
+                      left: ScreenUtil.getInstance().setHeight(30),
                     ),
                     Positioned(
                       child: Text("Пользуются: 99",
                           style: Theme.of(context).textTheme.display2),
-                      top: 65,
-                      left: 10,
+                      top: ScreenUtil.getInstance().setHeight(170),
+                      left: ScreenUtil.getInstance().setHeight(30),
                     ),
                     Positioned(
                       child: Text("от 1 100 тг.",
                           style: Theme.of(context).textTheme.display3),
-                      bottom: 30,
-                      right: 10,
+                      bottom: ScreenUtil.getInstance().setHeight(70),
+                      right: ScreenUtil.getInstance().setHeight(30),
                     ),
                     Positioned(
                       child: Text("экономия от 2500 тг.",
                           style: Theme.of(context).textTheme.display2),
-                      bottom: 10,
-                      right: 10,
+                      bottom: ScreenUtil.getInstance().setHeight(30),
+                      right: ScreenUtil.getInstance().setHeight(30),
                     ),
                   ],
                 ),
                 height: ScreenUtil.getInstance().setHeight(250),
                 decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(16)))),
+                    borderRadius: BorderRadius.vertical(
+                        top: Radius.circular(16),
+                        bottom: Radius.circular(10)))),
             decoration: BoxDecoration(
                 color: Colors.black38, borderRadius: BorderRadius.circular(10)),
           ),

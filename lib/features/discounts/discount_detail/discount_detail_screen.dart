@@ -2,15 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wmn_plus/features/discounts/discount_detail/index.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:wmn_plus/features/discounts/discounts_state.dart';
 
 class DiscountDetailScreen extends StatefulWidget {
   const DiscountDetailScreen({
     Key key,
     @required DiscountDetailBloc discountDetailBloc,
+    String id,
   })  : _discountDetailBloc = discountDetailBloc,
+        _id = id,
         super(key: key);
 
   final DiscountDetailBloc _discountDetailBloc;
+  final String _id;
 
   @override
   DiscountDetailScreenState createState() {
@@ -54,7 +58,8 @@ class DiscountDetailScreenState extends State<DiscountDetailScreen> {
   @override
   void initState() {
     super.initState();
-    this._load();
+    widget._discountDetailBloc.add(UnDiscountDetailEvent());
+    widget._discountDetailBloc.add(LoadDiscountDetailEvent(widget._id));
   }
 
   @override
@@ -92,34 +97,33 @@ class DiscountDetailScreenState extends State<DiscountDetailScreen> {
               ],
             ));
           }
-          return SingleChildScrollView(
-            child: Column(
-              children: <Widget>[
-                autoPlayDemo,
-                SizedBox(
-                  height: 5,
-                ),
-                headerBox(),
-                SizedBox(
-                  height: 5,
-                ),
-                informationBox(),
-                SizedBox(
-                  height: 5,
-                ),
-                contactsBox()
-              ],
-            ),
-          );
+          if (currentState is InDiscountDetailState) {
+            return SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  autoPlayDemo,
+                  SizedBox(
+                    height: 5,
+                  ),
+                  headerBox(currentState.hello.result.title),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  informationBox(),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  contactsBox()
+                ],
+              ),
+            );
+          }
         });
   }
 
-  void _load([bool isError = false]) {
-    widget._discountDetailBloc.add(UnDiscountDetailEvent());
-    widget._discountDetailBloc.add(LoadDiscountDetailEvent(isError));
-  }
+  void _load([bool isError = false]) {}
 
-  headerBox() {
+  headerBox(String title) {
     return Container(
       height: 80,
       color: Colors.white,
@@ -127,7 +131,7 @@ class DiscountDetailScreenState extends State<DiscountDetailScreen> {
         children: <Widget>[
           Positioned(
             child: Text(
-              "Медицинский центр",
+              title,
               style: Theme.of(context).textTheme.display3,
             ),
             left: 10,
