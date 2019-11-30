@@ -14,9 +14,14 @@ import 'package:wmn_plus/navigation/pregnant_routes.dart';
 import 'package:wmn_plus/util/config.dart';
 
 ThemeData THEME = ThemeData(
-  accentColor: Color(0xffD748DA),
-  primaryColor: Color(0xffD748DA),
-);
+    accentColor: Color(0xffD748DA),
+    primaryColor: Color(0xffD748DA),
+    textTheme: TextTheme(
+      button: TextStyle(
+          color: Colors.black,
+          fontSize: ScreenUtil().setSp(50),
+          fontWeight: FontWeight.w600),
+    ));
 
 class App extends StatefulWidget {
   @override

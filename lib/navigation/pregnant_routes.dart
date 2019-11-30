@@ -13,6 +13,8 @@ import 'package:wmn_plus/features/discounts/discount_detail/index.dart';
 import 'package:wmn_plus/features/discounts/discounts_page.dart';
 import 'package:wmn_plus/features/news/index.dart';
 import 'package:wmn_plus/features/news/news_detail/index.dart';
+import 'package:wmn_plus/features/profile/profile_page.dart';
+import 'package:wmn_plus/features/profile/screen/language_screen.dart';
 import 'package:wmn_plus/navigation/bottom_navigation.dart';
 import 'package:wmn_plus/util/config.dart';
 
@@ -45,6 +47,10 @@ ThemeData THEME = ThemeData(
         fontWeight: FontWeight.w400,
         color: Colors.black),
     body2: TextStyle(
+        color: Colors.black,
+        fontSize: ScreenUtil().setSp(50),
+        fontWeight: FontWeight.w500),
+    button: TextStyle(
         color: Colors.black,
         fontSize: ScreenUtil().setSp(50),
         fontWeight: FontWeight.w500),
@@ -88,7 +94,8 @@ class _PregnantRoutes extends State<AuthenticatedPregnantRoutes> {
               pageOptions: pageOptions, barItems: barItems(context)),
           '/new_consultation': (BuildContext context) => NewConsultationPage(),
           '/discounts': (BuildContext context) => DiscountsPage(),
-          '/discount_detail': (BuildContext context) => DiscountDetailPage(),
+          '/settings_language': (BuildContext context) => LanguageSettings(),
+          '/profile': (BuildContext context) => ProfilPage()
         },
         onGenerateRoute: (RouteSettings settings) {
           if (settings.name == '/doctors_list') {
@@ -100,6 +107,11 @@ class _PregnantRoutes extends State<AuthenticatedPregnantRoutes> {
             return MaterialPageRoute(
                 builder: (BuildContext context) =>
                     NewsDetailPage(settings.arguments));
+          }
+          if (settings.name == '/discount_detail') {
+            return MaterialPageRoute(
+                builder: (BuildContext context) =>
+                    DiscountDetailPage(settings.arguments));
           }
           if (settings.name == '/chat_page') {
             return MaterialPageRoute(
@@ -132,7 +144,7 @@ final List pageOptions = [
   DiscountsPage(),
   ProfilePage(),
   ChatListPage(),
-  ProfilePage(),
+  ProfilPage(),
 ];
 
 List<BottomNavigationBarItem> barItems(BuildContext context) {

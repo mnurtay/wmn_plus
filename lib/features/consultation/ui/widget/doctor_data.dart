@@ -172,7 +172,7 @@ class _DoctorDataState extends State<DoctorData> {
             children: <Widget>[
               widget.doctor.kazakhlanguage
                   ? Image.asset(
-                      "assets/image/kaz_language.png",
+                      "assets/kazakhstan.png",
                       width: ScreenUtil().setSp(80),
                       height: ScreenUtil().setHeight(70),
                     )
@@ -180,7 +180,7 @@ class _DoctorDataState extends State<DoctorData> {
               SizedBox(width: ScreenUtil().setWidth(15)),
               widget.doctor.russianlanguage
                   ? Image.asset(
-                      "assets/image/rus_language.png",
+                      "assets/russia.png",
                       width: ScreenUtil().setSp(80),
                       height: ScreenUtil().setHeight(70),
                     )
@@ -188,7 +188,7 @@ class _DoctorDataState extends State<DoctorData> {
               SizedBox(width: ScreenUtil().setWidth(15)),
               widget.doctor.englishlanguage
                   ? Image.asset(
-                      "assets/image/en_language.png",
+                      "assets/united-kingdom.png",
                       width: ScreenUtil().setSp(80),
                       height: ScreenUtil().setHeight(70),
                     )

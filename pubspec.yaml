@@ -38,7 +38,7 @@ flutter:
     - path/ar-DZ.json
     - path/kk-KZ.json
     - assets/doctor_login_logo.png
-    - assets/image/kaz_language.png
-    - assets/image/en_language.png
-    - assets/image/rus_language.png
+    - assets/kazakhstan.png
+    - assets/russia.png
+    - assets/united-kingdom.png
 
