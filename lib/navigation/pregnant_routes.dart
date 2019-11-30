@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wmn_plus/features/auth/ui/page/profile_page.dart';
 import 'package:wmn_plus/features/consultation/ui/page/chat_list_page.dart';
 import 'package:wmn_plus/features/consultation/ui/page/chat_page.dart';
+import 'package:wmn_plus/features/consultation/ui/page/doctor_page.dart';
 import 'package:wmn_plus/features/consultation/ui/page/doctors_list_page.dart';
 import 'package:wmn_plus/features/consultation/ui/page/new_consultation_page.dart';
 import 'package:wmn_plus/features/discounts/discount_detail/index.dart';
@@ -86,10 +87,8 @@ class _PregnantRoutes extends State<AuthenticatedPregnantRoutes> {
           '/': (BuildContext context) => BottomNavigation(
               pageOptions: pageOptions, barItems: barItems(context)),
           '/new_consultation': (BuildContext context) => NewConsultationPage(),
-          
           '/discounts': (BuildContext context) => DiscountsPage(),
           '/discount_detail': (BuildContext context) => DiscountDetailPage(),
-          '/chat_page': (BuildContext context) => ChatPage(),
         },
         onGenerateRoute: (RouteSettings settings) {
           if (settings.name == '/doctors_list') {
@@ -101,10 +100,16 @@ class _PregnantRoutes extends State<AuthenticatedPregnantRoutes> {
             return MaterialPageRoute(
                 builder: (BuildContext context) =>
                     NewsDetailPage(settings.arguments));
+          }
           if (settings.name == '/chat_page') {
             return MaterialPageRoute(
                 builder: (BuildContext context) =>
                     ChatPage(doctor: settings.arguments));
+          }
+          if (settings.name == '/doctor_page') {
+            return MaterialPageRoute(
+                builder: (BuildContext context) =>
+                    DoctorPage(doctor: settings.arguments));
           }
           return null;
         },

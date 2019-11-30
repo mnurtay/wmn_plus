@@ -36,6 +36,17 @@ class ConsultationBloc extends Bloc<ConsultationEvent, ConsultationState> {
         print(e);
       }
     }
+    // Consultation Payment
+    if (event is ConsultatinPaymentEvent) {
+      yield LoadingConsultationState();
+      try {
+        final payment = await chatRepository.fetchConsultationPayment(
+            doctorId: event.doctorId);
+        yield FetchedConsultationPaymentState(payment: payment);
+      } catch (e) {
+        print(e);
+      }
+    }
   }
 }
 

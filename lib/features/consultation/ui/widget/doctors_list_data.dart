@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:wmn_plus/features/doctor/model/Doctor.dart';
+import 'package:wmn_plus/features/consultation/model/Doctor.dart';
 
 class DoctorsListData extends StatelessWidget {
   final List<Doctor> doctors;
@@ -27,7 +27,8 @@ class DoctorsListData extends StatelessWidget {
 
   Widget doctorCard(BuildContext context, Doctor doctor) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () =>
+          Navigator.pushNamed(context, '/doctor_page', arguments: doctor),
       child: Container(
         decoration: BoxDecoration(
           color: Colors.white,

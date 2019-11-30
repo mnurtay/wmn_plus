@@ -4,7 +4,7 @@ import 'package:web_socket_channel/io.dart';
 import 'package:wmn_plus/features/consultation/ui/widget/chat_data.dart';
 import 'dart:convert';
 
-import 'package:wmn_plus/features/doctor/model/Doctor.dart';
+import 'package:wmn_plus/features/consultation/model/Doctor.dart';
 
 class ChatPage extends StatefulWidget {
   final Doctor doctor;
@@ -112,7 +112,8 @@ class _ChatPageState extends State<ChatPage> {
       elevation: 0,
       iconTheme: IconThemeData(color: Colors.black),
       title: GestureDetector(
-        onTap: () {},
+        onTap: () => Navigator.pushNamed(context, "/doctor_page",
+            arguments: widget.doctor),
         child: Row(
           children: <Widget>[
             CircleAvatar(

@@ -6,7 +6,7 @@ import 'package:wmn_plus/features/auth/resource/auth_repository.dart';
 import 'package:wmn_plus/features/consultation/model/Chat.dart';
 import 'package:wmn_plus/features/consultation/model/Consultation.dart';
 import 'package:wmn_plus/features/consultation/resource/chat_api_provider.dart';
-import 'package:wmn_plus/features/doctor/model/Doctor.dart';
+import 'package:wmn_plus/features/consultation/model/Doctor.dart';
 
 class ChatRepository {
   UserRepository userRepository = UserRepository();
@@ -35,5 +35,12 @@ class ChatRepository {
     List<Doctor> doctors = await chatApiProvider.fetchDoctorsList(
         token: user.getToken, categoryId: categoryId);
     return doctors;
+  }
+
+  Future<Map> fetchConsultationPayment({@required int doctorId}) async {
+    User user = await userRepository.getCurrentUser();
+    Map payment = await chatApiProvider.fetchConsultationPayment(
+        doctorId: doctorId, token: user.getToken);
+    return payment;
   }
 }

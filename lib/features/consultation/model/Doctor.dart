@@ -87,6 +87,7 @@ class Doctor extends Equatable {
   }
 
   String get getToken => "wmn538179 ${this.token}";
+  String get getFullName => "${this.firstName} ${this.surname} ${this.secondName}";
 
   @override
   List<Object> get props => null;

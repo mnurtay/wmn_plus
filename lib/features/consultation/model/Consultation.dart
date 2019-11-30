@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:wmn_plus/features/doctor/model/Doctor.dart';
+import 'package:wmn_plus/features/consultation/model/Doctor.dart';
 
 class Consultation extends Equatable {
   final String id;
@@ -22,15 +22,25 @@ class Consultation extends Equatable {
   });
 
   static Consultation parseObject(Map objectMap) {
-    print(objectMap);
-    String date = objectMap['history']['date'].split('T')[0];
-    Consultation instance = Consultation(
-        id: objectMap['id'],
-        messageContent: objectMap['history']['content'],
-        messageFromMe: objectMap['history']['from'] == 'PAT',
-        date: date.replaceAll('-', '.'),
-        newMessageCount: 0,
-        doctor: Doctor.anonymous());
+    Consultation instance;
+    if (objectMap['history'] != null) {
+      String date = objectMap['history']['date'].split('T')[0];
+      instance = Consultation(
+          id: objectMap['id'],
+          messageContent: objectMap['history']['content'],
+          messageFromMe: objectMap['history']['from'] == 'PAT',
+          date: date.replaceAll('-', '.'),
+          newMessageCount: 0,
+          doctor: Doctor.anonymous());
+    } else {
+      instance = Consultation(
+          id: objectMap['id'],
+          messageContent: '',
+          messageFromMe: false,
+          date: '',
+          newMessageCount: 0,
+          doctor: Doctor.anonymous());
+    }
     return instance;
   }
 

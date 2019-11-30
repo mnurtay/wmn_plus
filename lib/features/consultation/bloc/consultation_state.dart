@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:wmn_plus/features/consultation/model/Chat.dart';
 import 'package:wmn_plus/features/consultation/model/Consultation.dart';
-import 'package:wmn_plus/features/doctor/model/Doctor.dart';
+import 'package:wmn_plus/features/consultation/model/Doctor.dart';
 
 @immutable
 abstract class ConsultationState extends Equatable {}
@@ -28,6 +28,13 @@ class FetchedConsultationState extends ConsultationState {
 class FetchedDoctorsListState extends ConsultationState {
   final List<Doctor> doctors;
   FetchedDoctorsListState({@required this.doctors});
+  @override
+  List<Object> get props => null;
+}
+
+class FetchedConsultationPaymentState extends ConsultationState {
+  final Map payment;
+  FetchedConsultationPaymentState({@required this.payment});
   @override
   List<Object> get props => null;
 }

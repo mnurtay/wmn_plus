@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wmn_plus/features/consultation/bloc/bloc.dart';
 import 'package:wmn_plus/features/consultation/ui/widget/doctors_list_data.dart';
-import 'package:wmn_plus/features/doctor/model/Doctor.dart';
+import 'package:wmn_plus/features/consultation/model/Doctor.dart';
 
 class DoctorsListPage extends StatefulWidget {
   final Map category;
