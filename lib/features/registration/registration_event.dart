@@ -33,7 +33,7 @@ class LoadRegistrationEvent extends RegistrationEvent {
       if (currentState is InRegistrationState) {
         return currentState.getNewVersion();
       }
-      await Future.delayed(Duration(seconds: 2));
+      // await Future.delayed(Duration(seconds: 2));
       this._registrationRepository.test(this.isError);
       return InRegistrationState(0, "Hello world");
     } catch (_, stackTrace) {

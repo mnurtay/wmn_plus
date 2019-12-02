@@ -7,11 +7,15 @@ class RegistrationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var _registrationBloc = RegistrationBloc();
+    final GlobalKey<ScaffoldState> _scaffoldKey =
+        new GlobalKey<ScaffoldState>();
+
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Регистрация'),
+      key: _scaffoldKey,
+      body: RegistrationScreen(
+        registrationBloc: _registrationBloc,
+        scaffoldKey: _scaffoldKey,
       ),
-      body: RegistrationScreen(registrationBloc: _registrationBloc),
     );
   }
 }

@@ -98,8 +98,15 @@ class UnauthenticatedApp extends StatelessWidget {
         '/': (BuildContext context) => LoginPage(),
         '/doctor': (BuildContext context) => DoctorLoginPage(),
         '/registration': (BuildContext context) => RegistrationPage(),
-        '/registration_mode': (BuildContext context) => RegistrationModePage(),
+
         // '/signup': (BuildContext context) => SignupPage(),
+      },
+      onGenerateRoute: (RouteSettings settings) {
+        if (settings.name == '/registration_mode') {
+          return MaterialPageRoute(
+              builder: (BuildContext context) =>
+                  RegistrationModePage(settings.arguments));
+        }
       },
     );
   }

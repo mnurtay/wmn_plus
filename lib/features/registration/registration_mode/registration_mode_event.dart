@@ -33,7 +33,7 @@ class LoadRegistrationModeEvent extends RegistrationModeEvent {
       if (currentState is InRegistrationModeState) {
         return currentState.getNewVersion();
       }
-      await Future.delayed(Duration(seconds: 2));
+      // await Future.delayed(Duration(seconds: 2));
       this._registrationModeRepository.test(this.isError);
       return InRegistrationModeState(0, "Hello world");
     } catch (_, stackTrace) {

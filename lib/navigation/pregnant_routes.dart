@@ -42,6 +42,11 @@ ThemeData THEME = ThemeData(
         fontWeight: FontWeight.w800,
         color: Colors.grey,
         letterSpacing: 0.1),
+    display4: TextStyle(
+        fontSize: ScreenUtil().setSp(30),
+        fontWeight: FontWeight.w100,
+        color: Colors.black,
+        letterSpacing: 0.1),
     // --- DEFAULT STYLE
     body1: TextStyle(
         fontSize: ScreenUtil().setSp(50),
