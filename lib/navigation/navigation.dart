@@ -7,6 +7,8 @@ import 'package:wmn_plus/features/auth/ui/page/loading_page.dart';
 import 'package:wmn_plus/features/auth/ui/page/splash_page.dart';
 import 'package:wmn_plus/features/login/ui/doctor/doctor_login.dart';
 import 'package:wmn_plus/features/login/ui/page/login_page.dart';
+import 'package:wmn_plus/features/registration/registration_mode/registration_mode_page.dart';
+import 'package:wmn_plus/features/registration/registration_page.dart';
 import 'package:wmn_plus/navigation/climax_routes.dart';
 import 'package:wmn_plus/navigation/doctor_routes.dart';
 import 'package:wmn_plus/navigation/fertility_routes.dart';
@@ -94,7 +96,9 @@ class UnauthenticatedApp extends StatelessWidget {
       theme: THEME,
       routes: {
         '/': (BuildContext context) => LoginPage(),
-        '/doctor': (BuildContext context) => DoctorLoginPage()
+        '/doctor': (BuildContext context) => DoctorLoginPage(),
+        '/registration': (BuildContext context) => RegistrationPage(),
+        '/registration_mode': (BuildContext context) => RegistrationModePage(),
         // '/signup': (BuildContext context) => SignupPage(),
       },
     );

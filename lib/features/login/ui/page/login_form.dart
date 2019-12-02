@@ -152,7 +152,9 @@ class _LoginFormState extends State<LoginForm> {
                       borderRadius: new BorderRadius.circular(12.0),
                       side: BorderSide(color: Color(0xFFD748DA))),
                   color: Colors.white,
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(context, "/registration");
+                  },
                   child: Container(
                     height: ScreenUtil.getInstance().setHeight(70),
                     margin: EdgeInsets.all(15),
