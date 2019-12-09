@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:wmn_plus/features/auth/bloc/auth_bloc.dart';
 import 'package:wmn_plus/features/registration/index.dart';
 
 class RegistrationScreen extends StatefulWidget {
@@ -47,6 +48,7 @@ class RegistrationScreenState extends State<RegistrationScreen> {
 
   @override
   void dispose() {
+    _registrationBloc.close();
     super.dispose();
   }
 
@@ -68,20 +70,7 @@ class RegistrationScreenState extends State<RegistrationScreen> {
           }
           if (currentState is ErrorRegistrationState) {
             return Center(
-                child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(currentState.errorMessage ?? 'Error'),
-                Padding(
-                  padding: const EdgeInsets.only(top: 32.0),
-                  child: RaisedButton(
-                    color: Colors.blue,
-                    child: Text('reload'),
-                    onPressed: () => this._load(),
-                  ),
-                ),
-              ],
-            ));
+                child: Text(currentState.errorMessage ?? 'Error'));
           }
 
           return Column(
@@ -397,11 +386,12 @@ class RegistrationScreenState extends State<RegistrationScreen> {
           _controllerPasswordVerification.text.trim())
         showInSnackBar("Пароли не совпадают!");
       else {
+        // widget._registrationBloc.add(CompleteRegistrationEvent());
         Navigator.pushNamed(context, "/registration_mode",
             arguments: RegistrationModel(
-                name: _controllerName.text.trim(),
+                firstname: _controllerName.text.trim(),
                 password: _controllerPass.text.trim(),
-                email: _controllerEmail.text.trim()));
+                phone: _controllerEmail.text.trim()));
       }
     }
   }

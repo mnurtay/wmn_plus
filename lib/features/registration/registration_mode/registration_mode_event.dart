@@ -8,7 +8,6 @@ import 'package:meta/meta.dart';
 abstract class RegistrationModeEvent {
   Future<RegistrationModeState> applyAsync(
       {RegistrationModeState currentState, RegistrationModeBloc bloc});
-  final RegistrationModeRepository _registrationModeRepository = RegistrationModeRepository();
 }
 
 class UnRegistrationModeEvent extends RegistrationModeEvent {
@@ -33,8 +32,6 @@ class LoadRegistrationModeEvent extends RegistrationModeEvent {
       if (currentState is InRegistrationModeState) {
         return currentState.getNewVersion();
       }
-      // await Future.delayed(Duration(seconds: 2));
-      this._registrationModeRepository.test(this.isError);
       return InRegistrationModeState(0, "Hello world");
     } catch (_, stackTrace) {
       developer.log('$_', name: 'LoadRegistrationModeEvent', error: _, stackTrace: stackTrace);

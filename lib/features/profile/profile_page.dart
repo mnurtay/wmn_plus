@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:wmn_plus/features/profile/index.dart';
 
@@ -9,7 +10,7 @@ class ProfilPage extends StatelessWidget {
     var _profileBloc = ProfileBloc();
     return Scaffold(
        appBar: AppBar(
-          title: Text('Профиль', style: Theme.of(context).textTheme.title),
+          title: Text(AppLocalizations.of(context).tr('profil'), style: Theme.of(context).textTheme.title),
           backgroundColor: Colors.white,
           centerTitle: false,
           elevation: 0,
