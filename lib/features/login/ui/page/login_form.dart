@@ -134,7 +134,7 @@ class _LoginFormState extends State<LoginForm> {
                     _onDoctorButtonPressed();
                   },
                   child: Container(
-                    height: 25,
+                    height: ScreenUtil.getInstance().setHeight(70),
                     margin: EdgeInsets.all(15),
                     child: Center(
                       child: Text(

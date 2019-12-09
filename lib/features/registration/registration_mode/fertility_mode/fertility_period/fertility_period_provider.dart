@@ -1,6 +1,6 @@
 import 'dart:async';
 
-class RegistrationProvider {
+class FertilityPeriodProvider {
   Future<void> loadAsync(String token) async {
     /// write from keystore/keychain
     await Future.delayed(Duration(seconds: 2));

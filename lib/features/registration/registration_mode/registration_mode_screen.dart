@@ -29,8 +29,8 @@ class RegistrationModeScreenState extends State<RegistrationModeScreen> {
   Widget buildModeItem(BuildContext context, String mode, String url) {
     return InkWell(
       onTap: () {
-        // Navigator.pushNamed(context, '/news_detail',
-        //     arguments: data.id.toString());
+        Navigator.pushNamed(context, '/registration_mode_fertility',
+            arguments: widget._registrationModel);
       },
       child: Container(
           margin:
@@ -65,6 +65,7 @@ class RegistrationModeScreenState extends State<RegistrationModeScreen> {
 
   @override
   void dispose() {
+    _registrationModeBloc.close();
     super.dispose();
   }
 
@@ -82,21 +83,7 @@ class RegistrationModeScreenState extends State<RegistrationModeScreen> {
             );
           }
           if (currentState is ErrorRegistrationModeState) {
-            return Center(
-                child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(currentState.errorMessage ?? 'Error'),
-                Padding(
-                  padding: const EdgeInsets.only(top: 32.0),
-                  child: RaisedButton(
-                    color: Colors.blue,
-                    child: Text('reload'),
-                    onPressed: () => this._load(),
-                  ),
-                ),
-              ],
-            ));
+            return Center(child: Text(currentState.errorMessage ?? 'Error'));
           }
           return Column(
             children: <Widget>[
@@ -107,155 +94,148 @@ class RegistrationModeScreenState extends State<RegistrationModeScreen> {
                   child: Container(
                       child: Column(
                     children: <Widget>[
-                      Row(
-                        children: <Widget>[
-                          Row(
-                            children: <Widget>[
-                              Container(
-                                child: Center(
-                                    child: Text(
-                                  "2",
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: ScreenUtil().setSp(40)),
-                                )),
-                                decoration: BoxDecoration(
-                                    color: Theme.of(context).primaryColor,
-                                    borderRadius: BorderRadius.circular(16.0)),
-                                height: 60,
-                                width: 50,
-                              ),
-                              SizedBox(
-                                width: 5,
-                              ),
-                              Container(
-                                child: Row(
-                                  children: <Widget>[
-                                    Container(
-                                      height: 5,
-                                      width: 5,
-                                      decoration: BoxDecoration(
-                                        color: Theme.of(context)
-                                            .primaryColor
-                                            .withOpacity(0.5),
-                                        shape: BoxShape.circle,
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                              SizedBox(
-                                width: 3,
-                              ),
-                              Container(
-                                child: Row(
-                                  children: <Widget>[
-                                    Container(
-                                      height: 10,
-                                      width: 10,
-                                      decoration: BoxDecoration(
-                                        color: Theme.of(context).primaryColor,
-                                        shape: BoxShape.circle,
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                              SizedBox(
-                                width: 3,
-                              ),
-                              Container(
-                                child: Row(
-                                  children: <Widget>[
-                                    Container(
-                                      height: 5,
-                                      width: 5,
-                                      decoration: BoxDecoration(
-                                        color: Theme.of(context)
-                                            .primaryColor
-                                            .withOpacity(0.5),
-                                        shape: BoxShape.circle,
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
-                          Expanded(
-                            child: Container(),
-                          ),
-                          Container(
-                            child: Text("Пропустить"),
-                          ),
-                        ],
-                      ),
+                      buildHeaderRow(context),
                       SizedBox(
                         height: 20,
                       ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Row(
-                            children: <Widget>[
-                              Text(
-                                "Привет",
-                                style: TextStyle(
-                                  fontSize: ScreenUtil().setSp(80),
-                                  fontWeight: FontWeight.w200,
-                                  color: Colors.black,
-                                ),
-                              ),
-                              SizedBox(
-                                width: 7,
-                              ),
-                              Text(
-                                widget._registrationModel.name,
-                                style: TextStyle(
-                                  fontSize: ScreenUtil().setSp(90),
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ],
-                          ),
-                          Text(
-                            "Пожалуйста, выберите свою группу",
-                            style: TextStyle(
-                              fontSize: ScreenUtil().setSp(35),
-                              fontWeight: FontWeight.w300,
-                              color: Colors.black,
-                            ),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          buildModeItem(context, "Фертильность", ""),
-                          buildModeItem(context, "Беременность", ""),
-                          buildModeItem(context, "Климакс", "")
-                        ],
-                      )
+                      buildMainColumn(context)
                     ],
                   )),
                 ),
               )),
-              InkWell(
-                onTap: () {
-                  Navigator.pushNamed(context, "/registration_mode");
-                },
-                child: Container(
-                  height: 60,
-                  child: Center(
-                    child: Icon(
-                      Icons.arrow_forward,
-                      size: 35,
-                    ),
-                  ),
-                ),
-              )
             ],
           );
         });
+  }
+
+  Column buildMainColumn(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        buildWelcomeRow(),
+        Text(
+          "Пожалуйста, выберите свою группу",
+          style: TextStyle(
+            fontSize: ScreenUtil().setSp(35),
+            fontWeight: FontWeight.w300,
+            color: Colors.black,
+          ),
+        ),
+        SizedBox(
+          height: 20,
+        ),
+        buildModeItem(context, "Фертильность", ""),
+        buildModeItem(context, "Беременность", ""),
+        buildModeItem(context, "Климакс", "")
+      ],
+    );
+  }
+
+  Row buildWelcomeRow() {
+    return Row(
+      children: <Widget>[
+        Text(
+          "Привет",
+          style: TextStyle(
+            fontSize: ScreenUtil().setSp(80),
+            fontWeight: FontWeight.w200,
+            color: Colors.black,
+          ),
+        ),
+        SizedBox(
+          width: 7,
+        ),
+        Text(
+          widget._registrationModel.firstname,
+          style: TextStyle(
+            fontSize: ScreenUtil().setSp(90),
+            fontWeight: FontWeight.w400,
+            color: Colors.black,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Row buildHeaderRow(BuildContext context) {
+    return Row(
+      children: <Widget>[
+        Row(
+          children: <Widget>[
+            Container(
+              child: Center(
+                  child: Text(
+                "2",
+                style: TextStyle(
+                    color: Colors.white, fontSize: ScreenUtil().setSp(40)),
+              )),
+              decoration: BoxDecoration(
+                  color: Theme.of(context).primaryColor,
+                  borderRadius: BorderRadius.circular(16.0)),
+              height: 60,
+              width: 50,
+            ),
+            SizedBox(
+              width: 5,
+            ),
+            Container(
+              child: Row(
+                children: <Widget>[
+                  Container(
+                    height: 5,
+                    width: 5,
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).primaryColor.withOpacity(0.5),
+                      shape: BoxShape.circle,
+                    ),
+                  )
+                ],
+              ),
+            ),
+            SizedBox(
+              width: 3,
+            ),
+            Container(
+              child: Row(
+                children: <Widget>[
+                  Container(
+                    height: 10,
+                    width: 10,
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).primaryColor,
+                      shape: BoxShape.circle,
+                    ),
+                  )
+                ],
+              ),
+            ),
+            SizedBox(
+              width: 3,
+            ),
+            Container(
+              child: Row(
+                children: <Widget>[
+                  Container(
+                    height: 5,
+                    width: 5,
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).primaryColor.withOpacity(0.5),
+                      shape: BoxShape.circle,
+                    ),
+                  )
+                ],
+              ),
+            )
+          ],
+        ),
+        Expanded(
+          child: Container(),
+        ),
+        Container(
+          child: Text("Пропустить"),
+        ),
+      ],
+    );
   }
 
   void _load([bool isError = false]) {
