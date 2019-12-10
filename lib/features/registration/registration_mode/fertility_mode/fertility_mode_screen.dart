@@ -254,8 +254,13 @@ class FertilityModeScreenState extends State<FertilityModeScreen> {
         Expanded(
           child: Container(),
         ),
-        Container(
-          child: Text("Пропустить"),
+         InkWell(
+          onTap: (){
+            Navigator.of(context).pop();
+          },
+                  child: Container(
+            child: Text("Назад"),
+          ),
         ),
       ],
     );

@@ -25,8 +25,7 @@ class _NewsPageState extends State<NewsPage> {
       'После родов',
       'Полезные советы'
     ];
-    String _selectedCategory;
-    int _categoryPosition = 0;
+  
     var _newsBloc = NewsBloc();
 
     return Scaffold(

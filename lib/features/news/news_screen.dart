@@ -104,7 +104,7 @@ class NewsScreenState extends State<NewsScreen> {
                 ));
               }
               if (currentState is InNewsState) {
-                print("InNewsState + ${currentState.newsList}");
+        
                 return Expanded(
                   child: new ListView.builder(
                     padding:
@@ -151,7 +151,7 @@ class NewsScreenState extends State<NewsScreen> {
               borderRadius: BorderRadius.circular(10),
               color: Colors.black,
               image: DecorationImage(
-                  fit: BoxFit.cover, image: NetworkImage(data.image)))),
+                  fit: BoxFit.cover, image: NetworkImage(data.imageUrl)))),
     );
   }
 

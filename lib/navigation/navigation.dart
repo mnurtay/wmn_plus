@@ -10,6 +10,7 @@ import 'package:wmn_plus/features/login/ui/page/login_page.dart';
 import 'package:wmn_plus/features/registration/registration_mode/fertility_mode/fertility_duration/fertility_duration_page.dart';
 import 'package:wmn_plus/features/registration/registration_mode/fertility_mode/fertility_period/fertility_period_page.dart';
 import 'package:wmn_plus/features/registration/registration_mode/fertility_mode/index.dart';
+import 'package:wmn_plus/features/registration/registration_mode/pregnant_mode/pregnant_mode_page.dart';
 import 'package:wmn_plus/features/registration/registration_mode/registration_mode_page.dart';
 import 'package:wmn_plus/features/registration/registration_page.dart';
 import 'package:wmn_plus/navigation/climax_routes.dart';
@@ -123,6 +124,12 @@ class UnauthenticatedApp extends StatelessWidget {
           return MaterialPageRoute(
               builder: (BuildContext context) =>
                   FertilityPeriodPage(settings.arguments));
+        }
+
+        if (settings.name == '/registration_mode_pregnancy') {
+          return MaterialPageRoute(
+              builder: (BuildContext context) =>
+                  PregnantModePage(settings.arguments));
         }
       },
     );

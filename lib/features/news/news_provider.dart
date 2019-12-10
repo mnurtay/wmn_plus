@@ -19,7 +19,7 @@ class NewsProvider {
           body: json.encode({'id': category, 'pageIndex': pageIndex}),
           headers: {
             "Content-Type": "application/json",
-            "Authorization": "wmn538179",
+            "Authorization": "wmn538179 eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwaG9uZSI6Iis3KDcwNSk3MDA3MDcwIn0.ws6gC_mskJSaLr_tGNifdvl2ogAMX27b0Z0MQRDfpsg",
           });
       String body = utf8.decode(response.bodyBytes);
       Map newsObject = json.decode(body);

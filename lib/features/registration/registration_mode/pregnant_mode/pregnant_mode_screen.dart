@@ -1,31 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:wmn_plus/features/registration/registration_mode/fertility_mode/fertility_duration/index.dart';
+import 'package:wmn_plus/features/registration/registration_mode/pregnant_mode/index.dart';
 import 'package:wmn_plus/features/registration/registration_model.dart';
 import 'package:wmn_plus/util/number_picker.dart';
 
-class FertilityDurationScreen extends StatefulWidget {
-  FertilityDurationScreen({
+class PregnantModeScreen extends StatefulWidget {
+  PregnantModeScreen({
     Key key,
     @required RegistrationModel registrationModel,
-    @required FertilityDurationBloc fertilityDurationBloc,
-  })  : _fertilityDurationBloc = fertilityDurationBloc,
+    @required PregnantModeBloc pregnantModeBloc,
+  })  : _pregnantModeBloc = pregnantModeBloc,
         _registrationModel = registrationModel,
         super(key: key);
-  RegistrationModel _registrationModel;
-  final FertilityDurationBloc _fertilityDurationBloc;
+
+  final PregnantModeBloc _pregnantModeBloc;
+  final RegistrationModel _registrationModel;
 
   @override
-  FertilityDurationScreenState createState() {
-    return FertilityDurationScreenState(_fertilityDurationBloc);
+  PregnantModeScreenState createState() {
+    return PregnantModeScreenState(_pregnantModeBloc);
   }
 }
 
-class FertilityDurationScreenState extends State<FertilityDurationScreen> {
-  final FertilityDurationBloc _fertilityDurationBloc;
-  FertilityDurationScreenState(this._fertilityDurationBloc);
-  int _currentValue = 0;
+class PregnantModeScreenState extends State<PregnantModeScreen> {
+  final PregnantModeBloc _pregnantModeBloc;
+  PregnantModeScreenState(this._pregnantModeBloc);
+  int _currentValue = 1;
   @override
   void initState() {
     super.initState();
@@ -42,34 +43,19 @@ class FertilityDurationScreenState extends State<FertilityDurationScreen> {
     ScreenUtil.instance =
         ScreenUtil(width: 828, height: 1792, allowFontScaling: true)
           ..init(context);
-
-    return BlocBuilder<FertilityDurationBloc, FertilityDurationState>(
-        bloc: widget._fertilityDurationBloc,
+    return BlocBuilder<PregnantModeBloc, PregnantModeState>(
+        bloc: widget._pregnantModeBloc,
         builder: (
           BuildContext context,
-          FertilityDurationState currentState,
+          PregnantModeState currentState,
         ) {
-          if (currentState is UnFertilityDurationState) {
+          if (currentState is UnPregnantModeState) {
             return Center(
               child: CircularProgressIndicator(),
             );
           }
-          if (currentState is ErrorFertilityDurationState) {
-            return Center(
-                child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(currentState.errorMessage ?? 'Error'),
-                Padding(
-                  padding: const EdgeInsets.only(top: 32.0),
-                  child: RaisedButton(
-                    color: Colors.blue,
-                    child: Text('reload'),
-                    onPressed: () => this._load(),
-                  ),
-                ),
-              ],
-            ));
+          if (currentState is ErrorPregnantModeState) {
+            return Center(child: Text(currentState.errorMessage ?? 'Error'));
           }
           return Column(
             children: <Widget>[
@@ -94,8 +80,8 @@ class FertilityDurationScreenState extends State<FertilityDurationScreen> {
                         children: <Widget>[
                           NumberPicker.integer(
                               initialValue: _currentValue,
-                              minValue: 0,
-                              maxValue: 100,
+                              minValue: 1,
+                              maxValue: 42,
                               onChanged: (newValue) {
                                 setState(() => _currentValue = newValue);
                               }),
@@ -115,7 +101,7 @@ class FertilityDurationScreenState extends State<FertilityDurationScreen> {
                                     width: 7,
                                   ),
                                   Text(
-                                    "дней",
+                                    "недели",
                                     style: TextStyle(
                                       fontSize: ScreenUtil().setSp(60),
                                       fontWeight: FontWeight.w200,
@@ -132,19 +118,20 @@ class FertilityDurationScreenState extends State<FertilityDurationScreen> {
               )),
               InkWell(
                 onTap: () {
-                  RegistrationModel obj = new RegistrationModel(
+                  var obj = new RegistrationModel(
                       firstname: widget._registrationModel.firstname,
+                      surname: "surname",
+                      dateOfBirth: "11/01/1900",
                       password: widget._registrationModel.password,
                       phone: widget._registrationModel.phone,
-                      fertility: Fertility(
-                        start: widget._registrationModel.fertility.start,
-                        duration: _currentValue,
-                      ));
+                    pregnancy: Pregnancy(
+                      week: _currentValue
+                    ));
+                      
                   print(obj.toJson().toString());
-                 
-                  Navigator.pushNamed(
-                      context, "/registration_mode_fertility_period",
-                      arguments: obj);
+
+                  widget._pregnantModeBloc.add(UnPregnantModeEvent());
+                  widget._pregnantModeBloc.add(CompleteRegistrationEvent(obj));
                 },
                 child: Container(
                   height: 60,
@@ -161,6 +148,11 @@ class FertilityDurationScreenState extends State<FertilityDurationScreen> {
         });
   }
 
+  void _load([bool isError = false]) {
+    widget._pregnantModeBloc.add(UnPregnantModeEvent());
+    widget._pregnantModeBloc.add(LoadPregnantModeEvent(isError));
+  }
+
   Column buildHeaderTitle() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -169,7 +161,7 @@ class FertilityDurationScreenState extends State<FertilityDurationScreen> {
           Row(
             children: <Widget>[
               Text(
-                "Месячные",
+                "Беременность",
                 style: TextStyle(
                   fontSize: ScreenUtil().setSp(90),
                   fontWeight: FontWeight.w400,
@@ -179,7 +171,7 @@ class FertilityDurationScreenState extends State<FertilityDurationScreen> {
             ],
           ),
           Text(
-            "Выберите длительность месячных дней",
+            "Выберите неделю беременности",
             style: TextStyle(
               fontSize: ScreenUtil().setSp(35),
               fontWeight: FontWeight.w300,
@@ -268,7 +260,7 @@ class FertilityDurationScreenState extends State<FertilityDurationScreen> {
         Expanded(
           child: Container(),
         ),
-        InkWell(
+         InkWell(
           onTap: (){
             Navigator.of(context).pop();
           },
@@ -278,10 +270,5 @@ class FertilityDurationScreenState extends State<FertilityDurationScreen> {
         ),
       ],
     );
-  }
-
-  void _load([bool isError = false]) {
-    widget._fertilityDurationBloc.add(UnFertilityDurationEvent());
-    widget._fertilityDurationBloc.add(LoadFertilityDurationEvent(isError));
   }
 }
