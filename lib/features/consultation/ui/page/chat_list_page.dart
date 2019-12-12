@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:web_socket_channel/io.dart';
+import 'package:wmn_plus/features/auth/bloc/bloc.dart';
+import 'package:wmn_plus/features/auth/model/User.dart';
 import 'package:wmn_plus/features/consultation/bloc/bloc.dart';
 import 'package:wmn_plus/features/consultation/model/Consultation.dart';
 
@@ -12,21 +14,46 @@ class ChatListPage extends StatefulWidget {
 
 class _ChatListPageState extends State<ChatListPage> {
   ConsultationBloc consultationBloc;
+  AuthBloc authBloc;
   List<Consultation> consultations = [];
   TextEditingController searchController = TextEditingController();
-  IOWebSocketChannel channel;
   String oldData = '';
 
   @override
   void initState() {
     consultationBloc = ConsultationBloc();
-    channel = IOWebSocketChannel.connect(
-        'ws://194.146.43.98:8080/convlist?role=PAT&token=qwerty');
+    authBloc = BlocProvider.of<AuthBloc>(context);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    return BlocBuilder(
+      bloc: authBloc,
+      builder: (context, state) {
+        if (state is AuthenticatedAuthState) {
+          return buildContent(context, state.user, "PAT");
+        }
+        if (state is AuthenticatedFertilityModeState) {
+          return buildContent(context, state.user, "PAT");
+        }
+        if (state is AuthenticatedPregnantModeState) {
+          return buildContent(context, state.user, "PAT");
+        }
+        if (state is AuthenticatedClimaxModeState) {
+          return buildContent(context, state.user, "PAT");
+        }
+        if (state is AuthenticatedDoctorAuthState) {
+          return buildContent(context, state.user, "DOC");
+        }
+        return Container();
+      },
+    );
+  }
+
+  Widget buildContent(BuildContext context, User user, String role) {
+    final channel = IOWebSocketChannel.connect(
+        'ws://194.146.43.98:8080/convlist?role=$role&token=${user.token}');
     return Scaffold(
       backgroundColor: Color(0xFFF5F5F5),
       appBar: appBar(context),
@@ -39,7 +66,7 @@ class _ChatListPageState extends State<ChatListPage> {
               SizedBox(height: ScreenUtil().setHeight(50)),
               searchWidget(context),
               SizedBox(height: ScreenUtil().setHeight(50)),
-              chatList(context),
+              chatList(context, channel),
             ],
           ),
         ),
@@ -47,7 +74,7 @@ class _ChatListPageState extends State<ChatListPage> {
     );
   }
 
-  Widget chatList(BuildContext context) {
+  Widget chatList(BuildContext context, IOWebSocketChannel channel) {
     return StreamBuilder(
       stream: channel.stream,
       builder: (context, snapshot) {
