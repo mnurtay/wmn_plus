@@ -15,6 +15,7 @@ import 'package:wmn_plus/features/news/index.dart';
 import 'package:wmn_plus/features/news/news_detail/index.dart';
 import 'package:wmn_plus/features/profile/profile_page.dart';
 import 'package:wmn_plus/features/profile/screen/language_screen.dart';
+import 'package:wmn_plus/features/registration/registration_page.dart';
 import 'package:wmn_plus/navigation/bottom_navigation.dart';
 import 'package:wmn_plus/util/config.dart';
 
@@ -40,6 +41,11 @@ ThemeData THEME = ThemeData(
         fontSize: ScreenUtil().setSp(60),
         fontWeight: FontWeight.w800,
         color: Colors.grey,
+        letterSpacing: 0.1),
+    display4: TextStyle(
+        fontSize: ScreenUtil().setSp(30),
+        fontWeight: FontWeight.w100,
+        color: Colors.black,
         letterSpacing: 0.1),
     // --- DEFAULT STYLE
     body1: TextStyle(

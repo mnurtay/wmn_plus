@@ -7,6 +7,11 @@ import 'package:wmn_plus/features/auth/ui/page/loading_page.dart';
 import 'package:wmn_plus/features/auth/ui/page/splash_page.dart';
 import 'package:wmn_plus/features/login/ui/doctor/doctor_login.dart';
 import 'package:wmn_plus/features/login/ui/page/login_page.dart';
+import 'package:wmn_plus/features/registration/registration_mode/fertility_mode/fertility_duration/fertility_duration_page.dart';
+import 'package:wmn_plus/features/registration/registration_mode/fertility_mode/fertility_period/fertility_period_page.dart';
+import 'package:wmn_plus/features/registration/registration_mode/fertility_mode/index.dart';
+import 'package:wmn_plus/features/registration/registration_mode/registration_mode_page.dart';
+import 'package:wmn_plus/features/registration/registration_page.dart';
 import 'package:wmn_plus/navigation/climax_routes.dart';
 import 'package:wmn_plus/navigation/doctor_routes.dart';
 import 'package:wmn_plus/navigation/fertility_routes.dart';
@@ -94,8 +99,31 @@ class UnauthenticatedApp extends StatelessWidget {
       theme: THEME,
       routes: {
         '/': (BuildContext context) => LoginPage(),
-        '/doctor': (BuildContext context) => DoctorLoginPage()
+        '/doctor': (BuildContext context) => DoctorLoginPage(),
+        '/registration': (BuildContext context) => RegistrationPage(),
         // '/signup': (BuildContext context) => SignupPage(),
+      },
+      onGenerateRoute: (RouteSettings settings) {
+        if (settings.name == '/registration_mode') {
+          return MaterialPageRoute(
+              builder: (BuildContext context) =>
+                  RegistrationModePage(settings.arguments));
+        }
+        if (settings.name == '/registration_mode_fertility') {
+          return MaterialPageRoute(
+              builder: (BuildContext context) =>
+                  FertilityModePage(settings.arguments));
+        }
+        if (settings.name == '/registration_mode_fertility_duration') {
+          return MaterialPageRoute(
+              builder: (BuildContext context) =>
+                  FertilityDurationPage(settings.arguments));
+        }
+        if (settings.name == '/registration_mode_fertility_period') {
+          return MaterialPageRoute(
+              builder: (BuildContext context) =>
+                  FertilityPeriodPage(settings.arguments));
+        }
       },
     );
   }
