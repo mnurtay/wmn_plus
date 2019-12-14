@@ -12,6 +12,8 @@ class FertilityPeriodBloc
   // todo: check singleton for logic in project
   AuthBloc authBloc;
   final UserRepository userRepository = UserRepository();
+  final FertilityPeriodRepository fertilityPeriodRepository =
+      FertilityPeriodRepository();
   FertilityPeriodBloc({this.authBloc});
 
   @override
@@ -28,10 +30,14 @@ class FertilityPeriodBloc
   ) async* {
     try {
       if (event is CompleteRegistrationEvent) {
-        var user = await userRepository.authenticate(
-            username: "event.username", password: "event.password");
-        // this is how user login to the page
-        authBloc.add(LoggedInAuthEvent(user: user));
+        var status = await fertilityPeriodRepository
+            .requestUserRegistration(event.registrationModel);
+        if (status) {
+          var user = await userRepository.authenticate(
+              username: "event.username", password: "event.password");
+          // this is how user login to the page
+          authBloc.add(LoggedInAuthEvent(user: user));
+        }
       }
       yield await event.applyAsync(currentState: state, bloc: this);
     } catch (_, stackTrace) {

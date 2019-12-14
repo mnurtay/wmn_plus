@@ -7,6 +7,7 @@ import 'package:wmn_plus/features/auth/ui/page/loading_page.dart';
 import 'package:wmn_plus/features/auth/ui/page/splash_page.dart';
 import 'package:wmn_plus/features/login/ui/doctor/doctor_login.dart';
 import 'package:wmn_plus/features/login/ui/page/login_page.dart';
+import 'package:wmn_plus/features/profile/screen/language_screen.dart';
 import 'package:wmn_plus/features/registration/registration_mode/fertility_mode/fertility_duration/fertility_duration_page.dart';
 import 'package:wmn_plus/features/registration/registration_mode/fertility_mode/fertility_period/fertility_period_page.dart';
 import 'package:wmn_plus/features/registration/registration_mode/fertility_mode/index.dart';
@@ -78,6 +79,9 @@ class _AppState extends State<App> {
             }
             if (state is LoadingAuthState) {
               return LoadingPage();
+            }
+            if (state is ChooseLanguageAuthState){
+              return LanguageSettings();
             }
             if (state is AuthenticatedFertilityModeState) {
               return AuthenticatedFertilityRoutes();

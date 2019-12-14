@@ -1,3 +1,4 @@
+import 'package:wmn_plus/features/auth/model/User.dart';
 import 'package:wmn_plus/features/registration/index.dart';
 import 'package:wmn_plus/features/registration/registration_mode/pregnant_mode/index.dart';
 
@@ -6,6 +7,6 @@ class PregnantModeRepository {
 
   PregnantModeRepository();
 
-  requestUserRegistration(RegistrationModel registrationModel) =>
+  Future<User> requestUserRegistration(RegistrationModel registrationModel) =>
       _pregnantModeProvider.registerUser(registrationModel);
 }

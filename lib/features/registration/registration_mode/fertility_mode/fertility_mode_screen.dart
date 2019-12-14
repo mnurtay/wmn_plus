@@ -364,7 +364,7 @@ class FertilityModeScreenState extends State<FertilityModeScreen> {
       phone: widget._registrationModel.phone,
       fertility: Fertility(
           start:
-              "${widget._varCurrentTime.day}/${widget._varCurrentTime.month}/${widget._varCurrentTime.year}"),
+              "${widget._varCurrentTime.month}/${widget._varCurrentTime.day}/${widget._varCurrentTime.year}"),
     );
     print(obj.toJson().toString());
     Navigator.pushNamed(context, "/registration_mode_fertility_duration",

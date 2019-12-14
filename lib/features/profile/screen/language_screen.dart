@@ -70,7 +70,7 @@ class _LanguageSettingsState extends State<LanguageSettings> {
       data: data,
       child: Scaffold(
           appBar: AppBar(
-            title: Text(AppLocalizations.of(context).tr('settings.language_settings'),),
+            title: Text("AppLocalizations.of(context).tr('settings.language_settings'),"),
           ),
           body: languageList(context, data)),
     );

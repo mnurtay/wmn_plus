@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:wmn_plus/features/auth/bloc/auth_bloc.dart';
-import 'package:wmn_plus/features/auth/bloc/auth_event.dart';
-import 'package:wmn_plus/features/auth/model/User.dart';
-import 'package:wmn_plus/features/login/bloc/login_bloc.dart';
-import 'package:wmn_plus/features/login/bloc/login_event.dart';
+
 import 'package:wmn_plus/features/registration/registration_mode/fertility_mode/fertility_period/index.dart';
 import 'package:wmn_plus/features/registration/registration_model.dart';
 import 'package:wmn_plus/util/number_picker.dart';
@@ -31,7 +27,7 @@ class FertilityPeriodScreenState extends State<FertilityPeriodScreen> {
   final FertilityPeriodBloc _fertilityPeriodBloc;
   FertilityPeriodScreenState(this._fertilityPeriodBloc);
 
-  int _currentValue = 0;
+  int _currentValue = 1;
   @override
   void initState() {
     super.initState();
@@ -103,7 +99,7 @@ class FertilityPeriodScreenState extends State<FertilityPeriodScreen> {
                         children: <Widget>[
                           NumberPicker.integer(
                               initialValue: _currentValue,
-                              minValue: 0,
+                              minValue: 1,
                               maxValue: 100,
                               onChanged: (newValue) {
                                 setState(() => _currentValue = newValue);
@@ -141,9 +137,11 @@ class FertilityPeriodScreenState extends State<FertilityPeriodScreen> {
               )),
               InkWell(
                 onTap: () {
-                  RegistrationModel obj = new RegistrationModel(
+                  var obj = new RegistrationModel(
                       firstname: widget._registrationModel.firstname,
                       password: widget._registrationModel.password,
+                      dateOfBirth: "12/14/2019",
+                      surname: "sample",
                       phone: widget._registrationModel.phone,
                       fertility: Fertility(
                           start: widget._registrationModel.fertility.start,
@@ -152,8 +150,8 @@ class FertilityPeriodScreenState extends State<FertilityPeriodScreen> {
                           period: _currentValue));
                   print(obj.toJson().toString());
 
-                  // widget._fertilityPeriodBloc.add(UnFertilityPeriodEvent());
-                   widget._fertilityPeriodBloc.add(CompleteRegistrationEvent());
+                  widget._fertilityPeriodBloc.add(UnFertilityPeriodEvent());
+                  widget._fertilityPeriodBloc.add(CompleteRegistrationEvent(obj));
                 },
                 child: Container(
                   height: 60,

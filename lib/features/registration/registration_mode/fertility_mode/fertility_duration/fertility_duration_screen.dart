@@ -25,7 +25,7 @@ class FertilityDurationScreen extends StatefulWidget {
 class FertilityDurationScreenState extends State<FertilityDurationScreen> {
   final FertilityDurationBloc _fertilityDurationBloc;
   FertilityDurationScreenState(this._fertilityDurationBloc);
-  int _currentValue = 0;
+  int _currentValue = 1;
   @override
   void initState() {
     super.initState();
@@ -94,7 +94,7 @@ class FertilityDurationScreenState extends State<FertilityDurationScreen> {
                         children: <Widget>[
                           NumberPicker.integer(
                               initialValue: _currentValue,
-                              minValue: 0,
+                              minValue: 1,
                               maxValue: 100,
                               onChanged: (newValue) {
                                 setState(() => _currentValue = newValue);

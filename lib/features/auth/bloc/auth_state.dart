@@ -17,6 +17,11 @@ class LoadingAuthState extends AuthState {
   List<Object> get props => null;
 }
 
+class ChooseLanguageAuthState extends AuthState {
+  @override
+  List<Object> get props => null;
+}
+
 class UnauthenticatedAuthState extends AuthState {
   @override
   List<Object> get props => null;

@@ -2,10 +2,11 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:http/http.dart';
+import 'package:wmn_plus/features/auth/model/User.dart';
 import 'package:wmn_plus/features/registration/index.dart';
 
 class PregnantModeProvider {
-  Future<bool> registerUser(RegistrationModel registrationModel) async {
+  Future<User> registerUser(RegistrationModel registrationModel) async {
     print(registrationModel.toJson().toString());
     Response response;
     try {
@@ -16,10 +17,9 @@ class PregnantModeProvider {
             "Authorization": "wmn538179",
           });
       String body = utf8.decode(response.bodyBytes);
-      Map regObject = json.decode(body);
-      var user = RegistrationModel.fromJson(regObject);
-      print(response.body.toString());
-      return true;
+      var user = User.fromJson(jsonDecode(body));
+    
+      return user;
     } catch (error) {
       print(error);
       throw (error.toString());

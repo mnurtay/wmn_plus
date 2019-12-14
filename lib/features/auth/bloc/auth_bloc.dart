@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wmn_plus/features/auth/resource/auth_repository.dart';
 import './bloc.dart';
 
@@ -17,11 +18,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     if (event is AppStartedAuthEvent) {
       final bool isAuthenticated = await userRepository.isAuthenticated();
       if (isAuthenticated) {
-        final currentUser = await userRepository.getCurrentUser();
-        yield AuthenticatedAuthState(user: currentUser);
-      } else {
-        yield UnauthenticatedAuthState();
-      }
+          final currentUser = await userRepository.getCurrentUser();
+          yield AuthenticatedAuthState(user: currentUser);
+        } else {
+          yield UnauthenticatedAuthState();
+        }
     }
 
     // App login mechanism
@@ -43,7 +44,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       final currentUser = await userRepository.getCurrentUser();
       yield AuthenticatedAuthState(user: currentUser); //pregnancy default mode
     }
-    
+
     if (event is ChangeAppModeClimaxEvent) {
       await Future.delayed(Duration(seconds: 1)); // post request to change mode
       final currentUser = await userRepository.getCurrentUser();
