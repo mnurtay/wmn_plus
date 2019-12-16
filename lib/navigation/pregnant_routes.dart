@@ -142,28 +142,38 @@ class _PregnantRoutes extends State<AuthenticatedPregnantRoutes> {
       ..init(context);
     return buildRoutes(context);
   }
-}
 
-List pageOptions(BuildContext context) {
-  return [
-    NewsPage(),
-    ProfilePage(),
-    DiscountsPage(),
-    ProfilePage(),
-    ChatListPage(),
-    ProfilPage(),
-  ];
-}
+  List pageOptions(BuildContext context) {
+    return [
+      NewsPage(),
+      ChatListPage(),
+      DiscountsPage(),
+      ProfilPage(),
+    ];
+  }
 
-List<Widget> barItems(BuildContext context) {
-  return [
-    // --- NEWS PAGE
-    Icon(Icons.list),
-    Icon(Icons.calendar_today),
-    Icon(Icons.shop_two),
-    Icon(Icons.shopping_cart),
-    Icon(Icons.chat),
-    // --- PROFILE PAGE
-    Icon(Icons.person),
-  ];
+  List<Widget> barItems(BuildContext context) {
+    return [
+      // NEWS
+      Container(
+        padding: EdgeInsets.all(ScreenUtil().setSp(5)),
+        child: Icon(Icons.list),
+      ),
+      // CHAT
+      Container(
+        padding: EdgeInsets.all(ScreenUtil().setSp(5)),
+        child: Icon(Icons.chat),
+      ),
+      // DISCOUNTS
+      Container(
+        padding: EdgeInsets.all(ScreenUtil().setSp(5)),
+        child: Icon(Icons.shopping_cart),
+      ),
+      // PROFILE
+      Container(
+        padding: EdgeInsets.all(ScreenUtil().setSp(5)),
+        child: Icon(Icons.person),
+      ),
+    ];
+  }
 }

@@ -6,7 +6,9 @@ import 'package:wmn_plus/features/consultation/ui/page/chat_page.dart';
 import 'package:wmn_plus/features/consultation/ui/page/doctor_page.dart';
 import 'package:wmn_plus/features/consultation/ui/page/doctors_list_page.dart';
 import 'package:wmn_plus/features/consultation/ui/page/new_consultation_page.dart';
+import 'package:wmn_plus/features/discounts/discounts_page.dart';
 import 'package:wmn_plus/features/news/news_page.dart';
+import 'package:wmn_plus/features/profile/profile_page.dart';
 import 'package:wmn_plus/navigation/bottom_navigation.dart';
 import 'package:wmn_plus/util/config.dart';
 
@@ -89,24 +91,34 @@ class AuthenticatedFertilityRoutes extends StatelessWidget {
   List pageOptions(BuildContext context) {
     return [
       NewsPage(),
-      ProfilePage(),
-      ProfilePage(),
-      ProfilePage(),
       ChatListPage(),
-      ProfilePage(),
+      DiscountsPage(),
+      ProfilPage(),
     ];
   }
 
   List<Widget> barItems(BuildContext context) {
     return [
-      // --- NEWS PAGE
-      Icon(Icons.list),
-      Icon(Icons.calendar_today),
-      Icon(Icons.shop_two),
-      Icon(Icons.shopping_cart),
-      Icon(Icons.chat),
-      // --- PROFILE PAGE
-      Icon(Icons.person),
+      // NEWS
+      Container(
+        padding: EdgeInsets.all(ScreenUtil().setSp(5)),
+        child: Icon(Icons.list),
+      ),
+      // CHAT
+      Container(
+        padding: EdgeInsets.all(ScreenUtil().setSp(5)),
+        child: Icon(Icons.chat),
+      ),
+      // DISCOUNTS
+      Container(
+        padding: EdgeInsets.all(ScreenUtil().setSp(5)),
+        child: Icon(Icons.shopping_cart),
+      ),
+      // PROFILE
+      Container(
+        padding: EdgeInsets.all(ScreenUtil().setSp(5)),
+        child: Icon(Icons.person),
+      ),
     ];
   }
 }

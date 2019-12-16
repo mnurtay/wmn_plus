@@ -71,10 +71,16 @@ class AuthenticatedDoctorRoutes extends StatelessWidget {
 
   List<Widget> barItems(BuildContext context) {
     return [
-      // --- NEWS PAGE
-      Icon(Icons.list),
-      // --- PROFILE PAGE
-      Icon(Icons.person),
+      // NEWS
+      Container(
+        padding: EdgeInsets.all(ScreenUtil().setSp(5)),
+        child: Icon(Icons.list),
+      ),
+      // PROFILE
+      Container(
+        padding: EdgeInsets.all(ScreenUtil().setSp(5)),
+        child: Icon(Icons.person),
+      ),
     ];
   }
 }

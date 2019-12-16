@@ -35,7 +35,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
       body: widget.pageOptions[selectedPage],
       bottomNavigationBar: CurvedNavigationBar(
         animationCurve: Curves.easeInOutCirc,
-        backgroundColor: Theme.of(context).primaryColor,
+        // backgroundColor: Theme.of(context).primaryColor,
         height: 65,
         items: widget.barItems,
         onTap: (index) {
