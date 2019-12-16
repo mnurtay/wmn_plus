@@ -8,7 +8,9 @@ import 'package:wmn_plus/features/consultation/ui/page/chat_page.dart';
 import 'package:wmn_plus/features/consultation/ui/page/doctor_page.dart';
 import 'package:wmn_plus/features/consultation/ui/page/doctors_list_page.dart';
 import 'package:wmn_plus/features/consultation/ui/page/new_consultation_page.dart';
+import 'package:wmn_plus/features/discounts/discounts_page.dart';
 import 'package:wmn_plus/features/news/news_page.dart';
+import 'package:wmn_plus/features/profile/profile_page.dart';
 import 'package:wmn_plus/navigation/bottom_navigation.dart';
 import 'package:wmn_plus/util/config.dart';
 
@@ -104,42 +106,38 @@ class AuthenticatedFertilityRoutes extends StatelessWidget {
       ..init(context);
     return buildRoutes(context);
   }
+
+  List pageOptions(BuildContext context) {
+    return [
+      NewsPage(),
+      ChatListPage(),
+      DiscountsPage(),
+      ProfilPage(),
+    ];
+  }
+
+  List<Widget> barItems(BuildContext context) {
+    return [
+      // NEWS
+      Container(
+        padding: EdgeInsets.all(ScreenUtil().setSp(5)),
+        child: Icon(Icons.list),
+      ),
+      // CHAT
+      Container(
+        padding: EdgeInsets.all(ScreenUtil().setSp(5)),
+        child: Icon(Icons.chat),
+      ),
+      // DISCOUNTS
+      Container(
+        padding: EdgeInsets.all(ScreenUtil().setSp(5)),
+        child: Icon(Icons.shopping_cart),
+      ),
+      // PROFILE
+      Container(
+        padding: EdgeInsets.all(ScreenUtil().setSp(5)),
+        child: Icon(Icons.person),
+      ),
+    ];
+  }
 }
-
-final List pageOptions = [
-  NewsPage(),
-  ProfilePage(),
-  ProfilePage(),
-  ProfilePage(),
-  ChatListPage(),
-  ProfilePage(),
-];
-
-final List<BottomNavigationBarItem> barItems = [
-  // --- NEWS PAGE
-  BottomNavigationBarItem(
-    icon: Icon(Icons.list),
-    title: Text('Новости'),
-  ),
-  BottomNavigationBarItem(
-    icon: Icon(Icons.calendar_today),
-    title: Text('Месячные'),
-  ),
-  BottomNavigationBarItem(
-    icon: Icon(Icons.shop_two),
-    title: Text('Cкидки и Акции'),
-  ),
-  BottomNavigationBarItem(
-    icon: Icon(Icons.shopping_cart),
-    title: Text('Магазин'),
-  ),
-  BottomNavigationBarItem(
-    icon: Icon(Icons.chat),
-    title: Text('Консультация'),
-  ),
-  // --- PROFILE PAGE
-  BottomNavigationBarItem(
-    icon: Icon(Icons.person),
-    title: Text('Профиль'),
-  ),
-];

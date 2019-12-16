@@ -99,7 +99,7 @@ class _PregnantRoutes extends State<AuthenticatedPregnantRoutes> {
         theme: THEME,
         routes: {
           '/': (BuildContext context) => BottomNavigation(
-              pageOptions: pageOptions, barItems: barItems(context)),
+              pageOptions: pageOptions(context), barItems: barItems(context)),
           '/new_consultation': (BuildContext context) => NewConsultationPage(),
           '/discounts': (BuildContext context) => DiscountsPage(),
           '/settings_language': (BuildContext context) => LanguagePage(),
@@ -144,44 +144,38 @@ class _PregnantRoutes extends State<AuthenticatedPregnantRoutes> {
       ..init(context);
     return buildRoutes(context);
   }
-}
 
-final List pageOptions = [
-  NewsPage(),
-  ProfilePage(),
-  DiscountsPage(),
-  ProfilePage(),
-  ChatListPage(),
-  ProfilPage(),
-];
+  List pageOptions(BuildContext context) {
+    return [
+      NewsPage(),
+      ChatListPage(),
+      DiscountsPage(),
+      ProfilPage(),
+    ];
+  }
 
-List<BottomNavigationBarItem> barItems(BuildContext context) {
-  return [
-    // --- NEWS PAGE
-    BottomNavigationBarItem(
-      icon: Icon(Icons.list),
-      title: Text(AppLocalizations.of(context).tr('news')),
-    ),
-    BottomNavigationBarItem(
-      icon: Icon(Icons.calendar_today),
-      title: Text(AppLocalizations.of(context).tr('calendar')),
-    ),
-    BottomNavigationBarItem(
-      icon: Icon(Icons.shop_two),
-      title: Text(AppLocalizations.of(context).tr('discount')),
-    ),
-    BottomNavigationBarItem(
-      icon: Icon(Icons.shopping_cart),
-      title: Text(AppLocalizations.of(context).tr('shop')),
-    ),
-    BottomNavigationBarItem(
-      icon: Icon(Icons.chat),
-      title: Text(AppLocalizations.of(context).tr('chat')),
-    ),
-    // --- PROFILE PAGE
-    BottomNavigationBarItem(
-      icon: Icon(Icons.person),
-      title: Text(AppLocalizations.of(context).tr('profil')),
-    ),
-  ];
+  List<Widget> barItems(BuildContext context) {
+    return [
+      // NEWS
+      Container(
+        padding: EdgeInsets.all(ScreenUtil().setSp(5)),
+        child: Icon(Icons.list),
+      ),
+      // CHAT
+      Container(
+        padding: EdgeInsets.all(ScreenUtil().setSp(5)),
+        child: Icon(Icons.chat),
+      ),
+      // DISCOUNTS
+      Container(
+        padding: EdgeInsets.all(ScreenUtil().setSp(5)),
+        child: Icon(Icons.shopping_cart),
+      ),
+      // PROFILE
+      Container(
+        padding: EdgeInsets.all(ScreenUtil().setSp(5)),
+        child: Icon(Icons.person),
+      ),
+    ];
+  }
 }
