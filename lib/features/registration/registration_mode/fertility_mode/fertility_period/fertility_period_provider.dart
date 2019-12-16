@@ -1,4 +1,9 @@
 import 'dart:async';
+import 'dart:convert';
+
+import 'package:http/http.dart';
+import 'package:wmn_plus/features/auth/model/User.dart';
+import 'package:wmn_plus/features/registration/registration_model.dart';
 
 class FertilityPeriodProvider {
   Future<void> loadAsync(String token) async {
@@ -11,9 +16,23 @@ class FertilityPeriodProvider {
     await Future.delayed(Duration(seconds: 2));
   }
 
-  void test(bool isError) {
-    if (isError == true){
-      throw Exception('manual error');
+  Future<User> registerUser(RegistrationModel registrationModel) async {
+    print(registrationModel.toJson().toString());
+    Response response;
+    try {
+      response = await post('http://194.146.43.98:4000/api/v1/patient/registration',
+          body: json.encode(registrationModel.toJson()),
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "wmn538179",
+          });
+      String body = utf8.decode(response.bodyBytes);
+      Map regObject = json.decode(body);
+      var user = RegistrationModel.fromJson(regObject);
+      print(response.body.toString());
+    } catch (error) {
+      print(error);
+      throw (error.toString());
     }
   }
 }

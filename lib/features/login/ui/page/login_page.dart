@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -19,6 +20,7 @@ class _LoginPageState extends State<LoginPage> {
   void initState() {
     _authBloc = BlocProvider.of<AuthBloc>(context);
     _loginBloc = LoginBloc(authBloc: _authBloc);
+    
     super.initState();
   }
 
@@ -30,9 +32,11 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    
     ScreenUtil.instance =
         ScreenUtil(width: 828, height: 1792, allowFontScaling: true)
           ..init(context);
+    
     return Scaffold(
       body: GestureDetector(
         onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
@@ -48,10 +52,40 @@ class _LoginPageState extends State<LoginPage> {
   buildContent() {
     return SingleChildScrollView(
       child: Container(
+        padding: EdgeInsets.all(20),
         child: Center(
           child: Column(
             children: <Widget>[
-              LoginTitle(),
+              Container(
+                alignment: Alignment.centerLeft,
+                height: ScreenUtil.getInstance().setHeight(700),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    Text(
+                      "Добро пожаловать в",
+                      style: TextStyle(
+                        fontSize: ScreenUtil().setSp(80),
+                        fontWeight: FontWeight.w200,
+                        color: Colors.black,
+                      ),
+                    ),
+                    Text(
+                      "WMN+",
+                      style: TextStyle(
+                        fontSize: ScreenUtil().setSp(90),
+                        fontWeight: FontWeight.w400,
+                        color: Color(0xffD748DA),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 30,
+              ),
+              // LoginTitle(),
               LoginForm(
                 authBloc: _authBloc,
                 loginBloc: _loginBloc,
@@ -62,5 +96,4 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
-
 }

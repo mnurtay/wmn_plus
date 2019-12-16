@@ -56,119 +56,126 @@ class _LoginFormState extends State<LoginForm> {
         BuildContext context,
         LoginState state,
       ) {
-        return Container(
-          height: MediaQuery.of(context).size.height,
-          margin: EdgeInsets.all(ScreenUtil.getInstance().setHeight(80)),
-          child: Center(
-            child: Column(
-              children: <Widget>[
-                TextField(
-                    keyboardType: TextInputType.phone,
-                    controller: loginController,
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12.0),
-                        ),
-                        focusColor: Colors.red,
-                        fillColor: Colors.grey,
-                        labelText: "Телефон")),
-                SizedBox(
-                  height: ScreenUtil.getInstance().setHeight(50),
-                ),
-                TextFormField(
-                  controller: passwordController,
-                  keyboardType: TextInputType.text,
-                  obscureText:
-                      passwordVisible, //This will obscure text dynamically
-                  decoration: InputDecoration(
+        return Column(
+          children: <Widget>[
+            TextField(
+                keyboardType: TextInputType.phone,
+                controller: loginController,
+                decoration: InputDecoration(
                     border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12.0)),
-                    labelText: 'Пароль',
-                    // Here is key idea
-                    suffixIcon: IconButton(
-                      icon: Icon(
-                        // Based on passwordVisible state choose the icon
-                        passwordVisible
-                            ? Icons.visibility
-                            : Icons.visibility_off,
-                        color: Theme.of(context).accentColor,
-                      ),
-                      onPressed: () {
-                        // Update the state i.e. toogle the state of passwordVisible variable
-                        setState(() {
-                          passwordVisible = !passwordVisible;
-                        });
-                      },
+                      borderRadius: BorderRadius.circular(12.0),
                     ),
+                    focusColor: Colors.red,
+                    fillColor: Colors.grey,
+                    labelText: "Телефон")),
+            SizedBox(
+              height: ScreenUtil.getInstance().setHeight(50),
+            ),
+            TextFormField(
+              controller: passwordController,
+              keyboardType: TextInputType.text,
+              obscureText:
+                  passwordVisible, //This will obscure text dynamically
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12.0)),
+                labelText: 'Пароль',
+                // Here is key idea
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    // Based on passwordVisible state choose the icon
+                    passwordVisible
+                        ? Icons.visibility
+                        : Icons.visibility_off,
+                    color: Theme.of(context).accentColor,
                   ),
-                ),
-                SizedBox(
-                  height: ScreenUtil.getInstance().setHeight(70),
-                ),
-                RaisedButton(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: new BorderRadius.circular(12.0),
-                  ),
-                  color: Color(0xffD748DA),
                   onPressed: () {
-                    _onLoginButtonPressed();
+                    // Update the state i.e. toogle the state of passwordVisible variable
+                    setState(() {
+                      passwordVisible = !passwordVisible;
+                    });
                   },
-                  child: Container(
-                    height: ScreenUtil.getInstance().setHeight(70),
-                    margin: EdgeInsets.all(15),
-                    child: Center(
-                      child: Text(
-                        "Войти",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: ScreenUtil.getInstance().setHeight(70),
+            ),
+            Row(
+              children: <Widget>[
+                SizedBox(
+                  width: 10.0,
+                ),
+                Text(
+                  "Войти",
+                  style: TextStyle(
+                    fontSize: ScreenUtil().setSp(55),
+                    fontWeight: FontWeight.w400,
+                    color: Color(0xffD748DA),
                   ),
                 ),
-                SizedBox(height: ScreenUtil.getInstance().setHeight(40)),
-                RaisedButton(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: new BorderRadius.circular(12.0),
-                  ),
-                  color: Color(0xffFD99FF),
-                  onPressed: () {
+                Expanded(
+                  child: Container(),
+                ),
+                GestureDetector(
+                    onTap: () {
+                      _onLoginButtonPressed();
+                    },
+                    child: ClipOval(
+                      child: Container(
+                        color: Color(0xffD748DA),
+                        height: 80.0, // height of the button
+                        width: 80.0, // width of the butto
+                        child: Center(
+                            child: Icon(
+                          Icons.arrow_forward_ios,
+                          color: Colors.white,
+                        )),
+                      ),
+                    )),
+              ],
+            ),
+            SizedBox(height: ScreenUtil.getInstance().setHeight(200)),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                SizedBox(
+                  width: 10.0,
+                ),
+                GestureDetector(
+                  onTap: () {
                     _onDoctorButtonPressed();
                   },
-                  child: Container(
-                    height: ScreenUtil.getInstance().setHeight(70),
-                    margin: EdgeInsets.all(15),
-                    child: Center(
-                      child: Text(
-                        "Я врач",
-                        style: TextStyle(color: Colors.white),
-                      ),
+                  child: Text(
+                    "Я врач",
+                    style: TextStyle(
+                      decoration: TextDecoration.underline,
+                      fontSize: ScreenUtil().setSp(45),
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black,
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: ScreenUtil.getInstance().setHeight(80),
+                Expanded(
+                  child: Container(),
                 ),
-                RaisedButton(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: new BorderRadius.circular(12.0),
-                      side: BorderSide(color: Color(0xFFD748DA))),
-                  color: Colors.white,
-                  onPressed: () {
+                GestureDetector(
+                  onTap: () {
                     Navigator.pushNamed(context, "/registration");
                   },
-                  child: Container(
-                    height: ScreenUtil.getInstance().setHeight(70),
-                    margin: EdgeInsets.all(15),
-                    child: Center(
-                      child: Text(
-                        "Регистрация",
-                        style: TextStyle(color: Color(0xFFD748DA)),
-                      ),
+                  child: Text(
+                    "Регистрация",
+                    style: TextStyle(
+                      decoration: TextDecoration.underline,
+                      fontSize: ScreenUtil().setSp(45),
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black,
                     ),
                   ),
                 ),
               ],
             ),
-          ),
+          ],
         );
       },
     );

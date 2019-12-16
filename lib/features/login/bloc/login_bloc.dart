@@ -26,15 +26,15 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       try {
         final user = await userRepository.authenticate(
             username: event.username, password: event.password);
-        // this is how user login to the page
-        authBloc.add(LoggedInAuthEvent(user: user));
+        if (user.result.token == null) {
+          FailureLoginState(error: "Ошибка авторизации");
+        } else
+          authBloc.add(LoggedInAuthEvent(user: user));
         yield InitialLoginState();
       } catch (error) {
-        yield FailureLoginState(error: error.toString());
+        yield FailureLoginState(error: "Ошибка авторизации");
       }
     }
-    if (event is LoginDoctorEvent){
-      
-    }
+    if (event is LoginDoctorEvent) {}
   }
 }

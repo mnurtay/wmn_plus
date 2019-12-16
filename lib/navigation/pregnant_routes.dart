@@ -3,7 +3,6 @@ import 'package:easy_localization/easy_localization_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:wmn_plus/features/auth/ui/page/profile_page.dart';
 import 'package:wmn_plus/features/consultation/ui/page/chat_list_page.dart';
 import 'package:wmn_plus/features/consultation/ui/page/chat_page.dart';
 import 'package:wmn_plus/features/consultation/ui/page/consultation_payment_page.dart';
@@ -15,8 +14,7 @@ import 'package:wmn_plus/features/discounts/discounts_page.dart';
 import 'package:wmn_plus/features/news/index.dart';
 import 'package:wmn_plus/features/news/news_detail/index.dart';
 import 'package:wmn_plus/features/profile/profile_page.dart';
-import 'package:wmn_plus/features/profile/screen/language_screen.dart';
-import 'package:wmn_plus/features/registration/registration_page.dart';
+import 'package:wmn_plus/features/profile/screen/language/index.dart';
 import 'package:wmn_plus/navigation/bottom_navigation.dart';
 import 'package:wmn_plus/util/config.dart';
 
@@ -101,7 +99,7 @@ class _PregnantRoutes extends State<AuthenticatedPregnantRoutes> {
               pageOptions: pageOptions(context), barItems: barItems(context)),
           '/new_consultation': (BuildContext context) => NewConsultationPage(),
           '/discounts': (BuildContext context) => DiscountsPage(),
-          '/settings_language': (BuildContext context) => LanguageSettings(),
+          '/settings_language': (BuildContext context) => LanguagePage(),
           '/profile': (BuildContext context) => ProfilPage()
         },
         onGenerateRoute: (RouteSettings settings) {
@@ -142,7 +140,7 @@ class _PregnantRoutes extends State<AuthenticatedPregnantRoutes> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context){
     ScreenUtil.instance = ScreenUtil(
         width: DEVICE_WIDTH, height: DEVICE_HEIGHT, allowFontScaling: true)
       ..init(context);
