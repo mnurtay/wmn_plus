@@ -48,8 +48,8 @@ class AuthenticatedDoctorRoutes extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: THEME,
       routes: {
-        '/': (BuildContext context) =>
-            BottomNavigation(pageOptions: pageOptions, barItems: barItems),
+        '/': (BuildContext context) => BottomNavigation(
+            pageOptions: pageOptions(context), barItems: barItems(context)),
       },
     );
   }
@@ -61,22 +61,20 @@ class AuthenticatedDoctorRoutes extends StatelessWidget {
       ..init(context);
     return buildRoutes(context);
   }
+
+  List pageOptions(BuildContext context) {
+    return [
+      NewsPage(),
+      ProfilePage(),
+    ];
+  }
+
+  List<Widget> barItems(BuildContext context) {
+    return [
+      // --- NEWS PAGE
+      Icon(Icons.list),
+      // --- PROFILE PAGE
+      Icon(Icons.person),
+    ];
+  }
 }
-
-final List pageOptions = [
-  NewsPage(),
-  ProfilePage(),
-];
-
-final List<BottomNavigationBarItem> barItems = [
-  // --- NEWS PAGE
-  BottomNavigationBarItem(
-    icon: Icon(Icons.list),
-    title: Text('Новости'),
-  ),
-  // --- PROFILE PAGE
-  BottomNavigationBarItem(
-    icon: Icon(Icons.person),
-    title: Text('Профиль'),
-  ),
-];

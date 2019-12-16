@@ -53,8 +53,8 @@ class AuthenticatedFertilityRoutes extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: THEME,
       routes: {
-        '/': (BuildContext context) =>
-            BottomNavigation(pageOptions: pageOptions, barItems: barItems),
+        '/': (BuildContext context) => BottomNavigation(
+            pageOptions: pageOptions(context), barItems: barItems(context)),
         '/new_consultation': (BuildContext context) => NewConsultationPage(),
       },
       onGenerateRoute: (RouteSettings settings) {
@@ -85,42 +85,28 @@ class AuthenticatedFertilityRoutes extends StatelessWidget {
       ..init(context);
     return buildRoutes(context);
   }
+
+  List pageOptions(BuildContext context) {
+    return [
+      NewsPage(),
+      ProfilePage(),
+      ProfilePage(),
+      ProfilePage(),
+      ChatListPage(),
+      ProfilePage(),
+    ];
+  }
+
+  List<Widget> barItems(BuildContext context) {
+    return [
+      // --- NEWS PAGE
+      Icon(Icons.list),
+      Icon(Icons.calendar_today),
+      Icon(Icons.shop_two),
+      Icon(Icons.shopping_cart),
+      Icon(Icons.chat),
+      // --- PROFILE PAGE
+      Icon(Icons.person),
+    ];
+  }
 }
-
-final List pageOptions = [
-  NewsPage(),
-  ProfilePage(),
-  ProfilePage(),
-  ProfilePage(),
-  ChatListPage(),
-  ProfilePage(),
-];
-
-final List<BottomNavigationBarItem> barItems = [
-  // --- NEWS PAGE
-  BottomNavigationBarItem(
-    icon: Icon(Icons.list),
-    title: Text('Новости'),
-  ),
-  BottomNavigationBarItem(
-    icon: Icon(Icons.calendar_today),
-    title: Text('Месячные'),
-  ),
-  BottomNavigationBarItem(
-    icon: Icon(Icons.shop_two),
-    title: Text('Cкидки и Акции'),
-  ),
-  BottomNavigationBarItem(
-    icon: Icon(Icons.shopping_cart),
-    title: Text('Магазин'),
-  ),
-  BottomNavigationBarItem(
-    icon: Icon(Icons.chat),
-    title: Text('Консультация'),
-  ),
-  // --- PROFILE PAGE
-  BottomNavigationBarItem(
-    icon: Icon(Icons.person),
-    title: Text('Профиль'),
-  ),
-];

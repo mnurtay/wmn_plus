@@ -97,7 +97,7 @@ class _PregnantRoutes extends State<AuthenticatedPregnantRoutes> {
         theme: THEME,
         routes: {
           '/': (BuildContext context) => BottomNavigation(
-              pageOptions: pageOptions, barItems: barItems(context)),
+              pageOptions: pageOptions(context), barItems: barItems(context)),
           '/new_consultation': (BuildContext context) => NewConsultationPage(),
           '/discounts': (BuildContext context) => DiscountsPage(),
           '/settings_language': (BuildContext context) => LanguageSettings(),
@@ -144,42 +144,26 @@ class _PregnantRoutes extends State<AuthenticatedPregnantRoutes> {
   }
 }
 
-final List pageOptions = [
-  NewsPage(),
-  ProfilePage(),
-  DiscountsPage(),
-  ProfilePage(),
-  ChatListPage(),
-  ProfilPage(),
-];
+List pageOptions(BuildContext context) {
+  return [
+    NewsPage(),
+    ProfilePage(),
+    DiscountsPage(),
+    ProfilePage(),
+    ChatListPage(),
+    ProfilPage(),
+  ];
+}
 
-List<BottomNavigationBarItem> barItems(BuildContext context) {
+List<Widget> barItems(BuildContext context) {
   return [
     // --- NEWS PAGE
-    BottomNavigationBarItem(
-      icon: Icon(Icons.list),
-      title: Text(AppLocalizations.of(context).tr('news')),
-    ),
-    BottomNavigationBarItem(
-      icon: Icon(Icons.calendar_today),
-      title: Text(AppLocalizations.of(context).tr('calendar')),
-    ),
-    BottomNavigationBarItem(
-      icon: Icon(Icons.shop_two),
-      title: Text(AppLocalizations.of(context).tr('discount')),
-    ),
-    BottomNavigationBarItem(
-      icon: Icon(Icons.shopping_cart),
-      title: Text(AppLocalizations.of(context).tr('shop')),
-    ),
-    BottomNavigationBarItem(
-      icon: Icon(Icons.chat),
-      title: Text(AppLocalizations.of(context).tr('chat')),
-    ),
+    Icon(Icons.list),
+    Icon(Icons.calendar_today),
+    Icon(Icons.shop_two),
+    Icon(Icons.shopping_cart),
+    Icon(Icons.chat),
     // --- PROFILE PAGE
-    BottomNavigationBarItem(
-      icon: Icon(Icons.person),
-      title: Text(AppLocalizations.of(context).tr('profil')),
-    ),
+    Icon(Icons.person),
   ];
 }
