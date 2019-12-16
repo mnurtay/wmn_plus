@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:wmn_plus/features/news/news_detail/index.dart';
 
 class NewsDetailScreen extends StatefulWidget {
@@ -28,8 +29,6 @@ class NewsDetailScreenState extends State<NewsDetailScreen> {
   void initState() {
     super.initState();
     widget._newsDetailBloc.add(LoadNewsDetailEvent(widget._id));
-    print("news id " + widget._id);
-    // this._load();
   }
 
   @override
@@ -38,51 +37,6 @@ class NewsDetailScreenState extends State<NewsDetailScreen> {
   }
 
   Widget build(BuildContext context) {
-    // return Scaffold(
-    //   body: DefaultTabController(
-    //     length: 2,
-    //     child: NestedScrollView(
-    //       headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-    //         return <Widget>[
-    //           SliverAppBar(
-    //             expandedHeight: 200.0,
-    //             floating: false,
-    //             pinned: true,
-    //             flexibleSpace: FlexibleSpaceBar(
-    //                 centerTitle: true,
-    //                 title: Text("Как стать беременной?",
-    //                     style: TextStyle(
-    //                       color: Colors.white,
-    //                       fontSize: 16.0,
-    //                     )),
-    //                 background: Image.network(
-    //                   "https://medaboutme.ru/upload/iblock/c28/shutterstock_526489315.jpg",
-    //                   fit: BoxFit.cover,
-    //                 )),
-    //           ),
-    //           SliverPersistentHeader(
-    //             delegate: _SliverAppBarDelegate(
-    //               TabBar(
-    //                 labelColor: Colors.black87,
-    //                 unselectedLabelColor: Colors.grey,
-    //                 tabs: [
-    //                   Tab(icon: Icon(Icons.info), text: "Tab 1"),
-    //                   Tab(icon: Icon(Icons.lightbulb_outline), text: "Tab 2"),
-    //                 ],
-    //               ),
-    //             ),
-    //             pinned: true,
-    //           ),
-    //         ];
-    //       },
-    //       body: Center(
-    //         child: Text(
-    //             "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum,  comes from a line in section 1.10.32.The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from  by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham"),
-    //       ),
-    //     ),
-    //   ),
-    // );
-
     return BlocBuilder<NewsDetailBloc, NewsDetailState>(
         bloc: widget._newsDetailBloc,
         builder: (
@@ -120,7 +74,7 @@ class NewsDetailScreenState extends State<NewsDetailScreen> {
                 },
                 body: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text(currentState.newsDetail.result.content)
+                  child: Html(data: currentState.newsDetail.result.content)
                 ),
               ),
             );
@@ -132,10 +86,6 @@ class NewsDetailScreenState extends State<NewsDetailScreen> {
         });
   }
 }
-// void _load([bool isError = false]) {
-//   widget._newsDetailBloc.add(UnNewsDetailEvent());
-//   widget._newsDetailBloc.add(LoadNewsDetailEvent(isError));
-// }
 
 class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   _SliverAppBarDelegate(this._tabBar);

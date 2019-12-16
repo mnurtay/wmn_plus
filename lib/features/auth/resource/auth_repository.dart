@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wmn_plus/features/auth/model/User.dart';
@@ -38,14 +40,26 @@ class UserRepository {
     SharedPreferences spInstance = await SharedPreferences.getInstance();
     String jsonString = spInstance.getString(spKey);
     if (jsonString != null) {
-      return User.jsonStringToObject(jsonString);
+      return User.fromJson(json.decode(jsonString));
     }
-    return User.anonymous();
+    return User();
   }
+
+  Future<void> setFirstLaunch() async {
+    SharedPreferences spInstance = await SharedPreferences.getInstance();
+    spInstance.setBool("isFirstLaunch", false);
+  }
+
+  Future<void> offFirstLaunch() async {
+    SharedPreferences spInstance = await SharedPreferences.getInstance();
+    spInstance.setBool("isFirstLaunch", false);
+  }
+
+ 
 
   Future<void> persistUser(User user) async {
     SharedPreferences spInstance = await SharedPreferences.getInstance();
-    await spInstance.setString(spKey, user.objectToJsonString());
+    await spInstance.setString(spKey, jsonEncode(user));
   }
 
   Future<void> deleteUser() async {

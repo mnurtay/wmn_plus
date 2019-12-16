@@ -14,7 +14,6 @@ class RegistrationModeBloc extends Bloc<RegistrationModeEvent, RegistrationModeS
   
   @override
   Future<void> close() async{
-    _registrationModeBlocSingleton.close();
     super.close();
   }
 

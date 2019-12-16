@@ -40,6 +40,8 @@ class NewsModel extends Equatable {
     return NewsModel(json['id'], json['title'],json['image_url']);
   }
 
+  get imageUrl => "http://194.146.43.98:4000/image?uri=/home/golang/src/wmn/" + this.image;
+
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = Map<String, dynamic>();
     data['id'] = this.id;

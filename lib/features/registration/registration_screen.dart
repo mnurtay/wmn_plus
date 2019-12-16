@@ -69,8 +69,7 @@ class RegistrationScreenState extends State<RegistrationScreen> {
             );
           }
           if (currentState is ErrorRegistrationState) {
-            return Center(
-                child: Text(currentState.errorMessage ?? 'Error'));
+            return Center(child: Text(currentState.errorMessage ?? 'Error'));
           }
 
           return Column(
@@ -108,91 +107,91 @@ class RegistrationScreenState extends State<RegistrationScreen> {
                             ),
                           ),
                           SizedBox(
-                            height: 30,
+                            height: 10,
                           ),
                           Text(
-                            "Выбрать фото профиля",
+                            "Конфиденциальность гарантируется *",
                             style: TextStyle(
-                                fontSize: ScreenUtil().setSp(40),
-                                fontWeight: FontWeight.w300,
+                                fontSize: ScreenUtil().setSp(23),
+                                fontWeight: FontWeight.w200,
                                 color: Colors.grey.shade900,
                                 letterSpacing: 0.3),
                           ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: <Widget>[
-                              Container(
-                                  height:
-                                      ScreenUtil.getInstance().setHeight(310),
-                                  width: ScreenUtil.getInstance().setWidth(310),
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: Colors.grey,
-                                      image: DecorationImage(
-                                          fit: BoxFit.cover,
-                                          image: AssetImage("assetName")))),
-                              SizedBox(
-                                width: 20,
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: <Widget>[
-                                  RaisedButton(
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            new BorderRadius.circular(10.0),
-                                        side: BorderSide(color: Colors.grey)),
-                                    color: Colors.white,
-                                    onPressed: () {
-                                      // Navigator.pushNamed(context, "/registration");
-                                    },
-                                    child: Container(
-                                      height: ScreenUtil.getInstance()
-                                          .setHeight(50),
-                                      width: ScreenUtil.getInstance()
-                                          .setWidth(200),
-                                      child: Center(
-                                        child: Text(
-                                          "Убрать фото",
-                                          style: TextStyle(
-                                              color: Colors.grey.shade900,
-                                              fontSize: ScreenUtil().setSp(22)),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  RaisedButton(
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            new BorderRadius.circular(10.0),
-                                        side: BorderSide(
-                                            color: Color(0xFFD748DA))),
-                                    color: Color(0xFFD748DA),
-                                    onPressed: () {
-                                      // Navigator.pushNamed(context, "/registration");
-                                    },
-                                    child: Container(
-                                      height: ScreenUtil.getInstance()
-                                          .setHeight(50),
-                                      width: ScreenUtil.getInstance()
-                                          .setWidth(200),
-                                      child: Center(
-                                        child: Text(
-                                          "Добавить фото",
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: ScreenUtil().setSp(22)),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
+                          // SizedBox(
+                          //   height: 10,
+                          // ),
+                          // Row(
+                          //   crossAxisAlignment: CrossAxisAlignment.end,
+                          //   children: <Widget>[
+                          //     Container(
+                          //         height:
+                          //             ScreenUtil.getInstance().setHeight(310),
+                          //         width: ScreenUtil.getInstance().setWidth(310),
+                          //         decoration: BoxDecoration(
+                          //             borderRadius: BorderRadius.circular(10),
+                          //             color: Colors.grey,
+                          //             image: DecorationImage(
+                          //                 fit: BoxFit.cover,
+                          //                 image: AssetImage("assetName")))),
+                          //     SizedBox(
+                          //       width: 20,
+                          //     ),
+                          //     Column(
+                          //       crossAxisAlignment: CrossAxisAlignment.end,
+                          //       children: <Widget>[
+                          //         RaisedButton(
+                          //           shape: RoundedRectangleBorder(
+                          //               borderRadius:
+                          //                   new BorderRadius.circular(10.0),
+                          //               side: BorderSide(color: Colors.grey)),
+                          //           color: Colors.white,
+                          //           onPressed: () {
+                          //             // Navigator.pushNamed(context, "/registration");
+                          //           },
+                          //           child: Container(
+                          //             height: ScreenUtil.getInstance()
+                          //                 .setHeight(50),
+                          //             width: ScreenUtil.getInstance()
+                          //                 .setWidth(200),
+                          //             child: Center(
+                          //               child: Text(
+                          //                 "Убрать фото",
+                          //                 style: TextStyle(
+                          //                     color: Colors.grey.shade900,
+                          //                     fontSize: ScreenUtil().setSp(22)),
+                          //               ),
+                          //             ),
+                          //           ),
+                          //         ),
+                          //         RaisedButton(
+                          //           shape: RoundedRectangleBorder(
+                          //               borderRadius:
+                          //                   new BorderRadius.circular(10.0),
+                          //               side: BorderSide(
+                          //                   color: Color(0xFFD748DA))),
+                          //           color: Color(0xFFD748DA),
+                          //           onPressed: () {
+                          //             // Navigator.pushNamed(context, "/registration");
+                          //           },
+                          //           child: Container(
+                          //             height: ScreenUtil.getInstance()
+                          //                 .setHeight(50),
+                          //             width: ScreenUtil.getInstance()
+                          //                 .setWidth(200),
+                          //             child: Center(
+                          //               child: Text(
+                          //                 "Добавить фото",
+                          //                 style: TextStyle(
+                          //                     color: Colors.white,
+                          //                     fontSize: ScreenUtil().setSp(22)),
+                          //               ),
+                          //             ),
+                          //           ),
+                          //         ),
+                          //       ],
+                          //     ),
+                          //   ],
+                          // ),
                           SizedBox(
                             height: 30,
                           ),
@@ -353,8 +352,13 @@ class RegistrationScreenState extends State<RegistrationScreen> {
         Expanded(
           child: Container(),
         ),
-        Container(
-          child: Text("Пропустить"),
+        InkWell(
+          onTap: () {
+            Navigator.of(context).pop();
+          },
+          child: Container(
+            child: Text("Назад"),
+          ),
         ),
       ],
     );

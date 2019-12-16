@@ -104,7 +104,7 @@ class NewsScreenState extends State<NewsScreen> {
                 ));
               }
               if (currentState is InNewsState) {
-                print("InNewsState + ${currentState.newsList}");
+        
                 return Expanded(
                   child: new ListView.builder(
                     padding:
@@ -133,7 +133,7 @@ class NewsScreenState extends State<NewsScreen> {
       child: Container(
           margin:
               EdgeInsets.only(bottom: ScreenUtil.getInstance().setHeight(25)),
-          height: ScreenUtil.getInstance().setHeight(500),
+          height: ScreenUtil.getInstance().setHeight(400),
           width: MediaQuery.of(context).size.width,
           child: Container(
             alignment: Alignment.bottomLeft,
@@ -151,7 +151,7 @@ class NewsScreenState extends State<NewsScreen> {
               borderRadius: BorderRadius.circular(10),
               color: Colors.black,
               image: DecorationImage(
-                  fit: BoxFit.cover, image: NetworkImage(data.image)))),
+                  fit: BoxFit.cover, image: NetworkImage(data.imageUrl)))),
     );
   }
 

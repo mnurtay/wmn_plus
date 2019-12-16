@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:http/http.dart';
+import 'package:wmn_plus/features/auth/resource/auth_repository.dart';
 import 'package:wmn_plus/features/news/news_model.dart';
 
 class NewsProvider {
@@ -11,15 +12,17 @@ class NewsProvider {
   }
 
   Future<List<NewsModel>> fetchMoreNews(int pageIndex, int category) async {
-    /// write from keystore/keychain
+    
+    var userRepo = UserRepository();
+
     Response response;
     try {
-      print(category.toString() + "  sSSSSS");
+      var user = await userRepo.getCurrentUser();
       response = await post('http://194.146.43.98:4000/api/v1/patient/news',
           body: json.encode({'id': category, 'pageIndex': pageIndex}),
           headers: {
             "Content-Type": "application/json",
-            "Authorization": "wmn538179",
+            "Authorization": "wmn538179 ${user.result.token}",
           });
       String body = utf8.decode(response.bodyBytes);
       Map newsObject = json.decode(body);

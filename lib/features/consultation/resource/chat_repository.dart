@@ -33,14 +33,14 @@ class ChatRepository {
   Future<List<Doctor>> fetchDoctorsList({@required int categoryId}) async {
     User user = await userRepository.getCurrentUser();
     List<Doctor> doctors = await chatApiProvider.fetchDoctorsList(
-        token: user.getToken, categoryId: categoryId);
+        token: user.result.token, categoryId: categoryId);
     return doctors;
   }
 
   Future<Map> fetchConsultationPayment({@required int doctorId}) async {
     User user = await userRepository.getCurrentUser();
     Map payment = await chatApiProvider.fetchConsultationPayment(
-        doctorId: doctorId, token: user.getToken);
+        doctorId: doctorId, token: user.result.token);
     return payment;
   }
 }
