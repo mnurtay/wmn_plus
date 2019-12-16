@@ -30,20 +30,16 @@ class FertilityPeriodBloc
   ) async* {
     try {
       if (event is CompleteRegistrationEvent) {
-        var status = await fertilityPeriodRepository
+        var user = await fertilityPeriodRepository
             .requestUserRegistration(event.registrationModel);
-        if (status) {
-          var user = await userRepository.authenticate(
-              username: "event.username", password: "event.password");
-          // this is how user login to the page
+        if (user.result.token.isNotEmpty)
           authBloc.add(LoggedInAuthEvent(user: user));
-        }
       }
       yield await event.applyAsync(currentState: state, bloc: this);
     } catch (_, stackTrace) {
       developer.log('$_',
           name: 'FertilityPeriodBloc', error: _, stackTrace: stackTrace);
-      yield state;
+      yield ErrorFertilityPeriodState(0, _.toString());
     }
   }
 }

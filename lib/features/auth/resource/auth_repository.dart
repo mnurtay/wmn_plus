@@ -40,27 +40,22 @@ class UserRepository {
     SharedPreferences spInstance = await SharedPreferences.getInstance();
     String jsonString = spInstance.getString(spKey);
     if (jsonString != null) {
-    
       return User.fromJson(json.decode(jsonString));
     }
     return User();
   }
 
   Future<void> setFirstLaunch() async {
-      SharedPreferences spInstance = await SharedPreferences.getInstance();
-      spInstance.setBool("isFirstLaunch", true);
-  }
-
-   Future<void> offFirstLaunch() async {
-      SharedPreferences spInstance = await SharedPreferences.getInstance();
-      spInstance.setBool("isFirstLaunch", false);
-  }
-
-  Future<bool> isFirstLaunch() async {
     SharedPreferences spInstance = await SharedPreferences.getInstance();
-    var first = spInstance.getBool("isFirstLaunch");
-    return first;
+    spInstance.setBool("isFirstLaunch", false);
   }
+
+  Future<void> offFirstLaunch() async {
+    SharedPreferences spInstance = await SharedPreferences.getInstance();
+    spInstance.setBool("isFirstLaunch", false);
+  }
+
+ 
 
   Future<void> persistUser(User user) async {
     SharedPreferences spInstance = await SharedPreferences.getInstance();

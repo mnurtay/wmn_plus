@@ -141,6 +141,7 @@ class FertilityPeriodScreenState extends State<FertilityPeriodScreen> {
                       firstname: widget._registrationModel.firstname,
                       password: widget._registrationModel.password,
                       dateOfBirth: "12/14/2019",
+                      pushToken: "00",
                       surname: "sample",
                       phone: widget._registrationModel.phone,
                       fertility: Fertility(

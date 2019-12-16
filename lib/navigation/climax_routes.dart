@@ -1,4 +1,7 @@
+import 'package:easy_localization/easy_localization_delegate.dart';
+import 'package:easy_localization/easy_localization_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wmn_plus/features/auth/ui/page/profile_page.dart';
 import 'package:wmn_plus/features/consultation/ui/page/chat_list_page.dart';
@@ -54,32 +57,48 @@ class AuthenticatedClimaxRoutes extends StatefulWidget {
 
 class _ClimaxRoutes extends State<AuthenticatedClimaxRoutes> {
   Widget buildRoutes(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: THEME,
-      routes: {
-        '/': (BuildContext context) =>
-            BottomNavigation(pageOptions: pageOptions, barItems: barItems),
-        '/new_consultation': (BuildContext context) => NewConsultationPage(),
-      },
-      onGenerateRoute: (RouteSettings settings) {
-        if (settings.name == '/doctors_list') {
-          return MaterialPageRoute(
-              builder: (BuildContext context) =>
-                  DoctorsListPage(category: settings.arguments));
-        }
-        if (settings.name == '/chat_page') {
-          return MaterialPageRoute(
-              builder: (BuildContext context) =>
-                  ChatPage(doctor: settings.arguments));
-        }
-        if (settings.name == '/doctor_page') {
-          return MaterialPageRoute(
-              builder: (BuildContext context) =>
-                  DoctorPage(doctor: settings.arguments));
-        }
-        return null;
-      },
+    var data = EasyLocalizationProvider.of(context).data;
+    return EasyLocalizationProvider(
+      data: data,
+      child: MaterialApp(
+        localizationsDelegates: [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          //app-specific localization
+          EasylocaLizationDelegate(locale: data.locale, path: 'path'),
+        ],
+        supportedLocales: [
+          Locale('ru', 'RU'),
+          Locale('en', 'US'),
+          Locale('kk', 'KZ')
+        ],
+        locale: data.savedLocale,
+        debugShowCheckedModeBanner: false,
+        theme: THEME,
+        routes: {
+          '/': (BuildContext context) =>
+              BottomNavigation(pageOptions: pageOptions, barItems: barItems),
+          '/new_consultation': (BuildContext context) => NewConsultationPage(),
+        },
+        onGenerateRoute: (RouteSettings settings) {
+          if (settings.name == '/doctors_list') {
+            return MaterialPageRoute(
+                builder: (BuildContext context) =>
+                    DoctorsListPage(category: settings.arguments));
+          }
+          if (settings.name == '/chat_page') {
+            return MaterialPageRoute(
+                builder: (BuildContext context) =>
+                    ChatPage(doctor: settings.arguments));
+          }
+          if (settings.name == '/doctor_page') {
+            return MaterialPageRoute(
+                builder: (BuildContext context) =>
+                    DoctorPage(doctor: settings.arguments));
+          }
+          return null;
+        },
+      ),
     );
   }
 

@@ -29,7 +29,9 @@ class Result {
   String firstname;
   String surname;
   String phone;
+  String pushToken;
   String password;
+  String regime;
   String language;
   String dateOfBirth;
   Pregnancy pregnancy;
@@ -40,6 +42,8 @@ class Result {
       this.token,
       this.firstname,
       this.surname,
+      this.regime,
+      this.pushToken,
       this.phone,
       this.password,
       this.language,
@@ -50,8 +54,10 @@ class Result {
   Result.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     token = json['token'];
+    pushToken = json['pushToken'];
     firstname = json['firstname'];
     surname = json['surname'];
+    regime = json['regime'];
     phone = json['phone'];
     password = json['password'];
     language = json['language'];
@@ -68,9 +74,11 @@ class Result {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['token'] = this.token;
+    data['push_token'] = this.pushToken;
     data['firstname'] = this.firstname;
     data['surname'] = this.surname;
     data['phone'] = this.phone;
+    data['regime'] = this.regime;
     data['password'] = this.password;
     data['language'] = this.language;
     data['dateOfBirth'] = this.dateOfBirth;

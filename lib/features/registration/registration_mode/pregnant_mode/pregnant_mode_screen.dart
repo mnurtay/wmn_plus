@@ -122,6 +122,7 @@ class PregnantModeScreenState extends State<PregnantModeScreen> {
                       firstname: widget._registrationModel.firstname,
                       surname: "surname",
                       dateOfBirth: "11/01/1900",
+                      pushToken: "00",
                       password: widget._registrationModel.password,
                       phone: widget._registrationModel.phone,
                     pregnancy: Pregnancy(

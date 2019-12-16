@@ -2,12 +2,13 @@ import 'package:easy_localization/easy_localization_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wmn_plus/features/auth/bloc/bloc.dart';
 import 'package:wmn_plus/features/auth/ui/page/loading_page.dart';
 import 'package:wmn_plus/features/auth/ui/page/splash_page.dart';
 import 'package:wmn_plus/features/login/ui/doctor/doctor_login.dart';
 import 'package:wmn_plus/features/login/ui/page/login_page.dart';
-import 'package:wmn_plus/features/profile/screen/language_screen.dart';
+import 'package:wmn_plus/features/profile/screen/language/language_page.dart';
 import 'package:wmn_plus/features/registration/registration_mode/fertility_mode/fertility_duration/fertility_duration_page.dart';
 import 'package:wmn_plus/features/registration/registration_mode/fertility_mode/fertility_period/fertility_period_page.dart';
 import 'package:wmn_plus/features/registration/registration_mode/fertility_mode/index.dart';
@@ -60,36 +61,39 @@ class _AppState extends State<App> {
           builder: (BuildContext context) => authBloc,
         ),
       ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: BlocBuilder<AuthBloc, AuthState>(
-          bloc: authBloc,
-          builder: (BuildContext context, AuthState state) {
-            if (state is UninitializedAuthState) {
-              return SplashPage();
-            }
-            if (state is AuthenticatedAuthState) {
-              return AuthenticatedPregnantRoutes(); // pregnant mode by default
-            }
-            if (state is AuthenticatedDoctorAuthState) {
-              return AuthenticatedDoctorRoutes();
-            }
-            if (state is UnauthenticatedAuthState) {
-              return UnauthenticatedApp();
-            }
-            if (state is LoadingAuthState) {
-              return LoadingPage();
-            }
-            if (state is ChooseLanguageAuthState){
-              return LanguageSettings();
-            }
-            if (state is AuthenticatedFertilityModeState) {
-              return AuthenticatedFertilityRoutes();
-            }
-            if (state is AuthenticatedClimaxModeState) {
-              return AuthenticatedClimaxRoutes();
-            }
-          },
+      child: EasyLocalizationProvider(
+        data: data,
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          home: BlocBuilder<AuthBloc, AuthState>(
+            bloc: authBloc,
+            builder: (BuildContext context, AuthState state) {
+              if (state is UninitializedAuthState) {
+                return SplashScreen(data);
+              }
+              if (state is AuthenticatedAuthState) {
+                return AuthenticatedPregnantRoutes(); // pregnant mode by default
+              }
+              if (state is AuthenticatedDoctorAuthState) {
+                return AuthenticatedDoctorRoutes();
+              }
+              if (state is UnauthenticatedAuthState) {
+                return UnauthenticatedApp();
+              }
+              if (state is LoadingAuthState) {
+                return LoadingPage();
+              }
+              if (state is ChooseLanguageAuthState) {
+                return LanguagePage();
+              }
+              if (state is AuthenticatedFertilityModeState) {
+                return AuthenticatedFertilityRoutes();
+              }
+              if (state is AuthenticatedClimaxModeState) {
+                return AuthenticatedClimaxRoutes();
+              }
+            },
+          ),
         ),
       ),
     );

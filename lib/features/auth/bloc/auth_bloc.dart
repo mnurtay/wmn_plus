@@ -18,11 +18,19 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     if (event is AppStartedAuthEvent) {
       final bool isAuthenticated = await userRepository.isAuthenticated();
       if (isAuthenticated) {
-          final currentUser = await userRepository.getCurrentUser();
-          yield AuthenticatedAuthState(user: currentUser);
-        } else {
-          yield UnauthenticatedAuthState();
+        final currentUser = await userRepository.getCurrentUser();
+        var mode = currentUser.result.regime;
+        if (mode == "fertility") {
+          yield AuthenticatedFertilityModeState(user: currentUser);
+        } else if (mode == "pregnancy") {
+          yield AuthenticatedAuthState(
+              user: currentUser); //pregnancy default mode
+        } else if (mode == "climax") {
+          yield AuthenticatedClimaxModeState(user: currentUser);
         }
+      } else {
+        yield UnauthenticatedAuthState();
+      }
     }
 
     // App login mechanism
@@ -30,7 +38,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       yield LoadingAuthState();
       await userRepository.persistUser(event.user);
       final currentUser = await userRepository.getCurrentUser();
-      yield AuthenticatedAuthState(user: currentUser);
+      var mode = currentUser.result.regime;
+      if (mode == "fertility") {
+        yield AuthenticatedFertilityModeState(user: currentUser);
+      } else if (mode == "pregnancy") {
+        yield AuthenticatedAuthState(
+            user: currentUser); //pregnancy default mode
+      } else if (mode == "climax") {
+        yield AuthenticatedClimaxModeState(user: currentUser);
+      }
     }
 
     if (event is ChangeAppModeFertilityEvent) {

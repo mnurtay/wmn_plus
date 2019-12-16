@@ -28,17 +28,19 @@ class PregnantModeBloc extends Bloc<PregnantModeEvent, PregnantModeState> {
   ) async* {
     try {
       if (event is CompleteRegistrationEvent) {
-        var user = await _pregnantModeRepository.requestUserRegistration(event.registrationModel);
+        var user = await _pregnantModeRepository
+            .requestUserRegistration(event.registrationModel);
         // await userRepository.setFirstLaunch();
         // var userModel = await userRepository.authenticate(
         //     username: "event.username", password: "event.password");
-        authBloc.add(LoggedInAuthEvent(user: user));
+        if (user.result.token.isNotEmpty)
+          authBloc.add(LoggedInAuthEvent(user: user));
       }
       yield await event.applyAsync(currentState: state, bloc: this);
     } catch (_, stackTrace) {
       developer.log('$_',
           name: 'PregnantModeBloc', error: _, stackTrace: stackTrace);
-      yield state;
+      yield ErrorPregnantModeState(0, "Попробуйте, позже");
     }
   }
 }

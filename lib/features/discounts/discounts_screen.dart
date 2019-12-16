@@ -97,10 +97,10 @@ class DiscountsScreenState extends State<DiscountsScreen> {
                 return Center();
               }
               if (currentState is InDiscountsState) {
-                return new Expanded(
+                return  Expanded(
                   child: new ListView.builder(
                     padding:
-                        EdgeInsets.all(ScreenUtil.getInstance().setHeight(50)),
+                        EdgeInsets.all(ScreenUtil.getInstance().setHeight(30)),
                     itemCount: currentState.discount.result.length,
                     itemBuilder: (context, index) {
                       // return buildItem(context);
@@ -132,7 +132,7 @@ class DiscountsScreenState extends State<DiscountsScreen> {
       child: Container(
           margin:
               EdgeInsets.only(bottom: ScreenUtil.getInstance().setHeight(25)),
-          height: ScreenUtil.getInstance().setHeight(700),
+          height: ScreenUtil.getInstance().setHeight(600),
           width: MediaQuery.of(context).size.width,
           child: Container(
             alignment: Alignment.bottomLeft,
