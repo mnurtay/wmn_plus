@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wmn_plus/features/auth/ui/page/profile_page.dart';
 import 'package:wmn_plus/features/consultation/ui/page/chat_list_page.dart';
 import 'package:wmn_plus/features/consultation/ui/page/chat_page.dart';
+import 'package:wmn_plus/features/consultation/ui/page/consultation_payment_page.dart';
 import 'package:wmn_plus/features/consultation/ui/page/doctor_page.dart';
 import 'package:wmn_plus/features/consultation/ui/page/doctors_list_page.dart';
 import 'package:wmn_plus/features/consultation/ui/page/new_consultation_page.dart';
@@ -68,12 +69,17 @@ class AuthenticatedFertilityRoutes extends StatelessWidget {
         if (settings.name == '/chat_page') {
           return MaterialPageRoute(
               builder: (BuildContext context) =>
-                  ChatPage(doctor: settings.arguments));
+                  ChatPage(consultation: settings.arguments));
         }
         if (settings.name == '/doctor_page') {
           return MaterialPageRoute(
               builder: (BuildContext context) =>
                   DoctorPage(doctor: settings.arguments));
+        }
+        if (settings.name == '/consultation_payment') {
+          return MaterialPageRoute(
+              builder: (BuildContext context) =>
+                  ConsulatationPaymentPage(url: settings.arguments));
         }
         return null;
       },

@@ -22,7 +22,7 @@ class _DoctorPageState extends State<DoctorPage> {
   }
 
   void onPressConsultationButton() {
-    consultationBloc.add(ConsultatinPaymentEvent(doctorId: widget.doctor.id));
+    consultationBloc.add(ConsultationPaymentEvent(doctorId: widget.doctor.id));
     _showModal();
   }
 
@@ -60,7 +60,8 @@ class _DoctorPageState extends State<DoctorPage> {
                 context: context,
                 child: paymentContent(context, state.payment));
           }
-          return modalBody(context: context, child: existPaymentContent(context));
+          return modalBody(
+              context: context, child: existPaymentContent(context));
         }
         // -- error state
         return modalBody(context: context, child: errorContent(context));
@@ -70,17 +71,26 @@ class _DoctorPageState extends State<DoctorPage> {
 
   Widget existPaymentContent(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(25)),
+      padding: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(10)),
       alignment: Alignment.center,
       child: Column(
         children: <Widget>[
-          SizedBox(height: ScreenUtil().setHeight(50)),
+          SizedBox(height: ScreenUtil().setHeight(30)),
           Container(
             width: ScreenUtil().width,
-            padding:
-                EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(60)),
+            padding: EdgeInsets.symmetric(
+              horizontal: ScreenUtil().setWidth(60),
+            ),
             child: RaisedButton(
-              onPressed: () => Navigator.pushNamed(context, "/chat_page", arguments: widget.doctor),
+              onPressed: () => Navigator.pushNamed(context, "/"),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(ScreenUtil().setSp(25)),
+                ),
+              ),
+              padding: EdgeInsets.symmetric(
+                vertical: ScreenUtil().setHeight(35),
+              ),
               child: Text(
                 "Написать сообщение",
                 style: TextStyle(
@@ -114,10 +124,30 @@ class _DoctorPageState extends State<DoctorPage> {
           SizedBox(height: ScreenUtil().setHeight(30)),
           Container(
             width: ScreenUtil().width,
-            padding:
-                EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(60)),
+            padding: EdgeInsets.symmetric(
+              horizontal: ScreenUtil().setWidth(60),
+            ),
             child: RaisedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pop(context);
+                Navigator.pushNamed(
+                  context,
+                  '/consultation_payment',
+                  arguments: payment['result'],
+                ).whenComplete(() {
+                  consultationBloc.add(
+                      ConsultationPaymentEvent(doctorId: widget.doctor.id));
+                  _showModal();
+                });
+              },
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(ScreenUtil().setSp(25)),
+                ),
+              ),
+              padding: EdgeInsets.symmetric(
+                vertical: ScreenUtil().setHeight(35),
+              ),
               child: Text(
                 "Оплатить",
                 style: TextStyle(
@@ -186,7 +216,7 @@ class _DoctorPageState extends State<DoctorPage> {
       builder: (BuildContext context) {
         return Container(
           color: Color(0XFF737373),
-          height: ScreenUtil().setHeight(500),
+          height: ScreenUtil().setHeight(600),
           child: Container(
             decoration: BoxDecoration(
               color: Colors.black,

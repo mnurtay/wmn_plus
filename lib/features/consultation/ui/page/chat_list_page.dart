@@ -90,7 +90,7 @@ class _ChatListPageState extends State<ChatListPage> {
   Widget chatItem(BuildContext context, Consultation consultation) {
     return GestureDetector(
       onTap: () => Navigator.pushNamed(context, '/chat_page',
-          arguments: consultation.doctor),
+          arguments: consultation),
       child: Container(
         decoration: BoxDecoration(
           color: Colors.white,

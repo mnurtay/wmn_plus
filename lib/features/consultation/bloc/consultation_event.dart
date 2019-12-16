@@ -24,9 +24,9 @@ class FetchDoctorsListEvent extends ConsultationEvent {
   List<Object> get props => null;
 }
 
-class ConsultatinPaymentEvent extends ConsultationEvent {
+class ConsultationPaymentEvent extends ConsultationEvent {
   final int doctorId;
-  ConsultatinPaymentEvent({@required this.doctorId});
+  ConsultationPaymentEvent({@required this.doctorId});
 
   @override
   List<Object> get props => null;

@@ -31,7 +31,7 @@ class Consultation extends Equatable {
           messageFromMe: objectMap['history']['from'] == 'PAT',
           date: date.replaceAll('-', '.'),
           newMessageCount: 0,
-          doctor: Doctor.anonymous());
+          doctor: Doctor.parseObject(objectMap["doctor"]));
     } else {
       instance = Consultation(
           id: objectMap['id'],
@@ -39,7 +39,7 @@ class Consultation extends Equatable {
           messageFromMe: false,
           date: '',
           newMessageCount: 0,
-          doctor: Doctor.anonymous());
+          doctor: Doctor.parseObject(objectMap["doctor"]));
     }
     return instance;
   }

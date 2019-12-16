@@ -37,7 +37,7 @@ class ConsultationBloc extends Bloc<ConsultationEvent, ConsultationState> {
       }
     }
     // Consultation Payment
-    if (event is ConsultatinPaymentEvent) {
+    if (event is ConsultationPaymentEvent) {
       yield LoadingConsultationState();
       try {
         final payment = await chatRepository.fetchConsultationPayment(
