@@ -358,13 +358,21 @@ class FertilityModeScreenState extends State<FertilityModeScreen> {
   }
 
   void nextPageTap() {
+    var day = widget._varCurrentTime.day.toString();
+    var month = widget._varCurrentTime.month.toString();
+    if (widget._varCurrentTime.day < 10){
+      day = "0${widget._varCurrentTime.day}";
+    }
+    if (widget._varCurrentTime.month < 10){
+      month = "0${widget._varCurrentTime.month}";
+    }
     RegistrationModel obj = new RegistrationModel(
       firstname: widget._registrationModel.firstname,
       password: widget._registrationModel.password,
       phone: widget._registrationModel.phone,
       fertility: Fertility(
           start:
-              "${widget._varCurrentTime.month}/${widget._varCurrentTime.day}/${widget._varCurrentTime.year}"),
+              "${widget._varCurrentTime.year}$month$day"),
     );
     print(obj.toJson().toString());
     Navigator.pushNamed(context, "/registration_mode_fertility_duration",

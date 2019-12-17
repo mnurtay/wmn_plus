@@ -4,6 +4,7 @@ import 'dart:developer' as developer;
 import 'package:bloc/bloc.dart';
 import 'package:wmn_plus/features/auth/bloc/auth_bloc.dart';
 import 'package:wmn_plus/features/auth/bloc/auth_event.dart';
+import 'package:wmn_plus/features/auth/model/User.dart';
 import 'package:wmn_plus/features/auth/resource/auth_repository.dart';
 import 'package:wmn_plus/features/registration/registration_mode/fertility_mode/fertility_period/index.dart';
 

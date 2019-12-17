@@ -28,8 +28,9 @@ class FertilityPeriodProvider {
           });
       String body = utf8.decode(response.bodyBytes);
       Map regObject = json.decode(body);
-      var user = RegistrationModel.fromJson(regObject);
+      User user = User.fromJson(regObject);
       print(response.body.toString());
+      return user;
     } catch (error) {
       print(error);
       throw (error.toString());

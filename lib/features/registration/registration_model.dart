@@ -4,7 +4,7 @@ class RegistrationModel {
   String password;
   String phone;
   String pushToken;
-  String dateOfBirth;
+  int dateOfBirth;
   Fertility fertility;
   Pregnancy pregnancy;
 
@@ -24,7 +24,7 @@ class RegistrationModel {
     password = json['password'];
     pushToken = json['pushToken'];
     phone = json['phone'];
-    dateOfBirth = json['dateOfBirth'];
+    dateOfBirth = json['age'];
     fertility = json['fertility'] != null
         ? new Fertility.fromJson(json['fertility'])
         : null;
@@ -41,7 +41,7 @@ class RegistrationModel {
     data['password'] = this.password;
     data['phone'] = this.phone;
     data['pregnancy'] = this.pregnancy;
-    data['dateOfBirth'] = this.dateOfBirth;
+    data['age'] = this.dateOfBirth;
     if (this.fertility != null) {
       data['fertility'] = this.fertility.toJson();
     }
@@ -60,7 +60,7 @@ class Fertility {
   Fertility({this.start, this.duration, this.period});
 
   Fertility.fromJson(Map<String, dynamic> json) {
-    start = json['start'];
+    start = json['end'];
     duration = json['duration'];
     period = json['period'];
   }
@@ -69,7 +69,7 @@ class Fertility {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['start'] = this.start;
+    data['end'] = this.start;
     data['duration'] = this.duration;
     data['period'] = this.period;
     return data;
