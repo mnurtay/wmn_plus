@@ -9,6 +9,7 @@ import 'package:wmn_plus/features/consultation/ui/page/doctor_page.dart';
 import 'package:wmn_plus/features/consultation/ui/page/doctors_list_page.dart';
 import 'package:wmn_plus/features/consultation/ui/page/new_consultation_page.dart';
 import 'package:wmn_plus/features/discounts/discounts_page.dart';
+import 'package:wmn_plus/features/fertility_calendar/fertility_calendar_page.dart';
 import 'package:wmn_plus/features/news/news_page.dart';
 import 'package:wmn_plus/features/profile/profile_page.dart';
 import 'package:wmn_plus/navigation/bottom_navigation.dart';
@@ -116,6 +117,7 @@ class AuthenticatedFertilityRoutes extends StatelessWidget {
     return [
       NewsPage(),
       ChatListPage(),
+      FertilityCalendarPage(),
       DiscountsPage(),
       ProfilPage(),
     ];
@@ -132,6 +134,11 @@ class AuthenticatedFertilityRoutes extends StatelessWidget {
       Container(
         padding: EdgeInsets.all(ScreenUtil().setSp(5)),
         child: Icon(Icons.chat),
+      ),
+      //CALENDAR
+      Container(
+        padding: EdgeInsets.all(ScreenUtil().setSp(5)),
+        child: Icon(Icons.calendar_today),
       ),
       // DISCOUNTS
       Container(

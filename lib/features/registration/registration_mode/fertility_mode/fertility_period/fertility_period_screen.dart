@@ -140,7 +140,7 @@ class FertilityPeriodScreenState extends State<FertilityPeriodScreen> {
                   var obj = new RegistrationModel(
                       firstname: widget._registrationModel.firstname,
                       password: widget._registrationModel.password,
-                      dateOfBirth: "12/14/2019",
+                      dateOfBirth: 20,
                       pushToken: "00",
                       surname: "sample",
                       phone: widget._registrationModel.phone,
