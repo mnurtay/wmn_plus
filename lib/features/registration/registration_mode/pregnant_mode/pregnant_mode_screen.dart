@@ -35,6 +35,7 @@ class PregnantModeScreenState extends State<PregnantModeScreen> {
 
   @override
   void dispose() {
+    _pregnantModeBloc.close();
     super.dispose();
   }
 

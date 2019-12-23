@@ -31,10 +31,7 @@ class LoadLanguageEvent extends LanguageEvent {
   Future<LanguageState> applyAsync(
       {LanguageState currentState, LanguageBloc bloc}) async {
     try {
-      if (currentState is InLanguageState) {
-        return currentState.getNewVersion();
-      }
-      await Future.delayed(Duration(seconds: 2));
+      // await Future.delayed(Duration(seconds: 2));
       this._languageRepository.test(this.isError);
       return InLanguageState(0, "Hello world");
     } catch (_, stackTrace) {
@@ -57,7 +54,7 @@ class ChangeLanguageEvent extends LanguageEvent {
       {LanguageState currentState, LanguageBloc bloc}) async {
     try {
       
-      var status = this._languageRepository.changeLanguage(type);
+      HttpStatus status = await this._languageRepository.changeLanguage(type);
       if (status == HttpStatus.Success) {
         return InLanguageState(0, "Hello world");
       } else {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wmn_plus/features/news/news_detail/index.dart';
 
 class NewsDetailScreen extends StatefulWidget {
@@ -17,7 +18,7 @@ class NewsDetailScreen extends StatefulWidget {
 
   @override
   NewsDetailScreenState createState() {
-    return NewsDetailScreenState(_newsDetailBloc);
+    return new NewsDetailScreenState(_newsDetailBloc);
   }
 }
 
@@ -27,8 +28,9 @@ class NewsDetailScreenState extends State<NewsDetailScreen> {
 
   @override
   void initState() {
-    super.initState();
+    widget._newsDetailBloc.add(UnNewsDetailEvent());
     widget._newsDetailBloc.add(LoadNewsDetailEvent(widget._id));
+    super.initState();
   }
 
   @override
@@ -37,6 +39,9 @@ class NewsDetailScreenState extends State<NewsDetailScreen> {
   }
 
   Widget build(BuildContext context) {
+    ScreenUtil.instance =
+        ScreenUtil(width: 828, height: 1792, allowFontScaling: true)
+          ..init(context);
     return BlocBuilder<NewsDetailBloc, NewsDetailState>(
         bloc: widget._newsDetailBloc,
         builder: (
@@ -55,26 +60,35 @@ class NewsDetailScreenState extends State<NewsDetailScreen> {
                     (BuildContext context, bool innerBoxIsScrolled) {
                   return <Widget>[
                     SliverAppBar(
-                      expandedHeight: 200.0,
-                      floating: false,
+                      expandedHeight: ScreenUtil.getInstance().setHeight(500),
+                      floating: true,
                       pinned: true,
                       flexibleSpace: FlexibleSpaceBar(
                           centerTitle: true,
-                          title: Text(currentState.newsDetail.result.title,
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16.0,
-                              )),
                           background: Image.network(
-                            currentState.newsDetail.result.imageUrl,
+                            currentState.newsDetail.result.image,
                             fit: BoxFit.cover,
                           )),
                     ),
                   ];
                 },
-                body: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Html(data: currentState.newsDetail.result.content)
+                body: SingleChildScrollView(
+                  child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            currentState.newsDetail.result.title,
+                            style: TextStyle(
+                              fontSize: ScreenUtil().setSp(55),
+                              fontWeight: FontWeight.w500,
+                              color: Color(0xffD748DA),
+                            ),
+                          ),
+                          Html(data: currentState.newsDetail.result.content),
+                        ],
+                      )),
                 ),
               ),
             );

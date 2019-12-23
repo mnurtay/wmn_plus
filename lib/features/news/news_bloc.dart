@@ -13,7 +13,6 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
 
   @override
   dispose() {
-    _newsBlocSingleton.dispose();
     super.close();
   }
 

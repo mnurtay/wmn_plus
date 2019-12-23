@@ -35,6 +35,7 @@ class FertilityCalendarScreenState extends State<FertilityCalendarScreen> {
 
   @override
   void dispose() {
+    // _fertilityCalendarBloc.close();
     super.dispose();
   }
 
@@ -55,12 +56,48 @@ class FertilityCalendarScreenState extends State<FertilityCalendarScreen> {
             );
           }
           if (currentState is InFertilityCalendarState) {
-            return Column(
-              children: <Widget>[
-                buildRedHeader(context),
-                buildDailyCalendar(currentState),
-                buildInfoBlock()
-              ],
+            return SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  buildRedHeader(context, currentState.result),
+                  buildDailyCalendar(currentState.result, currentState.language),
+                  buildInfoBlock()
+                ],
+              ),
+            );
+          }
+
+          if (currentState is InToPmsFertilityCalendarState) {
+            return SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  buildPMSHeader(context, currentState.result),
+                  buildDailyCalendar(currentState.result, currentState.language),
+                  buildInfoBlock()
+                ],
+              ),
+            );
+          }
+          if (currentState is InToFertFertilityCalendarState) {
+            return SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  buildFertHeader(context, currentState.result),
+                  buildDailyCalendar(currentState.result, currentState.language),
+                  buildInfoBlock()
+                ],
+              ),
+            );
+          }
+          if (currentState is InBabyFertilityCalendarState) {
+            return SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  buildBlueHeader(context, currentState.result),
+                  buildDailyCalendar(currentState.result, currentState.language),
+                  buildInfoBlock()
+                ],
+              ),
             );
           }
           if (currentState is ErrorFertilityCalendarState) {
@@ -83,93 +120,94 @@ class FertilityCalendarScreenState extends State<FertilityCalendarScreen> {
         });
   }
 
-  Widget buildDailyCalendar(InFertilityCalendarState state) {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 0.0),
-      child: CalendarFertilityCarousel<Event>(
-        onDayPressed: (DateTime date, List<Event> events) {
-          this.setState(() => widget._varCurrentTime = date);
-        },
-        prevMonthDayBorderColor: Colors.black,
-        weekendTextStyle: TextStyle(
-          color: Colors.black,
-        ),
-        locale: state.language,
-        thisMonthDayBorderColor: Colors.grey,
-        showWeekDays: true,
-        customDayBuilder: (
-          bool isSelectable,
-          int index,
-          bool isSelectedDay,
-          bool isToday,
-          bool isPrevMonthDay,
-          TextStyle textStyle,
-          bool isNextMonthDay,
-          bool isThisMonthDay,
-          DateTime day,
-        ) {
-          // print(widget._currentTime.toLocal());
-          if (state.result.babyDays.contains(day)) {
-            return Container(
-              width: 50,
-              height: 50,
-              child: Center(
-                  child: Text(
-                day.day.toString(),
-                style: TextStyle(
-                    fontSize: ScreenUtil().setSp(30), color: Colors.white),
-              )),
-              decoration: BoxDecoration(
-                  color: Colors.blueAccent, shape: BoxShape.circle),
-            );
-          }
+  Widget buildDailyCalendar(Result result, String language) {
+    return CalendarFertilityCarousel<Event>(
+      height: ScreenUtil.getInstance().setHeight(1300),
+      onDayPressed: (DateTime date, List<Event> events) {
+        this.setState(() => widget._varCurrentTime = date);
+      },
 
-          if (state.result.redDays.contains(day)) {
-            return Container(
-              width: 50,
-              height: 50,
-              child: Center(
-                  child: Text(
-                day.day.toString(),
-                style: TextStyle(
-                    fontSize: ScreenUtil().setSp(30), color: Colors.white),
-              )),
-              decoration:
-                  BoxDecoration(color: Colors.red, shape: BoxShape.circle),
-            );
-          }
-
-          if (state.result.pMS.contains(day)) {
-            return Container(
-              width: 50,
-              height: 50,
-              child: Center(
-                  child: Text(
-                day.day.toString(),
-                style: TextStyle(
-                    fontSize: ScreenUtil().setSp(30), color: Colors.white),
-              )),
-              decoration:
-                  BoxDecoration(color: Colors.grey, shape: BoxShape.circle),
-            );
-          }
-        },
-        weekdayTextStyle:
-            TextStyle(fontSize: ScreenUtil().setSp(30), color: Colors.black),
-        weekFormat: false,
-        // markedDatesMap: _markedDateMap,
-        height: ScreenUtil.getInstance().setHeight(800),
-        // selectedDateTime: _currentDate,
-        daysHaveCircularBorder: null,
-        selectedDateTime: widget._varCurrentTime,
-        /// null for not rendering any border, true for circular border, false for rectangular border
+      prevMonthDayBorderColor: Colors.black,
+      weekendTextStyle: TextStyle(
+        color: Colors.black,
       ),
+      locale: language,
+      thisMonthDayBorderColor: Colors.grey,
+      showWeekDays: true,
+      customDayBuilder: (
+        bool isSelectable,
+        int index,
+        bool isSelectedDay,
+        bool isToday,
+        bool isPrevMonthDay,
+        TextStyle textStyle,
+        bool isNextMonthDay,
+        bool isThisMonthDay,
+        DateTime day,
+      ) {
+        // print(widget._currentTime.toLocal());
+        if (result.babyDays.contains(day)) {
+          return Container(
+            width: 50,
+            height: 50,
+            child: Center(
+                child: Text(
+              day.day.toString(),
+              style: TextStyle(
+                  fontSize: ScreenUtil().setSp(30), color: Colors.white),
+            )),
+            decoration:
+                BoxDecoration(color: Colors.blueAccent, shape: BoxShape.circle),
+          );
+        }
+
+        if (result.redDays.contains(day)) {
+          return Container(
+            width: 50,
+            height: 50,
+            child: Center(
+                child: Text(
+              day.day.toString(),
+              style: TextStyle(
+                  fontSize: ScreenUtil().setSp(30), color: Colors.white),
+            )),
+            decoration:
+                BoxDecoration(color: Colors.red, shape: BoxShape.circle),
+          );
+        }
+
+        if (result.pMS.contains(day)) {
+          return Container(
+            width: 50,
+            height: 50,
+            child: Center(
+                child: Text(
+              day.day.toString(),
+              style: TextStyle(
+                  fontSize: ScreenUtil().setSp(30), color: Colors.white),
+            )),
+            decoration:
+                BoxDecoration(color: Colors.grey, shape: BoxShape.circle),
+          );
+        }
+      },
+      weekdayTextStyle:
+          TextStyle(fontSize: ScreenUtil().setSp(30), color: Colors.black),
+      weekFormat: false,
+
+      // markedDatesMap: _markedDateMap,
+
+      // selectedDateTime: _currentDate,
+      daysHaveCircularBorder: null,
+      selectedDateTime: widget._varCurrentTime,
+
+      /// null for not rendering any border, true for circular border, false for rectangular border
     );
   }
 
-  Container buildRedHeader(BuildContext context) {
+  Container buildRedHeader(BuildContext context, Result result) {
     return Container(
-      height: ScreenUtil.getInstance().setHeight(600),
+      height: ScreenUtil.getInstance().setHeight(400),
       width: MediaQuery.of(context).size.width,
       color: Colors.red,
       child: Padding(
@@ -187,13 +225,107 @@ class FertilityCalendarScreenState extends State<FertilityCalendarScreen> {
               ),
             ),
             Text(
-              "1 день",
+              result.info.toPMS.toString() + " день",
               style: TextStyle(
                 fontSize: ScreenUtil().setSp(90),
                 fontWeight: FontWeight.w400,
                 color: Colors.white,
               ),
             ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Container buildBlueHeader(BuildContext context, Result result) {
+    return Container(
+      height: ScreenUtil.getInstance().setHeight(400),
+      width: MediaQuery.of(context).size.width,
+      color: Colors.blue,
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              "У вас есть возможность забеременеть",
+              style: TextStyle(
+                fontSize: ScreenUtil().setSp(60),
+                fontWeight: FontWeight.w200,
+                color: Colors.white,
+              ),
+            ),
+           
+          ],
+        ),
+      ),
+    );
+  }
+
+  Container buildPMSHeader(BuildContext context,Result result) {
+    return Container(
+      height: ScreenUtil.getInstance().setHeight(400),
+      width: MediaQuery.of(context).size.width,
+      color: Colors.white,
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              "До ПМС осталось",
+              style: TextStyle(
+                fontSize: ScreenUtil().setSp(80),
+                fontWeight: FontWeight.w200,
+                color: Colors.black,
+              ),
+            ),
+            Text(
+              result.info.toPMS.toString() + " дни",
+              style: TextStyle(
+                fontSize: ScreenUtil().setSp(90),
+                fontWeight: FontWeight.w400,
+                color: Colors.black,
+              ),
+            ),
+           
+          ],
+        ),
+      ),
+    );
+  }
+
+  Container buildFertHeader(BuildContext context, Result result) {
+    return Container(
+      height: ScreenUtil.getInstance().setHeight(400),
+      width: MediaQuery.of(context).size.width,
+      color: Colors.white,
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              "До месячных осталось",
+              style: TextStyle(
+                fontSize: ScreenUtil().setSp(60),
+                fontWeight: FontWeight.w200,
+                color: Colors.black,
+              ),
+            ),
+            Text(
+              result.info.toFert.toString() + " дни",
+              style: TextStyle(
+                fontSize: ScreenUtil().setSp(90),
+                fontWeight: FontWeight.w400,
+                color: Colors.black,
+              ),
+            ),
+           
           ],
         ),
       ),

@@ -41,6 +41,7 @@ class FertilityModeScreenState extends State<FertilityModeScreen> {
 
   @override
   void dispose() {
+    _fertilityModeBloc.close();
     super.dispose();
   }
 

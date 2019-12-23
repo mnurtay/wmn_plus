@@ -4,7 +4,6 @@ import 'package:wmn_plus/features/news/news_detail/index.dart';
 import 'dart:developer' as developer;
 
 class NewsDetailBloc extends Bloc<NewsDetailEvent, NewsDetailState> {
-  // todo: check singleton for logic in project
   static final NewsDetailBloc _newsDetailBlocSingleton = NewsDetailBloc._internal();
   factory NewsDetailBloc() {
     return _newsDetailBlocSingleton;
@@ -13,7 +12,6 @@ class NewsDetailBloc extends Bloc<NewsDetailEvent, NewsDetailState> {
   
   @override
   dispose(){
-    _newsDetailBlocSingleton.dispose();
     super.close();
   }
 

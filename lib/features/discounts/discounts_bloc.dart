@@ -13,7 +13,7 @@ class DiscountsBloc extends Bloc<DiscountsEvent, DiscountsState> {
   
   @override
   dispose(){
-    _discountsBlocSingleton.dispose();
+    // _discountsBlocSingleton.dispose();
     super.close();
   }
 

@@ -1,7 +1,10 @@
 import 'package:easy_localization/easy_localization_delegate.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_launch/flutter_launch.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:share/share.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:wmn_plus/features/auth/bloc/auth_bloc.dart';
 import 'package:wmn_plus/features/auth/bloc/auth_event.dart';
 import 'package:wmn_plus/features/profile/index.dart';
@@ -34,6 +37,7 @@ class ProfileScreenState extends State<ProfileScreen> {
 
   @override
   void dispose() {
+    _profileBloc.close();
     super.dispose();
   }
 
@@ -115,18 +119,26 @@ class ProfileScreenState extends State<ProfileScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          _buildCard(
-              title: AppLocalizations.of(context).tr('settings.language_settings'),
+           _buildCard(
+              title:
+                 "Поменять режим",
               navigate: () {
                 Navigator.pushNamed(context, "/settings_language");
               }),
           _buildCard(
-              title: AppLocalizations.of(context).tr('settings.сonnect_with_us'),
+              title:
+                  AppLocalizations.of(context).tr('settings.language_settings'),
+              navigate: () {
+                Navigator.pushNamed(context, "/settings_language");
+              }),
+          _buildCard(
+              title:
+                  AppLocalizations.of(context).tr('settings.сonnect_with_us'),
               navigate: () => _settingModalBottomSheet(context)),
           _buildCard(
               title: AppLocalizations.of(context).tr('settings.share_app'),
               navigate: () {
-                // _shareApp();
+                shareApp();
               }),
           _buildCard(
               title: "FAQ",
@@ -170,7 +182,8 @@ class ProfileScreenState extends State<ProfileScreen> {
                   children: <Widget>[
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text(AppLocalizations.of(context).tr('settings.change_profile'),
+                      child: Text(
+                          "Поменять пароль",
                           style: Theme.of(context).textTheme.body1),
                     ),
                     InkWell(
@@ -196,6 +209,15 @@ class ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
+  void shareApp() {
+    Share.share('Check out our wmnplus@gmail.com');
+  }
+
+  void whatsAppOpen() async {
+    await FlutterLaunch.launchWathsApp(
+        phone: "5534992016545", message: "Hello");
+  }
+
   void _settingModalBottomSheet(context) {
     showModalBottomSheet(
         context: context,
@@ -205,19 +227,25 @@ class ProfileScreenState extends State<ProfileScreen> {
               children: <Widget>[
                 new ListTile(
                     leading: new Icon(Icons.message),
-                    title: new Text(AppLocalizations.of(context).tr('settings.share_app_child.write_to_us')),
-                    onTap: () {}),
+                    title: new Text(AppLocalizations.of(context)
+                        .tr('settings.share_app_child.write_to_us')),
+                    onTap: () {
+                      launch("mailto:wmnplus@gmail.com");
+                    }),
                 new ListTile(
                   leading: new Icon(Icons.send),
-                  title: new Text(AppLocalizations.of(context).tr('settings.share_app_child.write_to_wapp')),
+                  title: new Text(AppLocalizations.of(context)
+                      .tr('settings.share_app_child.write_to_wapp')),
                   onTap: () {
-                    // _launchWhatsapp("87775552233");
+                    whatsAppOpen();
                   },
                 ),
                 new ListTile(
                   leading: new Icon(Icons.call),
-                  title: new Text(AppLocalizations.of(context).tr('settings.share_app_child.call_to_us')),
+                  title: new Text(AppLocalizations.of(context)
+                      .tr('settings.share_app_child.call_to_us')),
                   onTap: () {
+                    launch("tel:87772221133");
                     // _launchPhone();
                   },
                 ),

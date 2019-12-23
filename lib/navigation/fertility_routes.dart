@@ -8,10 +8,14 @@ import 'package:wmn_plus/features/consultation/ui/page/consultation_payment_page
 import 'package:wmn_plus/features/consultation/ui/page/doctor_page.dart';
 import 'package:wmn_plus/features/consultation/ui/page/doctors_list_page.dart';
 import 'package:wmn_plus/features/consultation/ui/page/new_consultation_page.dart';
+import 'package:wmn_plus/features/discounts/discount_detail/discount_detail_page.dart';
 import 'package:wmn_plus/features/discounts/discounts_page.dart';
 import 'package:wmn_plus/features/fertility_calendar/fertility_calendar_page.dart';
+import 'package:wmn_plus/features/news/news_detail/news_detail_page.dart';
 import 'package:wmn_plus/features/news/news_page.dart';
 import 'package:wmn_plus/features/profile/profile_page.dart';
+import 'package:wmn_plus/features/profile/screen/faq/faq.dart';
+import 'package:wmn_plus/features/profile/screen/language/language_page.dart';
 import 'package:wmn_plus/navigation/bottom_navigation.dart';
 import 'package:wmn_plus/util/config.dart';
 
@@ -58,7 +62,7 @@ class AuthenticatedFertilityRoutes extends StatelessWidget {
 
     return EasyLocalizationProvider(
       data: data,
-      child: MaterialApp(
+      child: new MaterialApp(
         localizationsDelegates: [
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
@@ -77,8 +81,23 @@ class AuthenticatedFertilityRoutes extends StatelessWidget {
           '/': (BuildContext context) => BottomNavigation(
               pageOptions: pageOptions(context), barItems: barItems(context)),
           '/new_consultation': (BuildContext context) => NewConsultationPage(),
+          '/discounts': (BuildContext context) => DiscountsPage(),
+          '/settings_language': (BuildContext context) => LanguagePage(),
+          '/profile': (BuildContext context) => ProfilPage(),
+          '/news': (BuildContext context) => NewsPage(),
+          '/faq': (BuildContext context) => FAQ()
         },
         onGenerateRoute: (RouteSettings settings) {
+          if (settings.name == '/news_detail') {
+            return MaterialPageRoute(
+                builder: (BuildContext context) =>
+                    NewsDetailPage(settings.arguments));
+          }
+          if (settings.name == '/discount_detail') {
+            return MaterialPageRoute(
+                builder: (BuildContext context) =>
+                    DiscountDetailPage(settings.arguments));
+          }
           if (settings.name == '/doctors_list') {
             return MaterialPageRoute(
                 builder: (BuildContext context) =>

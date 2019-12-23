@@ -59,7 +59,7 @@ class _LoginFormState extends State<LoginForm> {
         return Column(
           children: <Widget>[
             TextField(
-                keyboardType: TextInputType.phone,
+                keyboardType: TextInputType.text ,
                 controller: loginController,
                 decoration: InputDecoration(
                     border: OutlineInputBorder(

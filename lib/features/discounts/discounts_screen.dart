@@ -44,6 +44,7 @@ class DiscountsScreenState extends State<DiscountsScreen> {
 
   @override
   void dispose() {
+    _discountsBloc.close();
     super.dispose();
   }
 
@@ -147,16 +148,9 @@ class DiscountsScreenState extends State<DiscountsScreen> {
                       top: ScreenUtil.getInstance().setHeight(40),
                       left: ScreenUtil.getInstance().setHeight(30),
                     ),
+                    
                     Positioned(
-                      child: Text(
-                        result.content,
-                        style: Theme.of(context).textTheme.display2,
-                      ),
-                      top: ScreenUtil.getInstance().setHeight(100),
-                      left: ScreenUtil.getInstance().setHeight(30),
-                    ),
-                    Positioned(
-                      child: Text("Пользуются: 99",
+                      child: Text("Просмотрено: 99",
                           style: Theme.of(context).textTheme.display2),
                       top: ScreenUtil.getInstance().setHeight(170),
                       left: ScreenUtil.getInstance().setHeight(30),

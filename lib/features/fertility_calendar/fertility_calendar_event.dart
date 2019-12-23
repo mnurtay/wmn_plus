@@ -35,13 +35,39 @@ class LoadFertilityCalendarEvent extends FertilityCalendarEvent {
       FertilityCalendarModel result =
           await this._fertilityCalendarRepository.getFertilityDays();
       var user = await UserRepository().getCurrentUser();
-      
+
       List<DateTime> redDays = convertDaysToDate(result.result.redDays);
       List<DateTime> pmsDays = convertDaysToDate(result.result.pMS);
       List<DateTime> babyDays = convertDaysToDate(result.result.babyDays);
-      var newVal = Result(redDays: redDays, pMS: pmsDays, babyDays: babyDays);
-      
-      return InFertilityCalendarState(0, newVal, user.result.getLanguage);
+      var info = result.result.info;
+      var newVal = Result(
+          redDays: redDays, pMS: pmsDays, babyDays: babyDays, info: info);
+
+      if (info.currentFert == 0) {
+        if (info.toFert == 0) {
+          if (!info.babyBoom) {
+            if (info.toPMS == 0) {
+              return ErrorFertilityCalendarState(
+                  0, "Sorry, Try later".toString());
+            } else {
+              //topmsstate
+              return InToPmsFertilityCalendarState(
+                  0, newVal, user.result.getLanguage);
+            }
+          } else {
+            //babyboom
+            return InBabyFertilityCalendarState(
+                0, newVal, user.result.getLanguage);
+          }
+        } else {
+          //fert
+          return InToFertFertilityCalendarState(
+              0, newVal, user.result.getLanguage);
+        }
+      } else {
+        return InFertilityCalendarState(0, newVal, user.result.getLanguage);
+      }
+
     } catch (_, stackTrace) {
       developer.log('$_',
           name: 'LoadFertilityCalendarEvent', error: _, stackTrace: stackTrace);
