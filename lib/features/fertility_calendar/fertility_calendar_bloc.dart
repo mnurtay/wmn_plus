@@ -14,7 +14,6 @@ class FertilityCalendarBloc extends Bloc<FertilityCalendarEvent, FertilityCalend
   
   @override
   Future<void> close() async{
-    _fertilityCalendarBlocSingleton.close();
     super.close();
   }
 

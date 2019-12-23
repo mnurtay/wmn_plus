@@ -58,6 +58,66 @@ class InFertilityCalendarState extends FertilityCalendarState {
   }
 }
 
+class InToFertFertilityCalendarState extends FertilityCalendarState {
+  final Result result;
+  final String language;
+
+  InToFertFertilityCalendarState(int version, this.result, this.language) : super(version, [result,language]);
+
+  @override
+  String toString() => 'InToFertFertilityCalendarState $result';
+
+  @override
+  InToFertFertilityCalendarState getStateCopy() {
+    return InToFertFertilityCalendarState(this.version, this.result, this.language);
+  }
+
+  @override
+  InToFertFertilityCalendarState getNewVersion() {
+    return InToFertFertilityCalendarState(version+1, this.result, this.language);
+  }
+}
+
+class InToPmsFertilityCalendarState extends FertilityCalendarState {
+  final Result result;
+  final String language;
+
+  InToPmsFertilityCalendarState(int version, this.result, this.language) : super(version, [result,language]);
+
+  @override
+  String toString() => 'InToFertFertilityCalendarState $result';
+
+  @override
+  InToPmsFertilityCalendarState getStateCopy() {
+    return InToPmsFertilityCalendarState(this.version, this.result, this.language);
+  }
+
+  @override
+  InToPmsFertilityCalendarState getNewVersion() {
+    return InToPmsFertilityCalendarState(version+1, this.result, this.language);
+  }
+}
+
+class InBabyFertilityCalendarState extends FertilityCalendarState {
+  final Result result;
+  final String language;
+
+  InBabyFertilityCalendarState(int version, this.result, this.language) : super(version, [result,language]);
+
+  @override
+  String toString() => 'InToFertFertilityCalendarState $result';
+
+  @override
+  InBabyFertilityCalendarState getStateCopy() {
+    return InBabyFertilityCalendarState(this.version, this.result, this.language);
+  }
+
+  @override
+  InBabyFertilityCalendarState getNewVersion() {
+    return InBabyFertilityCalendarState(version+1, this.result, this.language);
+  }
+}
+
 class ErrorFertilityCalendarState extends FertilityCalendarState {
   final String errorMessage;
 

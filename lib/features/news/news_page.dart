@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:wmn_plus/features/news/index.dart';
-import 'package:wmn_plus/locale/app_localization.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class NewsPage extends StatefulWidget {
@@ -15,7 +14,6 @@ class _NewsPageState extends State<NewsPage> {
     ScreenUtil.instance =
         ScreenUtil(width: 828, height: 1792, allowFontScaling: true)
           ..init(context);
-
 
     var _newsBloc = NewsBloc();
 

@@ -44,6 +44,7 @@ class LanguageScreenState extends State<LanguageScreen> {
 
   @override
   void dispose() {
+    _languageBloc.close();
     super.dispose();
   }
 

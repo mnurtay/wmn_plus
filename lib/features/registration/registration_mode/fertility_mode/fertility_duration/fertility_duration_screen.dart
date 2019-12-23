@@ -34,6 +34,7 @@ class FertilityDurationScreenState extends State<FertilityDurationScreen> {
 
   @override
   void dispose() {
+    _fertilityDurationBloc.close();
     super.dispose();
   }
 

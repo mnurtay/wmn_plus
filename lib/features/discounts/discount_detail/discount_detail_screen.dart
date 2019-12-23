@@ -64,6 +64,7 @@ class DiscountDetailScreenState extends State<DiscountDetailScreen> {
 
   @override
   void dispose() {
+    _discountDetailBloc.close();
     super.dispose();
   }
 

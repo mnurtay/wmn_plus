@@ -14,7 +14,6 @@ class LanguageBloc extends Bloc<LanguageEvent, LanguageState> {
   
   @override
   Future<void> close() async{
-    _languageBlocSingleton.close();
     super.close();
   }
 
