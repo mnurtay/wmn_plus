@@ -64,7 +64,7 @@ class DiscountDetailScreenState extends State<DiscountDetailScreen> {
 
   @override
   void dispose() {
-    _discountDetailBloc.close();
+    // _discountDetailBloc.close();
     super.dispose();
   }
 
@@ -110,7 +110,7 @@ class DiscountDetailScreenState extends State<DiscountDetailScreen> {
                   SizedBox(
                     height: 5,
                   ),
-                  informationBox(),
+                  informationBox(currentState.hello.result.content),
                   SizedBox(
                     height: 5,
                   ),
@@ -126,31 +126,26 @@ class DiscountDetailScreenState extends State<DiscountDetailScreen> {
 
   headerBox(String title) {
     return Container(
-      height: 80,
+      width: MediaQuery.of(context).size.width,
       color: Colors.white,
-      child: Stack(
-        children: <Widget>[
-          Positioned(
-            child: Text(
+      child: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(
               title,
               style: Theme.of(context).textTheme.display3,
             ),
-            left: 10,
-          ),
-          Positioned(
-              child: Text(
-                "УЗИ",
-                style: Theme.of(context).textTheme.subhead,
-              ),
-              left: 10,
-              top: 30),
-        ],
+          ],
+        ),
       ),
     );
   }
 
-  informationBox() {
+  informationBox(String content) {
     return Container(
+      width: MediaQuery.of(context).size.width,
       color: Colors.white,
       child: Padding(
         padding: const EdgeInsets.all(12.0),
@@ -162,7 +157,7 @@ class DiscountDetailScreenState extends State<DiscountDetailScreen> {
               style: Theme.of(context).textTheme.display3,
             ),
             Text(
-              "Но экономическая повестка сегодняшнего дня, в своём классическом представлении, допускает внедрение существующих финансовых и административных условий. Лишь непосредственные участники технического прогресса являются только методом политического участия и разоблачены. Таким образом, глубокий уровень погружения способствует подготовке и реализации экономической целесообразности принимаемых решений.",
+              content,
               style: Theme.of(context).textTheme.subhead,
             ),
           ],
@@ -179,14 +174,6 @@ class DiscountDetailScreenState extends State<DiscountDetailScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text(
-              "Контакты",
-              style: Theme.of(context).textTheme.display3,
-            ),
-            Container(
-              color: Colors.green,
-              height: 200,
-            ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10.0),
               child: Text(

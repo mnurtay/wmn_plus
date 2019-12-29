@@ -13,9 +13,15 @@ import 'package:wmn_plus/features/discounts/discounts_page.dart';
 import 'package:wmn_plus/features/fertility_calendar/fertility_calendar_page.dart';
 import 'package:wmn_plus/features/news/news_detail/news_detail_page.dart';
 import 'package:wmn_plus/features/news/news_page.dart';
+import 'package:wmn_plus/features/profile/change_mode/change_mode_fertility/change_mode_fertility_duration/change_mode_fertility_duration_page.dart';
+import 'package:wmn_plus/features/profile/change_mode/change_mode_fertility/change_mode_fertility_page.dart';
+import 'package:wmn_plus/features/profile/change_mode/change_mode_fertility/change_mode_fertility_period/change_mode_fertility_period_page.dart';
+import 'package:wmn_plus/features/profile/change_mode/change_mode_page.dart';
 import 'package:wmn_plus/features/profile/profile_page.dart';
 import 'package:wmn_plus/features/profile/screen/faq/faq.dart';
 import 'package:wmn_plus/features/profile/screen/language/language_page.dart';
+import 'package:wmn_plus/features/registration/registration_mode/registration_mode_page.dart';
+import 'package:wmn_plus/features/registration/registration_model.dart';
 import 'package:wmn_plus/navigation/bottom_navigation.dart';
 import 'package:wmn_plus/util/config.dart';
 
@@ -85,7 +91,10 @@ class AuthenticatedFertilityRoutes extends StatelessWidget {
           '/settings_language': (BuildContext context) => LanguagePage(),
           '/profile': (BuildContext context) => ProfilPage(),
           '/news': (BuildContext context) => NewsPage(),
-          '/faq': (BuildContext context) => FAQ()
+          '/faq': (BuildContext context) => FAQ(),
+          '/settings_change_mode': (BuildContext context) => ChangeModePage(),
+          '/change_mode_fertility': (BuildContext context) =>
+              ChangeModeFertilityPage()
         },
         onGenerateRoute: (RouteSettings settings) {
           if (settings.name == '/news_detail') {
@@ -117,6 +126,16 @@ class AuthenticatedFertilityRoutes extends StatelessWidget {
             return MaterialPageRoute(
                 builder: (BuildContext context) =>
                     ConsulatationPaymentPage(url: settings.arguments));
+          }
+          if (settings.name == '/change_mode_fertility_duration') {
+            return MaterialPageRoute(
+                builder: (BuildContext context) =>
+                    ChangeModeFertilityDurationPage(settings.arguments));
+          }
+          if (settings.name == '/change_mode_fertility_period') {
+            return MaterialPageRoute(
+                builder: (BuildContext context) =>
+                    ChangeModeFertilityPeriodPage(settings.arguments));
           }
           return null;
         },
