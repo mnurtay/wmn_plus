@@ -17,6 +17,7 @@ import 'package:wmn_plus/features/profile/change_mode/change_mode_fertility/chan
 import 'package:wmn_plus/features/profile/change_mode/change_mode_fertility/change_mode_fertility_page.dart';
 import 'package:wmn_plus/features/profile/change_mode/change_mode_fertility/change_mode_fertility_period/change_mode_fertility_period_page.dart';
 import 'package:wmn_plus/features/profile/change_mode/change_mode_page.dart';
+import 'package:wmn_plus/features/profile/change_mode/change_mode_pregnancy/change_mode_pregnancy_page.dart';
 import 'package:wmn_plus/features/profile/profile_page.dart';
 import 'package:wmn_plus/features/profile/screen/language/index.dart';
 import 'package:wmn_plus/navigation/bottom_navigation.dart';
@@ -107,7 +108,9 @@ class _PregnantRoutes extends State<AuthenticatedPregnantRoutes> {
           '/profile': (BuildContext context) => ProfilPage(),
           '/settings_change_mode': (BuildContext context) => ChangeModePage(),
           '/change_mode_fertility': (BuildContext context) =>
-              ChangeModeFertilityPage()
+              ChangeModeFertilityPage(),
+          '/change_mode_pregnancy': (BuildContext context) =>
+              ChangeModePregnancyPage()
         },
         onGenerateRoute: (RouteSettings settings) {
           if (settings.name == '/doctors_list') {
