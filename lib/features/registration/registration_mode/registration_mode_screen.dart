@@ -72,7 +72,7 @@ class RegistrationModeScreenState extends State<RegistrationModeScreen> {
 
   @override
   void dispose() {
-    _registrationModeBloc.close();
+    // _registrationModeBloc.close();
     super.dispose();
   }
 

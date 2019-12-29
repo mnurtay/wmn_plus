@@ -123,7 +123,7 @@ class ProfileScreenState extends State<ProfileScreen> {
               title:
                  "Поменять режим",
               navigate: () {
-                Navigator.pushNamed(context, "/settings_language");
+                Navigator.pushNamed(context, "/settings_change_mode");
               }),
           _buildCard(
               title:
