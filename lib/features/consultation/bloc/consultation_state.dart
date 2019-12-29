@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
+import 'package:wmn_plus/features/auth/model/User.dart';
 import 'package:wmn_plus/features/consultation/model/Chat.dart';
 import 'package:wmn_plus/features/consultation/model/Consultation.dart';
 import 'package:wmn_plus/features/consultation/model/Doctor.dart';
@@ -57,6 +58,14 @@ class FetchedChatState extends ChatState {
   final List<Chat> messages;
   FetchedChatState({@required this.messages});
 
+  @override
+  List<Object> get props => null;
+}
+
+class FetchedCurrentUserState extends ChatState {
+  final User user;
+
+  FetchedCurrentUserState(this.user);
   @override
   List<Object> get props => null;
 }

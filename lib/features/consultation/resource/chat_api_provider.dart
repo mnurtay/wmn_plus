@@ -15,7 +15,7 @@ class ChatApiProvider {
     try {
       response = await get(
         '$BACKEND_URL/api/v1/patient/doctors/$categoryId',
-        headers: {"Authorization": token},
+        headers: {"Authorization": 'wmn538179 $token'},
       );
     } catch (e) {
       throw (e);
@@ -30,13 +30,14 @@ class ChatApiProvider {
     return doctors;
   }
 
-  Future<Map> fetchConsultationPayment({@required String token, @required int doctorId}) async {
+  Future<Map> fetchConsultationPayment(
+      {@required String token, @required int doctorId}) async {
     Map payment = {};
     Response response;
     try {
       response = await get(
         '$BACKEND_URL/api/v1/patient/doctorPayment/$doctorId',
-        headers: {"Authorization": token},
+        headers: {"Authorization": 'wmn538179 $token'},
       );
     } catch (e) {
       throw (e);

@@ -54,25 +54,46 @@ class _DoctorDataState extends State<DoctorData> {
     return Center(
       child: Column(
         children: <Widget>[
-          Container(
-            width: ScreenUtil.getInstance().setSp(300),
-            height: ScreenUtil.getInstance().setSp(300),
-            decoration: BoxDecoration(
-              color: Colors.grey.withOpacity(0.05),
-              shape: BoxShape.circle,
-              border: Border.all(color: Colors.grey.withOpacity(0.2)),
-              image: DecorationImage(
-                image: NetworkImage(widget.doctor.image),
-              ),
-            ),
-          ),
-          SizedBox(height: ScreenUtil().setHeight(20)),
+          doctorAvatar(context),
+          SizedBox(height: ScreenUtil().setHeight(30)),
           Text(
             "${widget.doctor.getFullName}",
             style: Theme.of(context).textTheme.display1,
             textAlign: TextAlign.center,
           ),
         ],
+      ),
+    );
+  }
+
+  Widget doctorAvatar(BuildContext context) {
+    if (widget.doctor.image == '') {
+      return Container(
+        width: ScreenUtil.getInstance().setSp(300),
+        height: ScreenUtil.getInstance().setSp(300),
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: Color(0xFFF5F5F5),
+        ),
+        child: Center(
+          child: Icon(
+            Icons.person,
+            size: ScreenUtil().setSp(150),
+            color: Colors.grey,
+          ),
+        ),
+      );
+    }
+    return Container(
+      width: ScreenUtil.getInstance().setSp(300),
+      height: ScreenUtil.getInstance().setSp(300),
+      decoration: BoxDecoration(
+        color: Colors.grey.withOpacity(0.05),
+        shape: BoxShape.circle,
+        border: Border.all(color: Colors.grey.withOpacity(0.2)),
+        image: DecorationImage(
+          image: NetworkImage(widget.doctor.image),
+        ),
       ),
     );
   }
