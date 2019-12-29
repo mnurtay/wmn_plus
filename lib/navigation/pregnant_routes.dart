@@ -17,6 +17,7 @@ import 'package:wmn_plus/features/profile/change_mode/change_mode_fertility/chan
 import 'package:wmn_plus/features/profile/change_mode/change_mode_fertility/change_mode_fertility_page.dart';
 import 'package:wmn_plus/features/profile/change_mode/change_mode_fertility/change_mode_fertility_period/change_mode_fertility_period_page.dart';
 import 'package:wmn_plus/features/profile/change_mode/change_mode_page.dart';
+import 'package:wmn_plus/features/profile/change_mode/change_mode_pregnancy/change_mode_pregnancy_page.dart';
 import 'package:wmn_plus/features/profile/profile_page.dart';
 import 'package:wmn_plus/features/profile/screen/language/index.dart';
 import 'package:wmn_plus/features/registration/registration_mode/index.dart';
@@ -108,7 +109,10 @@ class _PregnantRoutes extends State<AuthenticatedPregnantRoutes> {
           '/settings_language': (BuildContext context) => LanguagePage(),
           '/profile': (BuildContext context) => ProfilPage(),
           '/settings_change_mode': (BuildContext context) => ChangeModePage(),
-          '/change_mode_fertility': (BuildContext context) => ChangeModeFertilityPage()
+          '/change_mode_fertility': (BuildContext context) =>
+              ChangeModeFertilityPage(),
+          '/change_mode_pregnancy': (BuildContext context) =>
+              ChangeModePregnancyPage()
         },
         onGenerateRoute: (RouteSettings settings) {
           if (settings.name == '/doctors_list') {
@@ -158,7 +162,7 @@ class _PregnantRoutes extends State<AuthenticatedPregnantRoutes> {
   }
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     ScreenUtil.instance = ScreenUtil(
         width: DEVICE_WIDTH, height: DEVICE_HEIGHT, allowFontScaling: true)
       ..init(context);
