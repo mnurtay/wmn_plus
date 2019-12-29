@@ -55,7 +55,20 @@ class UserRepository {
     spInstance.setBool("isFirstLaunch", false);
   }
 
- 
+  Future<void> persistToken(String token) async {
+    SharedPreferences spInstance = await SharedPreferences.getInstance();
+    spInstance.setString("anonymousPushToken", token);
+  }
+
+  Future<String> getToken() async {
+    SharedPreferences spInstance = await SharedPreferences.getInstance();
+    String token = spInstance.getString("anonymousPushToken");
+    if (token != null) {
+      return token;
+    } else {
+      return "";
+    }
+  }
 
   Future<void> persistUser(User user) async {
     SharedPreferences spInstance = await SharedPreferences.getInstance();

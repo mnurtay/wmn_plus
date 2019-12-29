@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart';
 import 'package:wmn_plus/features/auth/model/User.dart';
+import 'package:wmn_plus/features/auth/resource/auth_repository.dart';
 import 'package:wmn_plus/features/registration/registration_model.dart';
 
 class FertilityPeriodProvider {
@@ -19,8 +20,10 @@ class FertilityPeriodProvider {
   Future<User> registerUser(RegistrationModel registrationModel) async {
     print(registrationModel.toJson().toString());
     Response response;
+    registrationModel.pushToken = await UserRepository().getToken();
     try {
-      response = await post('http://194.146.43.98:4000/api/v1/patient/registration',
+      response = await post(
+          'http://194.146.43.98:4000/api/v1/patient/registration',
           body: json.encode(registrationModel.toJson()),
           headers: {
             "Content-Type": "application/json",
@@ -37,4 +40,3 @@ class FertilityPeriodProvider {
     }
   }
 }
-

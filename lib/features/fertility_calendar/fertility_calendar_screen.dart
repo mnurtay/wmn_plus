@@ -225,7 +225,7 @@ class FertilityCalendarScreenState extends State<FertilityCalendarScreen> {
               ),
             ),
             Text(
-              result.info.toPMS.toString() + " день",
+              result.info.currentFert.toString() + " день",
               style: TextStyle(
                 fontSize: ScreenUtil().setSp(90),
                 fontWeight: FontWeight.w400,
