@@ -145,7 +145,7 @@ class ProfileScreenState extends State<ProfileScreen> {
               navigate: () => Navigator.pushNamed(context, '/faq')),
           _buildCard(
               title: AppLocalizations.of(context).tr('settings.about_us'),
-              navigate: () => Navigator.pushNamed(context, '/aboutus')),
+              navigate: () => Navigator.pushNamed(context, '/about_us')),
           _buildCard(
               title: AppLocalizations.of(context).tr('settings.exit'),
               navigate: () {

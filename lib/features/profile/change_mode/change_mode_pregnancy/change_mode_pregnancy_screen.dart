@@ -1,32 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:wmn_plus/features/profile/change_mode/change_mode_fertility/change_mode_fertility_period/index.dart';
-import 'package:wmn_plus/features/registration/index.dart';
+import 'package:wmn_plus/features/profile/change_mode/change_mode_pregnancy/index.dart';
+import 'package:wmn_plus/features/registration/registration_model.dart';
 import 'package:wmn_plus/util/number_picker.dart';
 
-class ChangeModeFertilityPeriodScreen extends StatefulWidget {
-  ChangeModeFertilityPeriodScreen(
-      {Key key,
-      @required ChangeModeFertilityPeriodBloc changeModeFertilityPeriodBloc,
-      @required Fertility fertility})
-      : _changeModeFertilityPeriodBloc = changeModeFertilityPeriodBloc,
-        _fertility = fertility,
+class ChangeModePregnancyScreen extends StatefulWidget {
+  const ChangeModePregnancyScreen({
+    Key key,
+    @required ChangeModePregnancyBloc changeModePregnancyBloc,
+  })  : _changeModePregnancyBloc = changeModePregnancyBloc,
         super(key: key);
 
-  final ChangeModeFertilityPeriodBloc _changeModeFertilityPeriodBloc;
-  final Fertility _fertility;
+  final ChangeModePregnancyBloc _changeModePregnancyBloc;
 
   @override
-  ChangeModeFertilityPeriodScreenState createState() {
-    return ChangeModeFertilityPeriodScreenState(_changeModeFertilityPeriodBloc);
+  ChangeModePregnancyScreenState createState() {
+    return ChangeModePregnancyScreenState(_changeModePregnancyBloc);
   }
 }
 
-class ChangeModeFertilityPeriodScreenState
-    extends State<ChangeModeFertilityPeriodScreen> {
-  final ChangeModeFertilityPeriodBloc _changeModeFertilityPeriodBloc;
-  ChangeModeFertilityPeriodScreenState(this._changeModeFertilityPeriodBloc);
+class ChangeModePregnancyScreenState extends State<ChangeModePregnancyScreen> {
+  final ChangeModePregnancyBloc _changeModePregnancyBloc;
+  ChangeModePregnancyScreenState(this._changeModePregnancyBloc);
   var _currentValue = 1;
   @override
   void initState() {
@@ -41,19 +37,18 @@ class ChangeModeFertilityPeriodScreenState
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ChangeModeFertilityPeriodBloc,
-            ChangeModeFertilityPeriodState>(
-        bloc: widget._changeModeFertilityPeriodBloc,
+    return BlocBuilder<ChangeModePregnancyBloc, ChangeModePregnancyState>(
+        bloc: widget._changeModePregnancyBloc,
         builder: (
           BuildContext context,
-          ChangeModeFertilityPeriodState currentState,
+          ChangeModePregnancyState currentState,
         ) {
-          if (currentState is UnChangeModeFertilityPeriodState) {
+          if (currentState is UnChangeModePregnancyState) {
             return Center(
               child: CircularProgressIndicator(),
             );
           }
-          if (currentState is ErrorChangeModeFertilityPeriodState) {
+          if (currentState is ErrorChangeModePregnancyState) {
             return Center(
                 child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -91,7 +86,7 @@ class ChangeModeFertilityPeriodScreenState
                           NumberPicker.integer(
                               initialValue: _currentValue,
                               minValue: 1,
-                              maxValue: 100,
+                              maxValue: 42,
                               onChanged: (newValue) {
                                 setState(() => _currentValue = newValue);
                               }),
@@ -111,7 +106,7 @@ class ChangeModeFertilityPeriodScreenState
                                     width: 7,
                                   ),
                                   Text(
-                                    "дней",
+                                    "недели",
                                     style: TextStyle(
                                       fontSize: ScreenUtil().setSp(60),
                                       fontWeight: FontWeight.w200,
@@ -128,12 +123,12 @@ class ChangeModeFertilityPeriodScreenState
               )),
               InkWell(
                 onTap: () {
-                  var fert = widget._fertility;
-                  fert.period = _currentValue;
-                  widget._changeModeFertilityPeriodBloc
-                      .add(UnChangeModeFertilityPeriodEvent());
-                  widget._changeModeFertilityPeriodBloc
-                      .add(CompleteChangeModeFertilityEvent(fert));
+                  var pregnancy = Pregnancy(week: _currentValue);
+
+                  widget._changeModePregnancyBloc
+                      .add(UnChangeModePregnancyEvent());
+                  widget._changeModePregnancyBloc
+                      .add(CompleteChangeModePregnancyEvent(pregnancy));
                 },
                 child: Container(
                   height: 60,
@@ -158,7 +153,7 @@ class ChangeModeFertilityPeriodScreenState
           Row(
             children: <Widget>[
               Text(
-                "Цикл",
+                "Беременность",
                 style: TextStyle(
                   fontSize: ScreenUtil().setSp(90),
                   fontWeight: FontWeight.w400,
@@ -168,7 +163,7 @@ class ChangeModeFertilityPeriodScreenState
             ],
           ),
           Text(
-            "Выберите периодичность месячных",
+            "Выберите неделю беременности",
             style: TextStyle(
               fontSize: ScreenUtil().setSp(35),
               fontWeight: FontWeight.w300,
@@ -184,9 +179,7 @@ class ChangeModeFertilityPeriodScreenState
   }
 
   void _load([bool isError = false]) {
-    widget._changeModeFertilityPeriodBloc
-        .add(UnChangeModeFertilityPeriodEvent());
-    widget._changeModeFertilityPeriodBloc
-        .add(LoadChangeModeFertilityPeriodEvent(isError));
+    widget._changeModePregnancyBloc.add(UnChangeModePregnancyEvent());
+    widget._changeModePregnancyBloc.add(LoadChangeModePregnancyEvent(isError));
   }
 }

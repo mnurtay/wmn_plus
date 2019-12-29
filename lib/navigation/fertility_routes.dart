@@ -13,10 +13,12 @@ import 'package:wmn_plus/features/discounts/discounts_page.dart';
 import 'package:wmn_plus/features/fertility_calendar/fertility_calendar_page.dart';
 import 'package:wmn_plus/features/news/news_detail/news_detail_page.dart';
 import 'package:wmn_plus/features/news/news_page.dart';
+import 'package:wmn_plus/features/profile/about_us/about_us_page.dart';
 import 'package:wmn_plus/features/profile/change_mode/change_mode_fertility/change_mode_fertility_duration/change_mode_fertility_duration_page.dart';
 import 'package:wmn_plus/features/profile/change_mode/change_mode_fertility/change_mode_fertility_page.dart';
 import 'package:wmn_plus/features/profile/change_mode/change_mode_fertility/change_mode_fertility_period/change_mode_fertility_period_page.dart';
 import 'package:wmn_plus/features/profile/change_mode/change_mode_page.dart';
+import 'package:wmn_plus/features/profile/change_mode/change_mode_pregnancy/index.dart';
 import 'package:wmn_plus/features/profile/profile_page.dart';
 import 'package:wmn_plus/features/profile/screen/faq/faq.dart';
 import 'package:wmn_plus/features/profile/screen/language/language_page.dart';
@@ -94,7 +96,10 @@ class AuthenticatedFertilityRoutes extends StatelessWidget {
           '/faq': (BuildContext context) => FAQ(),
           '/settings_change_mode': (BuildContext context) => ChangeModePage(),
           '/change_mode_fertility': (BuildContext context) =>
-              ChangeModeFertilityPage()
+              ChangeModeFertilityPage(),
+          '/change_mode_pregnancy': (BuildContext context) =>
+              ChangeModePregnancyPage(),
+          '/about_us': (BuildContext context) => AboutUs()
         },
         onGenerateRoute: (RouteSettings settings) {
           if (settings.name == '/news_detail') {

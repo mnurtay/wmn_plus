@@ -24,7 +24,6 @@ class LoadNewsEvent extends NewsEvent {
 
   @override
   Future<NewsState> applyAsync({NewsState currentState, NewsBloc bloc}) async {
-    print("applyAsync");
     try {
       print(category);
       var newsList = await NewsRepository().getNewsList(0, category);
