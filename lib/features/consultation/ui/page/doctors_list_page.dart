@@ -59,7 +59,6 @@ class _DoctorsListPageState extends State<DoctorsListPage> {
         fontSize: ScreenUtil().setSp(50),
         fontWeight: FontWeight.w200,
         letterSpacing: 0.2);
-
     return SingleChildScrollView(
       child: Container(
         padding: EdgeInsets.symmetric(

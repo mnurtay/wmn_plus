@@ -3,9 +3,9 @@ import 'package:easy_localization/easy_localization_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:wmn_plus/features/auth/ui/page/profile_page.dart';
 import 'package:wmn_plus/features/consultation/ui/page/chat_list_page.dart';
 import 'package:wmn_plus/features/consultation/ui/page/chat_page.dart';
+import 'package:wmn_plus/features/consultation/ui/page/consultation_payment_page.dart';
 import 'package:wmn_plus/features/consultation/ui/page/doctor_page.dart';
 import 'package:wmn_plus/features/consultation/ui/page/doctors_list_page.dart';
 import 'package:wmn_plus/features/consultation/ui/page/new_consultation_page.dart';
@@ -13,9 +13,13 @@ import 'package:wmn_plus/features/discounts/discount_detail/index.dart';
 import 'package:wmn_plus/features/discounts/discounts_page.dart';
 import 'package:wmn_plus/features/news/index.dart';
 import 'package:wmn_plus/features/news/news_detail/index.dart';
+import 'package:wmn_plus/features/profile/change_mode/change_mode_fertility/change_mode_fertility_duration/change_mode_fertility_duration_page.dart';
+import 'package:wmn_plus/features/profile/change_mode/change_mode_fertility/change_mode_fertility_page.dart';
+import 'package:wmn_plus/features/profile/change_mode/change_mode_fertility/change_mode_fertility_period/change_mode_fertility_period_page.dart';
+import 'package:wmn_plus/features/profile/change_mode/change_mode_page.dart';
+import 'package:wmn_plus/features/profile/change_mode/change_mode_pregnancy/change_mode_pregnancy_page.dart';
 import 'package:wmn_plus/features/profile/profile_page.dart';
-import 'package:wmn_plus/features/profile/screen/language_screen.dart';
-import 'package:wmn_plus/features/registration/registration_page.dart';
+import 'package:wmn_plus/features/profile/screen/language/index.dart';
 import 'package:wmn_plus/navigation/bottom_navigation.dart';
 import 'package:wmn_plus/util/config.dart';
 
@@ -97,11 +101,16 @@ class _PregnantRoutes extends State<AuthenticatedPregnantRoutes> {
         theme: THEME,
         routes: {
           '/': (BuildContext context) => BottomNavigation(
-              pageOptions: pageOptions, barItems: barItems(context)),
+              pageOptions: pageOptions(context), barItems: barItems(context)),
           '/new_consultation': (BuildContext context) => NewConsultationPage(),
           '/discounts': (BuildContext context) => DiscountsPage(),
-          '/settings_language': (BuildContext context) => LanguageSettings(),
-          '/profile': (BuildContext context) => ProfilPage()
+          '/settings_language': (BuildContext context) => LanguagePage(),
+          '/profile': (BuildContext context) => ProfilPage(),
+          '/settings_change_mode': (BuildContext context) => ChangeModePage(),
+          '/change_mode_fertility': (BuildContext context) =>
+              ChangeModeFertilityPage(),
+          '/change_mode_pregnancy': (BuildContext context) =>
+              ChangeModePregnancyPage()
         },
         onGenerateRoute: (RouteSettings settings) {
           if (settings.name == '/doctors_list') {
@@ -120,14 +129,33 @@ class _PregnantRoutes extends State<AuthenticatedPregnantRoutes> {
                     DiscountDetailPage(settings.arguments));
           }
           if (settings.name == '/chat_page') {
+            Map object = settings.arguments;
             return MaterialPageRoute(
-                builder: (BuildContext context) =>
-                    ChatPage(doctor: settings.arguments));
+              builder: (BuildContext context) => ChatPage(
+                consultation: object['consultation'],
+                currentUser: object['user'],
+              ),
+            );
           }
           if (settings.name == '/doctor_page') {
             return MaterialPageRoute(
                 builder: (BuildContext context) =>
                     DoctorPage(doctor: settings.arguments));
+          }
+          if (settings.name == '/consultation_payment') {
+            return MaterialPageRoute(
+                builder: (BuildContext context) =>
+                    ConsulatationPaymentPage(url: settings.arguments));
+          }
+          if (settings.name == '/change_mode_fertility_duration') {
+            return MaterialPageRoute(
+                builder: (BuildContext context) =>
+                    ChangeModeFertilityDurationPage(settings.arguments));
+          }
+          if (settings.name == '/change_mode_fertility_period') {
+            return MaterialPageRoute(
+                builder: (BuildContext context) =>
+                    ChangeModeFertilityPeriodPage(settings.arguments));
           }
           return null;
         },
@@ -142,44 +170,38 @@ class _PregnantRoutes extends State<AuthenticatedPregnantRoutes> {
       ..init(context);
     return buildRoutes(context);
   }
-}
 
-final List pageOptions = [
-  NewsPage(),
-  ProfilePage(),
-  DiscountsPage(),
-  ProfilePage(),
-  ChatListPage(),
-  ProfilPage(),
-];
+  List pageOptions(BuildContext context) {
+    return [
+      NewsPage(),
+      ChatListPage(),
+      DiscountsPage(),
+      ProfilPage(),
+    ];
+  }
 
-List<BottomNavigationBarItem> barItems(BuildContext context) {
-  return [
-    // --- NEWS PAGE
-    BottomNavigationBarItem(
-      icon: Icon(Icons.list),
-      title: Text(AppLocalizations.of(context).tr('news')),
-    ),
-    BottomNavigationBarItem(
-      icon: Icon(Icons.calendar_today),
-      title: Text(AppLocalizations.of(context).tr('calendar')),
-    ),
-    BottomNavigationBarItem(
-      icon: Icon(Icons.shop_two),
-      title: Text(AppLocalizations.of(context).tr('discount')),
-    ),
-    BottomNavigationBarItem(
-      icon: Icon(Icons.shopping_cart),
-      title: Text(AppLocalizations.of(context).tr('shop')),
-    ),
-    BottomNavigationBarItem(
-      icon: Icon(Icons.chat),
-      title: Text(AppLocalizations.of(context).tr('chat')),
-    ),
-    // --- PROFILE PAGE
-    BottomNavigationBarItem(
-      icon: Icon(Icons.person),
-      title: Text(AppLocalizations.of(context).tr('profil')),
-    ),
-  ];
+  List<Widget> barItems(BuildContext context) {
+    return [
+      // NEWS
+      Container(
+        padding: EdgeInsets.all(ScreenUtil().setSp(5)),
+        child: Icon(Icons.list),
+      ),
+      // CHAT
+      Container(
+        padding: EdgeInsets.all(ScreenUtil().setSp(5)),
+        child: Icon(Icons.chat),
+      ),
+      // DISCOUNTS
+      Container(
+        padding: EdgeInsets.all(ScreenUtil().setSp(5)),
+        child: Icon(Icons.shopping_cart),
+      ),
+      // PROFILE
+      Container(
+        padding: EdgeInsets.all(ScreenUtil().setSp(5)),
+        child: Icon(Icons.person),
+      ),
+    ];
+  }
 }

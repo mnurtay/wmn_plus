@@ -1,24 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:web_socket_channel/io.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
+import 'package:wmn_plus/features/auth/model/User.dart';
+import 'package:wmn_plus/features/consultation/model/Consultation.dart';
 import 'package:wmn_plus/features/consultation/ui/widget/chat_data.dart';
 import 'dart:convert';
-
 import 'package:wmn_plus/features/consultation/model/Doctor.dart';
 
 class ChatPage extends StatefulWidget {
-  final Doctor doctor;
-  ChatPage({@required this.doctor});
+  final Consultation consultation;
+  final User currentUser;
+  ChatPage({@required this.consultation, @required this.currentUser});
 
   @override
   _ChatPageState createState() => _ChatPageState();
 }
 
 class _ChatPageState extends State<ChatPage> {
-  final channel = IOWebSocketChannel.connect(
-      'ws://194.146.43.98:8080/conversation?token=qwerty&convID=27a3f1a3d555387ab7bf589ca716c295&role=PAT');
   TextEditingController messageController = TextEditingController();
   bool textFieldIsEmpty = true;
+  Doctor doctor;
+  IOWebSocketChannel channel;
+
+  @override
+  void initState() {
+    doctor = widget.consultation.doctor;
+    String url =
+        'ws://194.146.43.98:8080/conversation?token=${widget.currentUser.result.token}&convID=${widget.consultation.id}&role=PAT';
+    channel = IOWebSocketChannel.connect(url);
+    super.initState();
+  }
 
   void _sendMessage() {
     FocusScope.of(context).requestFocus(FocusNode());
@@ -46,13 +58,13 @@ class _ChatPageState extends State<ChatPage> {
           Expanded(
             child: ChatData(channel: channel),
           ),
-          bottomBar(context),
+          bottomBar(context, channel),
         ],
       ),
     );
   }
 
-  Widget bottomBar(BuildContext context) {
+  Widget bottomBar(BuildContext context, WebSocketChannel channel) {
     return Container(
       color: Colors.white,
       padding: EdgeInsets.only(
@@ -112,17 +124,18 @@ class _ChatPageState extends State<ChatPage> {
       elevation: 0,
       iconTheme: IconThemeData(color: Colors.black),
       title: GestureDetector(
-        onTap: () => Navigator.pushNamed(context, "/doctor_page",
-            arguments: widget.doctor),
+        onTap: () =>
+            Navigator.pushNamed(context, "/doctor_page", arguments: doctor),
         child: Row(
           children: <Widget>[
             CircleAvatar(
               backgroundColor: Color(0xFFF5F5F5),
-              backgroundImage: NetworkImage(widget.doctor.image),
+              backgroundImage: NetworkImage(doctor.image),
+              child: Icon(Icons.person, color: Colors.grey),
             ),
             SizedBox(width: ScreenUtil().setWidth(30)),
             Text(
-              "${widget.doctor.surname} ${widget.doctor.firstName}",
+              "${doctor.surname} ${doctor.firstName}",
               style: Theme.of(context).textTheme.body1,
             ),
           ],

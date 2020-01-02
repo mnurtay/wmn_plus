@@ -1,10 +1,11 @@
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wmn_plus/util/config.dart';
 
 class BottomNavigation extends StatefulWidget {
   final List pageOptions;
-  final List<BottomNavigationBarItem> barItems;
+  final List<Widget> barItems;
   final int selectedPage;
 
   BottomNavigation(
@@ -30,19 +31,18 @@ class _BottomNavigationState extends State<BottomNavigation> {
     ScreenUtil.instance = ScreenUtil(
         width: DEVICE_WIDTH, height: DEVICE_HEIGHT, allowFontScaling: true)
       ..init(context);
-     return Scaffold(
+    return Scaffold(
       body: widget.pageOptions[selectedPage],
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.white,
-        currentIndex: selectedPage,
-        onTap: (int index) {
+      bottomNavigationBar: CurvedNavigationBar(
+        animationCurve: Curves.easeInOutCirc,
+        // backgroundColor: Theme.of(context).primaryColor,
+        height: 65,
+        items: widget.barItems,
+        onTap: (index) {
           setState(() {
             selectedPage = index;
           });
         },
-        fixedColor: Theme.of(context).primaryColor,
-        unselectedItemColor: Colors.grey,
-        items: widget.barItems,
       ),
     );
   }

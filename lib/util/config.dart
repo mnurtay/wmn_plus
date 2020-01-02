@@ -13,3 +13,8 @@ const List<Map> DOCTOR_CATEGORIES = [
   {'value': 'Педиатры', 'id': 3},
   {'value': 'Аллергологи', 'id': 4},
 ];
+
+enum HttpStatus{
+  Success,
+  Error
+}

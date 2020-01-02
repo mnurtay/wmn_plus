@@ -26,10 +26,17 @@ class RegistrationModeScreenState extends State<RegistrationModeScreen> {
   final RegistrationModeBloc _registrationModeBloc;
   RegistrationModeScreenState(this._registrationModeBloc);
 
-  Widget buildModeItem(BuildContext context, String mode, String url) {
+  Widget buildModeItem(BuildContext context, String mode, String url, int version) {
     return InkWell(
       onTap: () {
-        Navigator.pushNamed(context, '/registration_mode_fertility',
+        if (version == 1)
+          Navigator.pushNamed(context, '/registration_mode_fertility',
+            arguments: widget._registrationModel);
+        else if (version == 2) 
+          Navigator.pushNamed(context, '/registration_mode_pregnancy',
+            arguments: widget._registrationModel);
+        else 
+          Navigator.pushNamed(context, '/registration_mode_fertility',
             arguments: widget._registrationModel);
       },
       child: Container(
@@ -65,7 +72,7 @@ class RegistrationModeScreenState extends State<RegistrationModeScreen> {
 
   @override
   void dispose() {
-    _registrationModeBloc.close();
+    // _registrationModeBloc.close();
     super.dispose();
   }
 
@@ -124,9 +131,9 @@ class RegistrationModeScreenState extends State<RegistrationModeScreen> {
         SizedBox(
           height: 20,
         ),
-        buildModeItem(context, "Фертильность", ""),
-        buildModeItem(context, "Беременность", ""),
-        buildModeItem(context, "Климакс", "")
+        buildModeItem(context, "Фертильность", "", 1),
+        buildModeItem(context, "Беременность", "",2),
+        buildModeItem(context, "Климакс", "",3)
       ],
     );
   }
@@ -231,8 +238,13 @@ class RegistrationModeScreenState extends State<RegistrationModeScreen> {
         Expanded(
           child: Container(),
         ),
-        Container(
-          child: Text("Пропустить"),
+         InkWell(
+          onTap: (){
+            Navigator.of(context).pop();
+          },
+                  child: Container(
+            child: Text("Назад"),
+          ),
         ),
       ],
     );

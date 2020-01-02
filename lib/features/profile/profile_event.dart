@@ -31,11 +31,8 @@ class LoadProfileEvent extends ProfileEvent {
   Future<ProfileState> applyAsync(
       {ProfileState currentState, ProfileBloc bloc}) async {
     try {
-      if (currentState is InProfileState) {
-        return currentState.getNewVersion();
-      }
       User user = await UserRepository().getCurrentUser();
-      return InProfileState(0, user.getFullName);
+      return InProfileState(0, user.result.firstname);
     } catch (_, stackTrace) {
       developer.log('$_', name: 'LoadProfileEvent', error: _, stackTrace: stackTrace);
       return ErrorProfileState(0, _?.toString());

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
+import 'package:wmn_plus/features/auth/resource/auth_repository.dart';
 import 'package:wmn_plus/features/consultation/model/Consultation.dart';
 import 'package:wmn_plus/features/consultation/resource/chat_repository.dart';
 import './bloc.dart';
@@ -37,7 +38,7 @@ class ConsultationBloc extends Bloc<ConsultationEvent, ConsultationState> {
       }
     }
     // Consultation Payment
-    if (event is ConsultatinPaymentEvent) {
+    if (event is ConsultationPaymentEvent) {
       yield LoadingConsultationState();
       try {
         final payment = await chatRepository.fetchConsultationPayment(
@@ -53,6 +54,7 @@ class ConsultationBloc extends Bloc<ConsultationEvent, ConsultationState> {
 // CHAT BLOC
 class ChatBloc extends Bloc<ChatEvent, ChatState> {
   ChatRepository chatRepository = ChatRepository();
+  UserRepository userRepository = UserRepository();
   @override
   ChatState get initialState => InitialChatState();
 
@@ -67,6 +69,10 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       } catch (e) {
         print(e);
       }
+    }
+    if (event is GetCurrentUserChatEvent) {
+      final user = await userRepository.getCurrentUser();
+      yield FetchedCurrentUserState(user);
     }
   }
 }

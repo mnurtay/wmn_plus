@@ -44,6 +44,7 @@ class DiscountsScreenState extends State<DiscountsScreen> {
 
   @override
   void dispose() {
+    _discountsBloc.close();
     super.dispose();
   }
 
@@ -97,10 +98,10 @@ class DiscountsScreenState extends State<DiscountsScreen> {
                 return Center();
               }
               if (currentState is InDiscountsState) {
-                return new Expanded(
+                return  Expanded(
                   child: new ListView.builder(
                     padding:
-                        EdgeInsets.all(ScreenUtil.getInstance().setHeight(50)),
+                        EdgeInsets.all(ScreenUtil.getInstance().setHeight(30)),
                     itemCount: currentState.discount.result.length,
                     itemBuilder: (context, index) {
                       // return buildItem(context);
@@ -132,7 +133,7 @@ class DiscountsScreenState extends State<DiscountsScreen> {
       child: Container(
           margin:
               EdgeInsets.only(bottom: ScreenUtil.getInstance().setHeight(25)),
-          height: ScreenUtil.getInstance().setHeight(700),
+          height: ScreenUtil.getInstance().setHeight(600),
           width: MediaQuery.of(context).size.width,
           child: Container(
             alignment: Alignment.bottomLeft,
@@ -147,16 +148,9 @@ class DiscountsScreenState extends State<DiscountsScreen> {
                       top: ScreenUtil.getInstance().setHeight(40),
                       left: ScreenUtil.getInstance().setHeight(30),
                     ),
+                    
                     Positioned(
-                      child: Text(
-                        result.content,
-                        style: Theme.of(context).textTheme.display2,
-                      ),
-                      top: ScreenUtil.getInstance().setHeight(100),
-                      left: ScreenUtil.getInstance().setHeight(30),
-                    ),
-                    Positioned(
-                      child: Text("Пользуются: 99",
+                      child: Text("Просмотрено: 99",
                           style: Theme.of(context).textTheme.display2),
                       top: ScreenUtil.getInstance().setHeight(170),
                       left: ScreenUtil.getInstance().setHeight(30),

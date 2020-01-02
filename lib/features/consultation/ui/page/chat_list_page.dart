@@ -13,16 +13,17 @@ class ChatListPage extends StatefulWidget {
 }
 
 class _ChatListPageState extends State<ChatListPage> {
-  ConsultationBloc consultationBloc;
   AuthBloc authBloc;
+  ConsultationBloc consultationBloc;
   List<Consultation> consultations = [];
   TextEditingController searchController = TextEditingController();
   String oldData = '';
+  User currentUser;
 
   @override
   void initState() {
-    consultationBloc = ConsultationBloc();
     authBloc = BlocProvider.of<AuthBloc>(context);
+    consultationBloc = ConsultationBloc();
     super.initState();
   }
 
@@ -31,46 +32,41 @@ class _ChatListPageState extends State<ChatListPage> {
     return BlocBuilder(
       bloc: authBloc,
       builder: (context, state) {
-        if (state is AuthenticatedAuthState) {
-          return buildContent(context, state.user, "PAT");
-        }
+        String url = 'ws://194.146.43.98:8080/convlist?role=PAT&token=';
         if (state is AuthenticatedFertilityModeState) {
-          return buildContent(context, state.user, "PAT");
+          url += state.user.result.token;
+          currentUser = state.user;
+        } else if (state is AuthenticatedPregnantModeState) {
+          url += state.user.result.token;
+          currentUser = state.user;
+        } else if (state is AuthenticatedClimaxModeState) {
+          url += state.user.result.token;
+          currentUser = state.user;
+        } else if (state is AuthenticatedDoctorAuthState) {
+          // url = 'ws://194.146.43.98:8080/convlist?role=DOC&token=';
+          // url += state.user.result.token;
         }
-        if (state is AuthenticatedPregnantModeState) {
-          return buildContent(context, state.user, "PAT");
-        }
-        if (state is AuthenticatedClimaxModeState) {
-          return buildContent(context, state.user, "PAT");
-        }
-        if (state is AuthenticatedDoctorAuthState) {
-          return buildContent(context, state.user, "DOC");
-        }
-        return Container();
-      },
-    );
-  }
-
-  Widget buildContent(BuildContext context, User user, String role) {
-    final channel = IOWebSocketChannel.connect(
-        'ws://194.146.43.98:8080/convlist?role=$role&token=${user.token}');
-    return Scaffold(
-      backgroundColor: Color(0xFFF5F5F5),
-      appBar: appBar(context),
-      body: SingleChildScrollView(
-        child: Container(
-          padding: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(50)),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              SizedBox(height: ScreenUtil().setHeight(50)),
-              searchWidget(context),
-              SizedBox(height: ScreenUtil().setHeight(50)),
-              chatList(context, channel),
-            ],
+        IOWebSocketChannel channel = IOWebSocketChannel.connect(url);
+        return Scaffold(
+          backgroundColor: Color(0xFFF5F5F5),
+          appBar: appBar(context),
+          body: SingleChildScrollView(
+            child: Container(
+              padding:
+                  EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(50)),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  SizedBox(height: ScreenUtil().setHeight(50)),
+                  searchWidget(context),
+                  SizedBox(height: ScreenUtil().setHeight(50)),
+                  chatList(context, channel),
+                ],
+              ),
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 
@@ -98,26 +94,56 @@ class _ChatListPageState extends State<ChatListPage> {
           });
         }
       },
-      child: Column(
-        children: consultations.map((item) {
-          String search = searchController.text.toLowerCase();
-          String name = item.doctor.firstName.toLowerCase();
-          String surname = item.doctor.surname.toLowerCase();
-          if (search.isEmpty ||
-              search == name.substring(0, search.length) ||
-              search == surname.substring(0, search.length)) {
-            return chatItem(context, item);
-          }
-          return Container();
-        }).toList(),
-      ),
+      child: chatListBody(context),
+    );
+  }
+
+  Widget chatListBody(BuildContext context) {
+    if (consultations.isEmpty) {
+      return Column(
+        children: <Widget>[
+          SizedBox(height: ScreenUtil().setHeight(50)),
+          Container(
+            alignment: Alignment.center,
+            padding: EdgeInsets.symmetric(
+              vertical: ScreenUtil().setHeight(30),
+            ),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.all(
+                Radius.circular(ScreenUtil().setSp(30)),
+              ),
+            ),
+            child: Text(
+              'Вы можете начать консультации, нажав кнопку +',
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ],
+      );
+    }
+    return Column(
+      children: consultations.map((item) {
+        String search = searchController.text.toLowerCase();
+        String name = item.doctor.firstName.toLowerCase();
+        String surname = item.doctor.surname.toLowerCase();
+        if (search.isEmpty ||
+            search == name.substring(0, search.length) ||
+            search == surname.substring(0, search.length)) {
+          return chatItem(context, item);
+        }
+        return Container();
+      }).toList(),
     );
   }
 
   Widget chatItem(BuildContext context, Consultation consultation) {
     return GestureDetector(
-      onTap: () => Navigator.pushNamed(context, '/chat_page',
-          arguments: consultation.doctor),
+      onTap: () => Navigator.pushNamed(
+        context,
+        '/chat_page',
+        arguments: {"consultation": consultation, 'user': currentUser},
+      ),
       child: Container(
         decoration: BoxDecoration(
           color: Colors.white,
@@ -133,17 +159,7 @@ class _ChatListPageState extends State<ChatListPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             // --- DOCTOR IMAGE
-            Container(
-              width: 70,
-              height: 70,
-              decoration: BoxDecoration(
-                  borderRadius:
-                      BorderRadius.all(Radius.circular(ScreenUtil().setSp(40))),
-                  color: Color(0xFFF5F5F5),
-                  image: DecorationImage(
-                      image: NetworkImage(consultation.doctor.image),
-                      fit: BoxFit.cover)),
-            ),
+            doctorAvatar(context, consultation),
             // --- CHAT INFORMATION
             SizedBox(width: ScreenUtil().setWidth(35)),
             Expanded(
@@ -194,6 +210,41 @@ class _ChatListPageState extends State<ChatListPage> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget doctorAvatar(BuildContext context, Consultation consultation) {
+    if (consultation.doctor.image == '') {
+      return Container(
+        width: 70,
+        height: 70,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(
+            Radius.circular(
+              ScreenUtil().setSp(40),
+            ),
+          ),
+          color: Color(0xFFF5F5F5),
+        ),
+        child: Center(
+          child: Icon(
+            Icons.person,
+            size: ScreenUtil().setSp(100),
+            color: Colors.grey,
+          ),
+        ),
+      );
+    }
+    return Container(
+      width: 70,
+      height: 70,
+      decoration: BoxDecoration(
+          borderRadius:
+              BorderRadius.all(Radius.circular(ScreenUtil().setSp(40))),
+          color: Color(0xFFF5F5F5),
+          image: DecorationImage(
+              image: NetworkImage(consultation.doctor.image),
+              fit: BoxFit.cover)),
     );
   }
 

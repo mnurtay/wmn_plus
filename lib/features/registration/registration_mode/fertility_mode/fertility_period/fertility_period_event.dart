@@ -37,7 +37,7 @@ class LoadFertilityPeriodEvent extends FertilityPeriodEvent {
         return currentState.getNewVersion();
       }
 
-      this._fertilityPeriodRepository.test(this.isError);
+      // this._fertilityPeriodRepository.test(this.isError);
       return InFertilityPeriodState(0, "Hello world");
     } catch (_, stackTrace) {
       developer.log('$_',
@@ -64,7 +64,7 @@ class UserFertilityModeRegisterEvent extends FertilityPeriodEvent {
       }
       // provider
       await Future.delayed(Duration(seconds: 3));
-       
+
       return OutFertilityPeriodState(0, "Hello world");
     } catch (_, stackTrace) {
       developer.log('$_',
@@ -75,11 +75,12 @@ class UserFertilityModeRegisterEvent extends FertilityPeriodEvent {
 }
 
 class CompleteRegistrationEvent extends FertilityPeriodEvent {
-   
+  final RegistrationModel registrationModel;
+
   @override
   String toString() => 'LoadRegistrationEvent';
 
-  CompleteRegistrationEvent();
+  CompleteRegistrationEvent(this.registrationModel);
 
   @override
   Future<FertilityPeriodState> applyAsync(
@@ -91,4 +92,3 @@ class CompleteRegistrationEvent extends FertilityPeriodEvent {
     }
   }
 }
-

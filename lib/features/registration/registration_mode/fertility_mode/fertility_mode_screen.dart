@@ -41,6 +41,7 @@ class FertilityModeScreenState extends State<FertilityModeScreen> {
 
   @override
   void dispose() {
+    _fertilityModeBloc.close();
     super.dispose();
   }
 
@@ -254,8 +255,13 @@ class FertilityModeScreenState extends State<FertilityModeScreen> {
         Expanded(
           child: Container(),
         ),
-        Container(
-          child: Text("Пропустить"),
+         InkWell(
+          onTap: (){
+            Navigator.of(context).pop();
+          },
+                  child: Container(
+            child: Text("Назад"),
+          ),
         ),
       ],
     );
@@ -278,12 +284,7 @@ class FertilityModeScreenState extends State<FertilityModeScreen> {
         ),
 
         thisMonthDayBorderColor: Colors.grey,
-        //      weekDays: null, /// for pass null when you do not want to render weekDays
-        //      headerText: Container( /// Example for rendering custom header
-        //        child: Text('Custom Header'),
-        //      ),
         customDayBuilder: (
-          /// you can provide your own build function to make custom day containers
           bool isSelectable,
           int index,
           bool isSelectedDay,
@@ -353,13 +354,21 @@ class FertilityModeScreenState extends State<FertilityModeScreen> {
   }
 
   void nextPageTap() {
+    var day = widget._varCurrentTime.day.toString();
+    var month = widget._varCurrentTime.month.toString();
+    if (widget._varCurrentTime.day < 10){
+      day = "0${widget._varCurrentTime.day}";
+    }
+    if (widget._varCurrentTime.month < 10){
+      month = "0${widget._varCurrentTime.month}";
+    }
     RegistrationModel obj = new RegistrationModel(
       firstname: widget._registrationModel.firstname,
       password: widget._registrationModel.password,
       phone: widget._registrationModel.phone,
       fertility: Fertility(
           start:
-              "${widget._varCurrentTime.day}/${widget._varCurrentTime.month}/${widget._varCurrentTime.year}"),
+              "${widget._varCurrentTime.year}$month$day"),
     );
     print(obj.toJson().toString());
     Navigator.pushNamed(context, "/registration_mode_fertility_duration",

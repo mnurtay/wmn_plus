@@ -30,6 +30,7 @@ class Result {
   String imageUrl;
 
   Result({this.id, this.title, this.content, this.imageUrl});
+  get image => "http://194.146.43.98:4000/image?uri=" + this.imageUrl;
 
   Result.fromJson(Map<String, dynamic> json) {
     id = json['id'];

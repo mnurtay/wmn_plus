@@ -29,9 +29,6 @@ class LoadNewsDetailEvent extends NewsDetailEvent {
   Future<NewsDetailState> applyAsync(
       {NewsDetailState currentState, NewsDetailBloc bloc}) async {
     try {
-      if (currentState is InNewsDetailState) {
-        return currentState.getNewVersion();
-      }
       // await Future.delayed(Duration(seconds: 2));
       NewsDetail newsDetail = await this._newsDetailRepository.fetchNewsDetail(newsId);
       
