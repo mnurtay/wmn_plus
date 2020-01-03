@@ -10,9 +10,16 @@ class PregnantBloc extends Bloc<PregnantEvent, PregnantState> {
   Stream<PregnantState> mapEventToState(
     PregnantEvent event,
   ) async* {
+    if (event is InitialPregnantEvent) {
+      yield InitialPregnantState();
+    }
+    // When select date from main calendar
     if (event is SelectDatePregnantEvent) {
       yield LoadingPregnantState();
       yield SelectedDatePregnantState(event.dateTime);
+    }
+    if (event is TodaysPregnantEvent) {
+      yield TodaysPregnantState();
     }
   }
 }

@@ -30,3 +30,13 @@ const List<String> MONTH_NAME = [
   'Ноябрь',
   'Декабрь'
 ];
+
+const List<String> DAYS_NAME = [
+  'ПН',
+  'ВТ',
+  'СР',
+  'ЧТ',
+  'ПТ',
+  'СБ',
+  'ВС',
+];

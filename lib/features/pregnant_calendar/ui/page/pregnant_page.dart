@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wmn_plus/features/pregnant_calendar/bloc/bloc.dart';
 import 'package:wmn_plus/features/pregnant_calendar/ui/widget/pregnant_calendar.dart';
+import 'package:wmn_plus/features/pregnant_calendar/ui/widget/pregnant_data.dart';
 import 'package:wmn_plus/util/config.dart';
 
 class PregnantPage extends StatefulWidget {
@@ -25,7 +26,7 @@ class _PregnantPageState extends State<PregnantPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: buildAppBar(context),
-      backgroundColor: Colors.white,
+      backgroundColor: Color(0xFFF5F5F5),
       body: BlocProvider(
         builder: (context) => pregnantBloc,
         child: buildBody(context),
@@ -33,20 +34,28 @@ class _PregnantPageState extends State<PregnantPage> {
     );
   }
 
+  void updateTitle(DateTime dateTime) {
+    setState(() {
+      title = calendarHeaderTitle(dateTime);
+    });
+  }
+
   Widget buildBody(BuildContext context) {
     return BlocListener(
       bloc: pregnantBloc,
       listener: (context, state) {
         if (state is SelectedDatePregnantState) {
-          setState(() {
-            title = calendarHeaderTitle(state.dateTime);
-          });
+          updateTitle(state.dateTime);
+        }
+        if (state is TodaysPregnantState) {
+          updateTitle(DateTime.now());
         }
       },
       child: Container(
         child: Column(
           children: <Widget>[
             PregnantCalendar(),
+            PregnantData(),
           ],
         ),
       ),
@@ -55,16 +64,30 @@ class _PregnantPageState extends State<PregnantPage> {
 
   Widget buildAppBar(BuildContext context) {
     return AppBar(
-      elevation: 1,
+      elevation: 0,
       backgroundColor: Colors.white,
       centerTitle: false,
       title: Text(
         title,
-        style: TextStyle(
-          color: Colors.black,
-          fontSize: ScreenUtil().setSp(60),
-        ),
+        style: TextStyle(color: Colors.black, fontSize: ScreenUtil().setSp(60)),
       ),
+      actions: <Widget>[
+        GestureDetector(
+          onTap: () {
+            pregnantBloc.add(TodaysPregnantEvent());
+          },
+          child: Container(
+            padding: EdgeInsets.only(
+              right: ScreenUtil().setWidth(30),
+            ),
+            child: Icon(
+              Icons.today,
+              color: Colors.black,
+              size: ScreenUtil().setSp(75),
+            ),
+          ),
+        ),
+      ],
     );
   }
 

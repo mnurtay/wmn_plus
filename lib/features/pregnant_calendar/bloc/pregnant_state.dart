@@ -21,3 +21,8 @@ class SelectedDatePregnantState extends PregnantState {
   @override
   List<Object> get props => null;
 }
+
+class TodaysPregnantState extends PregnantState {
+  @override
+  List<Object> get props => null;
+}

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:wmn_plus/features/pregnant_calendar/bloc/bloc.dart';
+import 'package:wmn_plus/util/config.dart';
 
 class PregnantCalendar extends StatefulWidget {
   @override
@@ -22,17 +23,43 @@ class _PregnantCalendarState extends State<PregnantCalendar> {
 
   @override
   Widget build(BuildContext context) {
+    return BlocListener(
+      bloc: pregnantBloc,
+      listener: (context, state) {
+        if (state is TodaysPregnantState) {
+          controller.setSelectedDay(DateTime.now());
+          pregnantBloc.add(InitialPregnantEvent());
+        }
+      },
+      child: buildCalendar(context),
+    );
+  }
+
+  Widget buildCalendar(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(
-        vertical: ScreenUtil().setSp(40),
         horizontal: ScreenUtil().setSp(20),
+      ),
+      margin: EdgeInsets.only(
+        top: ScreenUtil().setHeight(30),
       ),
       child: TableCalendar(
         calendarController: controller,
         headerVisible: false,
         calendarStyle: CalendarStyle(
-          todayColor: Theme.of(context).primaryColor.withOpacity(0.6),
-          selectedColor: Theme.of(context).primaryColor,
+          todayColor: Color(0xFFa1affc),
+          todayStyle: textStyle(Colors.white, 45),
+          selectedStyle: textStyle(Colors.white, 45),
+          weekdayStyle: textStyle(Colors.black, 45),
+          weekendStyle: textStyle(Colors.black, 45),
+          outsideStyle: textStyle(Colors.black.withOpacity(0.3), 45),
+          outsideWeekendStyle: textStyle(Colors.black.withOpacity(0.3), 45),
+          contentPadding: EdgeInsets.all(0),
+        ),
+        daysOfWeekStyle: DaysOfWeekStyle(
+          dowTextBuilder: weekDays,
+          weekdayStyle: textStyle(Colors.black, 35),
+          weekendStyle: textStyle(Colors.red, 35),
         ),
         startingDayOfWeek: StartingDayOfWeek.monday,
         initialCalendarFormat: CalendarFormat.week,
@@ -41,5 +68,17 @@ class _PregnantCalendarState extends State<PregnantCalendar> {
         },
       ),
     );
+  }
+
+  TextStyle textStyle(Color color, int size) {
+    return TextStyle(
+      color: color,
+      fontSize: ScreenUtil().setSp(size),
+      fontWeight: FontWeight.w400,
+    );
+  }
+
+  String weekDays(DateTime date, dynamic data) {
+    return DAYS_NAME[date.weekday - 1];
   }
 }
