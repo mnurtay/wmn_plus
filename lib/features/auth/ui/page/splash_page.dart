@@ -1,23 +1,11 @@
 import 'dart:io';
 
-import 'package:easy_localization/easy_localization_provider.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wmn_plus/features/auth/resource/auth_repository.dart';
 
-class Splash extends StatelessWidget {
-  final data;
-  Splash(this.data);
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(routes: {
-      '/': (BuildContext context) => SplashScreen(data),
-    });
-  }
-}
 
 class SplashScreen extends StatefulWidget {
   final data;
@@ -51,6 +39,9 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
+    ScreenUtil.instance =
+        ScreenUtil(width: 828, height: 1792, allowFontScaling: true)
+          ..init(context);
     return Scaffold(
       body: Container(
         child: Center(
@@ -69,7 +60,8 @@ class _SplashScreenState extends State<SplashScreen> {
   void firebaseConfigure() {
     if (Platform.isIOS) iOS_Permission();
     _firebaseMessaging.getToken().then((token) {
-      UserRepository().persistToken(token);
+      UserRepository userRepository = UserRepository();
+      userRepository.persistToken(token);
     });
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
