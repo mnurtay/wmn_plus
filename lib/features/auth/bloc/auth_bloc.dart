@@ -17,6 +17,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     if (event is AppStartedAuthEvent) {
       final bool isAuthenticated = await userRepository.isAuthenticated();
       if (isAuthenticated) {
+        await userRepository.updateUserData();
         final currentUser = await userRepository.getCurrentUser();
         var mode = currentUser.result.regime;
         if (mode == "fertility") {

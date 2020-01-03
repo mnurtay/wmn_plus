@@ -102,7 +102,9 @@ class _PregnantRoutes extends State<AuthenticatedPregnantRoutes> {
         theme: THEME,
         routes: {
           '/': (BuildContext context) => BottomNavigation(
-              pageOptions: pageOptions(context), barItems: barItems(context)),
+              pageOptions: pageOptions(context),
+              barItems: barItems(context),
+              selectedPage: 2),
           '/new_consultation': (BuildContext context) => NewConsultationPage(),
           '/discounts': (BuildContext context) => DiscountsPage(),
           '/settings_language': (BuildContext context) => LanguagePage(),
