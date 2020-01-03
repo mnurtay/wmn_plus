@@ -4,6 +4,8 @@ version: 1.0.0+1
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
+module:
+  androidX: true 
 
 dependencies:
   flutter:
@@ -30,7 +32,9 @@ dependencies:
   flutter_launch: ^0.2.0
   url_launcher: ^5.0.3
   get_it: ^1.0.3+2
-  share: ^0.6.3
+  share: 0.6.3+5
+  firebase_messaging: ^6.0.9
+
 
 
 

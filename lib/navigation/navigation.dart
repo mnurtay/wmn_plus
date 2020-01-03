@@ -68,7 +68,7 @@ class _AppState extends State<App> {
             bloc: authBloc,
             builder: (BuildContext context, AuthState state) {
               if (state is UninitializedAuthState) {
-                return SplashScreen(data);
+                return Splash(data);
               }
               if (state is AuthenticatedAuthState) {
                 return AuthenticatedPregnantRoutes(); // pregnant mode by default

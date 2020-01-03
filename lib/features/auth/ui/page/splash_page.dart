@@ -1,10 +1,23 @@
+import 'dart:io';
+
 import 'package:easy_localization/easy_localization_provider.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:wmn_plus/features/auth/bloc/bloc.dart';
-import 'package:wmn_plus/features/auth/model/User.dart';
 import 'package:wmn_plus/features/auth/resource/auth_repository.dart';
+
+class Splash extends StatelessWidget {
+  final data;
+  Splash(this.data);
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(routes: {
+      '/': (BuildContext context) => SplashScreen(data),
+    });
+  }
+}
 
 class SplashScreen extends StatefulWidget {
   final data;
@@ -14,16 +27,15 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  AuthBloc _authBloc;
+  FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+
   Future checkFirstSeen() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool _seen = (prefs.getBool('seen') ?? false);
-    // User user = await UserRepository().getCurrentUser();
-    // String mode = user.result?.regime;
-
     if (_seen) {
       print("not first");
     } else {
+      firebaseConfigure();
       setState(() {
         prefs.setBool('seen', true);
         widget.data.changeLocale(Locale("ru", "RU"));
@@ -33,17 +45,54 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   void initState() {
-    _authBloc = BlocProvider.of<AuthBloc>(context);
-
     checkFirstSeen();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Scaffold(
+      body: Container(
         child: Center(
-      child: Text("Splash"),
-    ));
+            child: Text(
+          "WMN+",
+          style: TextStyle(
+            fontSize: ScreenUtil().setSp(90),
+            fontWeight: FontWeight.w400,
+            color: Color(0xffD748DA),
+          ),
+        )),
+      ),
+    );
+  }
+
+  void firebaseConfigure() {
+    if (Platform.isIOS) iOS_Permission();
+    _firebaseMessaging.getToken().then((token) {
+      UserRepository().persistToken(token);
+    });
+    _firebaseMessaging.configure(
+      onMessage: (Map<String, dynamic> message) async {
+        print("onMessage: $message");
+        //  _showItemDialog(message);
+      },
+      onLaunch: (Map<String, dynamic> message) async {
+        print("onLaunch: $message");
+        //  _navigateToItemDetail(message);
+      },
+      onResume: (Map<String, dynamic> message) async {
+        print("onResume: $message");
+        //  _navigateToItemDetail(message);
+      },
+    );
+  }
+
+  void iOS_Permission() {
+    _firebaseMessaging.requestNotificationPermissions(
+        IosNotificationSettings(sound: true, badge: true, alert: true));
+    _firebaseMessaging.onIosSettingsRegistered
+        .listen((IosNotificationSettings settings) {
+      print("Settings registered: $settings");
+    });
   }
 }

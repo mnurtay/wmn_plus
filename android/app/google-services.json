@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1083446836534",
+    "firebase_url": "https://wmnplus-ed19b.firebaseio.com",
+    "project_id": "wmnplus-ed19b",
+    "storage_bucket": "wmnplus-ed19b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1083446836534:android:8bd8aa423f42a00eff8797",
+        "android_client_info": {
+          "package_name": "com.example.wmn_plus"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1083446836534-0j145cv6ob1nnrg2rjb18425mhji5tig.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCvqLkzErQAR8y6rW-FVuBcUHO2gDvQMUQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1083446836534-0j145cv6ob1nnrg2rjb18425mhji5tig.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

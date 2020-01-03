@@ -6,15 +6,6 @@ import 'package:wmn_plus/features/auth/model/User.dart' as Us;
 import 'package:wmn_plus/features/registration/registration_model.dart';
 
 class ChangeModeFertilityPeriodProvider {
-  Future<void> loadAsync(String token) async {
-    /// write from keystore/keychain
-    await Future.delayed(Duration(seconds: 2));
-  }
-
-  Future<void> saveAsync(String token) async {
-    /// write from keystore/keychain
-    await Future.delayed(Duration(seconds: 2));
-  }
 
   Future<Us.User> requestChangeMode(String token, Fertility fertility) async {
     Response response;
