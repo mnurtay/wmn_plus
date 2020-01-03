@@ -44,3 +44,8 @@ class ChatConfig extends ChatEvent {
   @override
   List<Object> get props => null;
 }
+
+class GetCurrentUserChatEvent extends ChatEvent {
+  @override
+  List<Object> get props => null;
+}

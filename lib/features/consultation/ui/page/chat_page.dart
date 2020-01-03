@@ -1,31 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:web_socket_channel/io.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
+import 'package:wmn_plus/features/auth/model/User.dart';
 import 'package:wmn_plus/features/consultation/model/Consultation.dart';
 import 'package:wmn_plus/features/consultation/ui/widget/chat_data.dart';
 import 'dart:convert';
-
 import 'package:wmn_plus/features/consultation/model/Doctor.dart';
 
 class ChatPage extends StatefulWidget {
   final Consultation consultation;
-  ChatPage({@required this.consultation});
+  final User currentUser;
+  ChatPage({@required this.consultation, @required this.currentUser});
 
   @override
   _ChatPageState createState() => _ChatPageState();
 }
 
 class _ChatPageState extends State<ChatPage> {
-  IOWebSocketChannel channel;
   TextEditingController messageController = TextEditingController();
   bool textFieldIsEmpty = true;
   Doctor doctor;
+  IOWebSocketChannel channel;
 
   @override
   void initState() {
     doctor = widget.consultation.doctor;
-    channel = IOWebSocketChannel.connect(
-        'ws://194.146.43.98:8080/conversation?token=qwerty&convID=${widget.consultation.id}&role=PAT');
+    String url =
+        'ws://194.146.43.98:8080/conversation?token=${widget.currentUser.result.token}&convID=${widget.consultation.id}&role=PAT';
+    channel = IOWebSocketChannel.connect(url);
     super.initState();
   }
 
@@ -55,13 +58,13 @@ class _ChatPageState extends State<ChatPage> {
           Expanded(
             child: ChatData(channel: channel),
           ),
-          bottomBar(context),
+          bottomBar(context, channel),
         ],
       ),
     );
   }
 
-  Widget bottomBar(BuildContext context) {
+  Widget bottomBar(BuildContext context, WebSocketChannel channel) {
     return Container(
       color: Colors.white,
       padding: EdgeInsets.only(
@@ -128,6 +131,7 @@ class _ChatPageState extends State<ChatPage> {
             CircleAvatar(
               backgroundColor: Color(0xFFF5F5F5),
               backgroundImage: NetworkImage(doctor.image),
+              child: Icon(Icons.person, color: Colors.grey),
             ),
             SizedBox(width: ScreenUtil().setWidth(30)),
             Text(

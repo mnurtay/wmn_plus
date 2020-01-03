@@ -20,8 +20,6 @@ import 'package:wmn_plus/features/profile/change_mode/change_mode_page.dart';
 import 'package:wmn_plus/features/profile/change_mode/change_mode_pregnancy/change_mode_pregnancy_page.dart';
 import 'package:wmn_plus/features/profile/profile_page.dart';
 import 'package:wmn_plus/features/profile/screen/language/index.dart';
-import 'package:wmn_plus/features/registration/registration_mode/index.dart';
-import 'package:wmn_plus/features/registration/registration_model.dart';
 import 'package:wmn_plus/navigation/bottom_navigation.dart';
 import 'package:wmn_plus/util/config.dart';
 
@@ -131,9 +129,13 @@ class _PregnantRoutes extends State<AuthenticatedPregnantRoutes> {
                     DiscountDetailPage(settings.arguments));
           }
           if (settings.name == '/chat_page') {
+            Map object = settings.arguments;
             return MaterialPageRoute(
-                builder: (BuildContext context) =>
-                    ChatPage(consultation: settings.arguments));
+              builder: (BuildContext context) => ChatPage(
+                consultation: object['consultation'],
+                currentUser: object['user'],
+              ),
+            );
           }
           if (settings.name == '/doctor_page') {
             return MaterialPageRoute(

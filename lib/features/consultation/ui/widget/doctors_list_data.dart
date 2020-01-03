@@ -44,16 +44,7 @@ class DoctorsListData extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             // --- DOCTOR IMAGE
-            Container(
-              width: 70,
-              height: 70,
-              decoration: BoxDecoration(
-                  borderRadius:
-                      BorderRadius.all(Radius.circular(ScreenUtil().setSp(40))),
-                  color: Color(0xFFF5F5F5),
-                  image: DecorationImage(
-                      image: NetworkImage(doctor.image), fit: BoxFit.cover)),
-            ),
+            doctorAvatar(context, doctor),
             SizedBox(width: ScreenUtil().setWidth(25)),
             // --- DOCTOR INFORMATION
             Expanded(
@@ -82,6 +73,44 @@ class DoctorsListData extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget doctorAvatar(BuildContext context, Doctor doctor) {
+    if (doctor.image == '') {
+      return Container(
+        width: 70,
+        height: 70,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(
+            Radius.circular(
+              ScreenUtil().setSp(40),
+            ),
+          ),
+          color: Color(0xFFF5F5F5),
+        ),
+        child: Center(
+          child: Icon(
+            Icons.person,
+            size: ScreenUtil().setSp(100),
+            color: Colors.grey,
+          ),
+        ),
+      );
+    }
+    return Container(
+      width: 70,
+      height: 70,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(
+          Radius.circular(
+            ScreenUtil().setSp(40),
+          ),
+        ),
+        color: Color(0xFFF5F5F5),
+        image: DecorationImage(
+            image: NetworkImage(doctor.image), fit: BoxFit.cover),
       ),
     );
   }

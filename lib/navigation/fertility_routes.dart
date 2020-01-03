@@ -118,9 +118,13 @@ class AuthenticatedFertilityRoutes extends StatelessWidget {
                     DoctorsListPage(category: settings.arguments));
           }
           if (settings.name == '/chat_page') {
+            Map object = settings.arguments;
             return MaterialPageRoute(
-                builder: (BuildContext context) =>
-                    ChatPage(consultation: settings.arguments));
+              builder: (BuildContext context) => ChatPage(
+                consultation: object['consultation'],
+                currentUser: object['user'],
+              ),
+            );
           }
           if (settings.name == '/doctor_page') {
             return MaterialPageRoute(
