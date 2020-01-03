@@ -14,7 +14,19 @@ const List<Map> DOCTOR_CATEGORIES = [
   {'value': 'Аллергологи', 'id': 4},
 ];
 
-enum HttpStatus{
-  Success,
-  Error
-}
+enum HttpStatus { Success, Error }
+
+const List<String> MONTH_NAME = [
+  'Январь',
+  'Февраль',
+  'Март',
+  'Апрель',
+  'Май',
+  'Июнь',
+  'Июль',
+  'Август',
+  'Сентябрь',
+  'Октябрь',
+  'Ноябрь',
+  'Декабрь'
+];

@@ -13,6 +13,7 @@ import 'package:wmn_plus/features/discounts/discount_detail/index.dart';
 import 'package:wmn_plus/features/discounts/discounts_page.dart';
 import 'package:wmn_plus/features/news/index.dart';
 import 'package:wmn_plus/features/news/news_detail/index.dart';
+import 'package:wmn_plus/features/pregnant_calendar/ui/page/pregnant_page.dart';
 import 'package:wmn_plus/features/profile/change_mode/change_mode_fertility/change_mode_fertility_duration/change_mode_fertility_duration_page.dart';
 import 'package:wmn_plus/features/profile/change_mode/change_mode_fertility/change_mode_fertility_page.dart';
 import 'package:wmn_plus/features/profile/change_mode/change_mode_fertility/change_mode_fertility_period/change_mode_fertility_period_page.dart';
@@ -175,6 +176,7 @@ class _PregnantRoutes extends State<AuthenticatedPregnantRoutes> {
     return [
       NewsPage(),
       ChatListPage(),
+      PregnantPage(),
       DiscountsPage(),
       ProfilPage(),
     ];
@@ -191,6 +193,11 @@ class _PregnantRoutes extends State<AuthenticatedPregnantRoutes> {
       Container(
         padding: EdgeInsets.all(ScreenUtil().setSp(5)),
         child: Icon(Icons.chat),
+      ),
+      // CALENDAR
+      Container(
+        padding: EdgeInsets.all(ScreenUtil().setSp(5)),
+        child: Icon(Icons.calendar_today),
       ),
       // DISCOUNTS
       Container(
