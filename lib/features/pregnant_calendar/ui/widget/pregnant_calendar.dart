@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:wmn_plus/features/auth/resource/auth_repository.dart';
 import 'package:wmn_plus/features/pregnant_calendar/bloc/bloc.dart';
 import 'package:wmn_plus/util/config.dart';
 
@@ -13,12 +14,22 @@ class PregnantCalendar extends StatefulWidget {
 class _PregnantCalendarState extends State<PregnantCalendar> {
   CalendarController controller;
   PregnantBloc pregnantBloc;
+  UserRepository userRepository = UserRepository();
+  DateTime startDate;
 
   @override
   void initState() {
     controller = CalendarController();
     pregnantBloc = BlocProvider.of<PregnantBloc>(context);
+    getStartTime();
     super.initState();
+  }
+
+  Future<void> getStartTime() async {
+    final user = await userRepository.getCurrentUser();
+    setState(() {
+      startDate = DateTime.parse(user.result.pregnancy.startSys);
+    });
   }
 
   @override
@@ -45,6 +56,7 @@ class _PregnantCalendarState extends State<PregnantCalendar> {
       ),
       child: TableCalendar(
         calendarController: controller,
+        startDay: startDate,
         headerVisible: false,
         calendarStyle: CalendarStyle(
           todayColor: Color(0xFFa1affc),
