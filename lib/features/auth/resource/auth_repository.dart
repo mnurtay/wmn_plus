@@ -70,6 +70,15 @@ class UserRepository {
     }
   }
 
+  Future<User> updateUserData() async {
+    User currentUser = await getCurrentUser();
+    User updatedUser = await authProvider.updateUserData(
+      currentUser.result.token,
+    );
+    await persistUser(updatedUser);
+    return updatedUser;
+  }
+
   Future<void> persistUser(User user) async {
     SharedPreferences spInstance = await SharedPreferences.getInstance();
     await spInstance.setString(spKey, jsonEncode(user));

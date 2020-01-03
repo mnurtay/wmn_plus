@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart';
 import 'package:wmn_plus/features/auth/model/User.dart';
+import 'package:wmn_plus/util/config.dart';
 
 class AuthApiProvider {
   Future<User> fetchAuthenticate(String username, String password) async {
@@ -15,12 +16,27 @@ class AuthApiProvider {
           });
       String body = utf8.decode(response.bodyBytes);
       var user = User.fromJson(jsonDecode(body));
-      print(response.body.toString());
       return user;
     } catch (error) {
-      print(error);
       throw (error.toString());
     }
+  }
+
+  Future<User> updateUserData(String token) async {
+    User instance;
+    Response response;
+    try {
+      response = await get(
+        '$BACKEND_URL/api/v1/patient/me',
+        headers: {"Authorization": "wmn538179 $token"},
+      );
+      String body = utf8.decode(response.bodyBytes);
+      instance = User.fromJson(jsonDecode(body));
+    } catch (e) {
+      print(e);
+      throw (e.toString());
+    }
+    return instance;
   }
 
   Future<void> fetchSignup({

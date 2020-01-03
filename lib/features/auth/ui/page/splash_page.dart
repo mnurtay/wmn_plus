@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wmn_plus/features/auth/resource/auth_repository.dart';
-
+import 'package:wmn_plus/util/config.dart';
 
 class SplashScreen extends StatefulWidget {
   final data;
