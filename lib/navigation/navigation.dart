@@ -13,7 +13,7 @@ import 'package:wmn_plus/features/registration/registration_mode/fertility_mode/
 import 'package:wmn_plus/features/registration/registration_mode/fertility_mode/index.dart';
 import 'package:wmn_plus/features/registration/registration_mode/pregnant_mode/pregnant_mode_page.dart';
 import 'package:wmn_plus/features/registration/registration_mode/registration_mode_page.dart';
-import 'package:wmn_plus/features/registration/registration_page.dart';
+import 'package:wmn_plus/features/registration/registration_screen.dart';
 import 'package:wmn_plus/navigation/climax_routes.dart';
 import 'package:wmn_plus/navigation/doctor_routes.dart';
 import 'package:wmn_plus/navigation/fertility_routes.dart';
@@ -63,12 +63,15 @@ class _AppState extends State<App> {
       child: EasyLocalizationProvider(
         data: data,
         child: MaterialApp(
+          // routes: {
+          //    '/': (BuildContext context) => Splash(data),
+          // },
           debugShowCheckedModeBanner: false,
           home: BlocBuilder<AuthBloc, AuthState>(
             bloc: authBloc,
             builder: (BuildContext context, AuthState state) {
               if (state is UninitializedAuthState) {
-                return Splash(data);
+                return SplashScreen(data);
               }
               if (state is AuthenticatedAuthState) {
                 return AuthenticatedPregnantRoutes(); // pregnant mode by default
@@ -108,7 +111,7 @@ class UnauthenticatedApp extends StatelessWidget {
       routes: {
         '/': (BuildContext context) => LoginPage(),
         '/doctor': (BuildContext context) => DoctorLoginPage(),
-        '/registration': (BuildContext context) => RegistrationPage(),
+        '/registration': (BuildContext context) => RegistrationScreen(),
         // '/signup': (BuildContext context) => SignupPage(),
       },
       onGenerateRoute: (RouteSettings settings) {
