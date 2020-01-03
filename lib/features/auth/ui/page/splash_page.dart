@@ -1,10 +1,12 @@
 import 'package:easy_localization/easy_localization_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wmn_plus/features/auth/bloc/bloc.dart';
 import 'package:wmn_plus/features/auth/model/User.dart';
 import 'package:wmn_plus/features/auth/resource/auth_repository.dart';
+import 'package:wmn_plus/util/config.dart';
 
 class SplashScreen extends StatefulWidget {
   final data;
@@ -41,9 +43,22 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child: Center(
-      child: Text("Splash"),
-    ));
+    ScreenUtil.instance = ScreenUtil(
+        width: DEVICE_WIDTH, height: DEVICE_HEIGHT, allowFontScaling: true)
+      ..init(context);
+    return Scaffold(
+      body: Container(
+        alignment: Alignment.center,
+        child: Text(
+          'Slash Page',
+          style: TextStyle(
+            fontSize: ScreenUtil().setSp(75),
+            letterSpacing: 0.1,
+            fontWeight: FontWeight.w400,
+            color: Colors.black,
+          ),
+        ),
+      ),
+    );
   }
 }
