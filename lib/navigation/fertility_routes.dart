@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:wmn_plus/features/consultation/ui/page/chat_list_page.dart';
 import 'package:wmn_plus/features/consultation/ui/page/chat_page.dart';
 import 'package:wmn_plus/features/consultation/ui/page/consultation_payment_page.dart';
@@ -24,6 +25,9 @@ import 'package:wmn_plus/features/profile/screen/faq/faq.dart';
 import 'package:wmn_plus/features/profile/screen/language/language_page.dart';
 import 'package:wmn_plus/features/registration/registration_mode/registration_mode_page.dart';
 import 'package:wmn_plus/features/registration/registration_model.dart';
+import 'package:wmn_plus/features/shop/category_detail/category_detail_page.dart';
+import 'package:wmn_plus/features/shop/product_detail/product_detail_page.dart';
+import 'package:wmn_plus/features/shop/shop_page.dart';
 import 'package:wmn_plus/navigation/bottom_navigation.dart';
 import 'package:wmn_plus/util/config.dart';
 
@@ -65,6 +69,16 @@ ThemeData THEME = ThemeData(
 );
 
 class AuthenticatedFertilityRoutes extends StatelessWidget {
+  List<String> _category = [
+    'Менструальный цикл',
+    'Личная гигиена',
+    'Контрацепция',
+    'Все о гормонах',
+    'Заболевания "по-женски"',
+    'Женская консультация',
+    'Полезные советы',
+  ];
+
   Widget buildRoutes(BuildContext context) {
     var data = EasyLocalizationProvider.of(context).data;
 
@@ -92,7 +106,7 @@ class AuthenticatedFertilityRoutes extends StatelessWidget {
           '/discounts': (BuildContext context) => DiscountsPage(),
           '/settings_language': (BuildContext context) => LanguagePage(),
           '/profile': (BuildContext context) => ProfilPage(),
-          '/news': (BuildContext context) => NewsPage(),
+          '/news': (BuildContext context) => NewsPage(_category),
           '/faq': (BuildContext context) => FAQ(),
           '/settings_change_mode': (BuildContext context) => ChangeModePage(),
           '/change_mode_fertility': (BuildContext context) =>
@@ -102,6 +116,16 @@ class AuthenticatedFertilityRoutes extends StatelessWidget {
           '/about_us': (BuildContext context) => AboutUs()
         },
         onGenerateRoute: (RouteSettings settings) {
+          if (settings.name == CategoryDetailPage.routeName) {
+            return PageTransition(
+              child: CategoryDetailPage(settings.arguments),
+              type: PageTransitionType.scale,
+              settings: settings,
+            );
+            // return MaterialPageRoute(
+            //     builder: (BuildContext context) =>
+            //         CategoryDetailPage(settings.arguments));
+          }
           if (settings.name == '/news_detail') {
             return MaterialPageRoute(
                 builder: (BuildContext context) =>
@@ -162,10 +186,10 @@ class AuthenticatedFertilityRoutes extends StatelessWidget {
 
   List pageOptions(BuildContext context) {
     return [
-      NewsPage(),
+      NewsPage(_category),
       ChatListPage(),
       FertilityCalendarPage(),
-      DiscountsPage(),
+      ShopPage(),
       ProfilPage(),
     ];
   }

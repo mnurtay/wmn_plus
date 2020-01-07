@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wmn_plus/features/auth/bloc/auth_bloc.dart';
 import 'package:wmn_plus/features/registration/index.dart';
+import 'package:wmn_plus/features/registration/widgets/body.dart';
+import 'package:wmn_plus/features/registration/widgets/header.dart';
 
 class RegistrationScreen extends StatefulWidget {
   @override
@@ -54,224 +56,34 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           Padding(
             padding: const EdgeInsets.all(20.0),
             child: Container(
-              child: headerRegistration(context),
+              child: RegistrationHeader(context: context),
             ),
           ),
-          Expanded(
-              child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: Container(
-                  child: Column(
-                children: <Widget>[
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        "Персональные",
-                        style: TextStyle(
-                          fontSize: ScreenUtil().setSp(80),
-                          fontWeight: FontWeight.w200,
-                          color: Colors.black,
-                        ),
-                      ),
-                      Text(
-                        "Информации",
-                        style: TextStyle(
-                          fontSize: ScreenUtil().setSp(90),
-                          fontWeight: FontWeight.w400,
-                          color: Colors.black,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        "Конфиденциальность гарантируется *",
-                        style: TextStyle(
-                            fontSize: ScreenUtil().setSp(23),
-                            fontWeight: FontWeight.w200,
-                            color: Colors.grey.shade900,
-                            letterSpacing: 0.3),
-                      ),
-                      SizedBox(
-                        height: 30,
-                      ),
-                      Text(
-                        "Как вас зовут?",
-                        style: TextStyle(
-                            fontSize: ScreenUtil().setSp(40),
-                            fontWeight: FontWeight.w300,
-                            color: Colors.grey.shade900,
-                            letterSpacing: 0.3),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      TextField(
-                          keyboardType: TextInputType.text,
-                          controller: _controllerName,
-                          decoration: InputDecoration(
-                              hintText: "Ваше имя",
-                              hintStyle: TextStyle(
-                                  fontSize: ScreenUtil().setSp(40),
-                                  fontWeight: FontWeight.w300,
-                                  color: Colors.grey.shade700,
-                                  letterSpacing: 0.3))),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      TextField(
-                          keyboardType: TextInputType.emailAddress,
-                          controller: _controllerEmail,
-                          decoration: InputDecoration(
-                              hintText: "Ваш email?",
-                              hintStyle: TextStyle(
-                                  fontSize: ScreenUtil().setSp(40),
-                                  fontWeight: FontWeight.w300,
-                                  color: Colors.grey.shade700,
-                                  letterSpacing: 0.3))),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      TextField(
-                          keyboardType: TextInputType.text,
-                          controller: _controllerPass,
-                          obscureText: true,
-                          decoration: InputDecoration(
-                              hintText: "Поставьте пароль к вашему профилю",
-                              hintStyle: TextStyle(
-                                  fontSize: ScreenUtil().setSp(40),
-                                  fontWeight: FontWeight.w300,
-                                  color: Colors.grey.shade700))),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      TextField(
-                          keyboardType: TextInputType.text,
-                          controller: _controllerPasswordVerification,
-                          obscureText: true,
-                          decoration: InputDecoration(
-                              hintText: "Повторите пароль",
-                              hintStyle: TextStyle(
-                                  fontSize: ScreenUtil().setSp(40),
-                                  fontWeight: FontWeight.w300,
-                                  color: Colors.grey.shade700))),
-                      SizedBox(
-                        height: 10,
-                      ),
-                    ],
-                  )
-                ],
-              )),
-            ),
-          )),
-          InkWell(
-            onTap: () {
-              // Navigator.pushNamed(
-              //   context,
-              //   "/registration_mode",
-              // );
-              validatePage();
-            },
-            child: Container(
-              height: 60,
-              child: Center(
-                child: Icon(
-                  Icons.arrow_forward,
-                  size: 35,
-                ),
-              ),
-            ),
-          )
+          BodyRegistration(
+              controllerName: _controllerName,
+              controllerEmail: _controllerEmail,
+              controllerPass: _controllerPass,
+              controllerPasswordVerification: _controllerPasswordVerification),
+          buildBottomButton()
         ],
       ),
     );
   }
 
-  Row headerRegistration(BuildContext context) {
-    return Row(
-      children: <Widget>[
-        Row(
-          children: <Widget>[
-            Container(
-              child: Center(
-                  child: Text(
-                "1",
-                style: TextStyle(
-                    color: Colors.white, fontSize: ScreenUtil().setSp(40)),
-              )),
-              decoration: BoxDecoration(
-                  color: Theme.of(context).primaryColor,
-                  borderRadius: BorderRadius.circular(16.0)),
-              height: 60,
-              width: 50,
-            ),
-            SizedBox(
-              width: 5,
-            ),
-            Container(
-              child: Row(
-                children: <Widget>[
-                  Container(
-                    height: 10,
-                    width: 10,
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).primaryColor,
-                      shape: BoxShape.circle,
-                    ),
-                  )
-                ],
-              ),
-            ),
-            SizedBox(
-              width: 3,
-            ),
-            Container(
-              child: Row(
-                children: <Widget>[
-                  Container(
-                    height: 5,
-                    width: 5,
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).primaryColor.withOpacity(0.5),
-                      shape: BoxShape.circle,
-                    ),
-                  )
-                ],
-              ),
-            ),
-            SizedBox(
-              width: 3,
-            ),
-            Container(
-              child: Row(
-                children: <Widget>[
-                  Container(
-                    height: 5,
-                    width: 5,
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).primaryColor.withOpacity(0.5),
-                      shape: BoxShape.circle,
-                    ),
-                  )
-                ],
-              ),
-            )
-          ],
-        ),
-        Expanded(
-          child: Container(),
-        ),
-        InkWell(
-          onTap: () {
-            Navigator.of(context).pop();
-          },
-          child: Container(
-            child: Text("Назад"),
+  InkWell buildBottomButton() {
+    return InkWell(
+      onTap: () {
+        validatePage();
+      },
+      child: Container(
+        height: 60,
+        child: Center(
+          child: Icon(
+            Icons.arrow_forward,
+            size: 35,
           ),
         ),
-      ],
+      ),
     );
   }
 

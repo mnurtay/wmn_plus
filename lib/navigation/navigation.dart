@@ -5,8 +5,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wmn_plus/features/auth/bloc/bloc.dart';
 import 'package:wmn_plus/features/auth/ui/page/loading_page.dart';
 import 'package:wmn_plus/features/auth/ui/page/splash_page.dart';
+import 'package:wmn_plus/features/discounts/discount_detail/index.dart';
+import 'package:wmn_plus/features/discounts/discounts_bloc.dart';
+import 'package:wmn_plus/features/fertility_calendar/fertility_calendar_bloc.dart';
 import 'package:wmn_plus/features/login/ui/doctor/doctor_login.dart';
 import 'package:wmn_plus/features/login/ui/page/login_page.dart';
+import 'package:wmn_plus/features/news/index.dart';
+import 'package:wmn_plus/features/news/news_detail/news_detail_bloc.dart';
+import 'package:wmn_plus/features/profile/index.dart';
 import 'package:wmn_plus/features/profile/screen/language/language_page.dart';
 import 'package:wmn_plus/features/registration/registration_mode/fertility_mode/fertility_duration/fertility_duration_page.dart';
 import 'package:wmn_plus/features/registration/registration_mode/fertility_mode/fertility_period/fertility_period_page.dart';
@@ -14,6 +20,8 @@ import 'package:wmn_plus/features/registration/registration_mode/fertility_mode/
 import 'package:wmn_plus/features/registration/registration_mode/pregnant_mode/pregnant_mode_page.dart';
 import 'package:wmn_plus/features/registration/registration_mode/registration_mode_page.dart';
 import 'package:wmn_plus/features/registration/registration_screen.dart';
+import 'package:wmn_plus/features/shop/category_detail/index.dart';
+import 'package:wmn_plus/features/shop/shop_bloc.dart';
 import 'package:wmn_plus/navigation/climax_routes.dart';
 import 'package:wmn_plus/navigation/doctor_routes.dart';
 import 'package:wmn_plus/navigation/fertility_routes.dart';
@@ -48,6 +56,16 @@ class _AppState extends State<App> {
   @override
   void dispose() {
     authBloc.close();
+    NewsBloc().close();
+    NewsDetailBloc().close();
+    DiscountsBloc().close();
+    DiscountDetailBloc().close();
+    FertilityCalendarBloc().close();
+    ProfileBloc().close();
+    ShopBloc().close();
+    CategoryDetailBloc().close();
+    //todo registration
+    //todo changemode
     super.dispose();
   }
 
@@ -63,9 +81,6 @@ class _AppState extends State<App> {
       child: EasyLocalizationProvider(
         data: data,
         child: MaterialApp(
-          // routes: {
-          //    '/': (BuildContext context) => Splash(data),
-          // },
           debugShowCheckedModeBanner: false,
           home: BlocBuilder<AuthBloc, AuthState>(
             bloc: authBloc,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wmn_plus/features/discounts/index.dart';
+import 'package:wmn_plus/features/discounts/widgets/discount_item.dart';
 
 class DiscountsScreen extends StatefulWidget {
   const DiscountsScreen({
@@ -57,32 +58,7 @@ class DiscountsScreenState extends State<DiscountsScreen> {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Container(
-          margin: EdgeInsets.only(
-            left: ScreenUtil.getInstance().setWidth(40),
-          ),
-          child: DropdownButton(
-            hint: Text('Выбрать категорию'),
-            value: _selectedCategory,
-            onChanged: (newValue) {
-              setState(() {
-                for (int i = 0; i < _category.length; i++) {
-                  if (newValue == _category[i]) {
-                    _categoryPosition = i;
-                    _discountsBloc.add(LoadDiscountsEvent(i));
-                  }
-                }
-                _selectedCategory = newValue;
-              });
-            },
-            items: _category.map((location) {
-              return DropdownMenuItem(
-                child: new Text(location),
-                value: location,
-              );
-            }).toList(),
-          ),
-        ),
+        buildCategoryHeader(),
         BlocBuilder<DiscountsBloc, DiscountsState>(
             bloc: widget._discountsBloc,
             builder: (
@@ -98,15 +74,15 @@ class DiscountsScreenState extends State<DiscountsScreen> {
                 return Center();
               }
               if (currentState is InDiscountsState) {
-                return  Expanded(
+                return Expanded(
                   child: new ListView.builder(
                     padding:
                         EdgeInsets.all(ScreenUtil.getInstance().setHeight(30)),
                     itemCount: currentState.discount.result.length,
                     itemBuilder: (context, index) {
-                      // return buildItem(context);
-                      return buildDiscountItem(
-                          context, currentState.discount.result[index]);
+                      return DiscountItem(
+                          context: context,
+                          result: currentState.discount.result[index]);
                     },
                   ),
                 );
@@ -116,73 +92,32 @@ class DiscountsScreenState extends State<DiscountsScreen> {
     );
   }
 
-  Widget buildItem(BuildContext context) {
-    return Container(height: 100, color: Colors.red);
-  }
-
-  Widget buildDiscountItem(
-    BuildContext context,
-    Result result,
-  ) {
-    return InkWell(
-      onTap: () {
-        print(result.id.toString());
-        Navigator.pushNamed(context, '/discount_detail',
-            arguments: result.id.toString());
-      },
-      child: Container(
-          margin:
-              EdgeInsets.only(bottom: ScreenUtil.getInstance().setHeight(25)),
-          height: ScreenUtil.getInstance().setHeight(600),
-          width: MediaQuery.of(context).size.width,
-          child: Container(
-            alignment: Alignment.bottomLeft,
-            child: Container(
-                child: Stack(
-                  children: <Widget>[
-                    Positioned(
-                      child: Text(
-                        result.title,
-                        style: Theme.of(context).textTheme.body2,
-                      ),
-                      top: ScreenUtil.getInstance().setHeight(40),
-                      left: ScreenUtil.getInstance().setHeight(30),
-                    ),
-                    
-                    Positioned(
-                      child: Text("Просмотрено: 99",
-                          style: Theme.of(context).textTheme.display2),
-                      top: ScreenUtil.getInstance().setHeight(170),
-                      left: ScreenUtil.getInstance().setHeight(30),
-                    ),
-                    Positioned(
-                      child: Text("от 1 100 тг.",
-                          style: Theme.of(context).textTheme.display3),
-                      bottom: ScreenUtil.getInstance().setHeight(70),
-                      right: ScreenUtil.getInstance().setHeight(30),
-                    ),
-                    Positioned(
-                      child: Text("экономия от 2500 тг.",
-                          style: Theme.of(context).textTheme.display2),
-                      bottom: ScreenUtil.getInstance().setHeight(30),
-                      right: ScreenUtil.getInstance().setHeight(30),
-                    ),
-                  ],
-                ),
-                height: ScreenUtil.getInstance().setHeight(250),
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.vertical(
-                        top: Radius.circular(16),
-                        bottom: Radius.circular(10)))),
-            decoration: BoxDecoration(
-                color: Colors.black38, borderRadius: BorderRadius.circular(10)),
-          ),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: Colors.black,
-              image: DecorationImage(
-                  fit: BoxFit.fill, image: NetworkImage(result.imageUrl)))),
-    );
+  Container buildCategoryHeader() {
+    return Container(
+        margin: EdgeInsets.only(
+          left: ScreenUtil.getInstance().setWidth(40),
+        ),
+        child: DropdownButton(
+          hint: Text('Выбрать категорию'),
+          value: _selectedCategory,
+          onChanged: (newValue) {
+            setState(() {
+              for (int i = 0; i < _category.length; i++) {
+                if (newValue == _category[i]) {
+                  _categoryPosition = i;
+                  _discountsBloc.add(LoadDiscountsEvent(i));
+                }
+              }
+              _selectedCategory = newValue;
+            });
+          },
+          items: _category.map((location) {
+            return DropdownMenuItem(
+              child: new Text(location),
+              value: location,
+            );
+          }).toList(),
+        ),
+      );
   }
 }

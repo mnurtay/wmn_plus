@@ -6,13 +6,7 @@ import 'package:wmn_plus/features/auth/resource/auth_repository.dart';
 import 'package:wmn_plus/features/news/news_model.dart';
 
 class NewsProvider {
-  Future<void> loadAsync(String token) async {
-    /// write from keystore/keychain
-    await Future.delayed(Duration(seconds: 2));
-  }
-
   Future<List<NewsModel>> fetchMoreNews(int pageIndex, int category) async {
-    
     var userRepo = UserRepository();
 
     Response response;
