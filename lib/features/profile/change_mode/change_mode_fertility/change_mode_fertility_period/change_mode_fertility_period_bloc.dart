@@ -15,7 +15,7 @@ class ChangeModeFertilityPeriodBloc extends Bloc<ChangeModeFertilityPeriodEvent,
   final ChangeModeFertilityPeriodRepository
       _changeModeFertilityPeriodRepository =
       ChangeModeFertilityPeriodRepository();
-  ChangeModeFertilityPeriodBloc(this.authBloc);
+  ChangeModeFertilityPeriodBloc({this.authBloc});
 
   @override
   Future<void> close() async {

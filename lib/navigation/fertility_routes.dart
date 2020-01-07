@@ -73,7 +73,7 @@ class AuthenticatedFertilityRoutes extends StatelessWidget {
     'Менструальный цикл',
     'Личная гигиена',
     'Контрацепция',
-    'Все о гормонах',
+    'Все о гормонах ',
     'Заболевания "по-женски"',
     'Женская консультация',
     'Полезные советы',
@@ -101,7 +101,9 @@ class AuthenticatedFertilityRoutes extends StatelessWidget {
         theme: THEME,
         routes: {
           '/': (BuildContext context) => BottomNavigation(
-              pageOptions: pageOptions(context), barItems: barItems(context)),
+              modeColor: Theme.of(context).accentColor,
+              pageOptions: pageOptions(context),
+              barItems: barItems(context)),
           '/new_consultation': (BuildContext context) => NewConsultationPage(),
           '/discounts': (BuildContext context) => DiscountsPage(),
           '/settings_language': (BuildContext context) => LanguagePage(),

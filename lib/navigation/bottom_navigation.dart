@@ -7,9 +7,11 @@ class BottomNavigation extends StatefulWidget {
   final List pageOptions;
   final List<Widget> barItems;
   final int selectedPage;
+  final Color modeColor;
 
   BottomNavigation(
-      {@required this.pageOptions,
+      {@required this.modeColor,
+      @required this.pageOptions,
       @required this.barItems,
       this.selectedPage = 0});
 
@@ -34,6 +36,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
     return Scaffold(
       body: widget.pageOptions[selectedPage],
       bottomNavigationBar: CurvedNavigationBar(
+        backgroundColor: widget.modeColor,
         index: selectedPage,
         animationCurve: Curves.easeInOutCirc,
         // backgroundColor: Theme.of(context).primaryColor,

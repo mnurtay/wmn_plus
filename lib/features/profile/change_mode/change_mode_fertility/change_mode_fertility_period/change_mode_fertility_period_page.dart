@@ -12,7 +12,7 @@ class ChangeModeFertilityPeriodPage extends StatelessWidget {
   Widget build(BuildContext context) {
     var _authBloc = BlocProvider.of<AuthBloc>(context);
     var _changeModeFertilityPeriodBloc =
-        ChangeModeFertilityPeriodBloc(_authBloc);
+        ChangeModeFertilityPeriodBloc(authBloc: _authBloc);
 
     return Scaffold(
         appBar: AppBar(),

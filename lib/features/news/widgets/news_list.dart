@@ -13,7 +13,6 @@ class NewsList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: new ListView.builder(
-        padding: EdgeInsets.all(ScreenUtil.getInstance().setHeight(30)),
         itemCount: currentState.newsList.length,
         itemBuilder: (context, index) {
           return NewsItem(context: context, data: currentState.newsList[index]);

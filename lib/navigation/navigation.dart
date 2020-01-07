@@ -12,11 +12,21 @@ import 'package:wmn_plus/features/login/ui/doctor/doctor_login.dart';
 import 'package:wmn_plus/features/login/ui/page/login_page.dart';
 import 'package:wmn_plus/features/news/index.dart';
 import 'package:wmn_plus/features/news/news_detail/news_detail_bloc.dart';
+import 'package:wmn_plus/features/profile/change_mode/change_mode_fertility/change_mode_fertility_bloc.dart';
+import 'package:wmn_plus/features/profile/change_mode/change_mode_fertility/change_mode_fertility_duration/change_mode_fertility_duration_bloc.dart';
+import 'package:wmn_plus/features/profile/change_mode/change_mode_fertility/change_mode_fertility_period/index.dart';
+import 'package:wmn_plus/features/profile/change_mode/change_mode_pregnancy/index.dart';
+import 'package:wmn_plus/features/profile/change_mode/index.dart';
 import 'package:wmn_plus/features/profile/index.dart';
 import 'package:wmn_plus/features/profile/screen/language/language_page.dart';
+import 'package:wmn_plus/features/registration/registration_bloc.dart';
 import 'package:wmn_plus/features/registration/registration_mode/fertility_mode/fertility_duration/fertility_duration_page.dart';
+import 'package:wmn_plus/features/registration/registration_mode/fertility_mode/fertility_duration/index.dart';
 import 'package:wmn_plus/features/registration/registration_mode/fertility_mode/fertility_period/fertility_period_page.dart';
+import 'package:wmn_plus/features/registration/registration_mode/fertility_mode/fertility_period/index.dart';
 import 'package:wmn_plus/features/registration/registration_mode/fertility_mode/index.dart';
+import 'package:wmn_plus/features/registration/registration_mode/index.dart';
+import 'package:wmn_plus/features/registration/registration_mode/pregnant_mode/index.dart';
 import 'package:wmn_plus/features/registration/registration_mode/pregnant_mode/pregnant_mode_page.dart';
 import 'package:wmn_plus/features/registration/registration_mode/registration_mode_page.dart';
 import 'package:wmn_plus/features/registration/registration_screen.dart';
@@ -64,8 +74,18 @@ class _AppState extends State<App> {
     ProfileBloc().close();
     ShopBloc().close();
     CategoryDetailBloc().close();
-    //todo registration
-    //todo changemode
+    RegistrationBloc().close();
+    RegistrationModeBloc().close();
+    FertilityModeBloc().close();
+    FertilityDurationBloc().close();
+    FertilityPeriodBloc().close();
+    PregnantModeBloc().close();
+    
+    ChangeModeBloc().close();
+    ChangeModeFertilityBloc().close();
+    ChangeModeFertilityDurationBloc().close();
+    ChangeModeFertilityPeriodBloc().close();
+    ChangeModePregnancyBloc().close();
     super.dispose();
   }
 

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -56,14 +58,15 @@ class NewsScreenState extends State<NewsScreen> {
     return buildBody();
   }
 
-  Column buildBody() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Padding(
-          padding: EdgeInsets.all(ScreenUtil.getInstance().setHeight(30)),
-          child: DropdownButton(
+  Widget buildBody() {
+    return Padding(
+      padding: EdgeInsets.all(ScreenUtil.getInstance().setHeight(30)),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          buildAndroidAppBar(),
+          DropdownButton(
             hint: Text('Выбрать категорию новостей'),
             value: _selectedCategory,
             onChanged: (newValue) {
@@ -84,33 +87,45 @@ class NewsScreenState extends State<NewsScreen> {
               );
             }).toList(),
           ),
-        ),
-        BlocBuilder<NewsBloc, NewsState>(
-            bloc: widget._newsBloc,
-            builder: (
-              BuildContext context,
-              NewsState currentState,
-            ) {
-              if (currentState is UnNewsState) {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-              if (currentState is ErrorNewsState) {
-                return Center(
-                    child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(currentState.errorMessage ?? 'Error'),
-                  ],
-                ));
-              }
-              if (currentState is InNewsState) {
-                return NewsList(currentState: currentState);
-              }
-              return Center(child: Text("Development"));
-            })
-      ],
+          BlocBuilder<NewsBloc, NewsState>(
+              bloc: widget._newsBloc,
+              builder: (
+                BuildContext context,
+                NewsState currentState,
+              ) {
+                if (currentState is UnNewsState) {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+                if (currentState is ErrorNewsState) {
+                  return Center(
+                      child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(currentState.errorMessage ?? 'Error'),
+                    ],
+                  ));
+                }
+                if (currentState is InNewsState) {
+                  return NewsList(currentState: currentState);
+                }
+                return Center(child: Text("Development"));
+              })
+        ],
+      ),
     );
+  }
+
+  Text buildAndroidAppBar() {
+    if (Platform.isAndroid)
+      return Text(
+        "Новости",
+        style: TextStyle(
+          fontSize: ScreenUtil().setSp(65),
+          fontWeight: FontWeight.w500,
+          color: Colors.black,
+        ),
+      );
   }
 }

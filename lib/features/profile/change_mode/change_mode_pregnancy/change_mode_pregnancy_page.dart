@@ -8,14 +8,14 @@ class ChangeModePregnancyPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-        var _authBloc = BlocProvider.of<AuthBloc>(context);
+    var _authBloc = BlocProvider.of<AuthBloc>(context);
 
-    var _changeModePregnancyBloc = ChangeModePregnancyBloc(_authBloc);
+    var _changeModePregnancyBloc = ChangeModePregnancyBloc(authBloc: _authBloc);
 
     return Scaffold(
-      appBar: AppBar(
-      ),
-      body: ChangeModePregnancyScreen(changeModePregnancyBloc: _changeModePregnancyBloc),
+      appBar: AppBar(),
+      body: ChangeModePregnancyScreen(
+          changeModePregnancyBloc: _changeModePregnancyBloc),
     );
   }
 }

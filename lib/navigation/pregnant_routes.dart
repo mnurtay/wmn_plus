@@ -114,6 +114,7 @@ class _PregnantRoutes extends State<AuthenticatedPregnantRoutes> {
         theme: THEME,
         routes: {
           '/': (BuildContext context) => BottomNavigation(
+              modeColor: Theme.of(context).accentColor,
               pageOptions: pageOptions(context),
               barItems: barItems(context),
               selectedPage: 2),
