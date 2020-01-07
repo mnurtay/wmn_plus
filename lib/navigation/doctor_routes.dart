@@ -43,9 +43,7 @@ ThemeData THEME = ThemeData(
 );
 
 class AuthenticatedDoctorRoutes extends StatelessWidget {
-  List<String> _category = [
-    'Для докторам'
-  ];
+  List<String> _category = ['Для докторам'];
 
   Widget buildRoutes(BuildContext context) {
     return MaterialApp(
@@ -53,7 +51,9 @@ class AuthenticatedDoctorRoutes extends StatelessWidget {
       theme: THEME,
       routes: {
         '/': (BuildContext context) => BottomNavigation(
-            pageOptions: pageOptions(context), barItems: barItems(context)),
+            modeColor: Theme.of(context).accentColor,
+            pageOptions: pageOptions(context),
+            barItems: barItems(context)),
       },
     );
   }

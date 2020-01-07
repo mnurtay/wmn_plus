@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:wmn_plus/features/news/index.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
+import 'dart:io';
 class NewsPage extends StatefulWidget {
   List<String> category;
   NewsPage(this.category);
@@ -31,17 +31,22 @@ class _NewsPageState extends State<NewsPage> {
           ..init(context);
 
     return Scaffold(
-      appBar: AppBar(
-          title: Text(AppLocalizations.of(context).tr('news'),
-              style: Theme.of(context).textTheme.title),
-          backgroundColor: Colors.white,
-          centerTitle: false,
-          elevation: 0,
-          actions: <Widget>[]),
+      appBar: appBar(),
       body: NewsScreen(
         newsBloc: _newsBloc,
         category: widget.category,
       ),
     );
+  }
+
+  Widget appBar() {
+    if (Platform.isIOS)
+    return AppBar(
+        title: Text(AppLocalizations.of(context).tr('news'),
+            style: Theme.of(context).textTheme.title),
+        backgroundColor: Colors.white,
+        centerTitle: false,
+        elevation: 0,
+        actions: <Widget>[]);
   }
 }

@@ -22,7 +22,7 @@ class NewsItem extends StatelessWidget {
       child: Container(
           margin:
               EdgeInsets.only(bottom: ScreenUtil.getInstance().setHeight(25)),
-          height: ScreenUtil.getInstance().setHeight(400),
+          height: ScreenUtil.getInstance().setHeight(500),
           width: MediaQuery.of(context).size.width,
           child: Container(
             alignment: Alignment.bottomLeft,

@@ -15,7 +15,7 @@ class ChangeModePregnancyBloc
   final ChangeModePregnancyRepository _changeModePregnancyRepository =
       ChangeModePregnancyRepository();
 
-  ChangeModePregnancyBloc(this.authBloc);
+  ChangeModePregnancyBloc({this.authBloc});
 
   @override
   Future<void> close() async {

@@ -87,7 +87,9 @@ class _ClimaxRoutes extends State<AuthenticatedClimaxRoutes> {
         theme: THEME,
         routes: {
           '/': (BuildContext context) => BottomNavigation(
-              pageOptions: pageOptions(context), barItems: barItems(context)),
+              modeColor: Theme.of(context).accentColor,
+              pageOptions: pageOptions(context),
+              barItems: barItems(context)),
           '/new_consultation': (BuildContext context) => NewConsultationPage(),
         },
         onGenerateRoute: (RouteSettings settings) {
