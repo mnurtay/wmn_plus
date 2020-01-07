@@ -58,6 +58,14 @@ class AuthenticatedClimaxRoutes extends StatefulWidget {
 }
 
 class _ClimaxRoutes extends State<AuthenticatedClimaxRoutes> {
+  List<String> _category = [
+    'Все о менопаузе',
+    'Заболевания',
+    'Заместительная гормональная терапия',
+    'Тревожные сигналы',
+    'Полезные советы',
+  ];
+
   Widget buildRoutes(BuildContext context) {
     var data = EasyLocalizationProvider.of(context).data;
     return EasyLocalizationProvider(
@@ -123,7 +131,7 @@ class _ClimaxRoutes extends State<AuthenticatedClimaxRoutes> {
 
   List pageOptions(BuildContext context) {
     return [
-      NewsPage(),
+      NewsPage(_category),
       ChatListPage(),
       DiscountsPage(),
       ProfilPage(),

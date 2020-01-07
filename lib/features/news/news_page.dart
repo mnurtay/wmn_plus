@@ -4,18 +4,31 @@ import 'package:wmn_plus/features/news/index.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class NewsPage extends StatefulWidget {
+  List<String> category;
+  NewsPage(this.category);
+
   @override
   _NewsPageState createState() => _NewsPageState();
 }
 
 class _NewsPageState extends State<NewsPage> {
+  NewsBloc _newsBloc;
+  @override
+  void initState() {
+    _newsBloc = NewsBloc();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     ScreenUtil.instance =
         ScreenUtil(width: 828, height: 1792, allowFontScaling: true)
           ..init(context);
-
-    var _newsBloc = NewsBloc();
 
     return Scaffold(
       appBar: AppBar(
@@ -25,7 +38,10 @@ class _NewsPageState extends State<NewsPage> {
           centerTitle: false,
           elevation: 0,
           actions: <Widget>[]),
-      body: NewsScreen(newsBloc: _newsBloc),
+      body: NewsScreen(
+        newsBloc: _newsBloc,
+        category: widget.category,
+      ),
     );
   }
 }

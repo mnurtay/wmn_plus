@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wmn_plus/features/news/news_detail/index.dart';
+import 'package:wmn_plus/features/news/news_detail/widgets/news_details_item_body.dart';
 
 class NewsDetailScreen extends StatefulWidget {
   const NewsDetailScreen({
@@ -28,9 +29,13 @@ class NewsDetailScreenState extends State<NewsDetailScreen> {
 
   @override
   void initState() {
+    super.initState();
+    load();
+  }
+
+  void load() {
     widget._newsDetailBloc.add(UnNewsDetailEvent());
     widget._newsDetailBloc.add(LoadNewsDetailEvent(widget._id));
-    super.initState();
   }
 
   @override
@@ -54,44 +59,7 @@ class NewsDetailScreenState extends State<NewsDetailScreen> {
             );
           }
           if (currentState is InNewsDetailState) {
-            return Scaffold(
-              body: NestedScrollView(
-                headerSliverBuilder:
-                    (BuildContext context, bool innerBoxIsScrolled) {
-                  return <Widget>[
-                    SliverAppBar(
-                      expandedHeight: ScreenUtil.getInstance().setHeight(500),
-                      floating: true,
-                      pinned: true,
-                      flexibleSpace: FlexibleSpaceBar(
-                          centerTitle: true,
-                          background: Image.network(
-                            currentState.newsDetail.result.image,
-                            fit: BoxFit.cover,
-                          )),
-                    ),
-                  ];
-                },
-                body: SingleChildScrollView(
-                  child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            currentState.newsDetail.result.title,
-                            style: TextStyle(
-                              fontSize: ScreenUtil().setSp(55),
-                              fontWeight: FontWeight.w500,
-                              color: Color(0xffD748DA),
-                            ),
-                          ),
-                          Html(data: currentState.newsDetail.result.content),
-                        ],
-                      )),
-                ),
-              ),
-            );
+            return NewsDetailsItemBody(currentState: currentState);
           }
           if (currentState is ErrorNewsDetailState) {
             return Center();

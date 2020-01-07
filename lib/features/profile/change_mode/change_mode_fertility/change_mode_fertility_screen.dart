@@ -26,6 +26,15 @@ class ChangeModeFertilityScreenState extends State<ChangeModeFertilityScreen> {
   final ChangeModeFertilityBloc _changeModeFertilityBloc;
   ChangeModeFertilityScreenState(this._changeModeFertilityBloc);
 
+  static GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  void showInSnackBar(String value) {
+    _scaffoldKey.currentState.showSnackBar(new SnackBar(
+        content: new Text(value,
+            style: TextStyle(
+              fontSize: ScreenUtil().setSp(30),
+            ))));
+  }
+
   @override
   void initState() {
     super.initState();
@@ -39,56 +48,64 @@ class ChangeModeFertilityScreenState extends State<ChangeModeFertilityScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ChangeModeFertilityBloc, ChangeModeFertilityState>(
-        bloc: widget._changeModeFertilityBloc,
-        builder: (
-          BuildContext context,
-          ChangeModeFertilityState currentState,
-        ) {
-          if (currentState is UnChangeModeFertilityState) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          if (currentState is ErrorChangeModeFertilityState) {
-            return Center(
-                child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(currentState.errorMessage ?? 'Error'),
-                Padding(
-                  padding: const EdgeInsets.only(top: 32.0),
-                  child: RaisedButton(
-                    color: Colors.blue,
-                    child: Text('reload'),
-                    onPressed: () => this._load(),
+    ScreenUtil.instance =
+        ScreenUtil(width: 828, height: 1792, allowFontScaling: true)
+          ..init(context);
+    return Scaffold(
+      key: _scaffoldKey,
+      body: BlocBuilder<ChangeModeFertilityBloc, ChangeModeFertilityState>(
+          bloc: widget._changeModeFertilityBloc,
+          builder: (
+            BuildContext context,
+            ChangeModeFertilityState currentState,
+          ) {
+            if (currentState is UnChangeModeFertilityState) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            if (currentState is ErrorChangeModeFertilityState) {
+              return Center(
+                  child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(currentState.errorMessage ?? 'Error'),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 32.0),
+                    child: RaisedButton(
+                      color: Colors.blue,
+                      child: Text('reload'),
+                      onPressed: () => this._load(),
+                    ),
                   ),
+                ],
+              ));
+            }
+            return Column(
+              children: <Widget>[
+                SizedBox(
+                  height: 20,
                 ),
+                Expanded(
+                    child: SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                    child: Container(
+                        child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        buildHeaderTitle(),
+                        buildColumnDynamicDay(),
+                        buildDailyCalendar(),
+                      ],
+                    )),
+                  ),
+                )),
+                buildInkWellNextButton()
               ],
-            ));
-          }
-          return Column(
-            children: <Widget>[
-              SizedBox(height: 20,),
-              Expanded(
-                  child: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                  child: Container(
-                      child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      buildHeaderTitle(),
-                      buildColumnDynamicDay(),
-                      buildDailyCalendar(),
-                    ],
-                  )),
-                ),
-              )),
-              buildInkWellNextButton()
-            ],
-          );
-        });
+            );
+          }),
+    );
   }
 
   Column buildColumnDynamicDay() {
@@ -187,8 +204,8 @@ class ChangeModeFertilityScreenState extends State<ChangeModeFertilityScreen> {
           if (day.difference(widget._currentTime).inMinutes > 0) {
             return AbsorbPointer(
               child: Container(
-                width: 50,
-                height: 50,
+                width: 55,
+                height: 55,
                 child: Center(
                     child: Text(
                   day.day.toString(),
@@ -230,7 +247,7 @@ class ChangeModeFertilityScreenState extends State<ChangeModeFertilityScreen> {
     } else if (widget._varCurrentTime.month == 7) {
       return "Июля";
     } else if (widget._varCurrentTime.month == 8) {
-      return "Августа";
+      return "Август������";
     } else if (widget._varCurrentTime.month == 9) {
       return "Сентября";
     } else if (widget._varCurrentTime.month == 10) {
@@ -262,22 +279,34 @@ class ChangeModeFertilityScreenState extends State<ChangeModeFertilityScreen> {
   void nextPageTap() {
     var day = widget._varCurrentTime.day.toString();
     var month = widget._varCurrentTime.month.toString();
-    if (widget._varCurrentTime.day < 10){
+    if (widget._varCurrentTime.day < 10) {
       day = "0${widget._varCurrentTime.day}";
     }
-    if (widget._varCurrentTime.month < 10){
+    if (widget._varCurrentTime.month < 10) {
       month = "0${widget._varCurrentTime.month}";
     }
 
-    Fertility fert = new Fertility(start:
-              "${widget._varCurrentTime.year}$month$day");
-    
-    Navigator.pushNamed(context, "/change_mode_fertility_duration",
-        arguments: fert);
+    if (checkToValidDay()) {
+      Fertility fert =
+          new Fertility(start: "${widget._varCurrentTime.year}$month$day");
+
+      Navigator.pushNamed(context, "/change_mode_fertility_duration",
+          arguments: fert);
+    } else {
+      showInSnackBar("Выберите правильный день!");
+    }
   }
 
   void _load([bool isError = false]) {
     widget._changeModeFertilityBloc.add(UnChangeModeFertilityEvent());
     widget._changeModeFertilityBloc.add(LoadChangeModeFertilityEvent(isError));
+  }
+
+  bool checkToValidDay() {
+    var day = widget._varCurrentTime.day;
+    if (day > widget._currentTime.day) {
+      return false;
+    }
+    return true;
   }
 }

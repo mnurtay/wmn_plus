@@ -11,11 +11,6 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
   }
   NewsBloc._internal();
 
-  @override
-  dispose() {
-    super.close();
-  }
-
   NewsState get initialState => UnNewsState(0);
 
   @override

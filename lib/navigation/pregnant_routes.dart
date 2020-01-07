@@ -76,6 +76,18 @@ class AuthenticatedPregnantRoutes extends StatefulWidget {
 }
 
 class _PregnantRoutes extends State<AuthenticatedPregnantRoutes> {
+  List<String> _category = [
+    'Планирование беременности',
+    'Календарь беременности',
+    'Беременность',
+    'Тревожные сигналы',
+    'Бесплодие, невынашивание, ЭКО',
+    'Болезни во время беременности',
+    'Роды',
+    'После родов',
+    'Полезные советы'
+  ];
+
   @override
   void initState() {
     super.initState();
@@ -176,7 +188,7 @@ class _PregnantRoutes extends State<AuthenticatedPregnantRoutes> {
 
   List pageOptions(BuildContext context) {
     return [
-      NewsPage(),
+      NewsPage(_category),
       ChatListPage(),
       PregnantPage(),
       DiscountsPage(),
