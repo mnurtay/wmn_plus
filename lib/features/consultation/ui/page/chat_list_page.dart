@@ -76,11 +76,24 @@ class _ChatListPageState extends State<ChatListPage> {
 
   Widget appBarDefault(BuildContext context) {
     return AppBar(
-        title: Text("Консультация"),
-        backgroundColor: Colors.blue,
-        centerTitle: false,
-        elevation: 4,
-        actions: <Widget>[]);
+      title: Text("Консультация"),
+      backgroundColor: Colors.blue,
+      centerTitle: false,
+      elevation: 4,
+      actions: <Widget>[
+        Container(
+          padding: EdgeInsets.only(right: ScreenUtil().setWidth(40)),
+          child: GestureDetector(
+            onTap: () => Navigator.pushNamed(context, '/new_consultation'),
+            child: Icon(
+              Icons.add,
+              size: ScreenUtil().setSp(80),
+              color: Colors.white,
+            ),
+          ),
+        ),
+      ],
+    );
   }
 
   Widget chatList(BuildContext context, IOWebSocketChannel channel) {

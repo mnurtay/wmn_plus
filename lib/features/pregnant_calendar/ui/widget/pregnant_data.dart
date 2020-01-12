@@ -70,6 +70,9 @@ class _PregnantDataState extends State<PregnantData> {
               ),
             );
           }
+          if (pregnant == null) {
+            return Container();
+          }
           return buildBody();
         },
       ),
