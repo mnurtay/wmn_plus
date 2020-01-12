@@ -43,16 +43,10 @@ class ProfileScreenState extends State<ProfileScreen> {
 
   Widget _buildCard({String title, String image, Function navigate}) => Card(
       elevation: 2,
-      margin: EdgeInsets.fromLTRB(
-        ScreenUtil.getInstance().setSp(20),
-        0,
-        ScreenUtil.getInstance().setSp(20),
-        ScreenUtil.getInstance().setSp(20),
-      ),
       child: ListTile(
         title: Text(
           title,
-          style: Theme.of(context).textTheme.body2,
+          style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w400),
         ),
         trailing: Icon(
           Icons.arrow_forward_ios,
@@ -65,51 +59,67 @@ class ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final AuthBloc authBloc = BlocProvider.of<AuthBloc>(context);
-
-    return BlocBuilder<ProfileBloc, ProfileState>(
-        bloc: widget._profileBloc,
-        builder: (
-          BuildContext context,
-          ProfileState currentState,
-        ) {
-          if (currentState is UnProfileState) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          if (currentState is ErrorProfileState) {
-            return Center(
-                child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(currentState.errorMessage ?? 'Error'),
-                Padding(
-                  padding: const EdgeInsets.only(top: 32.0),
-                  child: RaisedButton(
-                    color: Colors.blue,
-                    child: Text("reload"),
-                    onPressed: () => this._load(),
-                  ),
-                ),
-              ],
-            ));
-          }
-          if (currentState is InProfileState) {
-            return SingleChildScrollView(
-              child: Column(
+    ScreenUtil.instance =
+        ScreenUtil(width: 828, height: 1792, allowFontScaling: true)
+          ..init(context);
+    return Container(
+      height: MediaQuery.of(context).size.height,
+      decoration: BoxDecoration(
+          gradient: LinearGradient(
+              begin: Alignment.bottomRight,
+              end: Alignment.topCenter,
+              colors: [Theme.of(context).accentColor, Colors.blue])),
+      child: BlocBuilder<ProfileBloc, ProfileState>(
+          bloc: widget._profileBloc,
+          builder: (
+            BuildContext context,
+            ProfileState currentState,
+          ) {
+            if (currentState is UnProfileState) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            if (currentState is ErrorProfileState) {
+              return Center(
+                  child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  SizedBox(
-                    height: ScreenUtil().setHeight(60),
+                  Text(currentState.errorMessage ?? 'Error'),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 32.0),
+                    child: RaisedButton(
+                      color: Colors.blue,
+                      child: Text("reload"),
+                      onPressed: () => this._load(),
+                    ),
                   ),
-                  header(currentState),
-                  listSettings(authBloc),
                 ],
-              ),
-            );
-          }
+              ));
+            }
+            if (currentState is InProfileState) {
+              return SingleChildScrollView(
+                padding: EdgeInsets.all(ScreenUtil.getInstance().setHeight(30)),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    // appBar(),
+                    SizedBox(
+                      height: ScreenUtil().setHeight(30),
+                    ),
+                    header(currentState),
+                    SizedBox(
+                      height: ScreenUtil().setHeight(15),
+                    ),
+                    listSettings(authBloc),
+                  ],
+                ),
+              );
+            }
 
-          return Center();
-        });
+            return Center();
+          }),
+    );
   }
 
   Container listSettings(AuthBloc authBloc) {
@@ -119,9 +129,8 @@ class ProfileScreenState extends State<ProfileScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-           _buildCard(
-              title:
-                 "Поменять режим",
+          _buildCard(
+              title: "Поменять режим",
               navigate: () {
                 Navigator.pushNamed(context, "/settings_change_mode");
               }),
@@ -163,47 +172,37 @@ class ProfileScreenState extends State<ProfileScreen> {
 
   header(InProfileState state) {
     return Container(
-      child: Row(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          // profileAvatar(state),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(8, 0, 0, 4),
-                  child: Text(
-                    state.hello,
-                    style: Theme.of(context).textTheme.title,
-                  ),
-                ),
-                Row(
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                          "Поменять пароль",
-                          style: Theme.of(context).textTheme.body1),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        Navigator.pushNamed(
-                            context, '/settings_password_change');
-                      },
-                      child: Icon(
-                        Icons.settings,
-                        size: ScreenUtil.getInstance().setSp(45),
-                        color: Colors.grey,
-                      ),
-                    ),
-                  ],
-                ),
+          Text(
+            state.hello,
+            style: TextStyle(
+                fontSize: 25, fontWeight: FontWeight.w600, color: Colors.white),
+          ),
+          // Row(
+          //   children: <Widget>[
+          //     Padding(
+          //       padding: const EdgeInsets.all(8.0),
+          //       child: Text(
+          //           "Поменять пароль",
+          //           style: Theme.of(context).textTheme.body1),
+          //     ),
+          //     InkWell(
+          //       onTap: () {
+          //         Navigator.pushNamed(
+          //             context, '/settings_password_change');
+          //       },
+          //       child: Icon(
+          //         Icons.settings,
+          //         size: ScreenUtil.getInstance().setSp(45),
+          //         color: Colors.grey,
+          //       ),
+          //     ),
+          //   ],
+          // ),
 
-                // balanceWidget(state, context),
-              ],
-            ),
-          )
+          // balanceWidget(state, context),
         ],
       ),
     );
@@ -253,5 +252,16 @@ class ProfileScreenState extends State<ProfileScreen> {
             ),
           );
         });
+  }
+
+  appBar() {
+    return Text(
+      "Профиль",
+      style: TextStyle(
+        fontSize: ScreenUtil().setSp(65),
+        fontWeight: FontWeight.w500,
+        color: Colors.white,
+      ),
+    );
   }
 }

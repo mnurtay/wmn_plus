@@ -69,19 +69,26 @@ class ShopScreenState extends State<ShopScreen> {
             ));
           }
           if (currentState is InShopState) {
-            return Padding(
-              padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  SizedBox(
-                    height: ScreenUtil.getInstance().setHeight(20),
-                  ),
-                  CategoryListWidget(
-                    currentState: currentState,
-                  ),
-                ],
+            return Container(
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                      begin: Alignment.bottomCenter,
+                      end: Alignment.topCenter,
+                      colors: [Theme.of(context).accentColor, Colors.blue])),
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    SizedBox(
+                      height: ScreenUtil.getInstance().setHeight(20),
+                    ),
+                    CategoryListWidget(
+                      currentState: currentState,
+                    ),
+                  ],
+                ),
               ),
             );
           }

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -6,12 +8,12 @@ import 'package:wmn_plus/features/shop/buy_product/index.dart';
 class BuyProductScreen extends StatefulWidget {
   BuyProductScreen({
     Key key,
-    @required Map<String, int> routes,
+    @required Map<String, dynamic> routes,
     @required BuyProductBloc buyProductBloc,
   })  : _routes = routes,
         _buyProductBloc = buyProductBloc,
         super(key: key);
-  final Map<String, int> _routes;
+  final Map<String, dynamic> _routes;
   final BuyProductBloc _buyProductBloc;
 
   TextEditingController _nameController = TextEditingController();
@@ -29,6 +31,7 @@ class BuyProductScreen extends StatefulWidget {
 class BuyProductScreenState extends State<BuyProductScreen> {
   final BuyProductBloc _buyProductBloc;
   BuyProductScreenState(this._buyProductBloc);
+
   int paymentPosition = 0;
   int deliveryPosition = 0;
   String paymentType;
@@ -86,11 +89,12 @@ class BuyProductScreenState extends State<BuyProductScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Container(
-                    width: 200,
-                    height: 200,
+                      width: 200,
+                      height: 200,
                       child: FlareActor("assets/check.flr",
                           animation: "Untitled")),
-                  Text("Заказ успешно выполнено!", style: TextStyle(fontSize: 22))
+                  Text("Заказ успешно выполнено!",
+                      style: TextStyle(fontSize: 22))
                 ],
               ),
             );
@@ -200,6 +204,9 @@ class BuyProductScreenState extends State<BuyProductScreen> {
   }
 
   _buildBottomNavigationBar() {
+    Map<String, dynamic> _product = jsonDecode(widget._routes["product"]);
+
+    // var sum = widget._routes["product"]["price"].toString();
     return Container(
       color: Colors.white,
       padding: EdgeInsets.all(4.0),
@@ -212,7 +219,14 @@ class BuyProductScreenState extends State<BuyProductScreen> {
           Flexible(
               flex: 2,
               child: Container(
-                  color: Colors.white, child: Text("Сумма: 25000 KZT"))),
+                  color: Colors.white,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text("Продукт: ${_product["title"]}"),
+                      Text("Сумма: ${_product["price"]} KZT"),
+                    ],
+                  ))),
           Expanded(
             child: Container(),
           ),
@@ -248,9 +262,9 @@ class BuyProductScreenState extends State<BuyProductScreen> {
 
   void buyProduct() {
     BuyProduct product = BuyProduct(
-      categoryId: widget._routes["cat"],
-      subcategoryId: widget._routes["sub"],
-      productId: widget._routes["id"],
+      categoryId: widget._routes["routes"]["cat"],
+      subcategoryId: widget._routes["routes"]["sub"],
+      productId: widget._routes["routes"]["id"],
       privacyPolicy: true,
       phone: widget._phoneController.text.trim().toString(),
       name: widget._nameController.text.trim().toString(),
@@ -260,6 +274,7 @@ class BuyProductScreenState extends State<BuyProductScreen> {
       payment: paymentType,
       delivery: deliveryType,
     );
+    print(widget._routes);
     widget._buyProductBloc.add(CompleteBuyProductEvent(product));
   }
 

@@ -93,9 +93,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     } else if (_controllerEmail.text.isEmpty) {
       showInSnackBar("Поле почты пусто, заполните пожалуйста");
     }
-    // else if (!_controllerEmail.text.contains(".")) {
-    //   showInSnackBar("Формат почты не правильный");
-    // }
+    else if (!_controllerEmail.text.contains("@")) {
+      showInSnackBar("Формат почты не правильный");
+    }
     else if (_controllerPass.text.isEmpty ||
         _controllerPasswordVerification.text.isEmpty) {
       showInSnackBar("Поле пароль пусто, заполните пожалуйста");

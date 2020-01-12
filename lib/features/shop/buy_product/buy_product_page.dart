@@ -4,7 +4,7 @@ import 'package:wmn_plus/features/shop/buy_product/index.dart';
 class BuyProductPage extends StatelessWidget {
   BuyProductPage(this.routes);
   static const String routeName = '/buyProduct';
-  final Map<String, int> routes;
+  final Map<String, dynamic> routes;
 
   @override
   Widget build(BuildContext context) {

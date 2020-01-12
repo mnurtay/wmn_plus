@@ -50,5 +50,8 @@ class Result {
     data['price'] = this.price;
     return data;
   }
+
+    String get image => "http://194.146.43.98:4000/image?uri=" + this.imageUrl;
+
 }
 

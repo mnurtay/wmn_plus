@@ -26,7 +26,10 @@ class CategoryListWidget extends StatelessWidget {
                 Row(
                   children: <Widget>[
                     Text(currentState.hello.result[indexCategory].title,
-                        style: Theme.of(context).textTheme.title),
+                        style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.white)),
                     Expanded(
                       child: Container(),
                     ),
@@ -39,13 +42,13 @@ class CategoryListWidget extends StatelessWidget {
                             currentState.hello.result[indexCategory].title;
                         Navigator.pushNamed(
                             context, CategoryDetailPage.routeName,
-                            arguments:
-                                route);
+                            arguments: route);
                       },
                       child: Text(
                         "Все",
                         style: TextStyle(color: Color(0xff0CB19A4)),
                       ),
+                      color: Colors.white,
                       shape: RoundedRectangleBorder(
                           borderRadius: new BorderRadius.circular(18.0),
                           side: BorderSide(color: Color(0xff0CB19A4))),
