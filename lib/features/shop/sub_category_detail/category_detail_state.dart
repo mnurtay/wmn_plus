@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:wmn_plus/features/shop/sub_category_detail/category_detail_model.dart';
 
 abstract class CategoryDetailState extends Equatable {
   /// notify change state without deep clone state
@@ -38,7 +39,7 @@ class UnCategoryDetailState extends CategoryDetailState {
 
 /// Initialized
 class InCategoryDetailState extends CategoryDetailState {
-  final String hello;
+  final SubCategoryList hello;
 
   InCategoryDetailState(int version, this.hello) : super(version, [hello]);
 

@@ -1,15 +1,19 @@
-class ProductResponse {
+class ProductList {
   int statusCode;
   String message;
-  Result result;
+  List<Result> result;
 
-  ProductResponse({this.statusCode, this.message, this.result});
+  ProductList({this.statusCode, this.message, this.result});
 
-  ProductResponse.fromJson(Map<String, dynamic> json) {
+  ProductList.fromJson(Map<String, dynamic> json) {
     statusCode = json['statusCode'];
     message = json['message'];
-    result =
-        json['result'] != null ? new Result.fromJson(json['result']) : null;
+    if (json['result'] != null) {
+      result = new List<Result>();
+      json['result'].forEach((v) {
+        result.add(new Result.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -17,7 +21,7 @@ class ProductResponse {
     data['statusCode'] = this.statusCode;
     data['message'] = this.message;
     if (this.result != null) {
-      data['result'] = this.result.toJson();
+      data['result'] = this.result.map((v) => v.toJson()).toList();
     }
     return data;
   }

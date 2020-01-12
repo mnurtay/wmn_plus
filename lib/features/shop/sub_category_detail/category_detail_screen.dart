@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:wmn_plus/features/shop/category_detail/index.dart';
+import 'package:wmn_plus/features/shop/sub_category_detail/index.dart';
 import 'package:wmn_plus/features/shop/widgets/product_list.dart';
 
 class CategoryDetailScreen extends StatefulWidget {
   const CategoryDetailScreen({
     Key key,
     @required CategoryDetailBloc categoryDetailBloc,
+    @required int id,
   })  : _categoryDetailBloc = categoryDetailBloc,
+        _id = id,
         super(key: key);
 
   final CategoryDetailBloc _categoryDetailBloc;
+  final int _id;
 
   @override
   CategoryDetailScreenState createState() {
@@ -26,7 +29,7 @@ class CategoryDetailScreenState extends State<CategoryDetailScreen> {
   @override
   void initState() {
     super.initState();
-    this._load();
+    this._load(widget._id);
   }
 
   @override
@@ -61,33 +64,50 @@ class CategoryDetailScreenState extends State<CategoryDetailScreen> {
                   child: RaisedButton(
                     color: Colors.blue,
                     child: Text('reload'),
-                    onPressed: () => this._load(),
+                    onPressed: () => this._load(1),
                   ),
                 ),
               ],
             ));
           }
-          return Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
+          if (currentState is InCategoryDetailState)
+            return Column(
               children: <Widget>[
-                Text("Мамам", style: Theme.of(context).textTheme.title),
-                SizedBox(
-                  height: 15,
-                ),
-                ProductList(
-                  currentState: currentState,
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: currentState.hello.result.length,
+                    itemBuilder: (ctx, index) {
+                      return Container(
+                        height: MediaQuery.of(context).size.height,
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                            
+                              ProductList(
+                                id: widget._id, //cat
+                                sub: currentState.hello.result[index].id,
+                                products:
+                                    currentState.hello.result[index].products,
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
                 ),
               ],
-            ),
-          );
+            );
         });
   }
 
-  void _load([bool isError = false]) {
+  void _load(int id) {
     widget._categoryDetailBloc.add(UnCategoryDetailEvent());
-    widget._categoryDetailBloc.add(LoadCategoryDetailEvent(isError));
+    widget._categoryDetailBloc.add(LoadCategoryDetailEvent(id));
   }
 }

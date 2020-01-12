@@ -27,7 +27,7 @@ class LoadShopEvent extends ShopEvent {
   @override
   Future<ShopState> applyAsync({ShopState currentState, ShopBloc bloc}) async {
     try {
-      Shop shop = await _shopRepository.getShopPage();
+      CategoryList shop = await _shopRepository.getShopPage();
       return InShopState(0, shop);
     } catch (_, stackTrace) {
       developer.log('$_',

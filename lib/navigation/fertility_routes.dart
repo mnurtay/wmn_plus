@@ -25,9 +25,11 @@ import 'package:wmn_plus/features/profile/screen/faq/faq.dart';
 import 'package:wmn_plus/features/profile/screen/language/language_page.dart';
 import 'package:wmn_plus/features/registration/registration_mode/registration_mode_page.dart';
 import 'package:wmn_plus/features/registration/registration_model.dart';
-import 'package:wmn_plus/features/shop/category_detail/category_detail_page.dart';
+import 'package:wmn_plus/features/shop/buy_product/buy_product_page.dart';
+import 'package:wmn_plus/features/shop/sub_category_detail/index.dart';
 import 'package:wmn_plus/features/shop/product_detail/product_detail_page.dart';
 import 'package:wmn_plus/features/shop/shop_page.dart';
+import 'package:wmn_plus/features/shop/sub_category_products/sub_category_products_page.dart';
 import 'package:wmn_plus/navigation/bottom_navigation.dart';
 import 'package:wmn_plus/util/config.dart';
 
@@ -127,6 +129,29 @@ class AuthenticatedFertilityRoutes extends StatelessWidget {
             // return MaterialPageRoute(
             //     builder: (BuildContext context) =>
             //         CategoryDetailPage(settings.arguments));
+          }
+          if (settings.name == SubCategoryProductsPage.routeName) {
+            return PageTransition(
+              child: SubCategoryProductsPage(settings.arguments),
+              type: PageTransitionType.rotate,
+              settings: settings,
+            );
+          }
+
+          if (settings.name == ProductDetailPage.routeName) {
+            return PageTransition(
+              child: ProductDetailPage(settings.arguments),
+              type: PageTransitionType.leftToRightWithFade,
+              settings: settings,
+            );
+          }
+
+          if (settings.name == BuyProductPage.routeName) {
+            return PageTransition(
+              child: BuyProductPage(settings.arguments),
+              type: PageTransitionType.rightToLeftWithFade,
+              settings: settings,
+            );
           }
           if (settings.name == '/news_detail') {
             return MaterialPageRoute(
