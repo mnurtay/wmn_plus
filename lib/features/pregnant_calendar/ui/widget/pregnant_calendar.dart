@@ -28,7 +28,7 @@ class _PregnantCalendarState extends State<PregnantCalendar> {
   Future<void> getStartTime() async {
     final user = await userRepository.getCurrentUser();
     setState(() {
-      startDate = DateTime.parse(user.result.pregnancy.startSys);
+      startDate = DateTime.parse(user.result.pregnancy.start);
     });
   }
 

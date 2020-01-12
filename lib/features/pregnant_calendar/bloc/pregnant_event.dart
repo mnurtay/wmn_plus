@@ -21,3 +21,8 @@ class TodaysPregnantEvent extends PregnantEvent {
   @override
   List<Object> get props => null;
 }
+
+class FetchPregnantEvent extends PregnantEvent {
+  @override
+  List<Object> get props => null;
+}

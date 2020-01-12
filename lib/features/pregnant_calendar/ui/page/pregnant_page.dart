@@ -19,6 +19,7 @@ class _PregnantPageState extends State<PregnantPage> {
   void initState() {
     title = calendarHeaderTitle(DateTime.now());
     pregnantBloc = PregnantBloc();
+    pregnantBloc.add(FetchPregnantEvent());
     super.initState();
   }
 
