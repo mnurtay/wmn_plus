@@ -59,7 +59,7 @@ class _LoginFormState extends State<LoginForm> {
         return Column(
           children: <Widget>[
             TextField(
-                keyboardType: TextInputType.text ,
+                keyboardType: TextInputType.emailAddress ,
                 controller: loginController,
                 decoration: InputDecoration(
                     border: OutlineInputBorder(
@@ -67,7 +67,7 @@ class _LoginFormState extends State<LoginForm> {
                     ),
                     focusColor: Colors.red,
                     fillColor: Colors.grey,
-                    labelText: "Телефон")),
+                    labelText: "Почта")),
             SizedBox(
               height: ScreenUtil.getInstance().setHeight(50),
             ),

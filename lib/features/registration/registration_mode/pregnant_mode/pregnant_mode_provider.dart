@@ -11,11 +11,12 @@ class PregnantModeProvider {
     print(registrationModel.toJson().toString());
     Response response;
     // var user = registrationModel;
-    registrationModel.pushToken = await UserRepository().getToken();
+    RegistrationModel model = registrationModel;
+    model.pushToken = await UserRepository().getToken();
     try {
       response = await post(
           'http://194.146.43.98:4000/api/v1/patient/registration',
-          body: json.encode(registrationModel.toJson()),
+          body: json.encode(model.toJson()),
           headers: {
             "Content-Type": "application/json",
             "Authorization": "wmn538179",

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wmn_plus/features/shop/buy_product/buy_product_page.dart';
@@ -76,7 +78,7 @@ class ProductDetailScreenState extends State<ProductDetailScreen>
             return Scaffold(
               body:
                   _buildProductDetailsPage(context, currentState.hello.result),
-              bottomNavigationBar: _buildBottomNavigationBar(),
+              bottomNavigationBar: _buildBottomNavigationBar(currentState.hello.result),
             );
         });
   }
@@ -93,10 +95,10 @@ class ProductDetailScreenState extends State<ProductDetailScreen>
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                _buildProductImagesWidgets(),
+                _buildProductImagesWidgets(result.image),
                 _buildProductTitleWidget(result.title),
                 SizedBox(height: 12.0),
-                _buildPriceWidgets(),
+                _buildPriceWidgets(result.price),
                 SizedBox(height: 12.0),
                 _buildDivider(screenSize),
                 SizedBox(height: 12.0),
@@ -142,8 +144,8 @@ class ProductDetailScreenState extends State<ProductDetailScreen>
     );
   }
 
-  _buildProductImagesWidgets() {
-    TabController imagesController = TabController(length: 3, vsync: this);
+  _buildProductImagesWidgets(String image) {
+    TabController imagesController = TabController(length: 1, vsync: this);
 
     return Padding(
       padding: const EdgeInsets.all(16.0),
@@ -157,15 +159,7 @@ class ProductDetailScreenState extends State<ProductDetailScreen>
                 TabBarView(
                   controller: imagesController,
                   children: <Widget>[
-                    Image.network(
-                      "https://assets.myntassets.com/h_240,q_90,w_180/v1/assets/images/1304671/2016/4/14/11460624898615-Hancock-Men-Shirts-8481460624898035-1_mini.jpg",
-                    ),
-                    Image.network(
-                      "https://n1.sdlcdn.com/imgs/c/9/8/Lambency-Brown-Solid-Casual-Blazers-SDL781227769-1-1b660.jpg",
-                    ),
-                    Image.network(
-                      "https://images-na.ssl-images-amazon.com/images/I/71O0zS0DT0L._UX342_.jpg",
-                    ),
+                    Image.network(image),
                   ],
                 ),
                 Container(
@@ -197,7 +191,7 @@ class ProductDetailScreenState extends State<ProductDetailScreen>
     );
   }
 
-  _buildPriceWidgets() {
+  _buildPriceWidgets(int price) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12.0),
       child: Row(
@@ -205,7 +199,7 @@ class ProductDetailScreenState extends State<ProductDetailScreen>
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
           Text(
-            "1200 KZT",
+            "$price KZT",
             style: TextStyle(fontSize: 18.0, color: Colors.black),
           ),
           SizedBox(
@@ -386,14 +380,17 @@ class ProductDetailScreenState extends State<ProductDetailScreen>
     );
   }
 
-  _buildBottomNavigationBar() {
+  _buildBottomNavigationBar(Result result) {
     return Container(
       width: MediaQuery.of(context).size.width,
       height: 50.0,
       child: RaisedButton(
         onPressed: () {
+          Map<String, dynamic> map = Map();
+          map["routes"] = widget._routes;
+          map["product"] = jsonEncode(result);
           Navigator.pushNamed(context, BuyProductPage.routeName,
-              arguments: widget._routes);
+              arguments: map);
         },
         color: Color(0xff0CB19A4),
         child: Center(

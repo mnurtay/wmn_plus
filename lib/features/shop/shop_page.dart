@@ -8,13 +8,19 @@ class ShopPage extends StatelessWidget {
   Widget build(BuildContext context) {
     var _shopBloc = ShopBloc();
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Магазин", style: Theme.of(context).textTheme.title),
-        backgroundColor: Colors.white,
-        centerTitle: false,
-        elevation: 4,
-      ),
+      appBar: appBar(context),
       body: ShopScreen(shopBloc: _shopBloc),
     );
+  }
+
+  Widget appBar(BuildContext context) {
+    return AppBar(
+        title: Text(
+          "Магазин"
+        ),
+        backgroundColor: Colors.blue,
+        centerTitle: false,
+        elevation: 4,
+        actions: <Widget>[]);
   }
 }

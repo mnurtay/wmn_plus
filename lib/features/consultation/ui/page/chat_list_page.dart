@@ -49,25 +49,38 @@ class _ChatListPageState extends State<ChatListPage> {
         IOWebSocketChannel channel = IOWebSocketChannel.connect(url);
         return Scaffold(
           backgroundColor: Color(0xFFF5F5F5),
-          appBar: appBar(context),
-          body: SingleChildScrollView(
-            child: Container(
-              padding:
-                  EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(50)),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  SizedBox(height: ScreenUtil().setHeight(50)),
-                  searchWidget(context),
-                  SizedBox(height: ScreenUtil().setHeight(50)),
-                  chatList(context, channel),
-                ],
-              ),
+          appBar: appBarDefault(context),
+          body: Container(
+            height: MediaQuery.of(context).size.height,
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment.topRight,
+                    end: Alignment.bottomCenter,
+                    colors: [Colors.blue, Theme.of(context).accentColor])),
+            padding:
+                EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(30)),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                SizedBox(height: ScreenUtil().setHeight(50)),
+                searchWidget(context),
+                SizedBox(height: ScreenUtil().setHeight(50)),
+                chatList(context, channel),
+              ],
             ),
           ),
         );
       },
     );
+  }
+
+  Widget appBarDefault(BuildContext context) {
+    return AppBar(
+        title: Text("Консультация"),
+        backgroundColor: Colors.blue,
+        centerTitle: false,
+        elevation: 4,
+        actions: <Widget>[]);
   }
 
   Widget chatList(BuildContext context, IOWebSocketChannel channel) {

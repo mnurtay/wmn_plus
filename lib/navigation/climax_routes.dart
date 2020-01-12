@@ -66,6 +66,10 @@ class _ClimaxRoutes extends State<AuthenticatedClimaxRoutes> {
     'Полезные советы',
   ];
 
+  List<int> _categoryId = [
+    17,18,19,20,21
+  ];
+
   Widget buildRoutes(BuildContext context) {
     var data = EasyLocalizationProvider.of(context).data;
     return EasyLocalizationProvider(
@@ -133,7 +137,7 @@ class _ClimaxRoutes extends State<AuthenticatedClimaxRoutes> {
 
   List pageOptions(BuildContext context) {
     return [
-      NewsPage(_category),
+      NewsPage(_category, _categoryId),
       ChatListPage(),
       DiscountsPage(),
       ProfilPage(),

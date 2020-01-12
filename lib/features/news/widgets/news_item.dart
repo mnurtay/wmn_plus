@@ -34,7 +34,7 @@ class NewsItem extends StatelessWidget {
                       color: Colors.white)),
             ),
             decoration: BoxDecoration(
-                color: Colors.black38, borderRadius: BorderRadius.circular(10)),
+                color: Colors.black12, borderRadius: BorderRadius.circular(10)),
           ),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),

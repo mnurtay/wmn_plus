@@ -88,6 +88,10 @@ class _PregnantRoutes extends State<AuthenticatedPregnantRoutes> {
     'Полезные советы'
   ];
 
+  List<int> _categoryId = [
+    1,2,3,4,5,6,7,8,9
+  ];
+
   @override
   void initState() {
     super.initState();
@@ -189,7 +193,7 @@ class _PregnantRoutes extends State<AuthenticatedPregnantRoutes> {
 
   List pageOptions(BuildContext context) {
     return [
-      NewsPage(_category),
+      NewsPage(_category, _categoryId),
       ChatListPage(),
       PregnantPage(),
       DiscountsPage(),

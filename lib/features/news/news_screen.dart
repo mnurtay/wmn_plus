@@ -13,11 +13,14 @@ class NewsScreen extends StatefulWidget {
     Key key,
     @required List<String> category,
     @required NewsBloc newsBloc,
+    @required List<int> categoryId,
   })  : _category = category,
+        _categoryId = categoryId,
         _newsBloc = newsBloc,
         super(key: key);
 
   final List<String> _category;
+  final List<int> _categoryId;
   final NewsBloc _newsBloc;
 
   @override
@@ -59,73 +62,93 @@ class NewsScreenState extends State<NewsScreen> {
   }
 
   Widget buildBody() {
-    return Padding(
-      padding: EdgeInsets.all(ScreenUtil.getInstance().setHeight(30)),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          buildAndroidAppBar(),
-          DropdownButton(
-            hint: Text('Выбрать категорию новостей'),
-            value: _selectedCategory,
-            onChanged: (newValue) {
-              setState(() {
-                for (int i = 0; i < widget._category.length; i++) {
-                  if (newValue == widget._category[i]) {
-                    _categoryPosition = i;
-                    _newsBloc.add(LoadNewsEvent(category: i));
+    return Container(
+      decoration: BoxDecoration(
+          gradient: LinearGradient(
+              begin: Alignment.topRight,
+              end: Alignment.bottomLeft,
+              colors: [Colors.blue, Theme.of(context).accentColor])),
+      child: Padding(
+        padding: EdgeInsets.all(ScreenUtil.getInstance().setHeight(30)),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            // buildAndroidAppBar(),
+            DropdownButton(
+              style: TextStyle(
+                  color: Colors.blue,
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.w400),
+              icon: Icon(
+                Icons.arrow_drop_down,
+                color: Colors.white,
+              ),
+              hint: Text(
+                'Выбрать категорию новостей',
+              ),
+              value: _selectedCategory,
+              onChanged: (newValue) {
+                setState(() {
+                  for (int i = 0; i < widget._category.length; i++) {
+                    if (newValue == widget._category[i]) {
+                      _categoryPosition = i;
+                      _newsBloc
+                          .add(LoadNewsEvent(category: widget._categoryId[i]));
+                    }
                   }
-                }
-                _selectedCategory = newValue;
-              });
-            },
-            items: widget._category.map((location) {
-              return DropdownMenuItem(
-                child: new Text(location),
-                value: location,
-              );
-            }).toList(),
-          ),
-          BlocBuilder<NewsBloc, NewsState>(
-              bloc: widget._newsBloc,
-              builder: (
-                BuildContext context,
-                NewsState currentState,
-              ) {
-                if (currentState is UnNewsState) {
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-                if (currentState is ErrorNewsState) {
-                  return Center(
-                      child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text(currentState.errorMessage ?? 'Error'),
-                    ],
-                  ));
-                }
-                if (currentState is InNewsState) {
-                  return NewsList(currentState: currentState);
-                }
-                return Center(child: Text("Development"));
-              })
-        ],
+                  _selectedCategory = newValue;
+                });
+              },
+              items: widget._category.map((location) {
+                return DropdownMenuItem(
+                  child: new Text(
+                    location,
+                  ),
+                  value: location,
+                );
+              }).toList(),
+            ),
+            BlocBuilder<NewsBloc, NewsState>(
+                bloc: widget._newsBloc,
+                builder: (
+                  BuildContext context,
+                  NewsState currentState,
+                ) {
+                  if (currentState is UnNewsState) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  if (currentState is ErrorNewsState) {
+                    return Center(
+                        child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text(currentState.errorMessage ?? 'Error'),
+                      ],
+                    ));
+                  }
+                  if (currentState is InNewsState) {
+                    return NewsList(currentState: currentState);
+                  }
+                  return Center(child: Text("Development"));
+                })
+          ],
+        ),
       ),
     );
   }
 
   Text buildAndroidAppBar() {
-    if (Platform.isAndroid)
-      return Text(
-        "Новости",
-        style: TextStyle(
-          fontSize: ScreenUtil().setSp(65),
-          fontWeight: FontWeight.w500,
-          color: Colors.black,
-        ),
-      );
+    // if (Platform.isAndroid)
+    return Text(
+      "Новости",
+      style: TextStyle(
+        fontSize: ScreenUtil().setSp(65),
+        fontWeight: FontWeight.w500,
+        color: Colors.white,
+      ),
+    );
   }
 }

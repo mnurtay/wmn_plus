@@ -64,7 +64,7 @@ class ProductList extends StatelessWidget {
                           currentPrice: this.products[index].price,
                           name: this.products[index].title,
                           imageUrl:
-                              "https://www.canali.com/media/catalog/product/cache/image/9df78eab33525d08d6e5fb8d27136e95/9/1/91700-PD00018-301_c_SCHEDA.jpg",
+                              this.products[index].image,
                         );
                       }),
                 ),

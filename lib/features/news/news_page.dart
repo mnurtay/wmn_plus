@@ -3,9 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:wmn_plus/features/news/index.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'dart:io';
+
 class NewsPage extends StatefulWidget {
   List<String> category;
-  NewsPage(this.category);
+  List<int> categoryId;
+
+  NewsPage(this.category, this.categoryId);
 
   @override
   _NewsPageState createState() => _NewsPageState();
@@ -35,18 +38,19 @@ class _NewsPageState extends State<NewsPage> {
       body: NewsScreen(
         newsBloc: _newsBloc,
         category: widget.category,
+        categoryId: widget.categoryId,
       ),
     );
   }
 
   Widget appBar() {
-    if (Platform.isIOS)
     return AppBar(
-        title: Text(AppLocalizations.of(context).tr('news'),
-            style: Theme.of(context).textTheme.title),
-        backgroundColor: Colors.white,
+        title: Text(
+          AppLocalizations.of(context).tr('news'),
+        ),
+        backgroundColor: Colors.blue,
         centerTitle: false,
-        elevation: 0,
+        elevation: 4,
         actions: <Widget>[]);
   }
 }

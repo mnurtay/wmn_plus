@@ -39,8 +39,7 @@ class ProductListWidget extends StatelessWidget {
           currentPrice: 524,
           originalPrice: 699,
           discount: 25,
-          imageUrl:
-              "https://n1.sdlcdn.com/imgs/c/9/8/Lambency-Brown-Solid-Casual-Blazers-SDL781227769-1-1b660.jpg",
+          imageUrl: product.image
         );
       }).toList(),
     );

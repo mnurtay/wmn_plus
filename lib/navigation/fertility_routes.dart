@@ -81,6 +81,10 @@ class AuthenticatedFertilityRoutes extends StatelessWidget {
     'Полезные советы',
   ];
 
+  List<int> _categoryId = [
+    10,11,12,13,14,15,16
+  ];
+
   Widget buildRoutes(BuildContext context) {
     var data = EasyLocalizationProvider.of(context).data;
 
@@ -110,7 +114,7 @@ class AuthenticatedFertilityRoutes extends StatelessWidget {
           '/discounts': (BuildContext context) => DiscountsPage(),
           '/settings_language': (BuildContext context) => LanguagePage(),
           '/profile': (BuildContext context) => ProfilPage(),
-          '/news': (BuildContext context) => NewsPage(_category),
+          '/news': (BuildContext context) => NewsPage(_category, _categoryId),
           '/faq': (BuildContext context) => FAQ(),
           '/settings_change_mode': (BuildContext context) => ChangeModePage(),
           '/change_mode_fertility': (BuildContext context) =>
@@ -213,7 +217,7 @@ class AuthenticatedFertilityRoutes extends StatelessWidget {
 
   List pageOptions(BuildContext context) {
     return [
-      NewsPage(_category),
+      NewsPage(_category, _categoryId),
       ChatListPage(),
       FertilityCalendarPage(),
       ShopPage(),
