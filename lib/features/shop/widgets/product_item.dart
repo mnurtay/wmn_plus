@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:wmn_plus/features/shop/sub_category_detail/category_detail_model.dart';
 
 class ProductItem extends StatelessWidget {
-  const ProductItem({
+  const ProductItem(
+    Products product, {
     Key key,
-  }) : super(key: key);
-
+  })  : _products = product,
+        super(key: key);
+  final Products _products;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -29,12 +32,13 @@ class ProductItem extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text("Куртка",
-                    style:
-                        TextStyle(fontSize: ScreenUtil.getInstance().setSp(32), fontWeight: FontWeight.w500)),
+                Text(this._products.title,
+                    style: TextStyle(
+                        fontSize: ScreenUtil.getInstance().setSp(32),
+                        fontWeight: FontWeight.w500)),
                 Row(
                   children: <Widget>[
-                    Text("12 990 тг",
+                    Text(this._products.price.toString(),
                         style: TextStyle(
                             color: Color(0xff0CB19A4),
                             fontSize: ScreenUtil.getInstance().setSp(34),

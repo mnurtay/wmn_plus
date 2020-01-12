@@ -6,9 +6,9 @@ class ShopRepository {
 
   ShopRepository();
 
-  Future<Shop> getShopPage() async {
-    var userRepo = UserRepository();
-    String token = await userRepo.getToken();
-    return await _shopProvider.getRequestShopPage(token);
+  Future<CategoryList> getShopPage() async {
+    // var userRepo = UserRepository();
+    // String token = await userRepo.getToken();
+    return await _shopProvider.getRequestShopPage("token");
   }
 }

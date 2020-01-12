@@ -1,11 +1,11 @@
-class CategoryList {
+class SubCategoryList {
   int statusCode;
   String message;
   List<Result> result;
 
-  CategoryList({this.statusCode, this.message, this.result});
+  SubCategoryList({this.statusCode, this.message, this.result});
 
-  CategoryList.fromJson(Map<String, dynamic> json) {
+  SubCategoryList.fromJson(Map<String, dynamic> json) {
     statusCode = json['statusCode'];
     message = json['message'];
     if (json['result'] != null) {
@@ -30,41 +30,11 @@ class CategoryList {
 class Result {
   int id;
   String title;
-  List<Subcategories> subcategories;
-
-  Result({this.id, this.title, this.subcategories});
-
-  Result.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    title = json['title'];
-    if (json['subcategories'] != null) {
-      subcategories = new List<Subcategories>();
-      json['subcategories'].forEach((v) {
-        subcategories.add(new Subcategories.fromJson(v));
-      });
-    }
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['title'] = this.title;
-    if (this.subcategories != null) {
-      data['subcategories'] =
-          this.subcategories.map((v) => v.toJson()).toList();
-    }
-    return data;
-  }
-}
-
-class Subcategories {
-  int id;
-  String title;
   List<Products> products;
 
-  Subcategories({this.id, this.title, this.products});
+  Result({this.id, this.title, this.products});
 
-  Subcategories.fromJson(Map<String, dynamic> json) {
+  Result.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     title = json['title'];
     if (json['products'] != null) {

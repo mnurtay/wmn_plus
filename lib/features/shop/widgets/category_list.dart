@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:wmn_plus/features/shop/category_detail/category_detail_page.dart';
 import 'package:wmn_plus/features/shop/shop_state.dart';
+import 'package:wmn_plus/features/shop/sub_category_detail/category_detail_page.dart';
 import 'package:wmn_plus/features/shop/widgets/category_item.dart';
 
-class CategoryList extends StatelessWidget {
-  const CategoryList({
+class CategoryListWidget extends StatelessWidget {
+  const CategoryListWidget({
     Key key,
     @required this.currentState,
   }) : super(key: key);
@@ -18,21 +18,29 @@ class CategoryList extends StatelessWidget {
       child: ListView.builder(
           scrollDirection: Axis.vertical,
           itemCount: currentState.hello.result.length,
-          itemBuilder: (context, index) {
+          itemBuilder: (context, indexCategory) {
+            if (currentState.hello.result[indexCategory].subcategories.length ==
+                0) return Container();
             return Column(
               children: <Widget>[
                 Row(
                   children: <Widget>[
-                    Text(currentState.hello.result[index].title,
+                    Text(currentState.hello.result[indexCategory].title,
                         style: Theme.of(context).textTheme.title),
                     Expanded(
                       child: Container(),
                     ),
                     FlatButton(
                       onPressed: () {
+                        Map<String, dynamic> route = Map();
+                        route["id"] =
+                            currentState.hello.result[indexCategory].id;
+                        route["title"] =
+                            currentState.hello.result[indexCategory].title;
                         Navigator.pushNamed(
                             context, CategoryDetailPage.routeName,
-                            arguments: 1);
+                            arguments:
+                                route);
                       },
                       child: Text(
                         "Все",
@@ -51,13 +59,17 @@ class CategoryList extends StatelessWidget {
                   height: 200,
                   child: ListView.builder(
                       scrollDirection: Axis.horizontal,
-                      itemCount:
-                          currentState.hello.result[index].products.length,
+                      itemCount: currentState
+                          .hello.result[indexCategory].subcategories.length,
                       itemBuilder: (context, index) {
                         return CatergoryItem(
-                            product: currentState
-                                .hello.result[index].products[index]);
+                            id: currentState.hello.result[indexCategory].id,
+                            subcategories: currentState.hello
+                                .result[indexCategory].subcategories[index]);
                       }),
+                ),
+                SizedBox(
+                  height: ScreenUtil.getInstance().setHeight(20),
                 ),
               ],
             );

@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:developer' as developer;
 
 import 'package:bloc/bloc.dart';
-import 'package:wmn_plus/features/shop/category_detail/index.dart';
+import 'package:wmn_plus/features/shop/sub_category_detail/index.dart';
 
 class CategoryDetailBloc extends Bloc<CategoryDetailEvent, CategoryDetailState> {
   // todo: check singleton for logic in project

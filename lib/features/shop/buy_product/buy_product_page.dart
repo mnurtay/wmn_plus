@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:wmn_plus/features/shop/product_detail/index.dart';
+import 'package:wmn_plus/features/shop/buy_product/index.dart';
 
-class ProductDetailPage extends StatelessWidget {
-  ProductDetailPage(this.routes);
-
-  static const String routeName = '/productDetail';
+class BuyProductPage extends StatelessWidget {
+  BuyProductPage(this.routes);
+  static const String routeName = '/buyProduct';
   final Map<String, int> routes;
+
   @override
   Widget build(BuildContext context) {
-    var _productDetailBloc = ProductDetailBloc();
+    var _buyProductBloc = BuyProductBloc();
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(
@@ -17,14 +17,11 @@ class ProductDetailPage extends StatelessWidget {
         backgroundColor: Colors.white,
         centerTitle: true,
         title: Text(
-          '',
+          'Оформление заказа',
           style: TextStyle(color: Colors.black),
         ),
       ),
-      body: ProductDetailScreen(
-        productDetailBloc: _productDetailBloc,
-        map: routes,
-      ),
+      body: BuyProductScreen(buyProductBloc: _buyProductBloc, routes: routes),
     );
   }
 }

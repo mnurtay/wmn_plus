@@ -70,21 +70,15 @@ class ShopScreenState extends State<ShopScreen> {
           }
           if (currentState is InShopState) {
             return Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text("Категории", style: Theme.of(context).textTheme.title),
                   SizedBox(
                     height: ScreenUtil.getInstance().setHeight(20),
                   ),
-                  // catergoryListView(),
-                  RecommendedProduct(context: context),
-                  SizedBox(
-                    height: ScreenUtil.getInstance().setHeight(20),
-                  ),
-                  CategoryList(
+                  CategoryListWidget(
                     currentState: currentState,
                   ),
                 ],

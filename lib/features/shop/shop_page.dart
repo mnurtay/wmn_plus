@@ -12,7 +12,7 @@ class ShopPage extends StatelessWidget {
         title: Text("Магазин", style: Theme.of(context).textTheme.title),
         backgroundColor: Colors.white,
         centerTitle: false,
-        elevation: 0,
+        elevation: 4,
       ),
       body: ShopScreen(shopBloc: _shopBloc),
     );
