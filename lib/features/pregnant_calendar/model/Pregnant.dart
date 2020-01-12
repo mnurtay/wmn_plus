@@ -14,6 +14,10 @@ class Pregnant extends Equatable {
     @required this.instructions,
   });
 
+  factory Pregnant.anonymous() {
+    return Pregnant(week: 0, day: 0, instructions: []);
+  }
+
   factory Pregnant.parseJson(String jsonString) {
     Map objectMap = json.decode(jsonString);
     return Pregnant.parseMap(objectMap);

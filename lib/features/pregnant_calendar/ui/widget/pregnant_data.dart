@@ -13,6 +13,7 @@ class PregnantData extends StatefulWidget {
 class _PregnantDataState extends State<PregnantData> {
   PregnantBloc pregnantBloc;
   Pregnant pregnant;
+  PregnantInstruction instruction;
   DateTime selectedDate = DateTime.now();
 
   @override
@@ -25,6 +26,24 @@ class _PregnantDataState extends State<PregnantData> {
     setState(() {
       pregnant = instance;
       selectedDate = date;
+    });
+    updateInstruction();
+  }
+
+  void updateInstruction() {
+    bool check = false;
+    setState(() {
+      pregnant.instructions.forEach((item) {
+        if (selectedDate.compareTo(item.fromDate) >= 0) {
+          if (selectedDate.compareTo(item.toDate) <= 0) {
+            instruction = item;
+            check = true;
+          }
+        }
+      });
+      if (!check) {
+        instruction = null;
+      }
     });
   }
 
@@ -40,46 +59,59 @@ class _PregnantDataState extends State<PregnantData> {
           updatePregnant(state.pregnant, DateTime.now());
         }
       },
-      child: buildBody(),
+      child: BlocBuilder(
+        bloc: pregnantBloc,
+        builder: (context, state) {
+          if (state is LoadingPregnantState) {
+            return Expanded(
+              child: Container(
+                alignment: Alignment.center,
+                child: CircularProgressIndicator(),
+              ),
+            );
+          }
+          return buildBody();
+        },
+      ),
     );
   }
 
   Widget buildBody() {
     return Expanded(
-      child: Container(
-        margin: EdgeInsets.only(
-          bottom: ScreenUtil().setHeight(200),
-          top: ScreenUtil().setHeight(100),
-          left: ScreenUtil().setWidth(100),
-          right: ScreenUtil().setWidth(100),
-        ),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(color: Colors.grey.withOpacity(0.5), blurRadius: 2),
-          ],
-          borderRadius: BorderRadius.all(
-            Radius.circular(ScreenUtil().setSp(60)),
-          ),
-        ),
+      child: SingleChildScrollView(
         child: Container(
-          width: double.infinity,
-          padding: EdgeInsets.symmetric(
+          margin: EdgeInsets.symmetric(
             horizontal: ScreenUtil().setWidth(50),
-            vertical: ScreenUtil().setHeight(40),
+            vertical: ScreenUtil().setHeight(50),
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              buildTitle(),
-              Container(
-                padding: EdgeInsets.symmetric(
-                  vertical: ScreenUtil().setHeight(20),
-                ),
-                child: Divider(),
-              ),
-              buildTasks(),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(color: Colors.grey.withOpacity(0.5), blurRadius: 2),
             ],
+            borderRadius: BorderRadius.all(
+              Radius.circular(ScreenUtil().setSp(60)),
+            ),
+          ),
+          child: Container(
+            width: double.infinity,
+            padding: EdgeInsets.symmetric(
+              horizontal: ScreenUtil().setWidth(50),
+              vertical: ScreenUtil().setHeight(40),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                buildTitle(),
+                Container(
+                  padding: EdgeInsets.symmetric(
+                    vertical: ScreenUtil().setHeight(12),
+                  ),
+                  child: Divider(color: Colors.black.withOpacity(0.2)),
+                ),
+                buildTasks(),
+              ],
+            ),
           ),
         ),
       ),
@@ -93,11 +125,55 @@ class _PregnantDataState extends State<PregnantData> {
         Text(
           'Задачи:',
           style: TextStyle(
-            fontSize: ScreenUtil().setSp(50),
+            fontSize: ScreenUtil().setSp(45),
             color: Colors.grey,
           ),
         ),
         SizedBox(height: ScreenUtil().setHeight(10)),
+        buildTaskList(),
+      ],
+    );
+  }
+
+  Widget buildTaskList() {
+    if (instruction == null) {
+      return Container(
+        child: Text('Пусто'),
+      );
+    }
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          "${getInstructionDate(instruction.fromDate)} - ${getInstructionDate(instruction.toDate)}",
+          style: TextStyle(
+            fontSize: ScreenUtil().setSp(45),
+            color: Colors.grey,
+          ),
+        ),
+        SizedBox(height: ScreenUtil().setHeight(15)),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: instruction.messages.map((item) {
+            return Container(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    width: 5,
+                    height: 5,
+                    decoration: BoxDecoration(
+                      color: Colors.black,
+                      shape: BoxShape.circle,
+                    ),
+                  ),
+                  SizedBox(width: ScreenUtil().setWidth(20)),
+                  Text(item),
+                ],
+              ),
+            );
+          }).toList(),
+        ),
       ],
     );
   }
@@ -109,21 +185,28 @@ class _PregnantDataState extends State<PregnantData> {
         Text(
           'Беременность:',
           style: TextStyle(
-            fontSize: ScreenUtil().setSp(50),
+            fontSize: ScreenUtil().setSp(45),
             color: Colors.grey,
           ),
         ),
         SizedBox(height: ScreenUtil().setHeight(10)),
-        // Text(
-        //   'Неделя ${pregnant.week}, День ${pregnant.day}',
-        //   style: TextStyle(
-        //     fontSize: ScreenUtil().setSp(50),
-        //     color: Colors.black,
-        //     fontWeight: FontWeight.w500,
-        //   ),
-        // ),
+        Text(
+          'Неделя ${pregnant.week}, День ${pregnant.day}',
+          style: TextStyle(
+            fontSize: ScreenUtil().setSp(50),
+            color: Colors.black,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
       ],
     );
+  }
+
+  String getInstructionDate(DateTime dateTime) {
+    String date = "${dateTime.day} ";
+    date += MONTH_NAME[dateTime.month - 1];
+    date += ", ${dateTime.year}";
+    return date;
   }
 
   String getDateName() {
