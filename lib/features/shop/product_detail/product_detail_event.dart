@@ -8,36 +8,38 @@ import 'package:meta/meta.dart';
 abstract class ProductDetailEvent {
   Future<ProductDetailState> applyAsync(
       {ProductDetailState currentState, ProductDetailBloc bloc});
-  final ProductDetailRepository _productDetailRepository = ProductDetailRepository();
+  final ProductDetailRepository _productDetailRepository =
+      ProductDetailRepository();
 }
 
 class UnProductDetailEvent extends ProductDetailEvent {
   @override
-  Future<ProductDetailState> applyAsync({ProductDetailState currentState, ProductDetailBloc bloc}) async {
+  Future<ProductDetailState> applyAsync(
+      {ProductDetailState currentState, ProductDetailBloc bloc}) async {
     return UnProductDetailState(0);
   }
 }
 
 class LoadProductDetailEvent extends ProductDetailEvent {
-   
-  final bool isError;
+  final int cat;
+  final int sub;
+  final int id;
+
   @override
   String toString() => 'LoadProductDetailEvent';
 
-  LoadProductDetailEvent(this.isError);
+  LoadProductDetailEvent(this.cat, this.sub, this.id);
 
   @override
   Future<ProductDetailState> applyAsync(
       {ProductDetailState currentState, ProductDetailBloc bloc}) async {
     try {
-      if (currentState is InProductDetailState) {
-        return currentState.getNewVersion();
-      }
-      await Future.delayed(Duration(seconds: 2));
-      this._productDetailRepository.test(this.isError);
-      return InProductDetailState(0, 'Hello world');
+      ProductResponse productResponse =
+          await _productDetailRepository.getProductDetails(cat, sub, id);
+      return InProductDetailState(0, productResponse);
     } catch (_, stackTrace) {
-      developer.log('$_', name: 'LoadProductDetailEvent', error: _, stackTrace: stackTrace);
+      developer.log('$_',
+          name: 'LoadProductDetailEvent', error: _, stackTrace: stackTrace);
       return ErrorProductDetailState(0, _?.toString());
     }
   }

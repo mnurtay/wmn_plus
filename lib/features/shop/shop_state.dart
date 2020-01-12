@@ -39,7 +39,7 @@ class UnShopState extends ShopState {
 
 /// Initialized
 class InShopState extends ShopState {
-  final Shop hello;
+  final CategoryList hello;
 
   InShopState(int version, this.hello) : super(version, [hello]);
 

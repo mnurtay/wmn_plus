@@ -44,6 +44,9 @@ ThemeData THEME = ThemeData(
 
 class AuthenticatedDoctorRoutes extends StatelessWidget {
   List<String> _category = ['Для докторам'];
+  List<int> _categoryId = [
+    22
+  ];
 
   Widget buildRoutes(BuildContext context) {
     return MaterialApp(
@@ -68,7 +71,7 @@ class AuthenticatedDoctorRoutes extends StatelessWidget {
 
   List pageOptions(BuildContext context) {
     return [
-      NewsPage(_category),
+      NewsPage(_category, _categoryId),
       ProfilePage(),
     ];
   }

@@ -5,7 +5,9 @@ class ProductDetailRepository {
 
   ProductDetailRepository();
 
-  void test(bool isError) {
-    this._productDetailProvider.test(isError);
+  Future<ProductResponse> getProductDetails(int cat, int sub, int id) async {
+    // var userRepo = UserRepository();
+    // String token = await userRepo.getToken();
+    return await _productDetailProvider.getRequestProductDetails(cat, sub, id);
   }
 }

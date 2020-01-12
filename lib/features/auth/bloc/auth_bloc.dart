@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:wmn_plus/features/auth/resource/auth_repository.dart';
 import './bloc.dart';
 
@@ -29,6 +30,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           yield AuthenticatedClimaxModeState(user: currentUser);
         }
       } else {
+        FirebaseMessaging().getToken().then((token) {
+          print(token);
+          userRepository.persistToken(token);
+        });
         yield UnauthenticatedAuthState();
       }
     }

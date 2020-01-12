@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:developer' as developer;
 
-import 'package:wmn_plus/features/shop/category_detail/index.dart';
+import 'package:wmn_plus/features/shop/sub_category_detail/index.dart';
 import 'package:meta/meta.dart';
 
 @immutable
@@ -20,22 +20,18 @@ class UnCategoryDetailEvent extends CategoryDetailEvent {
 
 class LoadCategoryDetailEvent extends CategoryDetailEvent {
    
-  final bool isError;
+  final int id;
   @override
   String toString() => 'LoadCategoryDetailEvent';
 
-  LoadCategoryDetailEvent(this.isError);
+  LoadCategoryDetailEvent(this.id);
 
   @override
   Future<CategoryDetailState> applyAsync(
       {CategoryDetailState currentState, CategoryDetailBloc bloc}) async {
     try {
-      if (currentState is InCategoryDetailState) {
-        return currentState.getNewVersion();
-      }
-      // await Future.delayed(Duration(seconds: 2));
-      this._categoryDetailRepository.test(this.isError);
-      return InCategoryDetailState(0, 'Hello world');
+      SubCategoryList subCategoryList = await _categoryDetailRepository.getSubCategoryPage(id);
+      return InCategoryDetailState(0, subCategoryList);
     } catch (_, stackTrace) {
       developer.log('$_', name: 'LoadCategoryDetailEvent', error: _, stackTrace: stackTrace);
       return ErrorCategoryDetailState(0, _?.toString());

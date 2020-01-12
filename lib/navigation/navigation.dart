@@ -30,7 +30,7 @@ import 'package:wmn_plus/features/registration/registration_mode/pregnant_mode/i
 import 'package:wmn_plus/features/registration/registration_mode/pregnant_mode/pregnant_mode_page.dart';
 import 'package:wmn_plus/features/registration/registration_mode/registration_mode_page.dart';
 import 'package:wmn_plus/features/registration/registration_screen.dart';
-import 'package:wmn_plus/features/shop/category_detail/index.dart';
+import 'package:wmn_plus/features/shop/sub_category_detail/index.dart';
 import 'package:wmn_plus/features/shop/shop_bloc.dart';
 import 'package:wmn_plus/navigation/climax_routes.dart';
 import 'package:wmn_plus/navigation/doctor_routes.dart';

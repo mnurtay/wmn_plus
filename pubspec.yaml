@@ -36,6 +36,10 @@ dependencies:
   share: ^0.6.3
   table_calendar: ^2.2.1
   page_transition: ^1.1.5
+  flutter_staggered_grid_view: ^0.2.2
+  flare_flutter: ^1.8.3
+
+
 
 
 
@@ -59,4 +63,5 @@ flutter:
     - assets/kazakhstan.png
     - assets/russia.png
     - assets/united-kingdom.png
+    - assets/check.flr
 

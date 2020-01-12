@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:wmn_plus/features/shop/product_detail/index.dart';
 
 abstract class ProductDetailState extends Equatable {
   /// notify change state without deep clone state
@@ -38,7 +39,7 @@ class UnProductDetailState extends ProductDetailState {
 
 /// Initialized
 class InProductDetailState extends ProductDetailState {
-  final String hello;
+  final ProductResponse hello;
 
   InProductDetailState(int version, this.hello) : super(version, [hello]);
 
