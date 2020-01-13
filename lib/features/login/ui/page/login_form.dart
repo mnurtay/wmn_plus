@@ -109,7 +109,7 @@ class _LoginFormState extends State<LoginForm> {
                 Text(
                   "Войти",
                   style: TextStyle(
-                    fontSize: ScreenUtil().setSp(55),
+                    fontSize: ScreenUtil().setSp(45),
                     fontWeight: FontWeight.w400,
                     color: Color(0xffD748DA),
                   ),
@@ -124,8 +124,8 @@ class _LoginFormState extends State<LoginForm> {
                     child: ClipOval(
                       child: Container(
                         color: Color(0xffD748DA),
-                        height: 80.0, // height of the button
-                        width: 80.0, // width of the butto
+                        height: 70.0, // height of the button
+                        width: 70.0, // width of the butto
                         child: Center(
                             child: Icon(
                           Icons.arrow_forward_ios,
@@ -150,7 +150,7 @@ class _LoginFormState extends State<LoginForm> {
                     "Я врач",
                     style: TextStyle(
                       decoration: TextDecoration.underline,
-                      fontSize: ScreenUtil().setSp(45),
+                      fontSize: ScreenUtil().setSp(40),
                       fontWeight: FontWeight.w600,
                       color: Colors.black,
                     ),
@@ -167,7 +167,7 @@ class _LoginFormState extends State<LoginForm> {
                     "Регистрация",
                     style: TextStyle(
                       decoration: TextDecoration.underline,
-                      fontSize: ScreenUtil().setSp(45),
+                      fontSize: ScreenUtil().setSp(40),
                       fontWeight: FontWeight.w600,
                       color: Colors.black,
                     ),

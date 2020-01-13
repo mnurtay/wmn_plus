@@ -2,18 +2,27 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:http/http.dart';
-import 'package:wmn_plus/features/auth/model/User.dart';
+import 'package:wmn_plus/features/auth/model/User.dart' as Us;
 import 'package:wmn_plus/features/auth/resource/auth_repository.dart';
 import 'package:wmn_plus/features/registration/index.dart';
 
 class PregnantModeProvider {
-  Future<User> registerUser(RegistrationModel registrationModel) async {
-    print(registrationModel.toJson().toString());
+  Future<Us.User> registerUser(RegistrationModel registrationModel) async {
+    // print(registrationModel.toJson().toString());
     Response response;
-    // var user = registrationModel;
-    RegistrationModel model = registrationModel;
-    model.pushToken = await UserRepository().getToken();
+    var token = await UserRepository().getToken();
+
     try {
+      RegistrationModel model = new RegistrationModel(
+        firstname: registrationModel.firstname,
+        surname: "Untitled",
+        password: registrationModel.password,
+        dateOfBirth: 21,
+        phone: registrationModel.phone,
+        pushToken: token,
+        pregnancy: Pregnancy(week: registrationModel.pregnancy.week),
+      );
+
       response = await post(
           'http://194.146.43.98:4000/api/v1/patient/registration',
           body: json.encode(model.toJson()),
@@ -22,7 +31,7 @@ class PregnantModeProvider {
             "Authorization": "wmn538179",
           });
       String body = utf8.decode(response.bodyBytes);
-      var user = User.fromJson(jsonDecode(body));
+      var user = Us.User.fromJson(jsonDecode(body));
       print(body);
       return user;
     } catch (error) {

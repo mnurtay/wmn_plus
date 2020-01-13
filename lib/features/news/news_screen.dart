@@ -44,7 +44,7 @@ class NewsScreenState extends State<NewsScreen> {
 
   void load() {
     widget._newsBloc.add(UnNewsEvent());
-    widget._newsBloc.add(LoadNewsEvent(category: _categoryPosition));
+    widget._newsBloc.add(LoadNewsEvent(category: widget._categoryId[0]));
   }
 
   @override
@@ -65,9 +65,13 @@ class NewsScreenState extends State<NewsScreen> {
     return Container(
       decoration: BoxDecoration(
           gradient: LinearGradient(
-              begin: Alignment.topRight,
-              end: Alignment.bottomLeft,
-              colors: [Colors.blue, Theme.of(context).accentColor])),
+              begin: Alignment.bottomCenter,
+              end: Alignment.topCenter,
+              colors: [
+            Theme.of(context).accentColor,
+            Colors.white,
+            Colors.white,
+          ])),
       child: Padding(
         padding: EdgeInsets.all(ScreenUtil.getInstance().setHeight(30)),
         child: Column(
@@ -76,14 +80,6 @@ class NewsScreenState extends State<NewsScreen> {
           children: <Widget>[
             // buildAndroidAppBar(),
             DropdownButton(
-              style: TextStyle(
-                  color: Colors.blue,
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.w400),
-              icon: Icon(
-                Icons.arrow_drop_down,
-                color: Colors.white,
-              ),
               hint: Text(
                 'Выбрать категорию новостей',
               ),

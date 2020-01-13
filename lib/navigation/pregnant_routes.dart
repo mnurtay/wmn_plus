@@ -3,6 +3,7 @@ import 'package:easy_localization/easy_localization_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:wmn_plus/features/consultation/ui/page/chat_list_page.dart';
 import 'package:wmn_plus/features/consultation/ui/page/chat_page.dart';
 import 'package:wmn_plus/features/consultation/ui/page/consultation_payment_page.dart';
@@ -21,6 +22,11 @@ import 'package:wmn_plus/features/profile/change_mode/change_mode_page.dart';
 import 'package:wmn_plus/features/profile/change_mode/change_mode_pregnancy/change_mode_pregnancy_page.dart';
 import 'package:wmn_plus/features/profile/profile_page.dart';
 import 'package:wmn_plus/features/profile/screen/language/index.dart';
+import 'package:wmn_plus/features/shop/buy_product/buy_product_page.dart';
+import 'package:wmn_plus/features/shop/index.dart';
+import 'package:wmn_plus/features/shop/product_detail/index.dart';
+import 'package:wmn_plus/features/shop/sub_category_detail/category_detail_page.dart';
+import 'package:wmn_plus/features/shop/sub_category_products/sub_category_products_page.dart';
 import 'package:wmn_plus/navigation/bottom_navigation.dart';
 import 'package:wmn_plus/util/config.dart';
 
@@ -88,9 +94,7 @@ class _PregnantRoutes extends State<AuthenticatedPregnantRoutes> {
     'Полезные советы'
   ];
 
-  List<int> _categoryId = [
-    1,2,3,4,5,6,7,8,9
-  ];
+  List<int> _categoryId = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
   @override
   void initState() {
@@ -133,6 +137,39 @@ class _PregnantRoutes extends State<AuthenticatedPregnantRoutes> {
               ChangeModePregnancyPage()
         },
         onGenerateRoute: (RouteSettings settings) {
+          if (settings.name == CategoryDetailPage.routeName) {
+            return PageTransition(
+              child: CategoryDetailPage(settings.arguments),
+              type: PageTransitionType.scale,
+              settings: settings,
+            );
+            // return MaterialPageRoute(
+            //     builder: (BuildContext context) =>
+            //         CategoryDetailPage(settings.arguments));
+          }
+          if (settings.name == SubCategoryProductsPage.routeName) {
+            return PageTransition(
+              child: SubCategoryProductsPage(settings.arguments),
+              type: PageTransitionType.rotate,
+              settings: settings,
+            );
+          }
+
+          if (settings.name == ProductDetailPage.routeName) {
+            return PageTransition(
+              child: ProductDetailPage(settings.arguments),
+              type: PageTransitionType.leftToRightWithFade,
+              settings: settings,
+            );
+          }
+
+          if (settings.name == BuyProductPage.routeName) {
+            return PageTransition(
+              child: BuyProductPage(settings.arguments),
+              type: PageTransitionType.rightToLeftWithFade,
+              settings: settings,
+            );
+          }
           if (settings.name == '/doctors_list') {
             return MaterialPageRoute(
                 builder: (BuildContext context) =>
@@ -197,6 +234,7 @@ class _PregnantRoutes extends State<AuthenticatedPregnantRoutes> {
       ChatListPage(),
       PregnantPage(),
       DiscountsPage(),
+      ShopPage(),
       ProfilPage(),
     ];
   }
@@ -222,6 +260,11 @@ class _PregnantRoutes extends State<AuthenticatedPregnantRoutes> {
       Container(
         padding: EdgeInsets.all(ScreenUtil().setSp(5)),
         child: Icon(Icons.shopping_cart),
+      ),
+      // SHOP
+      Container(
+        padding: EdgeInsets.all(ScreenUtil().setSp(5)),
+        child: Icon(Icons.shopping_basket),
       ),
       // PROFILE
       Container(

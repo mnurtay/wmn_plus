@@ -27,9 +27,16 @@ class CategoryListWidget extends StatelessWidget {
                   children: <Widget>[
                     Text(currentState.hello.result[indexCategory].title,
                         style: TextStyle(
-                            fontSize: 22,
+                            shadows: <Shadow>[
+                              // Shadow(
+                              //   offset: Offset(1.0, 1.0),
+                              //   blurRadius: 2.0,
+                              //   color: Color.fromARGB(255, 0, 0, 0),
+                              // ),
+                            ],
+                            fontSize: 18,
                             fontWeight: FontWeight.w500,
-                            color: Colors.white)),
+                            color: Colors.black)),
                     Expanded(
                       child: Container(),
                     ),
@@ -46,7 +53,8 @@ class CategoryListWidget extends StatelessWidget {
                       },
                       child: Text(
                         "Все",
-                        style: TextStyle(color: Color(0xff0CB19A4)),
+                        style:
+                            TextStyle(fontSize: 16, color: Color(0xff0CB19A4)),
                       ),
                       color: Colors.white,
                       shape: RoundedRectangleBorder(

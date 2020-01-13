@@ -54,70 +54,81 @@ class DiscountsScreenState extends State<DiscountsScreen> {
     ScreenUtil.instance =
         ScreenUtil(width: 828, height: 1792, allowFontScaling: true)
           ..init(context);
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        buildCategoryHeader(),
-        BlocBuilder<DiscountsBloc, DiscountsState>(
-            bloc: widget._discountsBloc,
-            builder: (
-              BuildContext context,
-              DiscountsState currentState,
-            ) {
-              if (currentState is UnDiscountsState) {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-              if (currentState is ErrorDiscountsState) {
-                return Center();
-              }
-              if (currentState is InDiscountsState) {
-                return Expanded(
-                  child: new ListView.builder(
-                    padding:
-                        EdgeInsets.all(ScreenUtil.getInstance().setHeight(30)),
-                    itemCount: currentState.discount.result.length,
-                    itemBuilder: (context, index) {
-                      return DiscountItem(
-                          context: context,
-                          result: currentState.discount.result[index]);
-                    },
-                  ),
-                );
-              }
-            }),
-      ],
+    return Container(
+      decoration: BoxDecoration(
+          gradient: LinearGradient(
+              begin: Alignment.bottomCenter,
+              end: Alignment.topCenter,
+              colors: [
+            Theme.of(context).accentColor,
+            Colors.white,
+            Colors.white,
+          ])),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          buildCategoryHeader(),
+          BlocBuilder<DiscountsBloc, DiscountsState>(
+              bloc: widget._discountsBloc,
+              builder: (
+                BuildContext context,
+                DiscountsState currentState,
+              ) {
+                if (currentState is UnDiscountsState) {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+                if (currentState is ErrorDiscountsState) {
+                  return Center();
+                }
+                if (currentState is InDiscountsState) {
+                  return Expanded(
+                    child: new ListView.builder(
+                      padding: EdgeInsets.all(
+                          ScreenUtil.getInstance().setHeight(30)),
+                      itemCount: currentState.discount.result.length,
+                      itemBuilder: (context, index) {
+                        return DiscountItem(
+                            context: context,
+                            result: currentState.discount.result[index]);
+                      },
+                    ),
+                  );
+                }
+              }),
+        ],
+      ),
     );
   }
 
   Container buildCategoryHeader() {
     return Container(
-        margin: EdgeInsets.only(
-          left: ScreenUtil.getInstance().setWidth(40),
-        ),
-        child: DropdownButton(
-          hint: Text('Выбрать категорию'),
-          value: _selectedCategory,
-          onChanged: (newValue) {
-            setState(() {
-              for (int i = 0; i < _category.length; i++) {
-                if (newValue == _category[i]) {
-                  _categoryPosition = i;
-                  _discountsBloc.add(LoadDiscountsEvent(i));
-                }
+      margin: EdgeInsets.only(
+        left: ScreenUtil.getInstance().setWidth(40),
+      ),
+      child: DropdownButton(
+        hint: Text('Выбрать категорию'),
+        value: _selectedCategory,
+        onChanged: (newValue) {
+          setState(() {
+            for (int i = 0; i < _category.length; i++) {
+              if (newValue == _category[i]) {
+                _categoryPosition = i;
+                _discountsBloc.add(LoadDiscountsEvent(i));
               }
-              _selectedCategory = newValue;
-            });
-          },
-          items: _category.map((location) {
-            return DropdownMenuItem(
-              child: new Text(location),
-              value: location,
-            );
-          }).toList(),
-        ),
-      );
+            }
+            _selectedCategory = newValue;
+          });
+        },
+        items: _category.map((location) {
+          return DropdownMenuItem(
+            child: new Text(location),
+            value: location,
+          );
+        }).toList(),
+      ),
+    );
   }
 }

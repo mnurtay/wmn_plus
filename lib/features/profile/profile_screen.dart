@@ -68,7 +68,11 @@ class ProfileScreenState extends State<ProfileScreen> {
           gradient: LinearGradient(
               begin: Alignment.bottomRight,
               end: Alignment.topCenter,
-              colors: [Theme.of(context).accentColor, Colors.blue])),
+              colors: [
+            Theme.of(context).accentColor,
+            Colors.white,
+            Colors.white
+          ])),
       child: BlocBuilder<ProfileBloc, ProfileState>(
           bloc: widget._profileBloc,
           builder: (
@@ -178,7 +182,7 @@ class ProfileScreenState extends State<ProfileScreen> {
           Text(
             state.hello,
             style: TextStyle(
-                fontSize: 25, fontWeight: FontWeight.w600, color: Colors.white),
+                fontSize: 18, fontWeight: FontWeight.w600, color: Colors.black),
           ),
           // Row(
           //   children: <Widget>[

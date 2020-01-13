@@ -24,7 +24,7 @@ class DiscountItem extends StatelessWidget {
       child: Container(
           margin:
               EdgeInsets.only(bottom: ScreenUtil.getInstance().setHeight(25)),
-          height: ScreenUtil.getInstance().setHeight(600),
+          height: ScreenUtil.getInstance().setHeight(450),
           width: MediaQuery.of(context).size.width,
           child: Container(
             alignment: Alignment.bottomLeft,
@@ -39,29 +39,33 @@ class DiscountItem extends StatelessWidget {
                       top: ScreenUtil.getInstance().setHeight(40),
                       left: ScreenUtil.getInstance().setHeight(30),
                     ),
-                    Positioned(
-                      child: Text("Просмотрено: 99",
-                          style: Theme.of(context).textTheme.display2),
-                      top: ScreenUtil.getInstance().setHeight(170),
-                      left: ScreenUtil.getInstance().setHeight(30),
-                    ),
-                    Positioned(
-                      child: Text("от 1 100 тг.",
-                          style: Theme.of(context).textTheme.display3),
-                      bottom: ScreenUtil.getInstance().setHeight(70),
-                      right: ScreenUtil.getInstance().setHeight(30),
-                    ),
-                    Positioned(
-                      child: Text("экономия от 2500 тг.",
-                          style: Theme.of(context).textTheme.display2),
-                      bottom: ScreenUtil.getInstance().setHeight(30),
-                      right: ScreenUtil.getInstance().setHeight(30),
-                    ),
+                    // Positioned(
+                    //   child: Text("Просмотрено: 99",
+                    //       style: Theme.of(context).textTheme.display2),
+                    //   top: ScreenUtil.getInstance().setHeight(170),
+                    //   left: ScreenUtil.getInstance().setHeight(30),
+                    // ),
+                    // Positioned(
+                    //   child: Text("от 1 100 тг.",
+                    //       style: Theme.of(context).textTheme.display3),
+                    //   bottom: ScreenUtil.getInstance().setHeight(70),
+                    //   right: ScreenUtil.getInstance().setHeight(30),
+                    // ),
+                    // Positioned(
+                    //   child: Text("экономия от 2500 тг.",
+                    //       style: Theme.of(context).textTheme.display2),
+                    //   bottom: ScreenUtil.getInstance().setHeight(30),
+                    //   right: ScreenUtil.getInstance().setHeight(30),
+                    // ),
                   ],
                 ),
-                height: ScreenUtil.getInstance().setHeight(250),
+                height: ScreenUtil.getInstance().setHeight(150),
                 decoration: BoxDecoration(
                     color: Colors.white,
+                    border: Border.all(
+                      color: Colors.grey,
+                      width: 1, //                   <--- border width here
+                    ),
                     borderRadius: BorderRadius.vertical(
                         top: Radius.circular(16),
                         bottom: Radius.circular(10)))),

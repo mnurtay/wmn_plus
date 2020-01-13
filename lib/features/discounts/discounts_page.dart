@@ -8,13 +8,20 @@ class DiscountsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     var _discountsBloc = DiscountsBloc();
     return Scaffold(
-      appBar: AppBar(
-          title: Text('Скидки и акции', style: Theme.of(context).textTheme.title),
-          backgroundColor: Colors.white,
-          centerTitle: false,
-          elevation: 0,
-          ),
+      appBar: appBar(),
       body: DiscountsScreen(discountsBloc: _discountsBloc),
     );
+  }
+
+
+   Widget appBar() {
+    return AppBar(
+        title: Text(
+          "Скидки и акции", style: TextStyle(color: Colors.black)
+        ),
+        backgroundColor: Colors.white,
+        centerTitle: false,
+        elevation: 4,
+        actions: <Widget>[]);
   }
 }
