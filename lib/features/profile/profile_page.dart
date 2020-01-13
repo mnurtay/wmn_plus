@@ -9,17 +9,18 @@ class ProfilPage extends StatelessWidget {
   Widget build(BuildContext context) {
     var _profileBloc = ProfileBloc();
     return Scaffold(
-       appBar:appBar(context),
+      appBar: appBar(context),
       body: ProfileScreen(profileBloc: _profileBloc),
     );
   }
-  
-   Widget appBar(BuildContext context) {
+
+  Widget appBar(BuildContext context) {
     return AppBar(
         title: Text(
           AppLocalizations.of(context).tr('profil'),
+          style: TextStyle(color: Colors.black),
         ),
-        backgroundColor: Colors.blue,
+        backgroundColor: Colors.white,
         centerTitle: false,
         elevation: 4,
         actions: <Widget>[]);

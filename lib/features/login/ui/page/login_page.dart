@@ -58,7 +58,7 @@ class _LoginPageState extends State<LoginPage> {
             children: <Widget>[
               Container(
                 alignment: Alignment.centerLeft,
-                height: ScreenUtil.getInstance().setHeight(700),
+                height: ScreenUtil.getInstance().setHeight(500),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -66,7 +66,7 @@ class _LoginPageState extends State<LoginPage> {
                     Text(
                       "Добро пожаловать в",
                       style: TextStyle(
-                        fontSize: ScreenUtil().setSp(80),
+                        fontSize: ScreenUtil().setSp(60),
                         fontWeight: FontWeight.w200,
                         color: Colors.black,
                       ),
@@ -74,7 +74,7 @@ class _LoginPageState extends State<LoginPage> {
                     Text(
                       "WMN+",
                       style: TextStyle(
-                        fontSize: ScreenUtil().setSp(90),
+                        fontSize: ScreenUtil().setSp(60),
                         fontWeight: FontWeight.w400,
                         color: Color(0xffD748DA),
                       ),

@@ -66,7 +66,7 @@ ThemeData THEME = ThemeData(
         fontSize: ScreenUtil().setSp(50),
         fontWeight: FontWeight.w500),
   ),
-  accentColor: Colors.red,
+  accentColor: Color(0xff5b59ba),
   primaryColor: Colors.red,
 );
 
@@ -81,20 +81,17 @@ class AuthenticatedFertilityRoutes extends StatelessWidget {
     'Полезные советы',
   ];
 
-  List<int> _categoryId = [
-    10,11,12,13,14,15,16
-  ];
+  List<int> _categoryId = [10, 11, 12, 13, 14, 15, 16];
 
   Widget buildRoutes(BuildContext context) {
     var data = EasyLocalizationProvider.of(context).data;
 
     return EasyLocalizationProvider(
       data: data,
-      child: new MaterialApp(
+      child: MaterialApp(
         localizationsDelegates: [
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
-          //app-specific localization
           EasylocaLizationDelegate(locale: data.locale, path: 'path'),
         ],
         supportedLocales: [
@@ -220,6 +217,7 @@ class AuthenticatedFertilityRoutes extends StatelessWidget {
       NewsPage(_category, _categoryId),
       ChatListPage(),
       FertilityCalendarPage(),
+      DiscountsPage(),
       ShopPage(),
       ProfilPage(),
     ];
@@ -246,6 +244,10 @@ class AuthenticatedFertilityRoutes extends StatelessWidget {
       Container(
         padding: EdgeInsets.all(ScreenUtil().setSp(5)),
         child: Icon(Icons.shopping_cart),
+      ),
+       Container(
+        padding: EdgeInsets.all(ScreenUtil().setSp(5)),
+        child: Icon(Icons.shopping_basket),
       ),
       // PROFILE
       Container(

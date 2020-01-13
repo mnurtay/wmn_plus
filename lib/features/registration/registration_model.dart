@@ -50,6 +50,10 @@ class RegistrationModel {
     }
     return data;
   }
+
+  RegistrationModel.createObjectWithToken(RegistrationModel registrationModel){
+  
+  }
 }
 
 class Fertility {
