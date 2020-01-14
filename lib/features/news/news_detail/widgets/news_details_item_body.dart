@@ -40,8 +40,8 @@ class NewsDetailsItemBody extends StatelessWidget {
                     currentState.newsDetail.result.title,
                     style: TextStyle(
                       fontSize: ScreenUtil().setSp(55),
-                      fontWeight: FontWeight.w500,
-                      color: Color(0xffD748DA),
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black,
                     ),
                   ),
                   Html(data: currentState.newsDetail.result.content),

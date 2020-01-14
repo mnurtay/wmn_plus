@@ -2,36 +2,39 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:http/http.dart';
-import 'package:wmn_plus/features/auth/model/User.dart';
+import 'package:wmn_plus/features/auth/model/User.dart' as Us;
 import 'package:wmn_plus/features/auth/resource/auth_repository.dart';
 import 'package:wmn_plus/features/registration/registration_model.dart';
 
 class FertilityPeriodProvider {
-  Future<void> loadAsync(String token) async {
-    /// write from keystore/keychain
-    await Future.delayed(Duration(seconds: 2));
-  }
-
-  Future<void> saveAsync(String token) async {
-    /// write from keystore/keychain
-    await Future.delayed(Duration(seconds: 2));
-  }
-
-  Future<User> registerUser(RegistrationModel registrationModel) async {
+  Future<Us.User> registerUser(RegistrationModel registrationModel) async {
     print(registrationModel.toJson().toString());
     Response response;
-    registrationModel.pushToken = await UserRepository().getToken();
+    var token = await UserRepository().getToken();
+
     try {
+      RegistrationModel model = new RegistrationModel(
+        firstname: registrationModel.firstname,
+        surname: "Untitled",
+        password: registrationModel.password,
+        dateOfBirth: 21,
+        phone: registrationModel.phone,
+        pushToken: token,
+        fertility: Fertility(
+            start: registrationModel.fertility.start,
+            duration: registrationModel.fertility.duration,
+            period: registrationModel.fertility.period),
+      );
       response = await post(
           'http://194.146.43.98:4000/api/v1/patient/registration',
-          body: json.encode(registrationModel.toJson()),
+          body: json.encode(model.toJson()),
           headers: {
             "Content-Type": "application/json",
             "Authorization": "wmn538179",
           });
       String body = utf8.decode(response.bodyBytes);
       Map regObject = json.decode(body);
-      User user = User.fromJson(regObject);
+      Us.User user = Us.User.fromJson(regObject);
       print(response.body.toString());
       return user;
     } catch (error) {

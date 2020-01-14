@@ -48,80 +48,95 @@ class FertilityCalendarScreenState extends State<FertilityCalendarScreen> {
     ScreenUtil.instance =
         ScreenUtil(width: 828, height: 1792, allowFontScaling: true)
           ..init(context);
-    return BlocBuilder<FertilityCalendarBloc, FertilityCalendarState>(
-        bloc: widget._fertilityCalendarBloc,
-        builder: (
-          BuildContext context,
-          FertilityCalendarState currentState,
-        ) {
-          if (currentState is UnFertilityCalendarState) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          if (currentState is InFertilityCalendarState) {
-            return SingleChildScrollView(
-              child: Column(
-                children: <Widget>[
-                  RedHeader(context: context, result: currentState.result),
-                  buildDailyCalendar(currentState.result, currentState.language),
-                  buildInfoBlock()
-                ],
-              ),
-            );
-          }
-
-          if (currentState is InToPmsFertilityCalendarState) {
-            return SingleChildScrollView(
-              child: Column(
-                children: <Widget>[
-                  PMSHeader(context: context, result: currentState.result),
-                  buildDailyCalendar(currentState.result, currentState.language),
-                  buildInfoBlock()
-                ],
-              ),
-            );
-          }
-          if (currentState is InToFertFertilityCalendarState) {
-            return SingleChildScrollView(
-              child: Column(
-                children: <Widget>[
-                  FertHeader(context: context, result: currentState.result),
-                  buildDailyCalendar(currentState.result, currentState.language),
-                  buildInfoBlock()
-                ],
-              ),
-            );
-          }
-          if (currentState is InBabyFertilityCalendarState) {
-            return SingleChildScrollView(
-              child: Column(
-                children: <Widget>[
-                  BlueHeader(context: context, result: currentState.result),
-                  buildDailyCalendar(currentState.result, currentState.language),
-                  buildInfoBlock()
-                ],
-              ),
-            );
-          }
-          if (currentState is ErrorFertilityCalendarState) {
-            return Center(
+    return Container(
+      decoration: BoxDecoration(
+          gradient: LinearGradient(
+              begin: Alignment.bottomCenter,
+              end: Alignment.topCenter,
+              colors: [
+            Theme.of(context).accentColor,
+            Colors.white,
+            Colors.white
+          ])),
+      child: BlocBuilder<FertilityCalendarBloc, FertilityCalendarState>(
+          bloc: widget._fertilityCalendarBloc,
+          builder: (
+            BuildContext context,
+            FertilityCalendarState currentState,
+          ) {
+            if (currentState is UnFertilityCalendarState) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            if (currentState is InFertilityCalendarState) {
+              return SingleChildScrollView(
                 child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(currentState.errorMessage ?? 'Error'),
-                Padding(
-                  padding: const EdgeInsets.only(top: 32.0),
-                  child: RaisedButton(
-                    color: Colors.blue,
-                    child: Text('reload'),
-                    onPressed: () => this._load(),
-                  ),
+                  children: <Widget>[
+                    RedHeader(context: context, result: currentState.result),
+                    buildDailyCalendar(
+                        currentState.result, currentState.language),
+                    buildInfoBlock()
+                  ],
                 ),
-              ],
-            ));
-          }
-        });
+              );
+            }
+
+            if (currentState is InToPmsFertilityCalendarState) {
+              return SingleChildScrollView(
+                child: Column(
+                  children: <Widget>[
+                    PMSHeader(context: context, result: currentState.result),
+                    buildDailyCalendar(
+                        currentState.result, currentState.language),
+                    buildInfoBlock()
+                  ],
+                ),
+              );
+            }
+            if (currentState is InToFertFertilityCalendarState) {
+              return SingleChildScrollView(
+                child: Column(
+                  children: <Widget>[
+                    FertHeader(context: context, result: currentState.result),
+                    buildDailyCalendar(
+                        currentState.result, currentState.language),
+                    buildInfoBlock()
+                  ],
+                ),
+              );
+            }
+            if (currentState is InBabyFertilityCalendarState) {
+              return SingleChildScrollView(
+                child: Column(
+                  children: <Widget>[
+                    BlueHeader(context: context, result: currentState.result),
+                    buildDailyCalendar(
+                        currentState.result, currentState.language),
+                    buildInfoBlock()
+                  ],
+                ),
+              );
+            }
+            if (currentState is ErrorFertilityCalendarState) {
+              return Center(
+                  child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(currentState.errorMessage ?? 'Error'),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 32.0),
+                    child: RaisedButton(
+                      color: Colors.blue,
+                      child: Text('reload'),
+                      onPressed: () => this._load(),
+                    ),
+                  ),
+                ],
+              ));
+            }
+          }),
+    );
   }
 
   Widget buildDailyCalendar(Result result, String language) {
@@ -130,7 +145,6 @@ class FertilityCalendarScreenState extends State<FertilityCalendarScreen> {
       onDayPressed: (DateTime date, List<Event> events) {
         this.setState(() => widget._varCurrentTime = date);
       },
-
       prevMonthDayBorderColor: Colors.black,
       weekendTextStyle: TextStyle(
         color: Colors.black,
@@ -200,7 +214,6 @@ class FertilityCalendarScreenState extends State<FertilityCalendarScreen> {
       weekFormat: false,
       daysHaveCircularBorder: null,
       selectedDateTime: widget._varCurrentTime,
-
     );
   }
 
@@ -213,6 +226,3 @@ class FertilityCalendarScreenState extends State<FertilityCalendarScreen> {
     return Container();
   }
 }
-
-
-

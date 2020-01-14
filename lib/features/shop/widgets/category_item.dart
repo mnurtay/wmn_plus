@@ -34,12 +34,7 @@ class CatergoryItem extends StatelessWidget {
               children: <Widget>[
                 Expanded(
                   child: Container(
-                    child: Image.network(
-                        "https://static.zara.net/photos///2019/I/0/3/p/6751/767/428/8/w/494/6751767428_1_1_1.jpg?ts=1569413669934"),
-                    decoration: BoxDecoration(
-                      color: Colors.grey,
-                      borderRadius: BorderRadius.circular(5),
-                    ),
+                    child: cardBackgroundImage(subcategories),
                   ),
                 ),
                 SizedBox(
@@ -59,5 +54,17 @@ class CatergoryItem extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Widget cardBackgroundImage(Subcategories subcategories) {
+    if (subcategories.products.length > 0)
+      return Image.network(subcategories.products[0].image);
+    else
+      return Container(
+        decoration: BoxDecoration(
+          color: Colors.grey.withOpacity(0.3),
+          borderRadius: BorderRadius.circular(5),
+        ),
+      );
   }
 }

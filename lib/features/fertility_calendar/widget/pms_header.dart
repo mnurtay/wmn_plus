@@ -34,7 +34,7 @@ class PMSHeader extends StatelessWidget {
               ),
             ),
             Text(
-              result.info.toPMS.toString() + " дни",
+              dayString(result.info.toPMS),
               style: TextStyle(
                 fontSize: ScreenUtil().setSp(90),
                 fontWeight: FontWeight.w400,
@@ -45,5 +45,15 @@ class PMSHeader extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String dayString(int day) {
+    if (day == 1) {
+      return "$day день";
+    } else if (1 < day && day < 5) {
+      return "$day дня";
+    } else {
+      return "$day дни";
+    }
   }
 }

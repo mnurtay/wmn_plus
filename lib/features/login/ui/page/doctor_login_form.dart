@@ -69,7 +69,7 @@ class _LoginFormState extends State<DoctorLoginForm> {
                         borderRadius: BorderRadius.circular(12.0),
                       ),
                       fillColor: Colors.grey,
-                      labelText: "Телефон")),
+                      labelText: "Почта")),
               SizedBox(
                 height: ScreenUtil.getInstance().setHeight(50),
               ),

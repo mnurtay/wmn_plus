@@ -54,9 +54,13 @@ class _ChatListPageState extends State<ChatListPage> {
             height: MediaQuery.of(context).size.height,
             decoration: BoxDecoration(
                 gradient: LinearGradient(
-                    begin: Alignment.topRight,
+                    begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
-                    colors: [Colors.blue, Theme.of(context).accentColor])),
+                    colors: [
+                  Colors.white,
+                  Colors.white,
+                  Theme.of(context).accentColor
+                ])),
             padding:
                 EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(30)),
             child: Column(
@@ -76,8 +80,11 @@ class _ChatListPageState extends State<ChatListPage> {
 
   Widget appBarDefault(BuildContext context) {
     return AppBar(
-      title: Text("Консультация"),
-      backgroundColor: Colors.blue,
+      title: Text(
+        "Консультация",
+        style: TextStyle(color: Colors.black),
+      ),
+      backgroundColor: Colors.white,
       centerTitle: false,
       elevation: 4,
       actions: <Widget>[
