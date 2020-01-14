@@ -7,6 +7,7 @@ class RegistrationModel {
   int dateOfBirth;
   Fertility fertility;
   Pregnancy pregnancy;
+  String climax;
 
   RegistrationModel(
       {this.firstname,
@@ -16,7 +17,8 @@ class RegistrationModel {
       this.phone,
       this.dateOfBirth,
       this.fertility,
-      this.pregnancy});
+      this.pregnancy,
+      this.climax});
 
   RegistrationModel.fromJson(Map<String, dynamic> json) {
     firstname = json['firstname'];
@@ -28,8 +30,8 @@ class RegistrationModel {
     fertility = json['fertility'] != null
         ? new Fertility.fromJson(json['fertility'])
         : null;
-    pregnancy = json['pregnancy'] != null 
-    ? new Pregnancy.fromJson(json['pregnancy'])
+    pregnancy = json['pregnancy'] != null
+        ? new Pregnancy.fromJson(json['pregnancy'])
         : null;
   }
 
@@ -48,11 +50,10 @@ class RegistrationModel {
     if (this.pregnancy != null) {
       data['pregnancy'] = this.pregnancy.toJson();
     }
+    if (this.climax != null) {
+      data["klimax"] = "climax";
+    }
     return data;
-  }
-
-  RegistrationModel.createObjectWithToken(RegistrationModel registrationModel){
-  
   }
 }
 
@@ -79,6 +80,7 @@ class Fertility {
     return data;
   }
 }
+
 class Pregnancy {
   int week;
 

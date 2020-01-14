@@ -216,17 +216,15 @@ class BuyProductScreenState extends State<BuyProductScreen> {
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
-          Flexible(
-              flex: 2,
-              child: Container(
-                  color: Colors.white,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text("Продукт: ${_product["title"]}"),
-                      Text("Сумма: ${_product["price"]} KZT"),
-                    ],
-                  ))),
+          Container(
+              margin: EdgeInsets.only(left: 3),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text("Продукт: ${_product["title"]}"),
+                  Text("Сумма: ${_product["price"]} KZT"),
+                ],
+              )),
           Expanded(
             child: Container(),
           ),

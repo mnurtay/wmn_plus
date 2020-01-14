@@ -26,18 +26,20 @@ class RegistrationModeScreenState extends State<RegistrationModeScreen> {
   final RegistrationModeBloc _registrationModeBloc;
   RegistrationModeScreenState(this._registrationModeBloc);
 
-  Widget buildModeItem(BuildContext context, String mode, String url, int version) {
+  Widget buildModeItem(
+      BuildContext context, String mode, String url, int version) {
     return InkWell(
       onTap: () {
         if (version == 1)
           Navigator.pushNamed(context, '/registration_mode_fertility',
-            arguments: widget._registrationModel);
-        else if (version == 2) 
+              arguments: widget._registrationModel);
+        else if (version == 2)
           Navigator.pushNamed(context, '/registration_mode_pregnancy',
-            arguments: widget._registrationModel);
-        else 
-          Navigator.pushNamed(context, '/registration_mode_fertility',
-            arguments: widget._registrationModel);
+              arguments: widget._registrationModel);
+        else {
+          _registrationModeBloc
+              .add(CompleteRegistrationModeEvent(widget._registrationModel));
+        }
       },
       child: Container(
           margin:
@@ -59,8 +61,8 @@ class RegistrationModeScreenState extends State<RegistrationModeScreen> {
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               color: Colors.black,
-              image: DecorationImage(
-                  fit: BoxFit.cover, image: NetworkImage(url)))),
+              image:
+                  DecorationImage(fit: BoxFit.cover, image: AssetImage(url)))),
     );
   }
 
@@ -72,7 +74,6 @@ class RegistrationModeScreenState extends State<RegistrationModeScreen> {
 
   @override
   void dispose() {
-    // _registrationModeBloc.close();
     super.dispose();
   }
 
@@ -131,9 +132,9 @@ class RegistrationModeScreenState extends State<RegistrationModeScreen> {
         SizedBox(
           height: 20,
         ),
-        buildModeItem(context, "Фертильность", "", 1),
-        buildModeItem(context, "Беременность", "",2),
-        buildModeItem(context, "Климакс", "",3)
+        buildModeItem(context, "Фертильность", "assets/fert_photo.jpg", 1),
+        buildModeItem(context, "Беременность", "assets/preg_photo.jpg", 2),
+        buildModeItem(context, "Климакс", "assets/climax_photo.jpg", 3)
       ],
     );
   }
@@ -238,11 +239,11 @@ class RegistrationModeScreenState extends State<RegistrationModeScreen> {
         Expanded(
           child: Container(),
         ),
-         InkWell(
-          onTap: (){
+        InkWell(
+          onTap: () {
             Navigator.of(context).pop();
           },
-                  child: Container(
+          child: Container(
             child: Text("Назад"),
           ),
         ),

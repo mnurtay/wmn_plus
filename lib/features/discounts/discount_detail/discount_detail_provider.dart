@@ -17,17 +17,19 @@ class DiscountDetailProvider {
   }
 
   void test(bool isError) {
-    if (isError == true){
+    if (isError == true) {
       throw Exception("manual error");
     }
   }
 
-  Future<Discountdetail> getDiscountDetail(String id) async {
+  Future<Discountdetail> getDiscountDetail(int cat, int id) async {
     Response response;
     var userRepo = UserRepository();
     try {
+      print("$cat $id");
       var user = await userRepo.getCurrentUser();
-      response = await get('http://194.146.43.98:4000/api/v1/patient/saleDetail/$id',
+      response = await get(
+          'http://194.146.43.98:4000/api/v1/patient/saleDetail/$cat/$id',
           headers: {
             "Content-Type": "application/json",
             "Authorization": "wmn538179 ${user.result.token}",
@@ -43,4 +45,3 @@ class DiscountDetailProvider {
     }
   }
 }
-

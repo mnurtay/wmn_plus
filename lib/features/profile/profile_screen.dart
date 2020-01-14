@@ -153,9 +153,9 @@ class ProfileScreenState extends State<ProfileScreen> {
               navigate: () {
                 shareApp();
               }),
-          _buildCard(
-              title: "FAQ",
-              navigate: () => Navigator.pushNamed(context, '/faq')),
+          // _buildCard(
+          //     title: "FAQ",
+          //     navigate: () => Navigator.pushNamed(context, '/faq')),
           _buildCard(
               title: AppLocalizations.of(context).tr('settings.about_us'),
               navigate: () => Navigator.pushNamed(context, '/about_us')),

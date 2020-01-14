@@ -73,7 +73,7 @@ class ChangeModeScreenState extends State<ChangeModeScreen> {
                       child: Column(
                     children: <Widget>[
                       SizedBox(
-                        height: 25,
+                        height: 10,
                       ),
                       buildMainColumn(context)
                     ],
@@ -93,7 +93,7 @@ class ChangeModeScreenState extends State<ChangeModeScreen> {
         Text(
           "Измените свою группу",
           style: TextStyle(
-            fontSize: ScreenUtil().setSp(55),
+            fontSize: ScreenUtil().setSp(45),
             fontWeight: FontWeight.w300,
             color: Colors.black,
           ),
@@ -101,9 +101,9 @@ class ChangeModeScreenState extends State<ChangeModeScreen> {
         SizedBox(
           height: 20,
         ),
-        buildModeItem(context, "Фертильность", "", 1),
-        buildModeItem(context, "Беременность", "",2),
-        buildModeItem(context, "Климакс", "",3)
+        buildModeItem(context, "Фертильность", "assets/fert_photo.jpg", 1),
+        buildModeItem(context, "Беременность", "assets/preg_photo.jpg",2),
+        buildModeItem(context, "Климакс", "assets/climax_photo.jpg",3)
       ],
     );
   }
@@ -116,8 +116,9 @@ class ChangeModeScreenState extends State<ChangeModeScreen> {
           Navigator.pushNamed(context, '/change_mode_fertility');
         else if (version == 2) 
           Navigator.pushNamed(context, '/change_mode_pregnancy');
-        else 
-          Navigator.pushNamed(context, '/change_mode_fertility');
+        else {
+          _changeModeBloc.add(CompleteChangeModeEvent());
+        }
       },
       child: Container(
           margin:
@@ -130,7 +131,7 @@ class ChangeModeScreenState extends State<ChangeModeScreen> {
               padding: EdgeInsets.all(ScreenUtil.getInstance().setHeight(50)),
               child: Text(mode,
                   style: TextStyle(
-                      fontSize: ScreenUtil.getInstance().setSp(50),
+                      fontSize: ScreenUtil.getInstance().setSp(45),
                       color: Colors.white)),
             ),
             decoration: BoxDecoration(
@@ -140,7 +141,7 @@ class ChangeModeScreenState extends State<ChangeModeScreen> {
               borderRadius: BorderRadius.circular(10),
               color: Colors.black,
               image: DecorationImage(
-                  fit: BoxFit.cover, image: NetworkImage(url)))),
+                  fit: BoxFit.cover, image: AssetImage(url)))),
     );
   }
 

@@ -45,7 +45,7 @@ class DiscountsScreenState extends State<DiscountsScreen> {
 
   @override
   void dispose() {
-    _discountsBloc.close();
+    // _discountsBloc.close();
     super.dispose();
   }
 
@@ -92,6 +92,7 @@ class DiscountsScreenState extends State<DiscountsScreen> {
                       itemBuilder: (context, index) {
                         return DiscountItem(
                             context: context,
+                            catId: _categoryPosition,
                             result: currentState.discount.result[index]);
                       },
                     ),

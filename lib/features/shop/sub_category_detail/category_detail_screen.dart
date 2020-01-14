@@ -71,37 +71,18 @@ class CategoryDetailScreenState extends State<CategoryDetailScreen> {
             ));
           }
           if (currentState is InCategoryDetailState)
-            return Column(
-              children: <Widget>[
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: currentState.hello.result.length,
-                    itemBuilder: (ctx, index) {
-                      return Container(
-                        height: MediaQuery.of(context).size.height,
-                        child: Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                            
-                              ProductList(
-                                id: widget._id, //cat
-                                sub: currentState.hello.result[index].id,
-                                products:
-                                    currentState.hello.result[index].products,
-                              ),
-                              SizedBox(
-                                height: 20,
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              ],
+            return ListView.builder(
+              itemCount: currentState.hello.result.length,
+              itemBuilder: (ctx, index) {
+                if (currentState.hello.result[index].products.length > 0)
+                  return ProductList(
+                    id: widget._id, //cat
+                    sub: currentState.hello.result[index].id,
+                    products: currentState.hello.result[index].products,
+                  );
+                else
+                  return Container();
+              },
             );
         });
   }

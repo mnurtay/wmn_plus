@@ -3,8 +3,8 @@ import 'package:wmn_plus/features/discounts/discount_detail/index.dart';
 
 class DiscountDetailPage extends StatelessWidget {
   static const String routeName = "/discountDetail";
-  final String id;
-  DiscountDetailPage(this.id);
+  final Map<String, int> route;
+  DiscountDetailPage(this.route);
   @override
   Widget build(BuildContext context) {
     var _discountDetailBloc = DiscountDetailBloc();
@@ -13,7 +13,7 @@ class DiscountDetailPage extends StatelessWidget {
         backgroundColor: Colors.white,
         iconTheme: IconThemeData(color: Colors.black),
       ),
-      body: DiscountDetailScreen(discountDetailBloc: _discountDetailBloc, id: id),
+      body: DiscountDetailScreen(discountDetailBloc: _discountDetailBloc, route: route),
     );
   }
 }

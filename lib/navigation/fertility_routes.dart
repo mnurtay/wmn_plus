@@ -67,7 +67,8 @@ ThemeData THEME = ThemeData(
         fontWeight: FontWeight.w500),
   ),
   accentColor: Color(0xff5b59ba),
-  primaryColor: Colors.red,
+  primaryColor: Color(0xff7b7ac7),
+
 );
 
 class AuthenticatedFertilityRoutes extends StatelessWidget {

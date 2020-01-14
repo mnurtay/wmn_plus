@@ -89,7 +89,7 @@ class Subcategories {
 class Products {
   int id;
   String title;
-  String imageUrl;
+  List<String> imageUrl;
   int price;
 
   Products({this.id, this.title, this.imageUrl, this.price});
@@ -97,7 +97,8 @@ class Products {
   Products.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     title = json['title'];
-    imageUrl = json['image_url'];
+    imageUrl = json['image_urls'].cast<String>();
+
     price = json['price'];
   }
 
@@ -105,10 +106,10 @@ class Products {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['title'] = this.title;
-    data['image_url'] = this.imageUrl;
+    data['image_urls'] = this.imageUrl;
     data['price'] = this.price;
     return data;
   }
 
-  String get image => "http://194.146.43.98:4000/image?uri=" + this.imageUrl;
+  String get image => "http://194.146.43.98:4000/image?uri=" + this.imageUrl[0];
 }

@@ -5,7 +5,5 @@ class ChangeModeRepository {
 
   ChangeModeRepository();
 
-  void test(bool isError) {
-    this._changeModeProvider.test(isError);
-  }
+  
 }

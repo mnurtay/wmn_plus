@@ -53,6 +53,15 @@ class _PregnantPageState extends State<PregnantPage> {
         }
       },
       child: Container(
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.bottomCenter,
+                end: Alignment.topCenter,
+                colors: [
+              Theme.of(context).accentColor,
+              Colors.white,
+              Colors.white,
+            ])),
         child: Column(
           children: <Widget>[
             PregnantCalendar(),

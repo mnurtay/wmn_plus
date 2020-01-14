@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:wmn_plus/features/discounts/discount_detail/index.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:wmn_plus/features/discounts/discounts_state.dart';
@@ -8,13 +9,13 @@ class DiscountDetailScreen extends StatefulWidget {
   const DiscountDetailScreen({
     Key key,
     @required DiscountDetailBloc discountDetailBloc,
-    String id,
+    @required Map<String, int> route,
   })  : _discountDetailBloc = discountDetailBloc,
-        _id = id,
+        _route = route,
         super(key: key);
 
   final DiscountDetailBloc _discountDetailBloc;
-  final String _id;
+  final Map<String, int> _route;
 
   @override
   DiscountDetailScreenState createState() {
@@ -22,49 +23,46 @@ class DiscountDetailScreen extends StatefulWidget {
   }
 }
 
-class DiscountDetailScreenState extends State<DiscountDetailScreen> {
+class DiscountDetailScreenState extends State<DiscountDetailScreen>
+    with TickerProviderStateMixin {
   final DiscountDetailBloc _discountDetailBloc;
   DiscountDetailScreenState(this._discountDetailBloc);
+  TabController tabController;
 
-  static final List<String> imgList = [
-    'https://avatars.mds.yandex.net/get-pdb/398891/2617e07a-0505-4b4d-b9ff-80ba5d8f964e/s1200?webp=false',
-    'https://mir-s3-cdn-cf.behance.net/project_modules/1400/ef40c148859121.58a419031cc0d.jpg',
-    'https://teficlinic.com/wp-content/uploads/slide22-1024x683.jpg',
-    'https://avatars.mds.yandex.net/get-altay/1427475/2a00000168e2f84867ecc3bc87bbaf26cd59/XXL',
-    'https://p2.zoon.ru/preview/YEwuzLUryK9Ee_v-GZlhkw/1180x520x85/1/e/6/original_4fafe9a43c72dd0634000012_59cb696265b98.jpg',
-  ];
+  CarouselSlider autoPlayDemo(List<String> list) {
+    return CarouselSlider(
+        viewportFraction: 0.9,
+        aspectRatio: 2.0,
+        autoPlay: true,
+        enlargeCenterPage: true,
+        items: list.map(
+          (url) {
+            return Container(
+              margin: EdgeInsets.all(5.0),
+              child: ClipRRect(
+                borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                child: Image.network(
+                  url,
+                  fit: BoxFit.cover,
+                  width: 1000.0,
+                ),
+              ),
+            );
+          },
+        ).toList());
+  }
 
-  final CarouselSlider autoPlayDemo = CarouselSlider(
-    viewportFraction: 0.9,
-    aspectRatio: 2.0,
-    autoPlay: true,
-    enlargeCenterPage: true,
-    items: imgList.map(
-      (url) {
-        return Container(
-          margin: EdgeInsets.all(5.0),
-          child: ClipRRect(
-            borderRadius: BorderRadius.all(Radius.circular(5.0)),
-            child: Image.network(
-              url,
-              fit: BoxFit.cover,
-              width: 1000.0,
-            ),
-          ),
-        );
-      },
-    ).toList(),
-  );
   @override
   void initState() {
     super.initState();
+    tabController = new TabController(length: 2, vsync: this);
     widget._discountDetailBloc.add(UnDiscountDetailEvent());
-    widget._discountDetailBloc.add(LoadDiscountDetailEvent(widget._id));
+    widget._discountDetailBloc.add(LoadDiscountDetailEvent(widget._route));
   }
 
   @override
   void dispose() {
-    // _discountDetailBloc.close();
+    tabController.dispose();
     super.dispose();
   }
 
@@ -100,31 +98,117 @@ class DiscountDetailScreenState extends State<DiscountDetailScreen> {
           }
           if (currentState is InDiscountDetailState) {
             return SingleChildScrollView(
-              child: Column(
-                children: <Widget>[
-                  autoPlayDemo,
-                  SizedBox(
-                    height: 5,
-                  ),
-                  headerBox(currentState.hello.result.title),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  informationBox(currentState.hello.result.content),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  contactsBox()
-                ],
+              child: Container(
+                color: Colors.grey.withOpacity(0.2),
+                child: Column(
+                  children: <Widget>[
+                    autoPlayDemo(currentState.hello.result.images),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    headerBox(currentState.hello.result.title,
+                        currentState.hello.result.content),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    // buildTab(),
+                    buildProperties(
+                      currentState.hello.result.properties,
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    buildConditions(currentState.hello.result.conditions),
+                    SizedBox(
+                      height: 7,
+                    ),
+                    contactsBox(currentState.hello.result.address,
+                        currentState.hello.result.workdays)
+                  ],
+                ),
               ),
             );
           }
         });
   }
 
+  buildTab() {
+    return Container(
+      color: Colors.white,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          TabBar(
+            controller: tabController,
+            tabs: <Widget>[
+              Tab(
+                child: Text(
+                  "Oсобенности",
+                  style: TextStyle(
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+              Tab(
+                child: Text(
+                  "Условия",
+                  style: TextStyle(
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          // _buildDivider(MediaQuery.of(context).size),
+        ],
+      ),
+    );
+  }
+
+  buildProperties(String properties) {
+    return Container(
+      color: Colors.white,
+      child: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(
+              "Особенности",
+              style: Theme.of(context).textTheme.display3,
+            ),
+            Html(
+              data: properties.trim(),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  buildConditions(String conditions) {
+    return Container(
+      color: Colors.white,
+      child: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(
+              "Условия",
+              style: Theme.of(context).textTheme.display3,
+            ),
+            Html(data: conditions.trim()),
+          ],
+        ),
+      ),
+    );
+  }
+
   void _load([bool isError = false]) {}
 
-  headerBox(String title) {
+  headerBox(String title, String desc) {
     return Container(
       width: MediaQuery.of(context).size.width,
       color: Colors.white,
@@ -134,8 +218,15 @@ class DiscountDetailScreenState extends State<DiscountDetailScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
-              title,
-              style: Theme.of(context).textTheme.display3,
+              title.trim(),
+              style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.w600),
+            ),
+            Text(
+              desc.trim(),
+              style: Theme.of(context).textTheme.subhead,
             ),
           ],
         ),
@@ -166,7 +257,7 @@ class DiscountDetailScreenState extends State<DiscountDetailScreen> {
     );
   }
 
-  contactsBox() {
+  contactsBox(String address, String workTime) {
     return Container(
       color: Colors.white,
       child: Padding(
@@ -177,8 +268,8 @@ class DiscountDetailScreenState extends State<DiscountDetailScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10.0),
               child: Text(
-                "г. Алматы, ул. Кабдолова 16",
-                style: Theme.of(context).textTheme.body2,
+                address,
+                style: Theme.of(context).textTheme.body1,
               ),
             ),
             // SizedBox(
@@ -189,9 +280,10 @@ class DiscountDetailScreenState extends State<DiscountDetailScreen> {
               color: Colors.grey,
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10.0),
-              child: Text("Будни: с 08:00 до 20:00"),
-            ),
+                padding: const EdgeInsets.symmetric(vertical: 10.0),
+                child: Html(
+                  data: workTime,
+                )),
           ],
         ),
       ),

@@ -30,6 +30,7 @@ class LoadDiscountsEvent extends DiscountsEvent {
       {DiscountsState currentState, DiscountsBloc bloc}) async {
     try {
       Discount discounts = await this._discountsRepository.getDiscountsList(category);
+      print(discounts);
       if (discounts.result == null ){
         return ErrorDiscountsState(0, "null");
       }
