@@ -102,19 +102,19 @@ class ChangeModeScreenState extends State<ChangeModeScreen> {
           height: 20,
         ),
         buildModeItem(context, "Фертильность", "assets/fert_photo.jpg", 1),
-        buildModeItem(context, "Беременность", "assets/preg_photo.jpg",2),
-        buildModeItem(context, "Климакс", "assets/climax_photo.jpg",3)
+        buildModeItem(context, "Беременность", "assets/preg_photo.jpg", 2),
+        buildModeItem(context, "Климакс", "assets/climax_photo.jpg", 3)
       ],
     );
   }
 
-
-  Widget buildModeItem(BuildContext context, String mode, String url, int version) {
+  Widget buildModeItem(
+      BuildContext context, String mode, String url, int version) {
     return InkWell(
       onTap: () {
         if (version == 1)
           Navigator.pushNamed(context, '/change_mode_fertility');
-        else if (version == 2) 
+        else if (version == 2)
           Navigator.pushNamed(context, '/change_mode_pregnancy');
         else {
           _changeModeBloc.add(CompleteChangeModeEvent());
@@ -140,8 +140,8 @@ class ChangeModeScreenState extends State<ChangeModeScreen> {
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               color: Colors.black,
-              image: DecorationImage(
-                  fit: BoxFit.cover, image: AssetImage(url)))),
+              image:
+                  DecorationImage(fit: BoxFit.cover, image: AssetImage(url)))),
     );
   }
 

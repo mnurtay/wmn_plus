@@ -17,8 +17,8 @@ class RegistrationModeBloc
   RegistrationModeBloc({this.authBloc});
   @override
   Future<void> close() async {
-    RegistrationModeBloc().close();
-    authBloc.close();
+    // RegistrationModeBloc().close();
+    // authBloc.close();
     super.close();
   }
 

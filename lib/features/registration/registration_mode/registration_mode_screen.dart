@@ -79,21 +79,7 @@ class RegistrationModeScreenState extends State<RegistrationModeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<RegistrationModeBloc, RegistrationModeState>(
-        bloc: widget._registrationModeBloc,
-        builder: (
-          BuildContext context,
-          RegistrationModeState currentState,
-        ) {
-          if (currentState is UnRegistrationModeState) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          if (currentState is ErrorRegistrationModeState) {
-            return Center(child: Text(currentState.errorMessage ?? 'Error'));
-          }
-          return Column(
+    return Column(
             children: <Widget>[
               Expanded(
                   child: SingleChildScrollView(
@@ -113,7 +99,6 @@ class RegistrationModeScreenState extends State<RegistrationModeScreen> {
               )),
             ],
           );
-        });
   }
 
   Column buildMainColumn(BuildContext context) {

@@ -213,12 +213,12 @@ class ProfileScreenState extends State<ProfileScreen> {
   }
 
   void shareApp() {
-    Share.share('Check out our wmnplus@gmail.com');
+    Share.share('wmnplus@gmail.com');
   }
 
   void whatsAppOpen() async {
     await FlutterLaunch.launchWathsApp(
-        phone: "5534992016545", message: "Hello");
+        phone: "87028928915", message: "WMN Plus");
   }
 
   void _settingModalBottomSheet(context) {
@@ -248,7 +248,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                   title: new Text(AppLocalizations.of(context)
                       .tr('settings.share_app_child.call_to_us')),
                   onTap: () {
-                    launch("tel:87772221133");
+                    launch("tel:87028928915");
                     // _launchPhone();
                   },
                 ),

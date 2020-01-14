@@ -5,7 +5,7 @@ version: 1.0.0+1
 environment:
   sdk: ">=2.1.0 <3.0.0"
 module:
-  androidX: true 
+  androidX: true
 
 dependencies:
   flutter:
@@ -39,15 +39,15 @@ dependencies:
   flutter_staggered_grid_view: ^0.2.2
   flare_flutter: ^1.8.3
 
-
-
-
-
-
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: "^0.7.3"
+
+flutter_icons:
+  android: "launcher_icon" 
+  ios: true
+  image_path: "assets/app_icon.jpeg"
 
 flutter:
   uses-material-design: true
@@ -65,6 +65,7 @@ flutter:
     - assets/united-kingdom.png
     - assets/check.flr
     - assets/fert_photo.jpg
-    - assets/climax_photo.jpg
     - assets/preg_photo.jpg
-
+    - assets/climax_photo.jpg
+   
+  
