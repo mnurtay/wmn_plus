@@ -45,7 +45,7 @@ class CatergoryItem extends StatelessWidget {
                   children: <Widget>[
                     Text(subcategories.title,
                         style: TextStyle(
-                            fontSize: 16.0, fontWeight: FontWeight.w500)),
+                            fontSize: 14.0, fontWeight: FontWeight.w500)),
                   ],
                 ),
               ],

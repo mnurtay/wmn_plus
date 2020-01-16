@@ -80,6 +80,7 @@ class NewsScreenState extends State<NewsScreen> {
           children: <Widget>[
             // buildAndroidAppBar(),
             DropdownButton(
+              isExpanded: true,
               hint: Text(
                 'Выбрать категорию новостей',
               ),

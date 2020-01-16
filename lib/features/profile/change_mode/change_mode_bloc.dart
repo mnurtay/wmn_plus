@@ -12,7 +12,7 @@ class ChangeModeBloc extends Bloc<ChangeModeEvent, ChangeModeState> {
   ChangeModeBloc({this.authBloc});
   @override
   Future<void> close() async {
-    authBloc.close();
+    // authBloc.close();
     ChangeModeBloc().close();
     super.close();
   }
@@ -24,13 +24,14 @@ class ChangeModeBloc extends Bloc<ChangeModeEvent, ChangeModeState> {
     ChangeModeEvent event,
   ) async* {
     try {
-        if (event is CompleteChangeModeEvent) {
+      if (event is CompleteChangeModeEvent) {
         //climax
         var user = await ChangeModeProvider().requestChangeModeToClimax();
-        if (user.result.token.isNotEmpty)
+        if (user.result.token.isNotEmpty) {
+          await event.applyAsync(currentState: state, bloc: this);
           authBloc.add(LoggedInAuthEvent(user: user));
+        }
       }
-      yield await event.applyAsync(currentState: state, bloc: this);
     } catch (_, stackTrace) {
       developer.log('$_',
           name: 'ChangeModeBloc', error: _, stackTrace: stackTrace);

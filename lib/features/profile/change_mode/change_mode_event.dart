@@ -33,7 +33,7 @@ class LoadChangeModeEvent extends ChangeModeEvent {
       if (currentState is InChangeModeState) {
         return currentState.getNewVersion();
       }
-   
+
       return InChangeModeState(0, "Hello world");
     } catch (_, stackTrace) {
       developer.log('$_',
@@ -51,5 +51,7 @@ class CompleteChangeModeEvent extends ChangeModeEvent {
 
   @override
   Future<ChangeModeState> applyAsync(
-      {ChangeModeState currentState, ChangeModeBloc bloc}) async {}
+      {ChangeModeState currentState, ChangeModeBloc bloc}) async {
+             return InChangeModeState(0, "Hello world");
+      }
 }

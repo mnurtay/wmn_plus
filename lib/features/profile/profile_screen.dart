@@ -46,7 +46,7 @@ class ProfileScreenState extends State<ProfileScreen> {
       child: ListTile(
         title: Text(
           title,
-          style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w400),
+          style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w400),
         ),
         trailing: Icon(
           Icons.arrow_forward_ios,

@@ -106,10 +106,9 @@ class DiscountsScreenState extends State<DiscountsScreen> {
 
   Container buildCategoryHeader() {
     return Container(
-      margin: EdgeInsets.only(
-        left: ScreenUtil.getInstance().setWidth(40),
-      ),
+      padding: EdgeInsets.all(5),
       child: DropdownButton(
+        isExpanded: true,
         hint: Text('Выбрать категорию'),
         value: _selectedCategory,
         onChanged: (newValue) {

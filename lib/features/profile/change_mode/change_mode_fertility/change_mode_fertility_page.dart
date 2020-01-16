@@ -6,12 +6,9 @@ class ChangeModeFertilityPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var _changeModeFertilityBloc = ChangeModeFertilityBloc();
     return Scaffold(
-      appBar: AppBar(
-       
-      ),
-      body: ChangeModeFertilityScreen(changeModeFertilityBloc: _changeModeFertilityBloc),
+      appBar: AppBar(),
+      body: ChangeModeFertilityScreen(),
     );
   }
 }

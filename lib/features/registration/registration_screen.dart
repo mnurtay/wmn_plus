@@ -99,9 +99,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     else if (_controllerPass.text.isEmpty ||
         _controllerPasswordVerification.text.isEmpty) {
       showInSnackBar("Поле пароль пусто, заполните пожалуйста");
-    } else if (_controllerPass.text.length > 5 &&
-        _controllerPasswordVerification.text.length > 5) {
-      showInSnackBar("Пароль должен быть больше 5 символов");
+    } else if (_controllerPass.text.length < 5 &&
+        _controllerPasswordVerification.text.length < 5) {
+      showInSnackBar("Пароль должен быть больше 4 символов");
     } else if (_controllerPass.text.isNotEmpty &&
         _controllerPasswordVerification.text.isNotEmpty) {
       if (_controllerPass.text.trim() !=

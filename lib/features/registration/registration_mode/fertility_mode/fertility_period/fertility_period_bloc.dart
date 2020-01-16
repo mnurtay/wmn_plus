@@ -19,7 +19,7 @@ class FertilityPeriodBloc
 
   @override
   Future<void> close() async {
-    authBloc.close();
+    // authBloc.close();
     super.close();
   }
 
@@ -36,7 +36,6 @@ class FertilityPeriodBloc
         if (user.result.token.isNotEmpty)
           authBloc.add(LoggedInAuthEvent(user: user));
       }
-      yield await event.applyAsync(currentState: state, bloc: this);
     } catch (_, stackTrace) {
       developer.log('$_',
           name: 'FertilityPeriodBloc', error: _, stackTrace: stackTrace);

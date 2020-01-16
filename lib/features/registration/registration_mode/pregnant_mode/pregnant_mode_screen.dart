@@ -30,12 +30,12 @@ class PregnantModeScreenState extends State<PregnantModeScreen> {
   @override
   void initState() {
     super.initState();
-    this._load();
+    // this._load();
   }
 
   @override
   void dispose() {
-    _pregnantModeBloc.close();
+    // _pregnantModeBloc.close();
     super.dispose();
   }
 
@@ -44,110 +44,93 @@ class PregnantModeScreenState extends State<PregnantModeScreen> {
     ScreenUtil.instance =
         ScreenUtil(width: 828, height: 1792, allowFontScaling: true)
           ..init(context);
-    return BlocBuilder<PregnantModeBloc, PregnantModeState>(
-        bloc: widget._pregnantModeBloc,
-        builder: (
-          BuildContext context,
-          PregnantModeState currentState,
-        ) {
-          if (currentState is UnPregnantModeState) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          if (currentState is ErrorPregnantModeState) {
-            return Center(child: Text(currentState.errorMessage ?? 'Error'));
-          }
-          return Column(
+    return Column(
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Container(
+            child: headerRegistration(context),
+          ),
+        ),
+        Expanded(
+            child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: Container(
+              child: Column(
             children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Container(
-                  child: headerRegistration(context),
-                ),
+              buildHeaderTitle(),
+              SizedBox(
+                height: 60,
               ),
-              Expanded(
-                  child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                child: Container(
-                    child: Column(
+              Container(
+                child: Column(
                   children: <Widget>[
-                    buildHeaderTitle(),
-                    SizedBox(
-                      height: 60,
-                    ),
+                    NumberPicker.integer(
+                        initialValue: _currentValue,
+                        minValue: 1,
+                        maxValue: 42,
+                        onChanged: (newValue) {
+                          setState(() => _currentValue = newValue);
+                        }),
                     Container(
-                      child: Column(
-                        children: <Widget>[
-                          NumberPicker.integer(
-                              initialValue: _currentValue,
-                              minValue: 1,
-                              maxValue: 42,
-                              onChanged: (newValue) {
-                                setState(() => _currentValue = newValue);
-                              }),
-                          Container(
-                            child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Text(
-                                    _currentValue.toString(),
-                                    style: TextStyle(
-                                      fontSize: ScreenUtil().setSp(65),
-                                      fontWeight: FontWeight.w400,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 7,
-                                  ),
-                                  Text(
-                                    "недели",
-                                    style: TextStyle(
-                                      fontSize: ScreenUtil().setSp(60),
-                                      fontWeight: FontWeight.w200,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                ]),
-                          ),
-                        ],
-                      ),
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Text(
+                              _currentValue.toString(),
+                              style: TextStyle(
+                                fontSize: ScreenUtil().setSp(65),
+                                fontWeight: FontWeight.w400,
+                                color: Colors.black,
+                              ),
+                            ),
+                            SizedBox(
+                              width: 7,
+                            ),
+                            Text(
+                              "недели",
+                              style: TextStyle(
+                                fontSize: ScreenUtil().setSp(60),
+                                fontWeight: FontWeight.w200,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ]),
                     ),
                   ],
-                )),
-              )),
-              InkWell(
-                onTap: () {
-                  var obj = new RegistrationModel(
-                      firstname: widget._registrationModel.firstname,
-                      surname: "surname",
-                      dateOfBirth: 21,
-                      pushToken: "00",
-                      password: widget._registrationModel.password,
-                      phone: widget._registrationModel.phone,
-                    pregnancy: Pregnancy(
-                      week: _currentValue
-                    ));
-                      
-                  print(obj.toJson().toString());
-
-                  widget._pregnantModeBloc.add(UnPregnantModeEvent());
-                  widget._pregnantModeBloc.add(CompleteRegistrationEvent(obj));
-                },
-                child: Container(
-                  height: 60,
-                  child: Center(
-                    child: Icon(
-                      Icons.arrow_forward,
-                      size: 35,
-                    ),
-                  ),
                 ),
-              )
+              ),
             ],
-          );
-        });
+          )),
+        )),
+        InkWell(
+          onTap: () {
+            var obj = new RegistrationModel(
+                firstname: widget._registrationModel.firstname,
+                surname: "surname",
+                dateOfBirth: 21,
+                pushToken: "00",
+                password: widget._registrationModel.password,
+                phone: widget._registrationModel.phone,
+                pregnancy: Pregnancy(week: _currentValue));
+
+            print(obj.toJson().toString());
+
+            widget._pregnantModeBloc.add(UnPregnantModeEvent());
+            widget._pregnantModeBloc.add(CompleteRegistrationEvent(obj));
+          },
+          child: Container(
+            height: 60,
+            child: Center(
+              child: Icon(
+                Icons.arrow_forward,
+                size: 35,
+              ),
+            ),
+          ),
+        )
+      ],
+    );
   }
 
   void _load([bool isError = false]) {
@@ -262,11 +245,11 @@ class PregnantModeScreenState extends State<PregnantModeScreen> {
         Expanded(
           child: Container(),
         ),
-         InkWell(
-          onTap: (){
+        InkWell(
+          onTap: () {
             Navigator.of(context).pop();
           },
-                  child: Container(
+          child: Container(
             child: Text("Назад"),
           ),
         ),

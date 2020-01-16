@@ -16,18 +16,16 @@ class ChangeModePregnancyScreen extends StatefulWidget {
 
   @override
   ChangeModePregnancyScreenState createState() {
-    return ChangeModePregnancyScreenState(_changeModePregnancyBloc);
+    return ChangeModePregnancyScreenState();
   }
 }
 
 class ChangeModePregnancyScreenState extends State<ChangeModePregnancyScreen> {
-  final ChangeModePregnancyBloc _changeModePregnancyBloc;
-  ChangeModePregnancyScreenState(this._changeModePregnancyBloc);
   var _currentValue = 1;
   @override
   void initState() {
     super.initState();
-    this._load();
+    // this._load();
   }
 
   @override
@@ -37,112 +35,82 @@ class ChangeModePregnancyScreenState extends State<ChangeModePregnancyScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ChangeModePregnancyBloc, ChangeModePregnancyState>(
-        bloc: widget._changeModePregnancyBloc,
-        builder: (
-          BuildContext context,
-          ChangeModePregnancyState currentState,
-        ) {
-          if (currentState is UnChangeModePregnancyState) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          if (currentState is ErrorChangeModePregnancyState) {
-            return Center(
-                child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(currentState.errorMessage ?? 'Error'),
-                Padding(
-                  padding: const EdgeInsets.only(top: 32.0),
-                  child: RaisedButton(
-                    color: Colors.blue,
-                    child: Text('reload'),
-                    onPressed: () => this._load(),
-                  ),
-                ),
-              ],
-            ));
-          }
-          return Column(
+    return Column(
+      children: <Widget>[
+        SizedBox(
+          height: 20,
+        ),
+        Expanded(
+            child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: Container(
+              child: Column(
             children: <Widget>[
+              buildHeaderTitle(),
               SizedBox(
-                height: 20,
+                height: 30,
               ),
-              Expanded(
-                  child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                child: Container(
-                    child: Column(
+              Container(
+                child: Column(
                   children: <Widget>[
-                    buildHeaderTitle(),
-                    SizedBox(
-                      height: 60,
-                    ),
+                    NumberPicker.integer(
+                        initialValue: _currentValue,
+                        minValue: 1,
+                        maxValue: 42,
+                        onChanged: (newValue) {
+                          setState(() => _currentValue = newValue);
+                        }),
                     Container(
-                      child: Column(
-                        children: <Widget>[
-                          NumberPicker.integer(
-                              initialValue: _currentValue,
-                              minValue: 1,
-                              maxValue: 42,
-                              onChanged: (newValue) {
-                                setState(() => _currentValue = newValue);
-                              }),
-                          Container(
-                            child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Text(
-                                    _currentValue.toString(),
-                                    style: TextStyle(
-                                      fontSize: ScreenUtil().setSp(65),
-                                      fontWeight: FontWeight.w400,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 7,
-                                  ),
-                                  Text(
-                                    "недели",
-                                    style: TextStyle(
-                                      fontSize: ScreenUtil().setSp(60),
-                                      fontWeight: FontWeight.w200,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                ]),
-                          ),
-                        ],
-                      ),
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Text(
+                              _currentValue.toString(),
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.black,
+                              ),
+                            ),
+                            SizedBox(
+                              width: 7,
+                            ),
+                            Text(
+                              "недели",
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w200,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ]),
                     ),
                   ],
-                )),
-              )),
-              InkWell(
-                onTap: () {
-                  var pregnancy = Pregnancy(week: _currentValue);
-
-                  widget._changeModePregnancyBloc
-                      .add(UnChangeModePregnancyEvent());
-                  widget._changeModePregnancyBloc
-                      .add(CompleteChangeModePregnancyEvent(pregnancy));
-                },
-                child: Container(
-                  height: 60,
-                  child: Center(
-                    child: Icon(
-                      Icons.arrow_forward,
-                      size: 35,
-                    ),
-                  ),
                 ),
-              )
+              ),
             ],
-          );
-        });
+          )),
+        )),
+        InkWell(
+          onTap: () {
+            var pregnancy = Pregnancy(week: _currentValue);
+
+            widget._changeModePregnancyBloc.add(UnChangeModePregnancyEvent());
+            widget._changeModePregnancyBloc
+                .add(CompleteChangeModePregnancyEvent(pregnancy));
+          },
+          child: Container(
+            height: 60,
+            child: Center(
+              child: Icon(
+                Icons.arrow_forward,
+                size: 35,
+              ),
+            ),
+          ),
+        )
+      ],
+    );
   }
 
   Column buildHeaderTitle() {
@@ -155,7 +123,7 @@ class ChangeModePregnancyScreenState extends State<ChangeModePregnancyScreen> {
               Text(
                 "Беременность",
                 style: TextStyle(
-                  fontSize: ScreenUtil().setSp(90),
+                  fontSize: 24,
                   fontWeight: FontWeight.w400,
                   color: Colors.black,
                 ),
@@ -165,7 +133,7 @@ class ChangeModePregnancyScreenState extends State<ChangeModePregnancyScreen> {
           Text(
             "Выберите неделю беременности",
             style: TextStyle(
-              fontSize: ScreenUtil().setSp(35),
+              fontSize: 20,
               fontWeight: FontWeight.w300,
               color: Colors.black,
             ),

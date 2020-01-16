@@ -25,7 +25,6 @@ class ChangeModeScreenState extends State<ChangeModeScreen> {
   @override
   void initState() {
     super.initState();
-    this._load();
   }
 
   @override
@@ -35,54 +34,25 @@ class ChangeModeScreenState extends State<ChangeModeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ChangeModeBloc, ChangeModeState>(
-        bloc: widget._changeModeBloc,
-        builder: (
-          BuildContext context,
-          ChangeModeState currentState,
-        ) {
-          if (currentState is UnChangeModeState) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          if (currentState is ErrorChangeModeState) {
-            return Center(
+    return Column(
+      children: <Widget>[
+        Expanded(
+            child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Container(
                 child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Text(currentState.errorMessage ?? 'Error'),
-                Padding(
-                  padding: const EdgeInsets.only(top: 32.0),
-                  child: RaisedButton(
-                    color: Colors.blue,
-                    child: Text('reload'),
-                    onPressed: () => this._load(),
-                  ),
+                SizedBox(
+                  height: 10,
                 ),
+                buildMainColumn(context)
               ],
-            ));
-          }
-          return Column(
-            children: <Widget>[
-              Expanded(
-                  child: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Container(
-                      child: Column(
-                    children: <Widget>[
-                      SizedBox(
-                        height: 10,
-                      ),
-                      buildMainColumn(context)
-                    ],
-                  )),
-                ),
-              )),
-            ],
-          );
-        });
+            )),
+          ),
+        )),
+      ],
+    );
   }
 
   Column buildMainColumn(BuildContext context) {

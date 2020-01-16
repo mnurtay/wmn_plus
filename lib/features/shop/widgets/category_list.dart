@@ -34,7 +34,7 @@ class CategoryListWidget extends StatelessWidget {
                               //   color: Color.fromARGB(255, 0, 0, 0),
                               // ),
                             ],
-                            fontSize: 18,
+                            fontSize: 16,
                             fontWeight: FontWeight.w500,
                             color: Colors.black)),
                     Expanded(
@@ -54,7 +54,7 @@ class CategoryListWidget extends StatelessWidget {
                       child: Text(
                         "Все",
                         style:
-                            TextStyle(fontSize: 16, color: Color(0xff0CB19A4)),
+                            TextStyle(fontSize: 14, color: Color(0xff0CB19A4)),
                       ),
                       color: Colors.white,
                       shape: RoundedRectangleBorder(

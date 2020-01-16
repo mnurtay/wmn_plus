@@ -9,23 +9,17 @@ import 'package:wmn_plus/features/registration/registration_model.dart';
 class ChangeModeFertilityScreen extends StatefulWidget {
   ChangeModeFertilityScreen({
     Key key,
-    @required ChangeModeFertilityBloc changeModeFertilityBloc,
-  })  : _changeModeFertilityBloc = changeModeFertilityBloc,
-        super(key: key);
+  }) : super(key: key);
   DateTime _varCurrentTime = DateTime.now();
   DateTime _currentTime = DateTime.now();
-  final ChangeModeFertilityBloc _changeModeFertilityBloc;
 
   @override
   ChangeModeFertilityScreenState createState() {
-    return ChangeModeFertilityScreenState(_changeModeFertilityBloc);
+    return ChangeModeFertilityScreenState();
   }
 }
 
 class ChangeModeFertilityScreenState extends State<ChangeModeFertilityScreen> {
-  final ChangeModeFertilityBloc _changeModeFertilityBloc;
-  ChangeModeFertilityScreenState(this._changeModeFertilityBloc);
-
   static GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   void showInSnackBar(String value) {
     _scaffoldKey.currentState.showSnackBar(new SnackBar(
@@ -38,7 +32,7 @@ class ChangeModeFertilityScreenState extends State<ChangeModeFertilityScreen> {
   @override
   void initState() {
     super.initState();
-    this._load();
+    // this._load();
   }
 
   @override
@@ -52,60 +46,30 @@ class ChangeModeFertilityScreenState extends State<ChangeModeFertilityScreen> {
         ScreenUtil(width: 828, height: 1792, allowFontScaling: true)
           ..init(context);
     return Scaffold(
-      key: _scaffoldKey,
-      body: BlocBuilder<ChangeModeFertilityBloc, ChangeModeFertilityState>(
-          bloc: widget._changeModeFertilityBloc,
-          builder: (
-            BuildContext context,
-            ChangeModeFertilityState currentState,
-          ) {
-            if (currentState is UnChangeModeFertilityState) {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-            if (currentState is ErrorChangeModeFertilityState) {
-              return Center(
-                  child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text(currentState.errorMessage ?? 'Error'),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 32.0),
-                    child: RaisedButton(
-                      color: Colors.blue,
-                      child: Text('reload'),
-                      onPressed: () => this._load(),
-                    ),
-                  ),
-                ],
-              ));
-            }
-            return Column(
-              children: <Widget>[
-                SizedBox(
-                  height: 20,
-                ),
-                Expanded(
-                    child: SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                    child: Container(
-                        child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        buildHeaderTitle(),
-                        buildColumnDynamicDay(),
-                        buildDailyCalendar(),
-                      ],
-                    )),
-                  ),
+        key: _scaffoldKey,
+        body: Column(
+          children: <Widget>[
+            SizedBox(
+              height: 20,
+            ),
+            Expanded(
+                child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: Container(
+                    child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    buildHeaderTitle(),
+                    buildColumnDynamicDay(),
+                    buildDailyCalendar(),
+                  ],
                 )),
-                buildInkWellNextButton()
-              ],
-            );
-          }),
-    );
+              ),
+            )),
+            buildInkWellNextButton()
+          ],
+        ));
   }
 
   Column buildColumnDynamicDay() {
@@ -118,7 +82,7 @@ class ChangeModeFertilityScreenState extends State<ChangeModeFertilityScreen> {
           Text(
             widget._varCurrentTime.day.toString(),
             style: TextStyle(
-              fontSize: ScreenUtil().setSp(60),
+              fontSize: 20,
               fontWeight: FontWeight.w200,
               color: Colors.black,
             ),
@@ -126,7 +90,7 @@ class ChangeModeFertilityScreenState extends State<ChangeModeFertilityScreen> {
           Text(
             getMonthText(),
             style: TextStyle(
-              fontSize: ScreenUtil().setSp(65),
+              fontSize: 20,
               fontWeight: FontWeight.w400,
               color: Colors.black,
             ),
@@ -144,7 +108,7 @@ class ChangeModeFertilityScreenState extends State<ChangeModeFertilityScreen> {
               Text(
                 "Ваш",
                 style: TextStyle(
-                  fontSize: ScreenUtil().setSp(80),
+                  fontSize: 26,
                   fontWeight: FontWeight.w200,
                   color: Colors.black,
                 ),
@@ -155,7 +119,7 @@ class ChangeModeFertilityScreenState extends State<ChangeModeFertilityScreen> {
               Text(
                 "Период",
                 style: TextStyle(
-                  fontSize: ScreenUtil().setSp(90),
+                  fontSize: 26,
                   fontWeight: FontWeight.w400,
                   color: Colors.black,
                 ),
@@ -165,7 +129,7 @@ class ChangeModeFertilityScreenState extends State<ChangeModeFertilityScreen> {
           Text(
             "Выберите последний день",
             style: TextStyle(
-              fontSize: ScreenUtil().setSp(35),
+              fontSize: 16,
               fontWeight: FontWeight.w300,
               color: Colors.black,
             ),
@@ -217,8 +181,7 @@ class ChangeModeFertilityScreenState extends State<ChangeModeFertilityScreen> {
             );
           }
         },
-        weekdayTextStyle: TextStyle(
-            fontSize: ScreenUtil().setSp(30), color: Color(0xffD748DA)),
+        weekdayTextStyle: TextStyle(fontSize: 16, color: Color(0xffD748DA)),
         weekFormat: false,
         // markedDatesMap: _markedDateMap,
         height: 450.0,
@@ -295,11 +258,6 @@ class ChangeModeFertilityScreenState extends State<ChangeModeFertilityScreen> {
     } else {
       showInSnackBar("Выберите правильный день!");
     }
-  }
-
-  void _load([bool isError = false]) {
-    widget._changeModeFertilityBloc.add(UnChangeModeFertilityEvent());
-    widget._changeModeFertilityBloc.add(LoadChangeModeFertilityEvent(isError));
   }
 
   bool checkToValidDay() {

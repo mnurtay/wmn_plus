@@ -9,11 +9,8 @@ class FertilityDurationPage extends StatelessWidget {
   FertilityDurationPage(this.registrationModel);
   @override
   Widget build(BuildContext context) {
-    var _fertilityDurationBloc = FertilityDurationBloc();
     return Scaffold(
-      body: FertilityDurationScreen(
-          fertilityDurationBloc: _fertilityDurationBloc,
-          registrationModel: registrationModel),
+      body: FertilityDurationScreen(registrationModel: registrationModel),
     );
   }
 }
