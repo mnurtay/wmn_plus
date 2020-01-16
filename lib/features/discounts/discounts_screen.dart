@@ -45,7 +45,7 @@ class DiscountsScreenState extends State<DiscountsScreen> {
 
   @override
   void dispose() {
-    _discountsBloc.close();
+    // _discountsBloc.close();
     super.dispose();
   }
 
@@ -92,6 +92,7 @@ class DiscountsScreenState extends State<DiscountsScreen> {
                       itemBuilder: (context, index) {
                         return DiscountItem(
                             context: context,
+                            catId: _categoryPosition,
                             result: currentState.discount.result[index]);
                       },
                     ),
@@ -105,10 +106,9 @@ class DiscountsScreenState extends State<DiscountsScreen> {
 
   Container buildCategoryHeader() {
     return Container(
-      margin: EdgeInsets.only(
-        left: ScreenUtil.getInstance().setWidth(40),
-      ),
+      padding: EdgeInsets.all(5),
       child: DropdownButton(
+        isExpanded: true,
         hint: Text('Выбрать категорию'),
         value: _selectedCategory,
         onChanged: (newValue) {

@@ -8,7 +8,7 @@ class DiscountDetailRepository {
   void test(bool isError) {
     this._discountDetailProvider.test(isError);
   }
-  Future<Discountdetail> fetchDiscountDetail(String id) {
-    return _discountDetailProvider.getDiscountDetail(id);
+  Future<Discountdetail> fetchDiscountDetail(int cat, int id) {
+    return _discountDetailProvider.getDiscountDetail(cat,id);
   }
 }

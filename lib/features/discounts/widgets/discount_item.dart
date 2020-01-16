@@ -6,60 +6,53 @@ import '../discounts_model.dart';
 class DiscountItem extends StatelessWidget {
   const DiscountItem({
     Key key,
+    @required this.catId,
     @required this.context,
     @required this.result,
   }) : super(key: key);
 
   final BuildContext context;
   final Result result;
+  final int catId;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        print(result.id.toString());
-        Navigator.pushNamed(context, '/discount_detail',
-            arguments: result.id.toString());
+        Map<String, int> route = Map();
+        route["catId"] = this.catId;
+        route["disId"] = this.result.id;
+        Navigator.pushNamed(context, '/discount_detail', arguments: route);
       },
       child: Container(
           margin:
               EdgeInsets.only(bottom: ScreenUtil.getInstance().setHeight(25)),
-          height: ScreenUtil.getInstance().setHeight(450),
+          height: 230,
           width: MediaQuery.of(context).size.width,
           child: Container(
             alignment: Alignment.bottomLeft,
             child: Container(
-                child: Stack(
-                  children: <Widget>[
-                    Positioned(
-                      child: Text(
-                        result.title,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        result.title.trim(),
                         style: Theme.of(context).textTheme.body2,
                       ),
-                      top: ScreenUtil.getInstance().setHeight(40),
-                      left: ScreenUtil.getInstance().setHeight(30),
-                    ),
-                    // Positioned(
-                    //   child: Text("Просмотрено: 99",
-                    //       style: Theme.of(context).textTheme.display2),
-                    //   top: ScreenUtil.getInstance().setHeight(170),
-                    //   left: ScreenUtil.getInstance().setHeight(30),
-                    // ),
-                    // Positioned(
-                    //   child: Text("от 1 100 тг.",
-                    //       style: Theme.of(context).textTheme.display3),
-                    //   bottom: ScreenUtil.getInstance().setHeight(70),
-                    //   right: ScreenUtil.getInstance().setHeight(30),
-                    // ),
-                    // Positioned(
-                    //   child: Text("экономия от 2500 тг.",
-                    //       style: Theme.of(context).textTheme.display2),
-                    //   bottom: ScreenUtil.getInstance().setHeight(30),
-                    //   right: ScreenUtil.getInstance().setHeight(30),
-                    // ),
-                  ],
+                      SizedBox(
+                        height: 3,
+                      ),
+                      Text(
+                        "Просмотрено: ${result.watched} раз",
+                        style: Theme.of(context).textTheme.display2,
+                      ),
+                    ],
+                  ),
                 ),
-                height: ScreenUtil.getInstance().setHeight(150),
+                height: 70,
+                width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
                     color: Colors.white,
                     border: Border.all(
@@ -76,7 +69,7 @@ class DiscountItem extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
               color: Colors.black,
               image: DecorationImage(
-                  fit: BoxFit.fill, image: NetworkImage(result.imageUrl)))),
+                  fit: BoxFit.fill, image: NetworkImage(result.images[0])))),
     );
   }
 }

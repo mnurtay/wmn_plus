@@ -7,23 +7,24 @@ import 'dart:developer' as developer;
 abstract class DiscountDetailEvent {
   Future<DiscountDetailState> applyAsync(
       {DiscountDetailState currentState, DiscountDetailBloc bloc});
-  final DiscountDetailRepository _discountDetailRepository = DiscountDetailRepository();
+  final DiscountDetailRepository _discountDetailRepository =
+      DiscountDetailRepository();
 }
 
 class UnDiscountDetailEvent extends DiscountDetailEvent {
   @override
-  Future<DiscountDetailState> applyAsync({DiscountDetailState currentState, DiscountDetailBloc bloc}) async {
+  Future<DiscountDetailState> applyAsync(
+      {DiscountDetailState currentState, DiscountDetailBloc bloc}) async {
     return UnDiscountDetailState(0);
   }
 }
 
 class LoadDiscountDetailEvent extends DiscountDetailEvent {
-   
-  final String id;
+  final Map<String, int> route;
   @override
   String toString() => 'LoadDiscountDetailEvent';
 
-  LoadDiscountDetailEvent(this.id);
+  LoadDiscountDetailEvent(this.route);
 
   @override
   Future<DiscountDetailState> applyAsync(
@@ -33,11 +34,13 @@ class LoadDiscountDetailEvent extends DiscountDetailEvent {
         return currentState.getNewVersion();
       }
 
-      Discountdetail discountdetail = await this._discountDetailRepository.fetchDiscountDetail(id);
-      
+      Discountdetail discountdetail =
+          await this._discountDetailRepository.fetchDiscountDetail(route["catId"], route["disId"]);
+
       return InDiscountDetailState(0, discountdetail);
     } catch (_, stackTrace) {
-      developer.log('$_', name: 'LoadDiscountDetailEvent', error: _, stackTrace: stackTrace);
+      developer.log('$_',
+          name: 'LoadDiscountDetailEvent', error: _, stackTrace: stackTrace);
       return ErrorDiscountDetailState(0, _?.toString());
     }
   }

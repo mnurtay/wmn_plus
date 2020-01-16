@@ -25,7 +25,6 @@ class ChangeModeScreenState extends State<ChangeModeScreen> {
   @override
   void initState() {
     super.initState();
-    this._load();
   }
 
   @override
@@ -35,54 +34,25 @@ class ChangeModeScreenState extends State<ChangeModeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ChangeModeBloc, ChangeModeState>(
-        bloc: widget._changeModeBloc,
-        builder: (
-          BuildContext context,
-          ChangeModeState currentState,
-        ) {
-          if (currentState is UnChangeModeState) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          if (currentState is ErrorChangeModeState) {
-            return Center(
+    return Column(
+      children: <Widget>[
+        Expanded(
+            child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Container(
                 child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Text(currentState.errorMessage ?? 'Error'),
-                Padding(
-                  padding: const EdgeInsets.only(top: 32.0),
-                  child: RaisedButton(
-                    color: Colors.blue,
-                    child: Text('reload'),
-                    onPressed: () => this._load(),
-                  ),
+                SizedBox(
+                  height: 10,
                 ),
+                buildMainColumn(context)
               ],
-            ));
-          }
-          return Column(
-            children: <Widget>[
-              Expanded(
-                  child: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Container(
-                      child: Column(
-                    children: <Widget>[
-                      SizedBox(
-                        height: 25,
-                      ),
-                      buildMainColumn(context)
-                    ],
-                  )),
-                ),
-              )),
-            ],
-          );
-        });
+            )),
+          ),
+        )),
+      ],
+    );
   }
 
   Column buildMainColumn(BuildContext context) {
@@ -93,7 +63,7 @@ class ChangeModeScreenState extends State<ChangeModeScreen> {
         Text(
           "Измените свою группу",
           style: TextStyle(
-            fontSize: ScreenUtil().setSp(55),
+            fontSize: ScreenUtil().setSp(45),
             fontWeight: FontWeight.w300,
             color: Colors.black,
           ),
@@ -101,23 +71,24 @@ class ChangeModeScreenState extends State<ChangeModeScreen> {
         SizedBox(
           height: 20,
         ),
-        buildModeItem(context, "Фертильность", "", 1),
-        buildModeItem(context, "Беременность", "",2),
-        buildModeItem(context, "Климакс", "",3)
+        buildModeItem(context, "Фертильность", "assets/fert_photo.jpg", 1),
+        buildModeItem(context, "Беременность", "assets/preg_photo.jpg", 2),
+        buildModeItem(context, "Климакс", "assets/climax_photo.jpg", 3)
       ],
     );
   }
 
-
-  Widget buildModeItem(BuildContext context, String mode, String url, int version) {
+  Widget buildModeItem(
+      BuildContext context, String mode, String url, int version) {
     return InkWell(
       onTap: () {
         if (version == 1)
           Navigator.pushNamed(context, '/change_mode_fertility');
-        else if (version == 2) 
+        else if (version == 2)
           Navigator.pushNamed(context, '/change_mode_pregnancy');
-        else 
-          Navigator.pushNamed(context, '/change_mode_fertility');
+        else {
+          _changeModeBloc.add(CompleteChangeModeEvent());
+        }
       },
       child: Container(
           margin:
@@ -130,7 +101,7 @@ class ChangeModeScreenState extends State<ChangeModeScreen> {
               padding: EdgeInsets.all(ScreenUtil.getInstance().setHeight(50)),
               child: Text(mode,
                   style: TextStyle(
-                      fontSize: ScreenUtil.getInstance().setSp(50),
+                      fontSize: ScreenUtil.getInstance().setSp(45),
                       color: Colors.white)),
             ),
             decoration: BoxDecoration(
@@ -139,8 +110,8 @@ class ChangeModeScreenState extends State<ChangeModeScreen> {
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               color: Colors.black,
-              image: DecorationImage(
-                  fit: BoxFit.cover, image: NetworkImage(url)))),
+              image:
+                  DecorationImage(fit: BoxFit.cover, image: AssetImage(url)))),
     );
   }
 

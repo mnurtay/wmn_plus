@@ -9,9 +9,8 @@ class FertilityModePage extends StatelessWidget {
   FertilityModePage(this.registrationModel);
   @override
   Widget build(BuildContext context) {
-    var _fertilityModeBloc = FertilityModeBloc();
     return Scaffold(
-      body: FertilityModeScreen(fertilityModeBloc: _fertilityModeBloc, registrationModel: registrationModel),
+      body: FertilityModeScreen(registrationModel: registrationModel),
     );
   }
 }

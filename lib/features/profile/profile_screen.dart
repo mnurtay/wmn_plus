@@ -46,7 +46,7 @@ class ProfileScreenState extends State<ProfileScreen> {
       child: ListTile(
         title: Text(
           title,
-          style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w400),
+          style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w400),
         ),
         trailing: Icon(
           Icons.arrow_forward_ios,
@@ -153,9 +153,9 @@ class ProfileScreenState extends State<ProfileScreen> {
               navigate: () {
                 shareApp();
               }),
-          _buildCard(
-              title: "FAQ",
-              navigate: () => Navigator.pushNamed(context, '/faq')),
+          // _buildCard(
+          //     title: "FAQ",
+          //     navigate: () => Navigator.pushNamed(context, '/faq')),
           _buildCard(
               title: AppLocalizations.of(context).tr('settings.about_us'),
               navigate: () => Navigator.pushNamed(context, '/about_us')),
@@ -213,12 +213,12 @@ class ProfileScreenState extends State<ProfileScreen> {
   }
 
   void shareApp() {
-    Share.share('Check out our wmnplus@gmail.com');
+    Share.share('wmnplus@gmail.com');
   }
 
   void whatsAppOpen() async {
     await FlutterLaunch.launchWathsApp(
-        phone: "5534992016545", message: "Hello");
+        phone: "87028928915", message: "WMN Plus");
   }
 
   void _settingModalBottomSheet(context) {
@@ -248,7 +248,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                   title: new Text(AppLocalizations.of(context)
                       .tr('settings.share_app_child.call_to_us')),
                   onTap: () {
-                    launch("tel:87772221133");
+                    launch("tel:87028928915");
                     // _launchPhone();
                   },
                 ),

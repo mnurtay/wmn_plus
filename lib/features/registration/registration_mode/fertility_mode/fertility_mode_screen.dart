@@ -12,36 +12,30 @@ class FertilityModeScreen extends StatefulWidget {
   FertilityModeScreen({
     Key key,
     @required RegistrationModel registrationModel,
-    @required FertilityModeBloc fertilityModeBloc,
-  })  : _fertilityModeBloc = fertilityModeBloc,
-        _registrationModel = registrationModel,
+  })  : _registrationModel = registrationModel,
         super(key: key);
   RegistrationModel _registrationModel;
-  final FertilityModeBloc _fertilityModeBloc;
   DateTime _varCurrentTime = DateTime.now();
   DateTime _currentTime = DateTime.now();
 
   @override
   FertilityModeScreenState createState() {
-    return FertilityModeScreenState(_fertilityModeBloc);
+    return FertilityModeScreenState();
   }
 }
 
 class FertilityModeScreenState extends State<FertilityModeScreen> {
-  final FertilityModeBloc _fertilityModeBloc;
-  FertilityModeScreenState(this._fertilityModeBloc);
+  FertilityModeScreenState();
   PageController controller = PageController();
   var currentPageValue = 0.0;
 
   @override
   void initState() {
     super.initState();
-    this._load();
   }
 
   @override
   void dispose() {
-    _fertilityModeBloc.close();
     super.dispose();
   }
 
@@ -51,47 +45,32 @@ class FertilityModeScreenState extends State<FertilityModeScreen> {
         ScreenUtil(width: 828, height: 1792, allowFontScaling: true)
           ..init(context);
 
-    return BlocBuilder<FertilityModeBloc, FertilityModeState>(
-        bloc: widget._fertilityModeBloc,
-        builder: (
-          BuildContext context,
-          FertilityModeState currentState,
-        ) {
-          if (currentState is UnFertilityModeState) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          if (currentState is ErrorFertilityModeState) {
-            return Center(child: Text(currentState.errorMessage ?? 'Error'));
-          }
-          return Column(
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Container(
-                  child: headerRegistration(context),
-                ),
-              ),
-              Expanded(
-                  child: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                  child: Container(
-                      child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      buildHeaderTitle(),
-                      buildColumnDynamicDay(),
-                      buildDailyCalendar(),
-                    ],
-                  )),
-                ),
-              )),
-              buildInkWellNextButton()
-            ],
-          );
-        });
+    return Column(
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Container(
+            child: headerRegistration(context),
+          ),
+        ),
+        Expanded(
+            child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: Container(
+                child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                buildHeaderTitle(),
+                buildColumnDynamicDay(),
+                buildDailyCalendar(),
+              ],
+            )),
+          ),
+        )),
+        buildInkWellNextButton()
+      ],
+    );
   }
 
   InkWell buildInkWellNextButton() {
@@ -255,21 +234,16 @@ class FertilityModeScreenState extends State<FertilityModeScreen> {
         Expanded(
           child: Container(),
         ),
-         InkWell(
-          onTap: (){
+        InkWell(
+          onTap: () {
             Navigator.of(context).pop();
           },
-                  child: Container(
+          child: Container(
             child: Text("Назад"),
           ),
         ),
       ],
     );
-  }
-
-  void _load([bool isError = false]) {
-    widget._fertilityModeBloc.add(UnFertilityModeEvent());
-    widget._fertilityModeBloc.add(LoadFertilityModeEvent(isError));
   }
 
   Widget buildDailyCalendar() {
@@ -356,19 +330,17 @@ class FertilityModeScreenState extends State<FertilityModeScreen> {
   void nextPageTap() {
     var day = widget._varCurrentTime.day.toString();
     var month = widget._varCurrentTime.month.toString();
-    if (widget._varCurrentTime.day < 10){
+    if (widget._varCurrentTime.day < 10) {
       day = "0${widget._varCurrentTime.day}";
     }
-    if (widget._varCurrentTime.month < 10){
+    if (widget._varCurrentTime.month < 10) {
       month = "0${widget._varCurrentTime.month}";
     }
     RegistrationModel obj = new RegistrationModel(
       firstname: widget._registrationModel.firstname,
       password: widget._registrationModel.password,
       phone: widget._registrationModel.phone,
-      fertility: Fertility(
-          start:
-              "${widget._varCurrentTime.year}$month$day"),
+      fertility: Fertility(start: "${widget._varCurrentTime.year}$month$day"),
     );
     print(obj.toJson().toString());
     Navigator.pushNamed(context, "/registration_mode_fertility_duration",

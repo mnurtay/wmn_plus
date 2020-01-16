@@ -59,7 +59,7 @@ class _LoginFormState extends State<LoginForm> {
         return Column(
           children: <Widget>[
             TextField(
-                keyboardType: TextInputType.emailAddress ,
+                keyboardType: TextInputType.emailAddress,
                 controller: loginController,
                 decoration: InputDecoration(
                     border: OutlineInputBorder(
@@ -74,8 +74,7 @@ class _LoginFormState extends State<LoginForm> {
             TextFormField(
               controller: passwordController,
               keyboardType: TextInputType.text,
-              obscureText:
-                  passwordVisible, //This will obscure text dynamically
+              obscureText: passwordVisible, //This will obscure text dynamically
               decoration: InputDecoration(
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12.0)),
@@ -84,9 +83,7 @@ class _LoginFormState extends State<LoginForm> {
                 suffixIcon: IconButton(
                   icon: Icon(
                     // Based on passwordVisible state choose the icon
-                    passwordVisible
-                        ? Icons.visibility
-                        : Icons.visibility_off,
+                    passwordVisible ? Icons.visibility : Icons.visibility_off,
                     color: Theme.of(context).accentColor,
                   ),
                   onPressed: () {

@@ -30,7 +30,7 @@ class BodyRegistration extends StatelessWidget {
                     Text(
                       "Персональные",
                       style: TextStyle(
-                        fontSize: ScreenUtil().setSp(80),
+                        fontSize: ScreenUtil().setSp(70),
                         fontWeight: FontWeight.w200,
                         color: Colors.black,
                       ),
@@ -38,7 +38,7 @@ class BodyRegistration extends StatelessWidget {
                     Text(
                       "Информации",
                       style: TextStyle(
-                        fontSize: ScreenUtil().setSp(90),
+                        fontSize: ScreenUtil().setSp(80),
                         fontWeight: FontWeight.w400,
                         color: Colors.black,
                       ),
@@ -74,7 +74,7 @@ class BodyRegistration extends StatelessWidget {
                         decoration: InputDecoration(
                             hintText: "Ваше имя",
                             hintStyle: TextStyle(
-                                fontSize: ScreenUtil().setSp(40),
+                                fontSize: ScreenUtil().setSp(30),
                                 fontWeight: FontWeight.w300,
                                 color: Colors.grey.shade700,
                                 letterSpacing: 0.3))),
@@ -87,7 +87,7 @@ class BodyRegistration extends StatelessWidget {
                         decoration: InputDecoration(
                             hintText: "Ваш email?",
                             hintStyle: TextStyle(
-                                fontSize: ScreenUtil().setSp(40),
+                                fontSize: ScreenUtil().setSp(30),
                                 fontWeight: FontWeight.w300,
                                 color: Colors.grey.shade700,
                                 letterSpacing: 0.3))),
@@ -101,7 +101,7 @@ class BodyRegistration extends StatelessWidget {
                         decoration: InputDecoration(
                             hintText: "Поставьте пароль к вашему профилю",
                             hintStyle: TextStyle(
-                                fontSize: ScreenUtil().setSp(40),
+                                fontSize: ScreenUtil().setSp(30),
                                 fontWeight: FontWeight.w300,
                                 color: Colors.grey.shade700))),
                     SizedBox(
@@ -114,7 +114,7 @@ class BodyRegistration extends StatelessWidget {
                         decoration: InputDecoration(
                             hintText: "Повторите пароль",
                             hintStyle: TextStyle(
-                                fontSize: ScreenUtil().setSp(40),
+                                fontSize: ScreenUtil().setSp(30),
                                 fontWeight: FontWeight.w300,
                                 color: Colors.grey.shade700))),
                     SizedBox(

@@ -76,7 +76,7 @@ class ShopScreenState extends State<ShopScreen> {
                       end: Alignment.topCenter,
                       colors: [Theme.of(context).accentColor, Colors.white])),
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(16, 0, 16, 10),
+                padding: const EdgeInsets.fromLTRB(16, 0, 0, 10),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,

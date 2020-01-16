@@ -17,11 +17,19 @@ class ProductList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
+    print(products.length);
+    return Container(
+      height: 500,
+      margin: EdgeInsets.all(10),
       child: ListView.builder(
           scrollDirection: Axis.vertical,
           itemCount: products.length,
           itemBuilder: (context, indexSub) {
+            // return Container(
+            //   height: 50,
+            //   color: Colors.red,
+            //   margin: EdgeInsets.all(10),
+            // );
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
@@ -63,8 +71,7 @@ class ProductList extends StatelessWidget {
                           prodId: products[index].id,
                           currentPrice: this.products[index].price,
                           name: this.products[index].title,
-                          imageUrl:
-                              this.products[index].image,
+                          imageUrl: this.products[index].image,
                         );
                       }),
                 ),

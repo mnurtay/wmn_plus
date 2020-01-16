@@ -59,26 +59,46 @@ class Result {
 class Products {
   int id;
   String title;
-  String imageUrl;
   int price;
+  List<String> imageUrls;
+  String description;
+  String characteristics;
+  String properties;
+  String additional;
 
-  Products({this.id, this.title, this.imageUrl, this.price});
+  Products(
+      {this.id,
+      this.title,
+      this.price,
+      this.imageUrls,
+      this.description,
+      this.characteristics,
+      this.properties,
+      this.additional});
 
   Products.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     title = json['title'];
-    imageUrl = json['image_url'];
     price = json['price'];
+    imageUrls = json['image_urls'].cast<String>();
+    description = json['description'];
+    characteristics = json['characteristics'];
+    properties = json['properties'];
+    additional = json['additional'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['title'] = this.title;
-    data['image_url'] = this.imageUrl;
     data['price'] = this.price;
+    data['image_urls'] = this.imageUrls;
+    data['description'] = this.description;
+    data['characteristics'] = this.characteristics;
+    data['properties'] = this.properties;
+    data['additional'] = this.additional;
     return data;
   }
 
-  String get image => "http://194.146.43.98:4000/image?uri=" + this.imageUrl;
+  get image => "http://194.146.43.98:4000/image?uri=" + this.imageUrls[0];
 }

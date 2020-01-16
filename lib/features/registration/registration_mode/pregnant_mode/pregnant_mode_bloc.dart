@@ -16,7 +16,7 @@ class PregnantModeBloc extends Bloc<PregnantModeEvent, PregnantModeState> {
       PregnantModeRepository();
   @override
   Future<void> close() async {
-    authBloc.close();
+    // authBloc.close();
     super.close();
   }
 

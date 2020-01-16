@@ -19,7 +19,7 @@ class ChangeModeFertilityPeriodBloc extends Bloc<ChangeModeFertilityPeriodEvent,
 
   @override
   Future<void> close() async {
-    authBloc.close();
+    // authBloc.close();
     super.close();
   }
 
@@ -41,7 +41,6 @@ class ChangeModeFertilityPeriodBloc extends Bloc<ChangeModeFertilityPeriodEvent,
           authBloc.add(LoggedInAuthEvent(user: fert));
         }
       }
-      yield await event.applyAsync(currentState: state, bloc: this);
     } catch (_, stackTrace) {
       developer.log('$_',
           name: 'ChangeModeFertilityPeriodBloc',

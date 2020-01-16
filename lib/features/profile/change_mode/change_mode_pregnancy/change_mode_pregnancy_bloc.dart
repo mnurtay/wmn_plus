@@ -19,7 +19,7 @@ class ChangeModePregnancyBloc
 
   @override
   Future<void> close() async {
-    authBloc.close();
+    // authBloc.close();
     super.close();
   }
 
@@ -40,7 +40,6 @@ class ChangeModePregnancyBloc
           authBloc.add(LoggedInAuthEvent(user: preg));
         }
       }
-      yield await event.applyAsync(currentState: state, bloc: this);
     } catch (_, stackTrace) {
       developer.log('$_',
           name: 'ChangeModePregnancyBloc', error: _, stackTrace: stackTrace);

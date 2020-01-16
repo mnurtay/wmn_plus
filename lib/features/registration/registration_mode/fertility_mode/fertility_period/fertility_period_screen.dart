@@ -31,7 +31,6 @@ class FertilityPeriodScreenState extends State<FertilityPeriodScreen> {
   @override
   void initState() {
     super.initState();
-
     this._load();
   }
 
@@ -46,128 +45,95 @@ class FertilityPeriodScreenState extends State<FertilityPeriodScreen> {
     ScreenUtil.instance =
         ScreenUtil(width: 828, height: 1792, allowFontScaling: true)
           ..init(context);
-    return BlocBuilder<FertilityPeriodBloc, FertilityPeriodState>(
-        bloc: widget._fertilityPeriodBloc,
-        builder: (
-          BuildContext context,
-          FertilityPeriodState currentState,
-        ) {
-          if (currentState is UnFertilityPeriodState) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          if (currentState is OutFertilityPeriodState) {
-            return Container();
-          }
-          if (currentState is ErrorFertilityPeriodState) {
-            return Center(
-                child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(currentState.errorMessage ?? 'Error'),
-                Padding(
-                  padding: const EdgeInsets.only(top: 32.0),
-                  child: RaisedButton(
-                    color: Colors.blue,
-                    child: Text('reload'),
-                    onPressed: () => this._load(),
-                  ),
-                ),
-              ],
-            ));
-          }
-          return Column(
+    return Column(
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Container(
+            child: headerRegistration(context),
+          ),
+        ),
+        Expanded(
+            child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: Container(
+              child: Column(
             children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Container(
-                  child: headerRegistration(context),
-                ),
+              buildHeaderTitle(),
+              SizedBox(
+                height: 60,
               ),
-              Expanded(
-                  child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                child: Container(
-                    child: Column(
+              Container(
+                child: Column(
                   children: <Widget>[
-                    buildHeaderTitle(),
-                    SizedBox(
-                      height: 60,
-                    ),
+                    NumberPicker.integer(
+                        initialValue: _currentValue,
+                        minValue: 1,
+                        maxValue: 100,
+                        onChanged: (newValue) {
+                          setState(() => _currentValue = newValue);
+                        }),
                     Container(
-                      child: Column(
-                        children: <Widget>[
-                          NumberPicker.integer(
-                              initialValue: _currentValue,
-                              minValue: 1,
-                              maxValue: 100,
-                              onChanged: (newValue) {
-                                setState(() => _currentValue = newValue);
-                              }),
-                          Container(
-                            child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Text(
-                                    _currentValue.toString(),
-                                    style: TextStyle(
-                                      fontSize: ScreenUtil().setSp(65),
-                                      fontWeight: FontWeight.w400,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 7,
-                                  ),
-                                  Text(
-                                    "дней",
-                                    style: TextStyle(
-                                      fontSize: ScreenUtil().setSp(60),
-                                      fontWeight: FontWeight.w200,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                ]),
-                          ),
-                        ],
-                      ),
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Text(
+                              _currentValue.toString(),
+                              style: TextStyle(
+                                fontSize: ScreenUtil().setSp(65),
+                                fontWeight: FontWeight.w400,
+                                color: Colors.black,
+                              ),
+                            ),
+                            SizedBox(
+                              width: 7,
+                            ),
+                            Text(
+                              "дней",
+                              style: TextStyle(
+                                fontSize: ScreenUtil().setSp(60),
+                                fontWeight: FontWeight.w200,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ]),
                     ),
                   ],
-                )),
-              )),
-              InkWell(
-                onTap: () {
-                  var obj = new RegistrationModel(
-                      firstname: widget._registrationModel.firstname,
-                      password: widget._registrationModel.password,
-                      dateOfBirth: 20,
-                      pushToken: "00",
-                      surname: "sample",
-                      phone: widget._registrationModel.phone,
-                      fertility: Fertility(
-                          start: widget._registrationModel.fertility.start,
-                          duration:
-                              widget._registrationModel.fertility.duration,
-                          period: _currentValue));
-                  print(obj.toJson().toString());
-
-                  widget._fertilityPeriodBloc.add(UnFertilityPeriodEvent());
-                  widget._fertilityPeriodBloc.add(CompleteRegistrationEvent(obj));
-                },
-                child: Container(
-                  height: 60,
-                  child: Center(
-                    child: Icon(
-                      Icons.arrow_forward,
-                      size: 35,
-                    ),
-                  ),
                 ),
-              )
+              ),
             ],
-          );
-        });
+          )),
+        )),
+        InkWell(
+          onTap: () {
+            var obj = new RegistrationModel(
+                firstname: widget._registrationModel.firstname,
+                password: widget._registrationModel.password,
+                dateOfBirth: 20,
+                pushToken: "00",
+                surname: "sample",
+                phone: widget._registrationModel.phone,
+                fertility: Fertility(
+                    start: widget._registrationModel.fertility.start,
+                    duration: widget._registrationModel.fertility.duration,
+                    period: _currentValue));
+            print(obj.toJson().toString());
+
+            widget._fertilityPeriodBloc.add(UnFertilityPeriodEvent());
+            widget._fertilityPeriodBloc.add(CompleteRegistrationEvent(obj));
+          },
+          child: Container(
+            height: 60,
+            child: Center(
+              child: Icon(
+                Icons.arrow_forward,
+                size: 35,
+              ),
+            ),
+          ),
+        )
+      ],
+    );
   }
 
   void _load([bool isError = false]) {
@@ -282,11 +248,11 @@ class FertilityPeriodScreenState extends State<FertilityPeriodScreen> {
         Expanded(
           child: Container(),
         ),
-         InkWell(
-          onTap: (){
+        InkWell(
+          onTap: () {
             Navigator.of(context).pop();
           },
-                  child: Container(
+          child: Container(
             child: Text("Назад"),
           ),
         ),

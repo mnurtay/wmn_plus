@@ -39,4 +39,36 @@ class PregnantModeProvider {
       throw (error.toString());
     }
   }
+
+   Future<Us.User> registerUserClimax(RegistrationModel registrationModel) async {
+    Response response;
+    var token = await UserRepository().getToken();
+
+    try {
+      RegistrationModel model = new RegistrationModel(
+        firstname: registrationModel.firstname,
+        surname: "Untitled",
+        password: registrationModel.password,
+        dateOfBirth: 21,
+        phone: registrationModel.phone,
+        pushToken: token,
+        climax: "climax"
+      );
+
+      response = await post(
+          'http://194.146.43.98:4000/api/v1/patient/registration',
+          body: json.encode(model.toJson()),
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "wmn538179",
+          });
+      String body = utf8.decode(response.bodyBytes);
+      var user = Us.User.fromJson(jsonDecode(body));
+      print(body);
+      return user;
+    } catch (error) {
+      print(error);
+      throw (error.toString());
+    }
+  }
 }

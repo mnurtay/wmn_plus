@@ -34,7 +34,7 @@ class _NewsPageState extends State<NewsPage> {
           ..init(context);
 
     return Scaffold(
-      appBar: appBar(),
+      appBar: appBar(context),
       body: NewsScreen(
         newsBloc: _newsBloc,
         category: widget.category,
@@ -43,7 +43,7 @@ class _NewsPageState extends State<NewsPage> {
     );
   }
 
-  Widget appBar() {
+  Widget appBar(BuildContext context) {
     return AppBar(
         title: Text(
           AppLocalizations.of(context).tr('news'), style: TextStyle(color: Colors.black)

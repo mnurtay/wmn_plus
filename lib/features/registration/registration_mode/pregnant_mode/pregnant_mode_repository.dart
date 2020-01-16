@@ -9,4 +9,8 @@ class PregnantModeRepository {
 
   Future<User> requestUserRegistration(RegistrationModel registrationModel) =>
       _pregnantModeProvider.registerUser(registrationModel);
+
+  Future<User> requestUserClimaxRegistration(
+          RegistrationModel registrationModel) =>
+      _pregnantModeProvider.registerUserClimax(registrationModel);
 }

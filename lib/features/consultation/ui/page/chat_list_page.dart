@@ -95,7 +95,7 @@ class _ChatListPageState extends State<ChatListPage> {
             child: Icon(
               Icons.add,
               size: ScreenUtil().setSp(80),
-              color: Colors.white,
+              color: Colors.black,
             ),
           ),
         ),

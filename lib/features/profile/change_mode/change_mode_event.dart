@@ -13,13 +13,13 @@ abstract class ChangeModeEvent {
 
 class UnChangeModeEvent extends ChangeModeEvent {
   @override
-  Future<ChangeModeState> applyAsync({ChangeModeState currentState, ChangeModeBloc bloc}) async {
+  Future<ChangeModeState> applyAsync(
+      {ChangeModeState currentState, ChangeModeBloc bloc}) async {
     return UnChangeModeState(0);
   }
 }
 
 class LoadChangeModeEvent extends ChangeModeEvent {
-   
   final bool isError;
   @override
   String toString() => 'LoadChangeModeEvent';
@@ -33,12 +33,25 @@ class LoadChangeModeEvent extends ChangeModeEvent {
       if (currentState is InChangeModeState) {
         return currentState.getNewVersion();
       }
-      // await Future.delayed(Duration(seconds: 2));
-      this._changeModeRepository.test(this.isError);
+
       return InChangeModeState(0, "Hello world");
     } catch (_, stackTrace) {
-      developer.log('$_', name: 'LoadChangeModeEvent', error: _, stackTrace: stackTrace);
+      developer.log('$_',
+          name: 'LoadChangeModeEvent', error: _, stackTrace: stackTrace);
       return ErrorChangeModeState(0, _?.toString());
     }
   }
+}
+
+class CompleteChangeModeEvent extends ChangeModeEvent {
+  @override
+  String toString() => 'LoadChangeModeEvent';
+
+  CompleteChangeModeEvent();
+
+  @override
+  Future<ChangeModeState> applyAsync(
+      {ChangeModeState currentState, ChangeModeBloc bloc}) async {
+             return InChangeModeState(0, "Hello world");
+      }
 }
