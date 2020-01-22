@@ -10,7 +10,7 @@ import 'package:wmn_plus/features/consultation/model/Doctor.dart';
 
 class ChatPage extends StatefulWidget {
   final Consultation consultation;
-  final User currentUser;
+  final Result currentUser;
   ChatPage({@required this.consultation, @required this.currentUser});
 
   @override
@@ -27,7 +27,7 @@ class _ChatPageState extends State<ChatPage> {
   void initState() {
     doctor = widget.consultation.doctor;
     String url =
-        'ws://194.146.43.98:8080/conversation?token=${widget.currentUser.result.token}&convID=${widget.consultation.id}&role=PAT';
+        'ws://194.146.43.98:8080/conversation?token=${widget.currentUser.token}&convID=${widget.consultation.id}&role=PAT';
     channel = IOWebSocketChannel.connect(url);
     super.initState();
   }

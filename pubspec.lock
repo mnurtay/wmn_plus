@@ -133,7 +133,7 @@ packages:
       name: firebase_messaging
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "6.0.9"
+    version: "6.0.3"
   flare_dart:
     dependency: transitive
     description:
@@ -274,7 +274,7 @@ packages:
       name: intl
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.16.0"
+    version: "0.15.8"
   intl_translation:
     dependency: "direct main"
     description:
@@ -400,14 +400,14 @@ packages:
       name: share
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.6.3+5"
+    version: "0.6.3+4"
   shared_preferences:
     dependency: "direct main"
     description:
       name: shared_preferences
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.5.4+9"
+    version: "0.5.4+8"
   shared_preferences_platform_interface:
     dependency: transitive
     description:
@@ -524,7 +524,7 @@ packages:
       name: webview_flutter
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.3.18+1"
+    version: "0.3.17"
   xml:
     dependency: transitive
     description:
@@ -541,4 +541,4 @@ packages:
     version: "2.2.0"
 sdks:
   dart: ">=2.4.0 <3.0.0"
-  flutter: ">=1.10.0 <2.0.0"
+  flutter: ">=1.9.1+hotfix.5 <2.0.0"

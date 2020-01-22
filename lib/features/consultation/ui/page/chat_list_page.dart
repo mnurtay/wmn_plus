@@ -49,7 +49,7 @@ class _ChatListPageState extends State<ChatListPage> {
         IOWebSocketChannel channel = IOWebSocketChannel.connect(url);
         return Scaffold(
           backgroundColor: Color(0xFFF5F5F5),
-          appBar: appBarDefault(context),
+          appBar: appBar(context),
           body: Container(
             height: MediaQuery.of(context).size.height,
             decoration: BoxDecoration(
@@ -75,31 +75,6 @@ class _ChatListPageState extends State<ChatListPage> {
           ),
         );
       },
-    );
-  }
-
-  Widget appBarDefault(BuildContext context) {
-    return AppBar(
-      title: Text(
-        "Консультация",
-        style: TextStyle(color: Colors.black),
-      ),
-      backgroundColor: Colors.white,
-      centerTitle: false,
-      elevation: 4,
-      actions: <Widget>[
-        Container(
-          padding: EdgeInsets.only(right: ScreenUtil().setWidth(40)),
-          child: GestureDetector(
-            onTap: () => Navigator.pushNamed(context, '/new_consultation'),
-            child: Icon(
-              Icons.add,
-              size: ScreenUtil().setSp(80),
-              color: Colors.black,
-            ),
-          ),
-        ),
-      ],
     );
   }
 
@@ -175,7 +150,7 @@ class _ChatListPageState extends State<ChatListPage> {
       onTap: () => Navigator.pushNamed(
         context,
         '/chat_page',
-        arguments: {"consultation": consultation, 'user': currentUser},
+        arguments: {"consultation": consultation, 'user': currentUser.result},
       ),
       child: Container(
         decoration: BoxDecoration(
@@ -310,10 +285,10 @@ class _ChatListPageState extends State<ChatListPage> {
 
   Widget appBar(BuildContext context) {
     return AppBar(
-      title: Text('Консультация', style: Theme.of(context).textTheme.title),
+      title: Text('Консультация', style: TextStyle(color: Colors.black)),
       backgroundColor: Colors.white,
       centerTitle: false,
-      elevation: 0,
+      elevation: 4,
       actions: <Widget>[
         Container(
           padding: EdgeInsets.only(right: ScreenUtil().setWidth(40)),

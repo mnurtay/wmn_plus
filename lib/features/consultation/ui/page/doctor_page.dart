@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:wmn_plus/features/auth/model/User.dart';
 import 'package:wmn_plus/features/consultation/bloc/bloc.dart';
+import 'package:wmn_plus/features/consultation/model/Consultation.dart';
 import 'package:wmn_plus/features/consultation/model/Doctor.dart';
 import 'package:wmn_plus/features/consultation/ui/widget/doctor_data.dart';
 
@@ -61,7 +63,8 @@ class _DoctorPageState extends State<DoctorPage> {
                 child: paymentContent(context, state.payment));
           }
           return modalBody(
-              context: context, child: existPaymentContent(context));
+              context: context,
+              child: existPaymentContent(context, state.payment));
         }
         // -- error state
         return modalBody(context: context, child: errorContent(context));
@@ -69,7 +72,7 @@ class _DoctorPageState extends State<DoctorPage> {
     );
   }
 
-  Widget existPaymentContent(BuildContext context) {
+  Widget existPaymentContent(BuildContext context, Map objectMap) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(10)),
       alignment: Alignment.center,
@@ -82,7 +85,13 @@ class _DoctorPageState extends State<DoctorPage> {
               horizontal: ScreenUtil().setWidth(60),
             ),
             child: RaisedButton(
-              onPressed: () => Navigator.pushNamed(context, "/"),
+              onPressed: () {
+                final consultation =
+                    Consultation.parseObject(objectMap['result']);
+                final user = Result.fromJson(objectMap['result']['patient']);
+                Navigator.pushNamed(context, '/chat_page',
+                    arguments: {"consultation": consultation, 'user': user});
+              },
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(
                   Radius.circular(ScreenUtil().setSp(25)),
