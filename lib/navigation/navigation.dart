@@ -100,51 +100,36 @@ class _AppState extends State<App> {
           builder: (BuildContext context) => authBloc,
         ),
       ],
-      child: EasyLocalizationProvider(
-        data: data,
-        child: MaterialApp(
-          localizationsDelegates: [
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            //app-specific localization
-            EasylocaLizationDelegate(locale: data.locale, path: 'path'),
-          ],
-          supportedLocales: [
-            Locale('ru', 'RU'),
-            Locale('en', 'US'),
-            Locale('kk', 'KZ')
-          ],
-          locale: data.savedLocale,
-          debugShowCheckedModeBanner: false,
-          home: BlocBuilder<AuthBloc, AuthState>(
-            bloc: authBloc,
-            builder: (BuildContext context, AuthState state) {
-              if (state is UninitializedAuthState) {
-                return SplashScreen(data);
-              }
-              if (state is AuthenticatedAuthState) {
-                return AuthenticatedPregnantRoutes(); // pregnant mode by default
-              }
-              if (state is AuthenticatedDoctorAuthState) {
-                return AuthenticatedDoctorRoutes();
-              }
-              if (state is UnauthenticatedAuthState) {
-                return UnauthenticatedApp();
-              }
-              if (state is LoadingAuthState) {
-                return LoadingPage();
-              }
-              if (state is ChooseLanguageAuthState) {
-                return LanguagePage();
-              }
-              if (state is AuthenticatedFertilityModeState) {
-                return AuthenticatedFertilityRoutes();
-              }
-              if (state is AuthenticatedClimaxModeState) {
-                return AuthenticatedClimaxRoutes();
-              }
-            },
-          ),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: BlocBuilder<AuthBloc, AuthState>(
+          bloc: authBloc,
+          builder: (BuildContext context, AuthState state) {
+            if (state is UninitializedAuthState) {
+              return SplashScreen(data);
+            }
+            if (state is AuthenticatedAuthState) {
+              return AuthenticatedPregnantRoutes(); // pregnant mode by default
+            }
+            if (state is AuthenticatedDoctorAuthState) {
+              return AuthenticatedDoctorRoutes();
+            }
+            if (state is UnauthenticatedAuthState) {
+              return UnauthenticatedApp();
+            }
+            if (state is LoadingAuthState) {
+              return LoadingPage();
+            }
+            if (state is ChooseLanguageAuthState) {
+              return LanguagePage();
+            }
+            if (state is AuthenticatedFertilityModeState) {
+              return AuthenticatedFertilityRoutes();
+            }
+            if (state is AuthenticatedClimaxModeState) {
+              return AuthenticatedClimaxRoutes();
+            }
+          },
         ),
       ),
     );
