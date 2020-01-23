@@ -22,6 +22,23 @@ class AuthApiProvider {
     }
   }
 
+  Future<User> fetchAuthenticateDoctor(String username, String password) async {
+    Response response;
+    try {
+      response = await post('http://194.146.43.98:4000/api/v1/doctor/login',
+          body: json.encode({"login": username, "password": password}),
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "wmn538179",
+          });
+      String body = utf8.decode(response.bodyBytes);
+      var user = User.fromJson(jsonDecode(body));
+      return user;
+    } catch (error) {
+      throw (error.toString());
+    }
+  }
+
   Future<User> updateUserData(String token) async {
     User instance;
     Response response;
@@ -32,11 +49,14 @@ class AuthApiProvider {
       );
       String body = utf8.decode(response.bodyBytes);
       instance = User.fromJson(jsonDecode(body));
+      if(instance.statusCode != 200)
+        return User(result: Result(regime: "doctor"));
+      else 
+        return instance;
     } catch (e) {
       print(e);
       throw (e.toString());
     }
-    return instance;
   }
 
   Future<void> fetchSignup({

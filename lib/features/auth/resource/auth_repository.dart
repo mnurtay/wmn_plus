@@ -17,6 +17,14 @@ class UserRepository {
     return user;
   }
 
+  Future<User> authenticateDoctor({
+    @required String username,
+    @required String password,
+  }) async {
+    User user = await authProvider.fetchAuthenticateDoctor(username, password);
+    return user;
+  }
+
   Future<void> signup({
     @required String fullName,
     @required String password,
@@ -75,8 +83,12 @@ class UserRepository {
     User updatedUser = await authProvider.updateUserData(
       currentUser.result.token,
     );
-    await persistUser(updatedUser);
-    return updatedUser;
+    if (updatedUser.result.regime == "doctor")
+      return updatedUser;
+    else {
+      await persistUser(updatedUser);
+      return updatedUser;
+    }
   }
 
   Future<void> persistUser(User user) async {

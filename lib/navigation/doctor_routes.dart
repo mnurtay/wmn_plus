@@ -1,7 +1,13 @@
+import 'package:easy_localization/easy_localization.dart';
+import 'package:easy_localization/easy_localization_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wmn_plus/features/auth/ui/page/profile_page.dart';
+import 'package:wmn_plus/features/consultation/ui/page/chat_list_page.dart';
+import 'package:wmn_plus/features/consultation/ui/page/chat_page.dart';
 import 'package:wmn_plus/features/news/news_page.dart';
+import 'package:wmn_plus/features/profile/profile_page.dart';
 import 'package:wmn_plus/navigation/bottom_navigation.dart';
 import 'package:wmn_plus/util/config.dart';
 
@@ -44,21 +50,47 @@ ThemeData THEME = ThemeData(
 
 class AuthenticatedDoctorRoutes extends StatelessWidget {
   List<String> _category = ['Для докторам'];
-  List<int> _categoryId = [
-    22
-  ];
+  List<int> _categoryId = [22];
 
   Widget buildRoutes(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: THEME,
-      routes: {
-        '/': (BuildContext context) => BottomNavigation(
-            modeColor: Theme.of(context).accentColor,
-            pageOptions: pageOptions(context),
-            barItems: barItems(context)),
-      },
-    );
+    var data = EasyLocalizationProvider.of(context).data;
+    return EasyLocalizationProvider(
+        data: data,
+        child: MaterialApp(
+          localizationsDelegates: [
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            //app-specific localization
+            EasylocaLizationDelegate(locale: data.locale, path: 'path'),
+          ],
+          supportedLocales: [
+            Locale('ru', 'RU'),
+            Locale('en', 'US'),
+            Locale('kk', 'KZ')
+          ],
+          locale: data.locale,
+          debugShowCheckedModeBanner: false,
+          theme: THEME,
+          routes: {
+            '/': (BuildContext context) => BottomNavigation(
+                modeColor: Theme.of(context).accentColor,
+                pageOptions: pageOptions(context),
+                barItems: barItems(context)),
+          },
+          onGenerateRoute: (RouteSettings settings) {
+            if (settings.name == '/chat_page') {
+              Map object = settings.arguments;
+              return MaterialPageRoute(
+                builder: (BuildContext context) => ChatPage(
+                  consultation: object['consultation'],
+                  currentUser: object['user'],
+                  role: object['type'],
+                  fullName: object['full_name'],
+                ),
+              );
+            }
+          },
+        ));
   }
 
   @override
@@ -72,7 +104,8 @@ class AuthenticatedDoctorRoutes extends StatelessWidget {
   List pageOptions(BuildContext context) {
     return [
       NewsPage(_category, _categoryId),
-      ProfilePage(),
+      ChatListPage(type: "doctor"),
+      ProfilPage(),
     ];
   }
 
@@ -82,6 +115,10 @@ class AuthenticatedDoctorRoutes extends StatelessWidget {
       Container(
         padding: EdgeInsets.all(ScreenUtil().setSp(5)),
         child: Icon(Icons.list),
+      ),
+      Container(
+        padding: EdgeInsets.all(ScreenUtil().setSp(5)),
+        child: Icon(Icons.chat),
       ),
       // PROFILE
       Container(

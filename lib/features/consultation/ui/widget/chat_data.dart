@@ -6,8 +6,10 @@ import 'package:wmn_plus/features/consultation/bloc/bloc.dart';
 import 'package:wmn_plus/features/consultation/model/Chat.dart';
 
 class ChatData extends StatefulWidget {
+  String type;
+
   final WebSocketChannel channel;
-  ChatData({@required this.channel});
+  ChatData({@required this.channel, this.type});
 
   @override
   _ChatDataState createState() => _ChatDataState();
@@ -63,7 +65,10 @@ class _ChatDataState extends State<ChatData> {
       itemCount: _messages.length,
       reverse: true,
       itemBuilder: (context, index) {
-        return message(context, _messages[index]);
+        if (widget.type == "doctor")
+          return messageDoctor(context, _messages[index]);
+        else
+          return message(context, _messages[index]);
       },
     );
   }
@@ -110,4 +115,47 @@ class _ChatDataState extends State<ChatData> {
       ),
     );
   }
+}
+
+Widget messageDoctor(BuildContext context, Chat chat) {
+  final textStyle = TextStyle(
+      color: chat.sendByMe ? Colors.black : Colors.white,
+      fontSize: ScreenUtil().setSp(45),
+      fontWeight: FontWeight.w400);
+  return Container(
+    alignment: chat.sendByMe ? Alignment.centerLeft : Alignment.centerRight,
+    padding: EdgeInsets.symmetric(
+        vertical: ScreenUtil().setHeight(5),
+        horizontal: ScreenUtil().setWidth(10)),
+    child: Column(
+      crossAxisAlignment:
+          chat.sendByMe ? CrossAxisAlignment.start : CrossAxisAlignment.end,
+      children: <Widget>[
+        // --- MESSAGE
+        Container(
+          decoration: BoxDecoration(
+            color: chat.sendByMe ? Color(0xFFD3D3D3) : Color(0xFF7B68EE),
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(ScreenUtil().setSp(35)),
+              topRight: Radius.circular(ScreenUtil().setSp(30)),
+              bottomLeft: chat.sendByMe
+                  ? Radius.zero
+                  : Radius.circular(ScreenUtil().setSp(35)),
+              bottomRight: chat.sendByMe
+                  ? Radius.circular(ScreenUtil().setSp(35))
+                  : Radius.zero,
+            ),
+          ),
+          constraints: BoxConstraints(maxWidth: ScreenUtil().setWidth(720)),
+          padding: EdgeInsets.symmetric(
+              vertical: ScreenUtil().setHeight(25),
+              horizontal: ScreenUtil().setWidth(35)),
+          child: Text(chat.message, style: textStyle),
+        ),
+        // --- DATE
+        SizedBox(height: ScreenUtil().setHeight(5)),
+        Text(chat.time, style: Theme.of(context).textTheme.display2),
+      ],
+    ),
+  );
 }

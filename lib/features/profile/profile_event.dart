@@ -32,7 +32,10 @@ class LoadProfileEvent extends ProfileEvent {
       {ProfileState currentState, ProfileBloc bloc}) async {
     try {
       User user = await UserRepository().getCurrentUser();
-      return InProfileState(0, user.result.firstname);
+      if (user.result.regime == "doctor")
+        return InProfileState(0, " ");
+      else 
+        return InProfileState(0, user.result.firstname);
     } catch (_, stackTrace) {
       developer.log('$_', name: 'LoadProfileEvent', error: _, stackTrace: stackTrace);
       return ErrorProfileState(0, _?.toString());

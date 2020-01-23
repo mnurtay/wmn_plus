@@ -14,6 +14,7 @@ import 'package:wmn_plus/features/login/ui/doctor/doctor_login.dart';
 import 'package:wmn_plus/features/login/ui/page/login_page.dart';
 import 'package:wmn_plus/features/news/index.dart';
 import 'package:wmn_plus/features/news/news_detail/news_detail_bloc.dart';
+import 'package:wmn_plus/features/profile/about_us/about_us_page.dart';
 import 'package:wmn_plus/features/profile/change_mode/change_mode_fertility/change_mode_fertility_bloc.dart';
 import 'package:wmn_plus/features/profile/change_mode/change_mode_fertility/change_mode_fertility_duration/change_mode_fertility_duration_bloc.dart';
 import 'package:wmn_plus/features/profile/change_mode/change_mode_fertility/change_mode_fertility_period/index.dart';
@@ -93,58 +94,42 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
-    var data = EasyLocalizationProvider.of(context).data;
     return MultiBlocProvider(
       providers: [
         BlocProvider<AuthBloc>(
           builder: (BuildContext context) => authBloc,
         ),
       ],
-      child: EasyLocalizationProvider(
-        data: data,
-        child: MaterialApp(
-          localizationsDelegates: [
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            //app-specific localization
-            EasylocaLizationDelegate(locale: data.locale, path: 'path'),
-          ],
-          supportedLocales: [
-            Locale('ru', 'RU'),
-            Locale('en', 'US'),
-            Locale('kk', 'KZ')
-          ],
-          locale: data.savedLocale,
-          debugShowCheckedModeBanner: false,
-          home: BlocBuilder<AuthBloc, AuthState>(
-            bloc: authBloc,
-            builder: (BuildContext context, AuthState state) {
-              if (state is UninitializedAuthState) {
-                return SplashScreen(data);
-              }
-              if (state is AuthenticatedAuthState) {
-                return AuthenticatedPregnantRoutes(); // pregnant mode by default
-              }
-              if (state is AuthenticatedDoctorAuthState) {
-                return AuthenticatedDoctorRoutes();
-              }
-              if (state is UnauthenticatedAuthState) {
-                return UnauthenticatedApp();
-              }
-              if (state is LoadingAuthState) {
-                return LoadingPage();
-              }
-              if (state is ChooseLanguageAuthState) {
-                return LanguagePage();
-              }
-              if (state is AuthenticatedFertilityModeState) {
-                return AuthenticatedFertilityRoutes();
-              }
-              if (state is AuthenticatedClimaxModeState) {
-                return AuthenticatedClimaxRoutes();
-              }
-            },
-          ),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: BlocBuilder<AuthBloc, AuthState>(
+          bloc: authBloc,
+          builder: (BuildContext context, AuthState state) {
+            if (state is UninitializedAuthState) {
+              return SplashScreen();
+            }
+            if (state is AuthenticatedAuthState) {
+              return AuthenticatedPregnantRoutes(); // pregnant mode by default
+            }
+            if (state is AuthenticatedDoctorAuthState) {
+              return AuthenticatedDoctorRoutes();
+            }
+            if (state is UnauthenticatedAuthState) {
+              return UnauthenticatedApp();
+            }
+            if (state is LoadingAuthState) {
+              return LoadingPage();
+            }
+            if (state is ChooseLanguageAuthState) {
+              return LanguagePage();
+            }
+            if (state is AuthenticatedFertilityModeState) {
+              return AuthenticatedFertilityRoutes();
+            }
+            if (state is AuthenticatedClimaxModeState) {
+              return AuthenticatedClimaxRoutes();
+            }
+          },
         ),
       ),
     );
@@ -161,9 +146,13 @@ class UnauthenticatedApp extends StatelessWidget {
         '/': (BuildContext context) => LoginPage(),
         '/doctor': (BuildContext context) => DoctorLoginPage(),
         '/registration': (BuildContext context) => RegistrationScreen(),
-        // '/signup': (BuildContext context) => SignupPage(),
       },
       onGenerateRoute: (RouteSettings settings) {
+        if (settings.name == '/about_us') {
+          return MaterialPageRoute(
+              builder: (BuildContext context) =>
+                  AboutUs(url: settings.arguments));
+        }
         if (settings.name == '/registration_mode') {
           return MaterialPageRoute(
               builder: (BuildContext context) =>

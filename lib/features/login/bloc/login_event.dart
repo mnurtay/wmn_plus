@@ -20,8 +20,14 @@ class LoginUserEvent extends LoginEvent {
 }
 
 class LoginDoctorEvent extends LoginEvent {
-  LoginDoctorEvent();
+  final String username;
+  final String password;
+
+  LoginDoctorEvent({
+    @required this.username,
+    @required this.password,
+  });
 
   @override
-  List<Object> get props => [null];
+  List<Object> get props => [username, password];
 }

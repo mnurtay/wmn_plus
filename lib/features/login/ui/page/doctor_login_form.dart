@@ -110,9 +110,9 @@ class _LoginFormState extends State<DoctorLoginForm> {
                   _onLoginButtonPressed();
                 },
                 child: Container(
-                  height: ScreenUtil.getInstance().setHeight(70),
+                  height: ScreenUtil.getInstance().setHeight(55),
                   margin:
-                      EdgeInsets.all(ScreenUtil.getInstance().setHeight(30)),
+                      EdgeInsets.all(ScreenUtil.getInstance().setHeight(20)),
                   child: Center(
                     child: Text(
                       "Войти",
@@ -201,7 +201,7 @@ class _LoginFormState extends State<DoctorLoginForm> {
   _onLoginButtonPressed() {
     FocusScope.of(context).requestFocus(new FocusNode());
 
-    _loginBloc.add(LoginUserEvent(
+    _loginBloc.add(LoginDoctorEvent(
       username: loginController.text.trim(),
       password: passwordController.text.trim(),
     ));
