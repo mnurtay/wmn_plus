@@ -14,6 +14,7 @@ import 'package:wmn_plus/features/login/ui/doctor/doctor_login.dart';
 import 'package:wmn_plus/features/login/ui/page/login_page.dart';
 import 'package:wmn_plus/features/news/index.dart';
 import 'package:wmn_plus/features/news/news_detail/news_detail_bloc.dart';
+import 'package:wmn_plus/features/profile/about_us/about_us_page.dart';
 import 'package:wmn_plus/features/profile/change_mode/change_mode_fertility/change_mode_fertility_bloc.dart';
 import 'package:wmn_plus/features/profile/change_mode/change_mode_fertility/change_mode_fertility_duration/change_mode_fertility_duration_bloc.dart';
 import 'package:wmn_plus/features/profile/change_mode/change_mode_fertility/change_mode_fertility_period/index.dart';
@@ -145,9 +146,13 @@ class UnauthenticatedApp extends StatelessWidget {
         '/': (BuildContext context) => LoginPage(),
         '/doctor': (BuildContext context) => DoctorLoginPage(),
         '/registration': (BuildContext context) => RegistrationScreen(),
-        // '/signup': (BuildContext context) => SignupPage(),
       },
       onGenerateRoute: (RouteSettings settings) {
+        if (settings.name == '/about_us') {
+          return MaterialPageRoute(
+              builder: (BuildContext context) =>
+                  AboutUs(url: settings.arguments));
+        }
         if (settings.name == '/registration_mode') {
           return MaterialPageRoute(
               builder: (BuildContext context) =>

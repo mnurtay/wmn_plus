@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class AboutUs extends StatefulWidget {
+  String url;
+  AboutUs({this.url});
   @override
   _AboutUsState createState() => _AboutUsState();
 }
@@ -15,7 +17,7 @@ class _AboutUsState extends State<AboutUs> {
           children: <Widget>[
             Expanded(
               child: WebView(
-                initialUrl: "https://www.wmnplus.com",
+                initialUrl: widget.url,
                 javascriptMode: JavascriptMode.unrestricted,
                 // onPageFinished: _handleLoad,
               ),

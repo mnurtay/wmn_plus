@@ -7,6 +7,7 @@ import 'package:wmn_plus/features/auth/ui/page/profile_page.dart';
 import 'package:wmn_plus/features/consultation/ui/page/chat_list_page.dart';
 import 'package:wmn_plus/features/consultation/ui/page/chat_page.dart';
 import 'package:wmn_plus/features/news/news_page.dart';
+import 'package:wmn_plus/features/profile/profile_page.dart';
 import 'package:wmn_plus/navigation/bottom_navigation.dart';
 import 'package:wmn_plus/util/config.dart';
 
@@ -104,7 +105,7 @@ class AuthenticatedDoctorRoutes extends StatelessWidget {
     return [
       NewsPage(_category, _categoryId),
       ChatListPage(type: "doctor"),
-      ProfilePage(),
+      ProfilPage(),
     ];
   }
 
