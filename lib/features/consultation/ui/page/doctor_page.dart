@@ -89,8 +89,12 @@ class _DoctorPageState extends State<DoctorPage> {
                 final consultation =
                     Consultation.parseObject(objectMap['result']);
                 final user = Result.fromJson(objectMap['result']['patient']);
-                Navigator.pushNamed(context, '/chat_page',
-                    arguments: {"consultation": consultation, 'user': user});
+                Navigator.pushNamed(context, '/chat_page', arguments: {
+                  "consultation": consultation,
+                  'user': user,
+                  'type': "pat",
+                  'full_name': widget.doctor.getFullName,
+                });
               },
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(

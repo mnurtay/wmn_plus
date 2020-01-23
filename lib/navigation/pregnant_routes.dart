@@ -189,6 +189,8 @@ class _PregnantRoutes extends State<AuthenticatedPregnantRoutes> {
                 builder: (BuildContext context) => ChatPage(
                   consultation: object['consultation'],
                   currentUser: object['user'],
+                  role: object['type'],
+                  fullName: object['full_name'],
                 ),
               );
             }
@@ -228,7 +230,7 @@ class _PregnantRoutes extends State<AuthenticatedPregnantRoutes> {
   List pageOptions(BuildContext context) {
     return [
       NewsPage(_category, _categoryId),
-      ChatListPage(),
+      ChatListPage(type: "pat"),
       PregnantPage(),
       DiscountsPage(),
       ShopPage(),

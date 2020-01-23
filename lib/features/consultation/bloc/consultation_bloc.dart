@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:wmn_plus/features/auth/resource/auth_repository.dart';
+import 'package:wmn_plus/features/consultation/model/Chat.dart';
 import 'package:wmn_plus/features/consultation/model/Consultation.dart';
 import 'package:wmn_plus/features/consultation/resource/chat_repository.dart';
 import './bloc.dart';
@@ -21,6 +22,7 @@ class ConsultationBloc extends Bloc<ConsultationEvent, ConsultationState> {
       try {
         List<Consultation> consultations = chatRepository.consultationConfig(
             consultationList: event.consultationList);
+        print(consultations[0].doctor.firstName + consultations[0].doctor.secondName);
         yield FetchedConsultationState(consultations: consultations);
       } catch (e) {
         print(e);
@@ -63,7 +65,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     if (event is ChatConfig) {
       yield LoadingChatState();
       try {
-        final chat = chatRepository.chatConfig(
+        final List<Chat> chat = chatRepository.chatConfig(
             chatHistory: event.chatHistory, newData: event.newData);
         yield FetchedChatState(messages: chat);
       } catch (e) {

@@ -5,11 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wmn_plus/features/auth/resource/auth_repository.dart';
-import 'package:wmn_plus/util/config.dart';
 
 class SplashScreen extends StatefulWidget {
-  final data;
-  SplashScreen(this.data);
+  SplashScreen();
   @override
   _SplashScreenState createState() => _SplashScreenState();
 }
@@ -17,17 +15,16 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
-  Future checkFirstSeen() async {
+  Future<void> checkFirstSeen() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool _seen = (prefs.getBool('seen') ?? false);
     if (_seen) {
       print("not first");
     } else {
       firebaseConfigure();
-      setState(() {
-        prefs.setBool('seen', true);
-        widget.data.changeLocale(Locale("ru", "RU"));
-      });
+      await prefs.setString('codeC', "RU");
+      await prefs.setString('codeL', "ru");
+      await prefs.setBool('seen', true);
     }
   }
 

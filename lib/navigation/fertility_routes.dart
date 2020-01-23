@@ -172,6 +172,8 @@ class AuthenticatedFertilityRoutes extends StatelessWidget {
               builder: (BuildContext context) => ChatPage(
                 consultation: object['consultation'],
                 currentUser: object['user'],
+                role: object['type'],
+                fullName: object['full_name'],
               ),
             );
           }
@@ -212,7 +214,7 @@ class AuthenticatedFertilityRoutes extends StatelessWidget {
   List pageOptions(BuildContext context) {
     return [
       NewsPage(_category, _categoryId),
-      ChatListPage(),
+      ChatListPage(type: "pat"),
       FertilityCalendarPage(),
       DiscountsPage(),
       ShopPage(),

@@ -93,7 +93,6 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
-    var data = EasyLocalizationProvider.of(context).data;
     return MultiBlocProvider(
       providers: [
         BlocProvider<AuthBloc>(
@@ -106,7 +105,7 @@ class _AppState extends State<App> {
           bloc: authBloc,
           builder: (BuildContext context, AuthState state) {
             if (state is UninitializedAuthState) {
-              return SplashScreen(data);
+              return SplashScreen();
             }
             if (state is AuthenticatedAuthState) {
               return AuthenticatedPregnantRoutes(); // pregnant mode by default

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:bloc/bloc.dart';
 import 'package:wmn_plus/features/auth/bloc/bloc.dart';
+import 'package:wmn_plus/features/auth/model/User.dart';
 import 'package:wmn_plus/features/auth/resource/auth_repository.dart';
 
 import './bloc.dart';
@@ -35,6 +36,23 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         yield FailureLoginState(error: "Ошибка авторизации");
       }
     }
-    if (event is LoginDoctorEvent) {}
+    if (event is LoginDoctorEvent) {
+      yield LoadingLoginState();
+      try {
+        final user = await userRepository.authenticateDoctor(
+            username: event.username, password: event.password);
+        if (user.result.token == null) {
+          FailureLoginState(error: "Ошибка авторизации");
+        } else {
+          print(user.toJson().toString());
+          User userObj = User(result: Result(token: user.result.token, regime: "doctor"));
+          print(userObj.toJson().toString());
+          authBloc.add(LoggedInAuthEvent(user: userObj));
+        }
+        yield InitialLoginState();
+      } catch (error) {
+        yield FailureLoginState(error: "Ошибка авторизации");
+      }
+    }
   }
 }

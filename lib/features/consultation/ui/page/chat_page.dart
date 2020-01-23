@@ -11,7 +11,13 @@ import 'package:wmn_plus/features/consultation/model/Doctor.dart';
 class ChatPage extends StatefulWidget {
   final Consultation consultation;
   final Result currentUser;
-  ChatPage({@required this.consultation, @required this.currentUser});
+  final String role;
+  final String fullName;
+  ChatPage(
+      {@required this.consultation,
+      @required this.currentUser,
+      @required this.fullName,
+      this.role = "pat"});
 
   @override
   _ChatPageState createState() => _ChatPageState();
@@ -21,28 +27,52 @@ class _ChatPageState extends State<ChatPage> {
   TextEditingController messageController = TextEditingController();
   bool textFieldIsEmpty = true;
   Doctor doctor;
+  Result user;
   IOWebSocketChannel channel;
 
   @override
   void initState() {
-    doctor = widget.consultation.doctor;
-    String url =
-        'ws://194.146.43.98:8080/conversation?token=${widget.currentUser.token}&convID=${widget.consultation.id}&role=PAT';
-    channel = IOWebSocketChannel.connect(url);
+    if (widget.role == "doctor") {
+      doctor = widget.consultation.doctor;
+      String url =
+          'ws://194.146.43.98:8080/conversation?token=${widget.currentUser.token}&convID=${widget.consultation.id}&role=DOC';
+      channel = IOWebSocketChannel.connect(url);
+    } else {
+      doctor = widget.consultation.doctor;
+      print(widget.currentUser.token + "!!!!!!!" + widget.consultation.id);
+      String url =
+          'ws://194.146.43.98:8080/conversation?token=${widget.currentUser.token}&convID=${widget.consultation.id}&role=PAT';
+      channel = IOWebSocketChannel.connect(url);
+    }
+
     super.initState();
   }
 
   void _sendMessage() {
-    FocusScope.of(context).requestFocus(FocusNode());
-    if (messageController.text.isNotEmpty) {
-      Map object = {
-        'status': 'SEND_MESSAGE',
-        'from': 'PAT',
-        'content': messageController.text
-      };
-      channel.sink.add(json.encode(object));
-      messageController.clear();
+    if (widget.role == "doctor") {
+      FocusScope.of(context).requestFocus(FocusNode());
+      if (messageController.text.isNotEmpty) {
+        Map object = {
+          'status': 'SEND_MESSAGE',
+          'from': 'DOC',
+          'content': messageController.text
+        };
+        channel.sink.add(json.encode(object));
+        messageController.clear();
+      }
+    } else {
+      FocusScope.of(context).requestFocus(FocusNode());
+      if (messageController.text.isNotEmpty) {
+        Map object = {
+          'status': 'SEND_MESSAGE',
+          'from': 'PAT',
+          'content': messageController.text
+        };
+        channel.sink.add(json.encode(object));
+        messageController.clear();
+      }
     }
+
     setState(() {
       textFieldIsEmpty = true;
     });
@@ -56,7 +86,7 @@ class _ChatPageState extends State<ChatPage> {
       body: Column(
         children: <Widget>[
           Expanded(
-            child: ChatData(channel: channel),
+            child: ChatData(channel: channel, type: widget.role),
           ),
           bottomBar(context, channel),
         ],
@@ -119,29 +149,55 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   Widget appBar(BuildContext context) {
-    return AppBar(
-      backgroundColor: Colors.white,
-      elevation: 0,
-      iconTheme: IconThemeData(color: Colors.black),
-      title: GestureDetector(
-        onTap: () =>
-            Navigator.pushNamed(context, "/doctor_page", arguments: doctor),
-        child: Row(
-          children: <Widget>[
-            CircleAvatar(
-              backgroundColor: Color(0xFFF5F5F5),
-              backgroundImage: NetworkImage(doctor.image),
-              child: Icon(Icons.person, color: Colors.grey),
-            ),
-            SizedBox(width: ScreenUtil().setWidth(30)),
-            Text(
-              "${doctor.surname} ${doctor.firstName}",
-              style: Theme.of(context).textTheme.body1,
-            ),
-          ],
+    if (widget.role == "doctor") {
+      return AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        iconTheme: IconThemeData(color: Colors.black),
+        title: GestureDetector(
+          onTap: () =>
+              Navigator.pushNamed(context, "/doctor_page", arguments: doctor),
+          child: Row(
+            children: <Widget>[
+              CircleAvatar(
+                backgroundColor: Color(0xFFF5F5F5),
+                backgroundImage: NetworkImage(""),
+                child: Icon(Icons.person, color: Colors.grey),
+              ),
+              SizedBox(width: ScreenUtil().setWidth(30)),
+              Text(
+                "${widget.fullName}",
+                style: Theme.of(context).textTheme.body1,
+              ),
+            ],
+          ),
         ),
-      ),
-    );
+      );
+    } else {
+      return AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        iconTheme: IconThemeData(color: Colors.black),
+        title: GestureDetector(
+          onTap: () =>
+              Navigator.pushNamed(context, "/doctor_page", arguments: doctor),
+          child: Row(
+            children: <Widget>[
+              CircleAvatar(
+                backgroundColor: Color(0xFFF5F5F5),
+                backgroundImage: NetworkImage(doctor.image),
+                child: Icon(Icons.person, color: Colors.grey),
+              ),
+              SizedBox(width: ScreenUtil().setWidth(30)),
+              Text(
+                "${widget.fullName}",
+                style: Theme.of(context).textTheme.body1,
+              ),
+            ],
+          ),
+        ),
+      );
+    }
   }
 
   @override

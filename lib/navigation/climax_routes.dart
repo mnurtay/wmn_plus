@@ -176,6 +176,8 @@ class _ClimaxRoutes extends State<AuthenticatedClimaxRoutes> {
                 builder: (BuildContext context) => ChatPage(
                   consultation: object['consultation'],
                   currentUser: object['user'],
+                  role: object['type'],
+                  fullName: object['full_name'],
                 ),
               );
             }

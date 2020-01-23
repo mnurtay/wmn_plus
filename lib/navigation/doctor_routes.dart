@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wmn_plus/features/auth/ui/page/profile_page.dart';
+import 'package:wmn_plus/features/consultation/ui/page/chat_list_page.dart';
+import 'package:wmn_plus/features/consultation/ui/page/chat_page.dart';
 import 'package:wmn_plus/features/news/news_page.dart';
 import 'package:wmn_plus/navigation/bottom_navigation.dart';
 import 'package:wmn_plus/util/config.dart';
@@ -74,6 +76,19 @@ class AuthenticatedDoctorRoutes extends StatelessWidget {
                 pageOptions: pageOptions(context),
                 barItems: barItems(context)),
           },
+          onGenerateRoute: (RouteSettings settings) {
+            if (settings.name == '/chat_page') {
+              Map object = settings.arguments;
+              return MaterialPageRoute(
+                builder: (BuildContext context) => ChatPage(
+                  consultation: object['consultation'],
+                  currentUser: object['user'],
+                  role: object['type'],
+                  fullName: object['full_name'],
+                ),
+              );
+            }
+          },
         ));
   }
 
@@ -88,6 +103,7 @@ class AuthenticatedDoctorRoutes extends StatelessWidget {
   List pageOptions(BuildContext context) {
     return [
       NewsPage(_category, _categoryId),
+      ChatListPage(type: "doctor"),
       ProfilePage(),
     ];
   }
@@ -98,6 +114,10 @@ class AuthenticatedDoctorRoutes extends StatelessWidget {
       Container(
         padding: EdgeInsets.all(ScreenUtil().setSp(5)),
         child: Icon(Icons.list),
+      ),
+      Container(
+        padding: EdgeInsets.all(ScreenUtil().setSp(5)),
+        child: Icon(Icons.chat),
       ),
       // PROFILE
       Container(

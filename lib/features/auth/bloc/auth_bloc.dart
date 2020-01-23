@@ -28,6 +28,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
               user: currentUser); //pregnancy default mode
         } else if (mode == "climax") {
           yield AuthenticatedClimaxModeState(user: currentUser);
+        } else if (mode == "doctor") {
+          yield AuthenticatedDoctorAuthState(user: currentUser);
         }
       } else {
         FirebaseMessaging().getToken().then((token) {
@@ -51,6 +53,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             user: currentUser); //pregnancy default mode
       } else if (mode == "climax") {
         yield AuthenticatedClimaxModeState(user: currentUser);
+      } else if (mode == "doctor") {
+        yield AuthenticatedDoctorAuthState(user: currentUser);
       }
     }
 
