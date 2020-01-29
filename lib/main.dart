@@ -35,14 +35,16 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:wmn_plus/features/ecommerce/utils/locator.dart';
 import 'package:wmn_plus/navigation/navigation.dart';
 import 'package:easy_localization/easy_localization_provider.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   SystemChrome.setEnabledSystemUIOverlays([]);
-
+  setupLocator();
   runApp(EasyLocalization(child: App()));
 }

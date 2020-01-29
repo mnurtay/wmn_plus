@@ -9,6 +9,7 @@ import 'package:wmn_plus/features/auth/ui/page/loading_page.dart';
 import 'package:wmn_plus/features/auth/ui/page/splash_page.dart';
 import 'package:wmn_plus/features/discounts/discount_detail/index.dart';
 import 'package:wmn_plus/features/discounts/discounts_bloc.dart';
+import 'package:wmn_plus/features/ecommerce/scoped-models/main.dart';
 import 'package:wmn_plus/features/fertility_calendar/fertility_calendar_bloc.dart';
 import 'package:wmn_plus/features/login/ui/doctor/doctor_login.dart';
 import 'package:wmn_plus/features/login/ui/page/login_page.dart';
@@ -58,9 +59,13 @@ class App extends StatefulWidget {
 
 class _AppState extends State<App> {
   AuthBloc authBloc;
+  final MainModel _model = MainModel();
 
   @override
   void initState() {
+    _model.loggedInUser();
+    _model.fetchCurrentOrder();
+
     authBloc = AuthBloc();
     authBloc.add(AppStartedAuthEvent());
     super.initState();

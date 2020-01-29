@@ -11,6 +11,8 @@ import 'package:wmn_plus/features/consultation/ui/page/doctors_list_page.dart';
 import 'package:wmn_plus/features/consultation/ui/page/new_consultation_page.dart';
 import 'package:wmn_plus/features/discounts/discount_detail/discount_detail_page.dart';
 import 'package:wmn_plus/features/discounts/discounts_page.dart';
+import 'package:wmn_plus/features/ecommerce/screens/home.dart';
+import 'package:wmn_plus/features/ecommerce/shop.dart';
 import 'package:wmn_plus/features/fertility_calendar/fertility_calendar_page.dart';
 import 'package:wmn_plus/features/news/news_detail/news_detail_page.dart';
 import 'package:wmn_plus/features/news/news_page.dart';
@@ -217,7 +219,7 @@ class AuthenticatedFertilityRoutes extends StatelessWidget {
       ChatListPage(type: "pat"),
       FertilityCalendarPage(),
       DiscountsPage(),
-      ShopPage(),
+      ShopEcommerce(),
       ProfilPage(),
     ];
   }

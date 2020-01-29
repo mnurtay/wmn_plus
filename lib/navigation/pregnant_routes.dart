@@ -12,6 +12,8 @@ import 'package:wmn_plus/features/consultation/ui/page/doctors_list_page.dart';
 import 'package:wmn_plus/features/consultation/ui/page/new_consultation_page.dart';
 import 'package:wmn_plus/features/discounts/discount_detail/index.dart';
 import 'package:wmn_plus/features/discounts/discounts_page.dart';
+import 'package:wmn_plus/features/ecommerce/screens/home.dart';
+import 'package:wmn_plus/features/ecommerce/shop.dart';
 import 'package:wmn_plus/features/news/index.dart';
 import 'package:wmn_plus/features/news/news_detail/index.dart';
 import 'package:wmn_plus/features/pregnant_calendar/ui/page/pregnant_page.dart';
@@ -233,7 +235,7 @@ class _PregnantRoutes extends State<AuthenticatedPregnantRoutes> {
       ChatListPage(type: "pat"),
       PregnantPage(),
       DiscountsPage(),
-      ShopPage(),
+      ShopEcommerce(),
       ProfilPage(),
     ];
   }
