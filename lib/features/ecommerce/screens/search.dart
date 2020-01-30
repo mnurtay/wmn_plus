@@ -137,7 +137,7 @@ class _ProductSearchState extends State<ProductSearch> {
                 },
                 autofocus: true,
                 decoration: InputDecoration(
-                    hintText: 'Search',
+                    hintText: 'Поиск',
                     border: InputBorder.none,
                     labelStyle:
                         TextStyle(fontWeight: FontWeight.w300, fontSize: 18)),
@@ -284,17 +284,10 @@ class _ProductSearchState extends State<ProductSearch> {
 
     responseBody['data'].forEach((searchObj) {
       searchProducts.add(Product(
-          reviewProductId: searchObj['id'],
-          name: searchObj['attributes']['name'],
-          image: searchObj['attributes']['product_url'],
-          currencySymbol: searchObj['attributes']['currency_symbol'],
-          displayPrice: searchObj['attributes']['currency_symbol'] +
-              searchObj['attributes']['price'],
-          price: searchObj['attributes']['price'],
-          costPrice: searchObj['attributes']['cost_price'],
-          slug: searchObj['attributes']['slug'],
-          avgRating: double.parse(searchObj['attributes']['avg_rating']),
-          reviewsCount: searchObj['attributes']['reviews_count'].toString()));
+        image: searchObj['attributes']['product_url'],
+        currencySymbol: searchObj['attributes']['currency_symbol'],
+        price: searchObj['attributes']['price'],
+      ));
     });
     totalCount = responseBody['pagination']['total_count'];
     setState(() {

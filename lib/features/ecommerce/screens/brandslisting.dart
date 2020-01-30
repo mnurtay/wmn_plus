@@ -420,22 +420,22 @@ class _BrandListState extends State<BrandList> {
           .body;
     }
 
-    currentPage++;
-    responseBody = json.decode(response);
-    responseBody['data'].forEach((product) {
-      productsByBrand.add(Product(
-          reviewProductId: product['id'],
-          name: product['attributes']['name'],
-          image: product['attributes']['product_url'],
-          currencySymbol: product['attributes']['currency_symbol'],
-          displayPrice: product['attributes']['currency_symbol'] +
-              product['attributes']['price'],
-          price: product['attributes']['price'],
-          costPrice: product['attributes']['cost_price'],
-          slug: product['attributes']['slug'],
-          avgRating: double.parse(product['attributes']['avg_rating']),
-          reviewsCount: product['attributes']['reviews_count'].toString()));
-    });
+    // currentPage++;
+    // responseBody = json.decode(response);
+    // responseBody['data'].forEach((product) {
+    //   productsByBrand.add(Product(
+    //       reviewProductId: product['id'],
+    //       name: product['attributes']['name'],
+    //       image: product['attributes']['product_url'],
+    //       currencySymbol: product['attributes']['currency_symbol'],
+    //       displayPrice: product['attributes']['currency_symbol'] +
+    //           product['attributes']['price'],
+    //       price: product['attributes']['price'],
+    //       costPrice: product['attributes']['cost_price'],
+    //       slug: product['attributes']['slug'],
+    //       avgRating: double.parse(product['attributes']['avg_rating']),
+    //       reviewsCount: product['attributes']['reviews_count'].toString()));
+    // });
     setState(() {
       hasMore = true;
     });

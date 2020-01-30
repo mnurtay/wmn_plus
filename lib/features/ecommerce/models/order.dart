@@ -2,18 +2,13 @@ import 'package:wmn_plus/features/ecommerce/models/line_item.dart';
 import 'package:wmn_plus/features/ecommerce/models/address.dart';
 
 class Order {
-  String total;
-  int id;
-  String itemTotal;
-
+  String count;
+  String totalPrice;
   List<LineItem> lineItems;
-  int totalQuantity;
 
   Order({
-    this.total,
-    this.id,
-    this.itemTotal,
+    this.totalPrice,
+    this.count,
     this.lineItems,
-    this.totalQuantity,
   });
 }

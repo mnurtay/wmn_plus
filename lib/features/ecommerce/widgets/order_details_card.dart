@@ -14,7 +14,7 @@ Widget orderDetailCard() {
               children: <Widget>[
               
                 amountRow(
-                    'Order Total:', model.order.totalQuantity.toString(), model, Colors.red)
+                    'Order Total:', model.order.count.toString(), model, Colors.red)
               ],
             ),
           );

@@ -1,18 +1,12 @@
-import 'package:wmn_plus/features/ecommerce/models/variant.dart';
+
+import 'package:wmn_plus/features/ecommerce/models/product.dart';
 
 class LineItem {
   final int id;
-  int quantity;
-  final String total;
-  final String displayAmount;
-  final int variantId;
-  final Variant variant;
+  final int count;
+  final String title;
+  final int price;
+  final String image;
 
-  LineItem(
-      {this.displayAmount,
-      this.id,
-      this.quantity,
-      this.total,
-      this.variant,
-      this.variantId});
+  LineItem({this.id, this.count, this.title, this.price, this.image});
 }

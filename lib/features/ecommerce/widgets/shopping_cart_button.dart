@@ -38,7 +38,7 @@ Widget shoppingCartIconButton() {
                           size: 21.0, color: Colors.yellow),
                       new Center(
                         child: new Text(
-                          "0",
+                          model.lineItems.length.toString(),
                           style: new TextStyle(
                               color: Colors.black,
                               fontSize: 11.0,

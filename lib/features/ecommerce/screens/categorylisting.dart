@@ -656,88 +656,18 @@ class _CategoryListingState extends State<CategoryListing> {
       responseBody['result'].forEach((product) {
         setState(() {
           productsByCategory.add(Product(
-              id: product['id'],
-              subCatId: subCatId,
-              catId: widget.parentId,
-              reviewProductId: product['id'],
-              name: product['title'],
-              image: "http://194.146.43.98:4000/image?uri=" +
-                  product['image_urls'][0],
-              currencySymbol: "KZT",
-              displayPrice: product["price"].toString(),
-              price: product['price'].toString(),
-              costPrice: product['price'].toString(),
-              avgRating: 5.0,
-              reviewsCount: "1200".toString()));
+            id: product['id'],
+            subCatId: subCatId,
+            catId: widget.parentId,
+            image: "http://194.146.43.98:4000/image?uri=" +
+                product['image_urls'][0],
+            currencySymbol: "KZT",
+            title: product['title'],
+            price: product['price'].toString(),
+          ));
         });
       });
 
-      // temp.forEach((product) {
-      //   setState(() {
-      //     productsByCategory.add(Product(
-      //         reviewProductId: 1,
-      //         name: "Prodss sss",
-      //         image: "Prod",
-      //         currencySymbol: "Prod",
-      //         displayPrice: "Prod",
-      //         price: "123",
-      //         costPrice: "123",
-      //         slug: "Prod",
-      //         avgRating: 1.5,
-      //         reviewsCount: "Prod"));
-      //   });
-      // });
-    });
-  }
-
-  void getProductsByCategory() async {
-    List<Product> variants = [];
-    List<OptionValue> optionValues = [];
-    List<OptionType> optionTypes = [];
-    Map<String, String> headers = await getHeaders();
-    print(
-        "CATEGORY URL + ${Settings.SERVER_URL + 'api/v1/taxons/products?id=$subCatId&page=$currentPage&per_page=$perPage&q[s]=$sortBy&data_set=small'}");
-    setState(() {
-      hasMore = false;
-    });
-    var response;
-
-    if (sortBy != null && sortBy.length > 0) {
-      response = (await http.get(
-              Settings.SERVER_URL +
-                  'api/v1/taxons/products?id=$subCatId&page=$currentPage&per_page=$perPage&q[s]=$sortBy&data_set=small',
-              headers: headers))
-          .body;
-    } else {
-      response = (await http.get(
-              Settings.SERVER_URL +
-                  'api/v1/taxons/products?id=$subCatId&page=$currentPage&per_page=$perPage&data_set=small',
-              headers: headers))
-          .body;
-    }
-    print(Settings.SERVER_URL +
-        'api/v1/taxons/products?id=$subCatId&page=$currentPage&per_page=$perPage&q[s]=$sortBy&data_set=small');
-    currentPage++;
-    responseBody = json.decode(response);
-    print(responseBody);
-    totalCount = responseBody['pagination']['total_count'];
-    responseBody['data'].forEach((product) {
-      productsByCategory.add(Product(
-          reviewProductId: product['id'],
-          name: product['attributes']['name'],
-          image: product['attributes']['product_url'],
-          currencySymbol: product['attributes']['currency_symbol'],
-          displayPrice: product['attributes']['currency_symbol'] +
-              product['attributes']['price'],
-          price: product['attributes']['price'],
-          costPrice: product['attributes']['cost_price'],
-          slug: product['attributes']['slug'],
-          avgRating: double.parse(product['attributes']['avg_rating']),
-          reviewsCount: product['attributes']['reviews_count'].toString()));
-    });
-
-    setState(() {
-      hasMore = true;
     });
   }
 

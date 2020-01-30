@@ -59,7 +59,7 @@ Widget productContainer(BuildContext myContext, Product product, int index) {
                       child: RichText(
                         text: TextSpan(children: [
                           TextSpan(
-                            text: '${product.name} ',
+                            text: '${product.title} ',
                             style: TextStyle(
                                 color: Color(0xff676767),
                                 fontSize: 16.0,
@@ -82,7 +82,7 @@ Widget productContainer(BuildContext myContext, Product product, int index) {
                         Container(
                           alignment: Alignment.topLeft,
                           child: Text(
-                            product.displayPrice + " KZT",
+                            product.price + " KZT",
                             textAlign: TextAlign.left,
                             style: TextStyle(
                                 color: Colors.black,
@@ -90,9 +90,7 @@ Widget productContainer(BuildContext myContext, Product product, int index) {
                                 fontSize: 18),
                           ),
                         ),
-                        product.costPrice != null && product.costPrice != ''
-                            ? discountPrice(product)
-                            : Container(),
+                    
                       ],
                     ),
                     SizedBox(height: 7),
@@ -147,22 +145,3 @@ Widget productContainer(BuildContext myContext, Product product, int index) {
   });
 }
 
-Widget discountPrice(Product product) {
-  if (double.parse(product.costPrice) - double.parse(product.price) > 0) {
-    return Container(
-      margin: EdgeInsets.only(left: 10),
-      alignment: Alignment.topLeft,
-      child: Text(
-        product.currencySymbol + product.costPrice,
-        textAlign: TextAlign.left,
-        style: TextStyle(
-            decoration: TextDecoration.lineThrough,
-            color: Colors.grey,
-            fontWeight: FontWeight.bold,
-            fontSize: 12),
-      ),
-    );
-  } else {
-    return Container();
-  }
-}

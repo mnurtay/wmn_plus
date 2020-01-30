@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:wmn_plus/features/ecommerce/scoped-models/main.dart';
-import 'package:wmn_plus/features/ecommerce/screens/address.dart';
 import 'package:wmn_plus/features/ecommerce/screens/auth.dart';
 import 'package:wmn_plus/features/ecommerce/utils/connectivity_state.dart';
 import 'package:wmn_plus/features/ecommerce/utils/locator.dart';
@@ -32,6 +31,7 @@ class _CartState extends State<Cart> {
 
   @override
   Widget build(BuildContext context) {
+    MainModel().fetchCurrentOrder();
     return ScopedModelDescendant<MainModel>(
         builder: (BuildContext context, Widget child, MainModel model) {
       return Scaffold(
@@ -42,7 +42,7 @@ class _CartState extends State<Cart> {
                 icon: Icon(Icons.close),
                 onPressed: () => Navigator.of(context).pop(),
               ),
-              title: Text('Shopping Cart'),
+              title: Text('Корзина'),
               bottom: model.isLoading
                   ? PreferredSize(
                       child: LinearProgressIndicator(),
@@ -58,10 +58,12 @@ class _CartState extends State<Cart> {
                   height: 100,
                   child: Column(children: [
                     Padding(
-                      padding: const EdgeInsets.only(top: 10.0),
+                      padding: const EdgeInsets.only(top: 5.0),
                       child: itemTotalContainer(model),
                     ),
                     proceedToCheckoutButton(),
+                    Text("Вы переходите в WhatsApp, для общения с продавцом",
+                        style: TextStyle(color: Colors.grey, fontSize: 10))
                   ]))));
     });
   }
@@ -69,7 +71,7 @@ class _CartState extends State<Cart> {
   Widget deleteButton(int index) {
     return ScopedModelDescendant<MainModel>(
         builder: (BuildContext context, Widget child, MainModel model) {
-      return Text(model.lineItems[index].variant.quantity.toString());
+      return Text(model.lineItems[index].count.toString());
     });
   }
 
@@ -98,11 +100,11 @@ class _CartState extends State<Cart> {
       String getText() {
         return model.order == null
             ? ''
-            : model.order.itemTotal == '0.0'
+            : model.order.count == '0.0'
                 ? ''
                 : total
-                    ? 'Cart SubTotal (${model.order.totalQuantity} items): '
-                    : model.order.totalQuantity.toString();
+                    ? 'В корзине (${model.order.count} товара): '
+                    : model.order.count.toString();
       }
 
       return getText() == null
@@ -116,7 +118,7 @@ class _CartState extends State<Cart> {
                       fontWeight: FontWeight.bold)
                   : TextStyle(
                       fontSize: 16.5,
-                      color: Colors.red,
+                      color: Colors.green,
                       fontWeight: FontWeight.bold),
             );
     });
@@ -139,14 +141,10 @@ class _CartState extends State<Cart> {
                 )
               : FlatButton(
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(2)),
-                  color: Colors.deepOrange,
+                      borderRadius: BorderRadius.circular(10)),
+                  color: Colors.purple,
                   child: Text(
-                    model.order == null
-                        ? 'BROWSE ITEMS'
-                        : model.order.itemTotal == '0.0'
-                            ? 'BROWSE ITEMS'
-                            : 'PROCEED TO CHECKOUT',
+                    "Перейти к покупке",
                     style: TextStyle(
                         fontSize: 15,
                         color: Colors.white,
@@ -154,19 +152,8 @@ class _CartState extends State<Cart> {
                   ),
                   onPressed: () async {
                     if (model.order != null) {
-                      if (model.order.itemTotal != '0.0') {
-                        if (model.isAuthenticated) {
-                          stateChanged = await model.fetchCurrentOrder();
-                          if (stateChanged) {
-                            // print('STATE IS CHANGED, FETCH CURRENT ORDER');
-                            // model.fetchCurrentOrder();
-                            MaterialPageRoute addressRoute = MaterialPageRoute(
-                                builder: (context) => AddressPage());
-                            Navigator.push(context, addressRoute);
-                          } else {
-                            print("FETCH CURRENT ORDER ERROR");
-                          }
-                        }
+                      if (model.order.count != '0.0') {
+                        if (model.isAuthenticated) {}
                       } else {
                         MaterialPageRoute authRoute = MaterialPageRoute(
                             builder: (context) => Authentication(0));
@@ -211,9 +198,8 @@ class _CartState extends State<Cart> {
                                 color: Colors.white,
                                 child: FadeInImage(
                                   image: NetworkImage(
-                                      model.lineItems[index].variant.image !=
-                                              null
-                                          ? model.lineItems[index].variant.image
+                                      model.lineItems[index].image != null
+                                          ? model.lineItems[index].image
                                           : ''),
                                   placeholder: AssetImage(
                                       'images/placeholders/no-product-image.png'),
@@ -226,6 +212,7 @@ class _CartState extends State<Cart> {
                           ),
                           Expanded(
                               child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
@@ -243,21 +230,21 @@ class _CartState extends State<Cart> {
                                         text: TextSpan(children: [
                                           TextSpan(
                                             text:
-                                                '${model.lineItems[index].variant.name.split(' ')[0]} ',
+                                                '${model.lineItems[index].title} ',
                                             style: TextStyle(
                                                 color: Colors.black,
                                                 fontSize: 15.0,
                                                 fontWeight: FontWeight.bold),
                                           ),
-                                          TextSpan(
-                                            text: model
-                                                .lineItems[index].variant.name
-                                                ,
-                                            style: TextStyle(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.w100,
-                                                color: Colors.black),
-                                          ),
+                                          // TextSpan(
+                                          //   text: model
+                                          //       .lineItems[index].title
+                                          //       ,
+                                          //   style: TextStyle(
+                                          //       fontSize: 15,
+                                          //       fontWeight: FontWeight.w100,
+                                          //       color: Colors.black),
+                                          // ),
                                         ]),
                                       ),
                                     ),
@@ -271,8 +258,7 @@ class _CartState extends State<Cart> {
                                         color: Colors.grey,
                                         icon: Icon(Icons.close),
                                         onPressed: () {
-                                          model.removeProduct(
-                                              model.lineItems[index].id);
+                                          model.removeProduct(index + 1);
                                         },
                                       ),
                                     ),
@@ -284,15 +270,23 @@ class _CartState extends State<Cart> {
                               Container(
                                 alignment: Alignment.topLeft,
                                 child: Text(
-                                  model.lineItems[index].variant.displayPrice,
+                                  model.lineItems[index].price.toString() +
+                                      " KZT",
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
-                                      color: Colors.red,
+                                      color: Colors.green,
                                       fontWeight: FontWeight.bold,
                                       fontSize: 18),
                                 ),
                               ),
                               SizedBox(height: 12),
+                              Text(
+                                "Количество",
+                                style: TextStyle(
+                                    color: Colors.grey,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 12),
+                              ),
                               quantityRow(model, index),
                               SizedBox(height: 3),
                               Divider()
@@ -311,23 +305,19 @@ class _CartState extends State<Cart> {
 
   Widget quantityRow(MainModel model, int lineItemIndex) {
     print(
-        "LINE ITEM TOTAL IN HAND, ${model.lineItems[lineItemIndex].variant.totalOnHand} ISBACKORDERABLE ${model.lineItems[lineItemIndex].variant.isBackOrderable}");
+        "LINE ITEM TOTAL IN HAND, ${model.lineItems[lineItemIndex]} ISBACKORDERABLE ${model.lineItems[lineItemIndex]}");
     return Container(
         height: 60.0,
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
-          // itemExtent: 50,
-          itemCount: model.lineItems[lineItemIndex].variant.totalOnHand > 38
-              ? 39
-              : model.lineItems[lineItemIndex].variant.isBackOrderable
-                  ? 39
-                  : model.lineItems[lineItemIndex].variant.totalOnHand + 1,
+          itemCount: 10,
           itemBuilder: (BuildContext context, int index) {
             if (index == 0) {
               return Container();
             } else {
               return GestureDetector(
                 onTap: () {
+                  model.changeProductQuantity(lineItemIndex + 1, index);
                   // model.addProduct(
                   //   product: ,
                   //   quantity: index - model.lineItems[lineItemIndex].quantity,
@@ -337,10 +327,9 @@ class _CartState extends State<Cart> {
                     width: 40,
                     decoration: BoxDecoration(
                         border: Border.all(
-                          color:
-                              model.lineItems[lineItemIndex].quantity == index
-                                  ? Colors.green
-                                  : Colors.grey,
+                          color: model.lineItems[lineItemIndex].count == index
+                              ? Colors.green
+                              : Colors.grey,
                         ),
                         borderRadius: BorderRadius.circular(5)),
                     alignment: Alignment.center,
@@ -348,10 +337,9 @@ class _CartState extends State<Cart> {
                     child: Text(
                       index.toString(),
                       style: TextStyle(
-                          color:
-                              model.lineItems[lineItemIndex].quantity == index
-                                  ? Colors.green
-                                  : Colors.grey),
+                          color: model.lineItems[lineItemIndex].count == index
+                              ? Colors.green
+                              : Colors.grey),
                     )),
               );
             }

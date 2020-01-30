@@ -5,7 +5,6 @@ import 'package:http/http.dart' as http;
 import 'package:wmn_plus/features/ecommerce/scoped-models/main.dart';
 import 'package:wmn_plus/features/ecommerce/screens/account.dart';
 import 'package:wmn_plus/features/ecommerce/screens/auth.dart';
-import 'package:wmn_plus/features/ecommerce/screens/favorites.dart';
 import 'package:wmn_plus/features/ecommerce/screens/order_history.dart';
 import 'package:wmn_plus/features/ecommerce/screens/retun_policy.dart';
 import 'package:wmn_plus/features/ecommerce/utils/constants.dart';
@@ -112,9 +111,7 @@ class _HomeDrawer extends State<HomeDrawer> {
         ),
         onTap: () {
           if (model.isAuthenticated) {
-            MaterialPageRoute orderList =
-                MaterialPageRoute(builder: (context) => FavoritesScreen());
-            Navigator.push(context, orderList);
+          
           } else {
             MaterialPageRoute route =
                 MaterialPageRoute(builder: (context) => Authentication(0));
@@ -312,12 +309,12 @@ class _HomeDrawer extends State<HomeDrawer> {
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Text(
-                'WMN Plus Shop',
+                'WMN Plus',
                 style: TextStyle(
                     fontFamily: 'HolyFat', fontSize: 32, color: Colors.white),
               ),
               Text(
-                '1.0.0',
+                'Интернет - магазин',
                 style:
                     TextStyle(color: Colors.white, fontWeight: FontWeight.w300),
               ),
@@ -342,54 +339,36 @@ class _HomeDrawer extends State<HomeDrawer> {
           // favoritesLineTile(),
           // accountListTile(),
           Divider(color: Colors.grey,),
-          ListTile(
-            title: Text(
-              '24/7 Help',
-            ),
-          ),
+          
           InkWell(
             onTap: () {
-              _callMe('917-6031-568');
+              _callMe('+77072201199');
             },
             child: ListTile(
               leading: Icon(
                 Icons.call,
               ),
               title: Text(
-                'Call: 917-6031-568',
+                'Позвонить: +77072201199',
               ),
             ),
           ),
           InkWell(
             onTap: () {
-              _sendMail('support@ofypets.com');
+              _sendMail('wmnpluskz@gmail.com');
             },
             child: ListTile(
               leading: Icon(
                 Icons.mail,
               ),
               title: Text(
-                'Email: support@ofypets.com',
+                'Email: wmnpluskz@gmail.com',
               ),
             ),
           ),
-          InkWell(
-            onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return ReturnPolicy();
-              }));
-            },
-            child: ListTile(
-              leading: Icon(
-                Icons.assignment,
-              ),
-              title: Text(
-                'Return Policy',
-              ),
-            ),
-          ),
+          
           Divider(color: Colors.grey,),
-          logOutButton()
+          // logOutButton()
         ],
       ),
     );

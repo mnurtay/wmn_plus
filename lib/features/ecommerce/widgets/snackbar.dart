@@ -3,11 +3,11 @@ import 'package:wmn_plus/features/ecommerce/utils/constants.dart';
 import 'package:wmn_plus/features/ecommerce/screens/update_address.dart';
 
 final processSnackbar = SnackBar(
-  content: Text('Adding Product to the cart...'),
+  content: Text('Добавление товара в корзину...'),
   duration: Duration(seconds: 1),
 );
 final completeSnackbar = SnackBar(
-  content: Text('Product Added Successfully!'),
+  content: Text('Товар успешно добавлен в корзину!'),
   duration: Duration(seconds: 1),
 );
 final codAvailable = SnackBar(
