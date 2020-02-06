@@ -342,14 +342,14 @@ class _HomeDrawer extends State<HomeDrawer> {
           
           InkWell(
             onTap: () {
-              _callMe('+77072201199');
+              _callMe('+77028928915');
             },
             child: ListTile(
               leading: Icon(
                 Icons.call,
               ),
               title: Text(
-                'Позвонить: +77072201199',
+                'Позвонить: +77028928915',
               ),
             ),
           ),

@@ -29,28 +29,40 @@ class DiscountDetailScreenState extends State<DiscountDetailScreen>
   DiscountDetailScreenState(this._discountDetailBloc);
   TabController tabController;
 
-  CarouselSlider autoPlayDemo(List<String> list) {
-    return CarouselSlider(
-        viewportFraction: 0.9,
-        aspectRatio: 2.0,
-        autoPlay: true,
-        enlargeCenterPage: true,
-        items: list.map(
-          (url) {
-            return Container(
-              margin: EdgeInsets.all(5.0),
-              child: ClipRRect(
-                borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                child: Image.network(
-                  url,
-                  fit: BoxFit.cover,
-                  width: 1000.0,
-                ),
-              ),
-            );
-          },
-        ).toList());
+  Widget autoPlayDemo(List<String> list) {
+    return Container(
+      height: 250,
+      margin: EdgeInsets.all(5.0),
+      child: ClipRRect(
+        borderRadius: BorderRadius.all(Radius.circular(5.0)),
+        child: Image.network(
+          list[0],
+          fit: BoxFit.cover,
+          width: 1000.0,
+        ),
+      ),
+    );
   }
+  // return CarouselSlider(
+  //     viewportFraction: 0.9,
+  //     aspectRatio: 2.0,
+  //     autoPlay: true,
+  //     enlargeCenterPage: true,
+  //     items: list.map(
+  //       (url) {
+  //         return Container(
+  //           margin: EdgeInsets.all(5.0),
+  //           child: ClipRRect(
+  //             borderRadius: BorderRadius.all(Radius.circular(5.0)),
+  //             child: Image.network(
+  //               url,
+  //               fit: BoxFit.cover,
+  //               width: 1000.0,
+  //             ),
+  //           ),
+  //         );
+  //       },
+  //     ).toList());
 
   @override
   void initState() {
@@ -176,7 +188,7 @@ class DiscountDetailScreenState extends State<DiscountDetailScreen>
           children: <Widget>[
             Text(
               "Особенности",
-              style: Theme.of(context).textTheme.display3,
+              style: Theme.of(context).textTheme.display1,
             ),
             Html(
               data: properties.trim(),
@@ -197,7 +209,7 @@ class DiscountDetailScreenState extends State<DiscountDetailScreen>
           children: <Widget>[
             Text(
               "Условия",
-              style: Theme.of(context).textTheme.display3,
+              style: Theme.of(context).textTheme.display1,
             ),
             Html(data: conditions.trim()),
           ],
@@ -224,10 +236,11 @@ class DiscountDetailScreenState extends State<DiscountDetailScreen>
                   fontSize: 20.0,
                   fontWeight: FontWeight.w600),
             ),
-            Text(
-              desc.trim(),
-              style: Theme.of(context).textTheme.subhead,
-            ),
+            Html(data: desc.trim()),
+            // Text(
+            //   desc.trim(),
+            //   style: Theme.of(context).textTheme.subhead,
+            // ),
           ],
         ),
       ),

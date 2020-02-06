@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_open_whatsapp/flutter_open_whatsapp.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wmn_plus/features/ecommerce/scoped-models/main.dart';
 import 'package:wmn_plus/features/ecommerce/screens/auth.dart';
 import 'package:wmn_plus/features/ecommerce/utils/connectivity_state.dart';
@@ -55,15 +57,18 @@ class _CartState extends State<Cart> {
           body: !model.isLoading || model.order != null ? body() : Container(),
           bottomNavigationBar: BottomAppBar(
               child: Container(
-                  height: 100,
-                  child: Column(children: [
+                  height: 110,
+                  child: Column(children: <Widget>[
                     Padding(
                       padding: const EdgeInsets.only(top: 5.0),
-                      child: itemTotalContainer(model),
+                      child: model.order != null
+                          ? itemTotalContainer(model)
+                          : Container(),
                     ),
                     proceedToCheckoutButton(),
-                    Text("Вы переходите в WhatsApp, для общения с продавцом",
-                        style: TextStyle(color: Colors.grey, fontSize: 10))
+                    model.order != null ? 
+                    Text("Вы переходите, страницу оформление заказа",
+                        style: TextStyle(color: Colors.grey, fontSize: 10)) : Container()
                   ]))));
     });
   }
@@ -88,10 +93,28 @@ class _CartState extends State<Cart> {
   }
 
   Widget itemTotalContainer(MainModel model) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[cartData(true), cartData(false)],
-    );
+    if (model.order == null) {
+      return Container();
+    } else {
+      var plural = getPluralNumberText(int.parse(model.order.count));
+      if (int.parse(model.order.count) == 0) return Text("В корзине пусто");
+      return Text("В корзине ${model.order.count} $plural");
+    }
+    // return Row(
+    //   mainAxisSize: MainAxisSize.min,
+    //   mainAxisAlignment: MainAxisAlignment.center,
+    //   children: <Widget>[cartData(true), cartData(false)],
+    // );
+  }
+
+  String getPluralNumberText(int count) {
+    if (count >= 1) {
+      return "товар";
+    } else if (count >= 2 && count <= 4) {
+      return "товара";
+    } else {
+      return "товаров";
+    }
   }
 
   Widget cartData(bool total) {
@@ -103,8 +126,10 @@ class _CartState extends State<Cart> {
             : model.order.count == '0.0'
                 ? ''
                 : total
-                    ? 'В корзине (${model.order.count} товара): '
-                    : model.order.count.toString();
+                    ? 'В корзине: '
+                    : model.order.count.toString() +
+                        " " +
+                        getPluralNumberText(int.parse(model.order.count));
       }
 
       return getText() == null
@@ -118,7 +143,7 @@ class _CartState extends State<Cart> {
                       fontWeight: FontWeight.bold)
                   : TextStyle(
                       fontSize: 16.5,
-                      color: Colors.green,
+                      color: Colors.black,
                       fontWeight: FontWeight.bold),
             );
     });
@@ -133,12 +158,22 @@ class _CartState extends State<Cart> {
           width: MediaQuery.of(context).size.width,
           height: 58.0,
           padding: EdgeInsets.all(10),
-          child: model.isLoading
-              ? Center(
-                  child: CircularProgressIndicator(
-                    backgroundColor: Colors.green,
+          child: (model.order == null || model.order?.lineItems.length == 0)
+              ? FlatButton(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)),
+                  color: Colors.grey,
+                  child: Text(
+                    "Выбрать товары",
+                    style: TextStyle(
+                        fontSize: 15,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w300),
                   ),
-                )
+                  onPressed: () async {
+                    Navigator.popUntil(context,
+                        ModalRoute.withName(Navigator.defaultRouteName));
+                  })
               : FlatButton(
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)),
@@ -151,18 +186,7 @@ class _CartState extends State<Cart> {
                         fontWeight: FontWeight.w300),
                   ),
                   onPressed: () async {
-                    if (model.order != null) {
-                      if (model.order.count != '0.0') {
-                        if (model.isAuthenticated) {}
-                      } else {
-                        MaterialPageRoute authRoute = MaterialPageRoute(
-                            builder: (context) => Authentication(0));
-                        Navigator.push(context, authRoute);
-                      }
-                    } else {
-                      Navigator.popUntil(context,
-                          ModalRoute.withName(Navigator.defaultRouteName));
-                    }
+                    Navigator.pushNamed(context, '/buy');
                   }),
         ),
       );

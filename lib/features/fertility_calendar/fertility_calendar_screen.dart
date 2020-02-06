@@ -140,80 +140,79 @@ class FertilityCalendarScreenState extends State<FertilityCalendarScreen> {
   }
 
   Widget buildDailyCalendar(Result result, String language) {
-    return CalendarFertilityCarousel<Event>(
-      height: ScreenUtil.getInstance().setHeight(1300),
-      onDayPressed: (DateTime date, List<Event> events) {
-        this.setState(() => widget._varCurrentTime = date);
-      },
-      prevMonthDayBorderColor: Colors.black,
-      weekendTextStyle: TextStyle(
-        color: Colors.black,
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: CalendarFertilityCarousel<Event>(
+        height: ScreenUtil.getInstance().setHeight(1300),
+        onDayPressed: (DateTime date, List<Event> events) {
+          this.setState(() => widget._varCurrentTime = date);
+        },
+        prevMonthDayBorderColor: Colors.black,
+        weekendTextStyle: TextStyle(
+          color: Colors.black,
+        ),
+        locale: language,
+        thisMonthDayBorderColor: Colors.grey,
+        showWeekDays: true,
+        customDayBuilder: (
+          bool isSelectable,
+          int index,
+          bool isSelectedDay,
+          bool isToday,
+          bool isPrevMonthDay,
+          TextStyle textStyle,
+          bool isNextMonthDay,
+          bool isThisMonthDay,
+          DateTime day,
+        ) {
+          // print(widget._currentTime.toLocal());
+          if (result.babyDays.contains(day)) {
+            return Container(
+              width: 50,
+              height: 50,
+              child: Center(
+                  child: Text(
+                day.day.toString(),
+                style: TextStyle(fontSize: 14, color: Colors.white),
+              )),
+              decoration: BoxDecoration(
+                  color: Colors.blueAccent, shape: BoxShape.circle),
+            );
+          }
+
+          if (result.redDays.contains(day)) {
+            return Container(
+              width: 50,
+              height: 50,
+              child: Center(
+                  child: Text(
+                day.day.toString(),
+                style: TextStyle(fontSize: 14, color: Colors.white),
+              )),
+              decoration:
+                  BoxDecoration(color: Colors.red, shape: BoxShape.circle),
+            );
+          }
+
+          if (result.pMS.contains(day)) {
+            return Container(
+              width: 50,
+              height: 50,
+              child: Center(
+                  child: Text(
+                day.day.toString(),
+                style: TextStyle(fontSize: 14, color: Colors.white),
+              )),
+              decoration:
+                  BoxDecoration(color: Colors.grey.withOpacity(0.3), shape: BoxShape.circle),
+            );
+          }
+        },
+        weekdayTextStyle: TextStyle(fontSize: 14, color: Colors.black),
+        weekFormat: false,
+        daysHaveCircularBorder: null,
+        selectedDateTime: widget._varCurrentTime,
       ),
-      locale: language,
-      thisMonthDayBorderColor: Colors.grey,
-      showWeekDays: true,
-      customDayBuilder: (
-        bool isSelectable,
-        int index,
-        bool isSelectedDay,
-        bool isToday,
-        bool isPrevMonthDay,
-        TextStyle textStyle,
-        bool isNextMonthDay,
-        bool isThisMonthDay,
-        DateTime day,
-      ) {
-        // print(widget._currentTime.toLocal());
-        if (result.babyDays.contains(day)) {
-          return Container(
-            width: 50,
-            height: 50,
-            child: Center(
-                child: Text(
-              day.day.toString(),
-              style: TextStyle(
-                  fontSize: ScreenUtil().setSp(30), color: Colors.white),
-            )),
-            decoration:
-                BoxDecoration(color: Colors.blueAccent, shape: BoxShape.circle),
-          );
-        }
-
-        if (result.redDays.contains(day)) {
-          return Container(
-            width: 50,
-            height: 50,
-            child: Center(
-                child: Text(
-              day.day.toString(),
-              style: TextStyle(
-                  fontSize: ScreenUtil().setSp(30), color: Colors.white),
-            )),
-            decoration:
-                BoxDecoration(color: Colors.red, shape: BoxShape.circle),
-          );
-        }
-
-        if (result.pMS.contains(day)) {
-          return Container(
-            width: 50,
-            height: 50,
-            child: Center(
-                child: Text(
-              day.day.toString(),
-              style: TextStyle(
-                  fontSize: ScreenUtil().setSp(30), color: Colors.white),
-            )),
-            decoration:
-                BoxDecoration(color: Colors.grey, shape: BoxShape.circle),
-          );
-        }
-      },
-      weekdayTextStyle:
-          TextStyle(fontSize: ScreenUtil().setSp(30), color: Colors.black),
-      weekFormat: false,
-      daysHaveCircularBorder: null,
-      selectedDateTime: widget._varCurrentTime,
     );
   }
 

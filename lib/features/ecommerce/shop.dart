@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:wmn_plus/features/ecommerce/scoped-models/main.dart';
 import 'package:wmn_plus/features/ecommerce/screens/home.dart';
+import 'package:wmn_plus/features/shop/buy_product/index.dart';
 
 class ShopEcommerce extends StatelessWidget {
   final MainModel _model = MainModel();
-  
+
   @override
   Widget build(BuildContext context) {
     _model.fetchCurrentOrder();
@@ -14,7 +15,10 @@ class ShopEcommerce extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         initialRoute: '/home',
-        routes: {'/home': (context) => HomeScreen()},
+        routes: {
+          '/home': (context) => HomeScreen(),
+          '/buy': (context) => BuyProductPage()
+        },
         theme: ThemeData(
           primarySwatch: Colors.purple,
           accentColor: Colors.white,

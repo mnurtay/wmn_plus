@@ -43,7 +43,7 @@ class ConnectivityManager {
 
   void showInternetOffScreen(BuildContext context) {
     Dialog errorDialog = Dialog(
-      backgroundColor: Colors.green,
+      backgroundColor: Colors.purple,
       //this right here
       child: Container(
         width: double.infinity,
@@ -51,15 +51,7 @@ class ConnectivityManager {
         color: Colors.green,
         child: Stack(
           children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(top: 16.0),
-              child: Text(
-                'ofypets',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontFamily: 'HolyFat', fontSize: 50, color: Colors.white),
-              ),
-            ),
+           
             Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
@@ -71,7 +63,7 @@ class ConnectivityManager {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
-                    'You are not connected to internet',
+                    'Нет подключения к интернету',
                     style: TextStyle(color: Colors.white, fontSize: 18.0),
                   ),
                 ),

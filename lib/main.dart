@@ -46,5 +46,5 @@ void main() {
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   SystemChrome.setEnabledSystemUIOverlays([]);
   setupLocator();
-  runApp(EasyLocalization(child: App()));
+  runApp(App());
 }

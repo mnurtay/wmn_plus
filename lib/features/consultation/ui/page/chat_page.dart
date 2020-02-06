@@ -81,7 +81,7 @@ class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFEFEFEF),
+      backgroundColor: Colors.white,
       appBar: appBar(context),
       body: Column(
         children: <Widget>[
@@ -109,18 +109,19 @@ class _ChatPageState extends State<ChatPage> {
           Expanded(
             child: TextField(
               controller: messageController,
-              style: Theme.of(context).textTheme.body1,
+              style: TextStyle(
+                  fontFamily: 'HolyFat',
+                  fontSize: 18,
+                  fontWeight: FontWeight.w300),
               decoration: InputDecoration(
                 border: OutlineInputBorder(
-                    borderSide: BorderSide.none,
                     borderRadius: BorderRadius.all(
-                        Radius.circular(ScreenUtil().setSp(50)))),
-                filled: true,
-                fillColor: Color(0xFFEFEFEF),
+                        Radius.circular(ScreenUtil().setSp(70)))),
+                fillColor: Colors.white,
                 contentPadding: EdgeInsets.symmetric(
-                    horizontal: ScreenUtil().setWidth(30),
+                    horizontal: ScreenUtil().setWidth(60),
                     vertical: ScreenUtil().setHeight(20)),
-                hintText: 'Сообщение',
+                hintText: 'Написать...',
               ),
               onEditingComplete: _sendMessage,
               autocorrect: false,
@@ -133,11 +134,11 @@ class _ChatPageState extends State<ChatPage> {
           ),
           // --- SEND ICON
           RotationTransition(
-            turns: AlwaysStoppedAnimation((textFieldIsEmpty ? 0 : -20) / 360),
+            turns: AlwaysStoppedAnimation((textFieldIsEmpty ? 0 : 0) / 360),
             child: IconButton(
               icon: Icon(
                 Icons.send,
-                color: textFieldIsEmpty ? Colors.black : Colors.blue,
+                color: textFieldIsEmpty ? Colors.grey : Color(0xFF7B68EE),
                 size: ScreenUtil().setSp(70),
               ),
               onPressed: _sendMessage,
@@ -152,7 +153,7 @@ class _ChatPageState extends State<ChatPage> {
     if (widget.role == "doctor") {
       return AppBar(
         backgroundColor: Colors.white,
-        elevation: 0,
+        elevation: 4,
         iconTheme: IconThemeData(color: Colors.black),
         title: GestureDetector(
           onTap: () =>
@@ -160,10 +161,9 @@ class _ChatPageState extends State<ChatPage> {
           child: Row(
             children: <Widget>[
               CircleAvatar(
-                backgroundColor: Color(0xFFF5F5F5),
-                backgroundImage: NetworkImage(""),
-                child: Icon(Icons.person, color: Colors.grey),
-              ),
+                  backgroundColor: Color(0xFFF5F5F5),
+                  backgroundImage: NetworkImage(doctor.image),
+                  child: Container()),
               SizedBox(width: ScreenUtil().setWidth(30)),
               Text(
                 "${widget.fullName}",
@@ -176,7 +176,7 @@ class _ChatPageState extends State<ChatPage> {
     } else {
       return AppBar(
         backgroundColor: Colors.white,
-        elevation: 0,
+        elevation: 4,
         iconTheme: IconThemeData(color: Colors.black),
         title: GestureDetector(
           onTap: () =>
@@ -184,10 +184,9 @@ class _ChatPageState extends State<ChatPage> {
           child: Row(
             children: <Widget>[
               CircleAvatar(
-                backgroundColor: Color(0xFFF5F5F5),
-                backgroundImage: NetworkImage(doctor.image),
-                child: Icon(Icons.person, color: Colors.grey),
-              ),
+                  backgroundColor: Color(0xFFF5F5F5),
+                  backgroundImage: NetworkImage(doctor.image),
+                  child: Container()),
               SizedBox(width: ScreenUtil().setWidth(30)),
               Text(
                 "${widget.fullName}",

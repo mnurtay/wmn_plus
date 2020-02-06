@@ -15,9 +15,9 @@ class FertilityPeriodProvider {
     try {
       RegistrationModel model = new RegistrationModel(
         firstname: registrationModel.firstname,
-        surname: "Untitled",
+        surname: registrationModel.surname,
         password: registrationModel.password,
-        dateOfBirth: 21,
+        dateOfBirth: registrationModel.dateOfBirth,
         phone: registrationModel.phone,
         pushToken: token,
         fertility: Fertility(

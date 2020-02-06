@@ -124,8 +124,10 @@ class RegistrationModeScreenState extends State<RegistrationModeScreen> {
     );
   }
 
-  Row buildWelcomeRow() {
-    return Row(
+  Widget buildWelcomeRow() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         Text(
           "Привет",
@@ -136,7 +138,7 @@ class RegistrationModeScreenState extends State<RegistrationModeScreen> {
           ),
         ),
         SizedBox(
-          width: 7,
+          width: 5,
         ),
         Text(
           widget._registrationModel.firstname,

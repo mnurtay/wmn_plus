@@ -13,211 +13,223 @@ class DoctorData extends StatefulWidget {
 class _DoctorDataState extends State<DoctorData> {
   @override
   Widget build(BuildContext context) {
+    var _deviceSize = MediaQuery.of(context).size;
+
     return SingleChildScrollView(
       child: Container(
-        padding: EdgeInsets.symmetric(
-          horizontal: ScreenUtil().setWidth(50),
-          vertical: ScreenUtil().setHeight(50),
-        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
+            header(context, _deviceSize),
             SizedBox(height: ScreenUtil().setHeight(30)),
-            title(context),
-            SizedBox(height: ScreenUtil().setHeight(120)),
             body(context),
             SizedBox(height: ScreenUtil().setHeight(50)),
-            button(context),
+            // button(context),
           ],
         ),
       ),
     );
   }
 
-  Widget button(BuildContext context) {
-    return Container(
-      width: ScreenUtil().width,
-      child: RaisedButton(
-        onPressed: () => widget.onPressButton(),
-        padding: EdgeInsets.symmetric(vertical: ScreenUtil().setHeight(30)),
-        color: Color(0xFF7B68EE),
-        child: Text('Консультироваться',
-            style: TextStyle(
-                fontWeight: FontWeight.w500,
-                fontSize: ScreenUtil.getInstance().setSp(50),
-                color: Colors.white)),
-      ),
-    );
-  }
-
-  Widget title(BuildContext context) {
-    return Center(
+  Widget body(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(20.0),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          doctorAvatar(context),
-          SizedBox(height: ScreenUtil().setHeight(30)),
           Text(
             "${widget.doctor.getFullName}",
-            style: Theme.of(context).textTheme.display1,
-            textAlign: TextAlign.center,
+            style: TextStyle(
+                fontFamily: 'HolyFat',
+                fontSize: 34,
+                fontWeight: FontWeight.w200),
           ),
-        ],
-      ),
-    );
-  }
-
-  Widget doctorAvatar(BuildContext context) {
-    if (widget.doctor.image == '') {
-      return Container(
-        width: ScreenUtil.getInstance().setSp(300),
-        height: ScreenUtil.getInstance().setSp(300),
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: Color(0xFFF5F5F5),
-        ),
-        child: Center(
-          child: Icon(
-            Icons.person,
-            size: ScreenUtil().setSp(150),
-            color: Colors.grey,
+          SizedBox(
+            height: 5,
           ),
-        ),
-      );
-    }
-    return Container(
-      width: ScreenUtil.getInstance().setSp(300),
-      height: ScreenUtil.getInstance().setSp(300),
-      decoration: BoxDecoration(
-        color: Colors.grey.withOpacity(0.05),
-        shape: BoxShape.circle,
-        border: Border.all(color: Colors.grey.withOpacity(0.2)),
-        image: DecorationImage(
-          image: NetworkImage(widget.doctor.image),
-        ),
-      ),
-    );
-  }
-
-  Widget body(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        supportLanguage(context),
-        bodyItem(
-            context: context,
-            title: "Рейтинг",
-            leading: Icon(Icons.star, color: Colors.grey),
-            value: "4.8"),
-        bodyItem(
-            context: context,
-            title: "Консультировано",
-            leading: Icon(Icons.person, color: Colors.grey),
-            value: "${widget.doctor.experience}"),
-        bodyItem(
-            context: context,
-            title: "Закончил",
-            leading: Icon(Icons.school, color: Colors.grey),
-            value: "${widget.doctor.study}"),
-        bodyItem(
-            context: context,
-            title: "Стоимость",
-            leading: Icon(Icons.payment, color: Colors.grey),
-            value: "${widget.doctor.price} ₸"),
-      ],
-    );
-  }
-
-  Widget bodyItem(
-      {@required BuildContext context,
-      @required String title,
-      @required Widget leading,
-      @required String value}) {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: ScreenUtil().setHeight(15)),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
           Row(
+            mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              leading,
-              SizedBox(width: ScreenUtil().setWidth(15)),
-              Text(title,
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: new BorderRadius.circular(10),
+                  color: Colors.orangeAccent.withOpacity(0.3),
+                ),
+                alignment: Alignment.center,
+                padding: EdgeInsets.all(8),
+                child: Text(
+                  getSpeciality(),
                   style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontSize: ScreenUtil.getInstance().setSp(50),
-                    color: Color(0xFF1C1C1C),
-                  )),
+                      color: Colors.orange,
+                      fontFamily: 'HolyFat',
+                      fontSize: 18,
+                      fontWeight: FontWeight.w400),
+                ),
+              ),
             ],
           ),
-          SizedBox(width: ScreenUtil().setWidth(50)),
-          Expanded(
-            child: Container(
-              alignment: Alignment.centerRight,
-              child: Text(
-                value,
-                textAlign: TextAlign.right,
-                maxLines: 3,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontSize: ScreenUtil.getInstance().setSp(50),
-                  color: Color(0xFF1C1C1C),
-                ),
-              ),
-            ),
+          SizedBox(
+            height: 12,
           ),
-        ],
-      ),
-    );
-  }
-
-  Widget supportLanguage(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: ScreenUtil().setHeight(15)),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Expanded(
-            child: Container(
-              child: Text(
-                "Знание языка",
-                style: TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontSize: ScreenUtil.getInstance().setSp(50),
-                  color: Color(0xFF1C1C1C),
-                ),
-              ),
-            ),
-          ),
-          Row(
+          Column(
+            mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              widget.doctor.kazakhlanguage
-                  ? Image.asset(
-                      "assets/kazakhstan.png",
-                      width: ScreenUtil().setSp(80),
-                      height: ScreenUtil().setHeight(70),
-                    )
-                  : Container(),
-              SizedBox(width: ScreenUtil().setWidth(15)),
-              widget.doctor.russianlanguage
-                  ? Image.asset(
-                      "assets/russia.png",
-                      width: ScreenUtil().setSp(80),
-                      height: ScreenUtil().setHeight(70),
-                    )
-                  : Container(),
-              SizedBox(width: ScreenUtil().setWidth(15)),
-              widget.doctor.englishlanguage
-                  ? Image.asset(
-                      "assets/united-kingdom.png",
-                      width: ScreenUtil().setSp(80),
-                      height: ScreenUtil().setHeight(70),
-                    )
-                  : Container(),
+              Text(
+                widget.doctor.speciality,
+                style: TextStyle(
+                    color: Colors.black,
+                    fontFamily: 'HolyFat',
+                    fontSize: 18,
+                    fontWeight: FontWeight.w200),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 12,
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              // Container(
+              //   decoration: BoxDecoration(
+              //     borderRadius: new BorderRadius.circular(14),
+              //     color: Colors.blueAccent.withOpacity(0.6),
+              //   ),
+              //   padding: EdgeInsets.all(16),
+              //   child: Column(
+              //     crossAxisAlignment: CrossAxisAlignment.start,
+              //     mainAxisAlignment: MainAxisAlignment.start,
+              //     children: <Widget>[
+              //       Text(
+              //         "Консультировано:",
+              //         style: TextStyle(
+              //             color: Colors.white,
+              //             fontFamily: 'HolyFat',
+              //             fontSize: 13,
+              //             fontWeight: FontWeight.w400),
+              //       ),
+              //       Text(
+              //         "980",
+              //         style: TextStyle(
+              //             color: Colors.white,
+              //             fontFamily: 'HolyFat',
+              //             fontSize: 16,
+              //             fontWeight: FontWeight.w600),
+              //       ),
+              //     ],
+              //   ),
+              // ),
+              SizedBox(
+                height: 5,
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: new BorderRadius.circular(14),
+                  color: Colors.orangeAccent.withOpacity(0.6),
+                ),
+                padding: EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      "Опыт работы",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: 'HolyFat',
+                          fontSize: 13,
+                          fontWeight: FontWeight.w400),
+                    ),
+                    Text(
+                      "${widget.doctor.experience} год",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: 'HolyFat',
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: new BorderRadius.circular(14),
+                  color: Colors.redAccent.withOpacity(0.6),
+                ),
+                padding: EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      "Cтепень образования:",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: 'HolyFat',
+                          fontSize: 13,
+                          fontWeight: FontWeight.w400),
+                    ),
+                    Text(
+                      "${widget.doctor.study}",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: 'HolyFat',
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600),
+                    ),
+                  ],
+                ),
+              ),
             ],
           )
         ],
       ),
     );
+  }
+
+  header(BuildContext context, Size _deviceSize) {
+    return Row(
+      children: <Widget>[
+        Container(
+          width: 150,
+        ),
+        Expanded(
+            child: Container(
+          height: 250,
+          decoration: BoxDecoration(
+            borderRadius: new BorderRadius.only(
+              bottomLeft: const Radius.circular(40.0),
+            ),
+            color: Colors.purpleAccent,
+          ),
+          child: Container(
+              alignment: Alignment.bottomRight,
+              child: ClipRRect(
+                child: Image.network(
+                    "http://194.146.43.98:4000/image?uri=/home/golang/src/wmn/icons/5.png"),
+                borderRadius: BorderRadius.circular(12),
+              )),
+        ))
+      ],
+    );
+  }
+
+  String getSpeciality() {
+    switch (widget.doctor.positionId) {
+      case 0:
+        return "Акушер-гинеколог";
+      case 1:
+        return "Эндокринолог";
+      case 2:
+        return "Психолог";
+      case 3:
+        return "Педиатр";
+      case 4:
+        return "Аллерголог";
+    }
   }
 }

@@ -21,6 +21,7 @@ mixin CartModel on Model {
 
   List<LineItem> _lineItems = [];
   Order order;
+  Order orderResponse;
   bool _isLoading = false;
   List<PaymentMethod> _paymentMethods = [];
 
@@ -31,6 +32,7 @@ mixin CartModel on Model {
   }
 
   List _orderList;
+  String orderString;
 
   Order get getOrder {
     return order;
@@ -64,6 +66,8 @@ mixin CartModel on Model {
       print(responseBody.toString());
 
       Product prod = Product(
+        catId: product.catId,
+        subCatId: product.subCatId,
         description: responseBody['result']['description'],
         title: responseBody['result']['title'],
         id: responseBody['result']['id'],
@@ -99,15 +103,15 @@ mixin CartModel on Model {
   }
 
   void changeProductQuantity(int line, int quantity) async {
-     final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
     _isLoading = true;
 
     List list = jsonDecode(prefs.getString('order'));
     var param = list[line - 1];
     param['quantity'] = quantity;
 
-    list.removeAt(line-1);
-    list.insert(line-1, param);
+    list.removeAt(line - 1);
+    list.insert(line - 1, param);
 
     prefs.setString('order', jsonEncode(list));
 
@@ -120,7 +124,7 @@ mixin CartModel on Model {
     _isLoading = true;
 
     List list = jsonDecode(prefs.getString('order'));
-    list.removeAt(lineItemId-1);
+    list.removeAt(lineItemId - 1);
     prefs.setString('order', jsonEncode(list));
 
     notifyListeners();
@@ -168,11 +172,15 @@ mixin CartModel on Model {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
     _isLoading = true;
-
+    List sharedOrder;
     LineItem lineItem;
     int totalPrice = 0;
-    List sharedOrder = jsonDecode(prefs.getString('order'));
-
+    try {
+      sharedOrder = jsonDecode(prefs.getString('order'));
+    } catch (exp) {
+      _isLoading = false;
+    }
+    int totalLinePrice = 0;
     if (sharedOrder != null) {
       _lineItems.clear();
       print(sharedOrder.toString());
@@ -180,11 +188,14 @@ mixin CartModel on Model {
         lineItem = LineItem(
             image: v['product']['image_url'].toString(),
             id: v['product']['id'],
+            productId: v['product']['id'],
+            subCategoryId: v['product']['subId'],
+            categoryId: v['product']['catId'],
             count: v['quantity'],
             title: v['product']['title'],
             price: int.parse(v['product']['price']));
-
-        totalPrice += int.parse(v['product']['price']);
+        totalLinePrice = int.parse(v['product']['price']) * v['quantity'];
+        totalPrice += totalLinePrice;
         _lineItems.add(lineItem);
       });
 
@@ -193,6 +204,9 @@ mixin CartModel on Model {
         count: _lineItems.length.toString(),
         lineItems: _lineItems,
       );
+
+      orderString = jsonEncode(order);
+      print("ORDER STRING " + prefs.getString('order'));
 
       _isLoading = false;
       notifyListeners();

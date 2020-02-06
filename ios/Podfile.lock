@@ -54,6 +54,8 @@ PODS:
   - Flutter (1.0.0)
   - flutter_launch (0.0.1):
     - Flutter
+  - flutter_open_whatsapp (0.0.1):
+    - Flutter
   - flutter_webview_plugin (0.0.1):
     - Flutter
   - FMDB (2.7.5):
@@ -119,6 +121,7 @@ DEPENDENCIES:
   - firebase_messaging (from `.symlinks/plugins/firebase_messaging/ios`)
   - Flutter (from `.symlinks/flutter/ios`)
   - flutter_launch (from `.symlinks/plugins/flutter_launch/ios`)
+  - flutter_open_whatsapp (from `.symlinks/plugins/flutter_open_whatsapp/ios`)
   - flutter_webview_plugin (from `.symlinks/plugins/flutter_webview_plugin/ios`)
   - get_version (from `.symlinks/plugins/get_version/ios`)
   - package_info (from `.symlinks/plugins/package_info/ios`)
@@ -157,6 +160,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/flutter/ios"
   flutter_launch:
     :path: ".symlinks/plugins/flutter_launch/ios"
+  flutter_open_whatsapp:
+    :path: ".symlinks/plugins/flutter_open_whatsapp/ios"
   flutter_webview_plugin:
     :path: ".symlinks/plugins/flutter_webview_plugin/ios"
   get_version:
@@ -189,6 +194,7 @@ SPEC CHECKSUMS:
   FirebaseMessaging: de30f83a372a390be6f2ba44ec43a45b7ccdb43f
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
   flutter_launch: b9912ce1ce9c29df707be74ed8853a99d2ada38f
+  flutter_open_whatsapp: 4b54cd5403cfe53414e4252fd52fc27f79635f58
   flutter_webview_plugin: ed9e8a6a96baf0c867e90e1bce2673913eeac694
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   get_version: 2bc18c4e26a265571662cab5d38f8b50dc8c1c77

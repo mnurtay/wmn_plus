@@ -45,7 +45,6 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     // getFavoritesCount();
-    getBanners();
     getCategories();
     // getTodaysDeals();
     locator<ConnectivityManager>().initConnectivity(context);
@@ -391,26 +390,6 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             model.isLoading ? LinearProgressIndicator() : Container()
           ]));
-    });
-  }
-
-  getBanners() async {
-    http
-        .get(Settings.SERVER_URL +
-            'api/v1/taxonomies?q[name_cont]=Landing_Banner&set=nested')
-        .then((response) {
-      responseBody = json.decode(response.body);
-      responseBody['taxonomies'][0]['root']['taxons'].forEach((banner) {
-        setState(() {
-          banners.add(BannerImage(
-              imageSlug: banner['meta_title'], imageUrl: banner['icon']));
-          bannerImageUrls.add(banner['icon']);
-          bannerLinks.add(banner['meta_title']); //  meta_title
-        });
-      });
-      setState(() {
-        _isBannerLoading = false;
-      });
     });
   }
 }

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:wmn_plus/features/auth/bloc/bloc.dart';
 import 'package:wmn_plus/features/auth/ui/page/loading_page.dart';
 import 'package:wmn_plus/features/auth/ui/page/splash_page.dart';
@@ -153,10 +154,12 @@ class UnauthenticatedApp extends StatelessWidget {
         '/registration': (BuildContext context) => RegistrationScreen(),
       },
       onGenerateRoute: (RouteSettings settings) {
-        if (settings.name == '/about_us') {
-          return MaterialPageRoute(
-              builder: (BuildContext context) =>
-                  AboutUs(url: settings.arguments));
+        if (settings.name == "/about_us") {
+          return PageTransition(
+            child: AboutUs(settings.arguments),
+            type: PageTransitionType.leftToRightWithFade,
+            settings: settings,
+          );
         }
         if (settings.name == '/registration_mode') {
           return MaterialPageRoute(

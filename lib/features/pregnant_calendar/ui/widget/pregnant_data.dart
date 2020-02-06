@@ -106,6 +106,7 @@ class _PregnantDataState extends State<PregnantData> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 buildTitle(),
+                // buildBabyWeekImage(),
                 Container(
                   padding: EdgeInsets.symmetric(
                     vertical: ScreenUtil().setHeight(12),
@@ -216,5 +217,17 @@ class _PregnantDataState extends State<PregnantData> {
     String date = MONTH_NAME[selectedDate.month - 1];
     date += ' ${selectedDate.day}';
     return date;
+  }
+
+  buildBabyWeekImage() {
+    return pregnant.week == 3
+        ? Container(
+            color: Colors.lightBlue,
+            height: 10,
+          )
+        : Container(
+            color: Colors.lime,
+            height: 10,
+          );
   }
 }

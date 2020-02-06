@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization_delegate.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_launch/flutter_launch.dart';
+import 'package:flutter_open_whatsapp/flutter_open_whatsapp.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -46,7 +47,11 @@ class ProfileScreenState extends State<ProfileScreen> {
       child: ListTile(
         title: Text(
           title,
-          style: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w400),
+          style: TextStyle(
+              color: Colors.black.withOpacity(0.8),
+              fontFamily: 'HolyFat',
+              fontSize: 15,
+              fontWeight: FontWeight.w600),
         ),
         trailing: Icon(
           Icons.arrow_forward_ios,
@@ -115,7 +120,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                     SizedBox(
                       height: ScreenUtil().setHeight(15),
                     ),
-                    listSettings(authBloc),
+                    listSettings(authBloc, currentState),
                   ],
                 ),
               );
@@ -126,30 +131,26 @@ class ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Container listSettings(AuthBloc authBloc) {
+  Container listSettings(AuthBloc authBloc, InProfileState currentState) {
     return Container(
       width: ScreenUtil().width,
       margin: EdgeInsets.only(top: ScreenUtil.getInstance().setSp(10)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
+          changeRegimeWidget(currentState.hello),
+
+          // _buildCard(
+          //     title:
+          //         AppLocalizations.of(context).tr('settings.language_settings'),
+          //     navigate: () {
+          //       Navigator.pushNamed(context, "/settings_language");
+          //     }),
           _buildCard(
-              title: "Поменять режим",
-              navigate: () {
-                Navigator.pushNamed(context, "/settings_change_mode");
-              }),
-          _buildCard(
-              title:
-                  AppLocalizations.of(context).tr('settings.language_settings'),
-              navigate: () {
-                Navigator.pushNamed(context, "/settings_language");
-              }),
-          _buildCard(
-              title:
-                  AppLocalizations.of(context).tr('settings.сonnect_with_us'),
+              title: "Помощь",
               navigate: () => _settingModalBottomSheet(context)),
           _buildCard(
-              title: AppLocalizations.of(context).tr('settings.share_app'),
+              title: "Поделиться приложением",
               navigate: () {
                 shareApp();
               }),
@@ -157,10 +158,11 @@ class ProfileScreenState extends State<ProfileScreen> {
           //     title: "FAQ",
           //     navigate: () => Navigator.pushNamed(context, '/faq')),
           _buildCard(
-              title: AppLocalizations.of(context).tr('settings.about_us'),
-              navigate: () => Navigator.pushNamed(context, '/about_us')),
+              title: "О нас",
+              navigate: () => Navigator.pushNamed(context, '/about_us',
+                  arguments: "https://www.wmnplus.com")),
           _buildCard(
-              title: AppLocalizations.of(context).tr('settings.exit'),
+              title: "Выйти",
               navigate: () {
                 authBloc.add(LoggedOutAuthEvent());
               }),
@@ -182,7 +184,10 @@ class ProfileScreenState extends State<ProfileScreen> {
           Text(
             state.hello,
             style: TextStyle(
-                fontSize: 18, fontWeight: FontWeight.w600, color: Colors.black),
+                color: Colors.black.withOpacity(0.8),
+                fontFamily: 'HolyFat',
+                fontSize: 20,
+                fontWeight: FontWeight.w800),
           ),
           // Row(
           //   children: <Widget>[
@@ -213,12 +218,11 @@ class ProfileScreenState extends State<ProfileScreen> {
   }
 
   void shareApp() {
-    Share.share('wmnplus@gmail.com');
+    Share.share('wmnpluskz@gmail.com');
   }
 
   void whatsAppOpen() async {
-    await FlutterLaunch.launchWathsApp(
-        phone: "87028928915", message: "WMN Plus");
+    await FlutterOpenWhatsapp.sendSingleMessage("+77028928915", "Привет,  ");
   }
 
   void _settingModalBottomSheet(context) {
@@ -230,25 +234,22 @@ class ProfileScreenState extends State<ProfileScreen> {
               children: <Widget>[
                 new ListTile(
                     leading: new Icon(Icons.message),
-                    title: new Text(AppLocalizations.of(context)
-                        .tr('settings.share_app_child.write_to_us')),
+                    title: new Text("Напишите нам"),
                     onTap: () {
-                      launch("mailto:wmnplus@gmail.com");
+                      launch("mailto:wmnpluskz@gmail.com");
                     }),
                 new ListTile(
                   leading: new Icon(Icons.send),
-                  title: new Text(AppLocalizations.of(context)
-                      .tr('settings.share_app_child.write_to_wapp')),
+                  title: new Text("Напишите в WhatsApp"),
                   onTap: () {
                     whatsAppOpen();
                   },
                 ),
                 new ListTile(
                   leading: new Icon(Icons.call),
-                  title: new Text(AppLocalizations.of(context)
-                      .tr('settings.share_app_child.call_to_us')),
+                  title: new Text("Позвонить"),
                   onTap: () {
-                    launch("tel:87028928915");
+                    launch("tel:+77028928915");
                     // _launchPhone();
                   },
                 ),
@@ -267,5 +268,17 @@ class ProfileScreenState extends State<ProfileScreen> {
         color: Colors.white,
       ),
     );
+  }
+
+  changeRegimeWidget(String hello) {
+    print(hello);
+    if (hello != " ")
+      return _buildCard(
+          title: "Поменять режим",
+          navigate: () {
+            Navigator.pushNamed(context, "/settings_change_mode");
+          });
+    else
+      return Container();
   }
 }

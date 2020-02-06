@@ -32,6 +32,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       TextEditingController();
 
   String birthDayDate = 'Выберите дату рождения';
+  String birthDayForServer = "";
 
   bool policy = false;
 
@@ -58,7 +59,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           ..init(context);
     return Scaffold(
       key: _scaffoldKey,
-      body: Column(
+      body: ListView(
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.all(20.0),
@@ -66,219 +67,234 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               child: RegistrationHeader(context: context),
             ),
           ),
-          Expanded(
-            child: Column(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                  child: Container(
-                      child: Column(
-                    children: <Widget>[
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            "Персональные",
-                            style: TextStyle(
-                              fontSize: ScreenUtil().setSp(70),
-                              fontWeight: FontWeight.w200,
-                              color: Colors.black,
-                            ),
-                          ),
-                          Text(
-                            "Информации",
-                            style: TextStyle(
-                              fontSize: ScreenUtil().setSp(80),
-                              fontWeight: FontWeight.w400,
-                              color: Colors.black,
-                            ),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            "Конфиденциальность гарантируется *",
-                            style: TextStyle(
-                                fontSize: ScreenUtil().setSp(23),
-                                fontWeight: FontWeight.w200,
-                                color: Colors.grey.shade900,
-                                letterSpacing: 0.3),
-                          ),
-                          SizedBox(
-                            height: 30,
-                          ),
-                          Text(
-                            "Как вас зовут?",
-                            style: TextStyle(
-                                fontSize: ScreenUtil().setSp(40),
+          Column(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      "Персональные",
+                      style: TextStyle(
+                        fontSize: ScreenUtil().setSp(70),
+                        fontWeight: FontWeight.w200,
+                        color: Colors.black,
+                      ),
+                    ),
+                    Text(
+                      "Информации",
+                      style: TextStyle(
+                        fontSize: ScreenUtil().setSp(80),
+                        fontWeight: FontWeight.w400,
+                        color: Colors.black,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      "Конфиденциальность гарантируется *",
+                      style: TextStyle(
+                          fontSize: ScreenUtil().setSp(23),
+                          fontWeight: FontWeight.w200,
+                          color: Colors.grey.shade900,
+                          letterSpacing: 0.3),
+                    ),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    Text(
+                      "Как вас зовут?",
+                      style: TextStyle(
+                          fontSize: ScreenUtil().setSp(40),
+                          fontWeight: FontWeight.w300,
+                          color: Colors.grey.shade900,
+                          letterSpacing: 0.3),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    TextField(
+                        keyboardType: TextInputType.text,
+                        controller: _controllerName,
+                        decoration: InputDecoration(
+                            hintText: "Ваше имя",
+                            hintStyle: TextStyle(
+                                fontSize: ScreenUtil().setSp(30),
                                 fontWeight: FontWeight.w300,
-                                color: Colors.grey.shade900,
-                                letterSpacing: 0.3),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          TextField(
-                              keyboardType: TextInputType.text,
-                              controller: _controllerName,
-                              decoration: InputDecoration(
-                                  hintText: "Ваше имя",
-                                  hintStyle: TextStyle(
-                                      fontSize: ScreenUtil().setSp(30),
-                                      fontWeight: FontWeight.w300,
-                                      color: Colors.grey.shade700,
-                                      letterSpacing: 0.3))),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          TextField(
-                              keyboardType: TextInputType.text,
-                              controller: _controllerSur,
-                              decoration: InputDecoration(
-                                  hintText: "Ваша фамилия",
-                                  hintStyle: TextStyle(
-                                      fontSize: ScreenUtil().setSp(30),
-                                      fontWeight: FontWeight.w300,
-                                      color: Colors.grey.shade700,
-                                      letterSpacing: 0.3))),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          TextField(
-                              keyboardType: TextInputType.emailAddress,
-                              controller: _controllerEmail,
-                              decoration: InputDecoration(
-                                  hintText: "Ваш email?",
-                                  hintStyle: TextStyle(
-                                      fontSize: ScreenUtil().setSp(30),
-                                      fontWeight: FontWeight.w300,
-                                      color: Colors.grey.shade700,
-                                      letterSpacing: 0.3))),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          GestureDetector(
-                              onTap: () {
-                                DatePicker.showDatePicker(context,
-                                    showTitleActions: true,
-                                    minTime: DateTime(1920, 3, 5),
-                                    maxTime: DateTime.now(), onChanged: (date) {
-                                  print('change $date');
-                                  setState(() {
-                                    birthDayDate =
-                                        "${date.month}/${date.day}/${date.year}";
-                                  });
-                                }, onConfirm: (date) {
-                                  setState(() {
-                                    birthDayDate =
-                                        "${date.month}/${date.day}/${date.year}";
-                                  });
-                                  print('confirm $date');
-                                },
-                                    currentTime: DateTime.now(),
-                                    locale: LocaleType.ru);
-                              },
-                              child: Container(
-                                padding: EdgeInsets.all(12),
-                                color: Theme.of(context).accentColor,
-                                child: Text(birthDayDate,
-                                    style: TextStyle(
-                                        fontSize: ScreenUtil().setSp(30),
-                                        fontWeight: FontWeight.w300,
-                                        color: Colors.white,
-                                        letterSpacing: 0.3)),
-                              )),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          TextField(
-                              keyboardType: TextInputType.text,
-                              controller: _controllerPass,
-                              obscureText: true,
-                              decoration: InputDecoration(
-                                  hintText: "Поставьте пароль к вашему профилю",
-                                  hintStyle: TextStyle(
-                                      fontSize: ScreenUtil().setSp(30),
-                                      fontWeight: FontWeight.w300,
-                                      color: Colors.grey.shade700))),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          TextField(
-                              keyboardType: TextInputType.text,
-                              controller: _controllerPasswordVerification,
-                              obscureText: true,
-                              decoration: InputDecoration(
-                                  hintText: "Повторите пароль",
-                                  hintStyle: TextStyle(
-                                      fontSize: ScreenUtil().setSp(30),
-                                      fontWeight: FontWeight.w300,
-                                      color: Colors.grey.shade700))),
-                          SizedBox(
-                            height: 20,
-                          ),
-                        ],
-                      )
-                    ],
-                  )),
-                ),
-                Container(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Checkbox(
-                        value: policy,
-                        onChanged: (val) {
-                          setState(() {
-                            policy = val;
-                          });
+                                color: Colors.grey.shade700,
+                                letterSpacing: 0.3))),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    TextField(
+                        keyboardType: TextInputType.text,
+                        controller: _controllerSur,
+                        decoration: InputDecoration(
+                            hintText: "Ваша фамилия",
+                            hintStyle: TextStyle(
+                                fontSize: ScreenUtil().setSp(30),
+                                fontWeight: FontWeight.w300,
+                                color: Colors.grey.shade700,
+                                letterSpacing: 0.3))),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    TextField(
+                        keyboardType: TextInputType.emailAddress,
+                        controller: _controllerEmail,
+                        decoration: InputDecoration(
+                            hintText: "Ваш email?",
+                            hintStyle: TextStyle(
+                                fontSize: ScreenUtil().setSp(30),
+                                fontWeight: FontWeight.w300,
+                                color: Colors.grey.shade700,
+                                letterSpacing: 0.3))),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    GestureDetector(
+                        onTap: () {
+                          String zeroForDay = "0";
+                          DatePicker.showDatePicker(context,
+                              showTitleActions: true,
+                              minTime: DateTime(1920, 3, 5),
+                              maxTime: DateTime.now(), onChanged: (date) {
+                            print('change $date');
+                            setState(() {
+                              birthDayDate =
+                                  "${date.month}/${date.day}/${date.year}";
+                              if (date.day < 10) {
+                                if (date.month < 10)
+                                  birthDayForServer =
+                                      "${date.year}0${date.month}0${date.day}";
+                                else
+                                  birthDayForServer =
+                                      "${date.year}${date.month}0${date.day}";
+                              } else {
+                                birthDayForServer =
+                                    "${date.year}${date.month}${date.day}";
+                              }
+                            });
+                          }, onConfirm: (date) {
+                            setState(() {
+                              birthDayDate =
+                                  "${date.month}/${date.day}/${date.year}";
+                              if (date.day < 10) {
+                                if (date.month < 10)
+                                  birthDayForServer =
+                                      "${date.year}0${date.month}0${date.day}";
+                                else
+                                  birthDayForServer =
+                                      "${date.year}${date.month}0${date.day}";
+                              } else {
+                                birthDayForServer =
+                                    "${date.year}${date.month}${date.day}";
+                              }
+                            });
+                          },
+                              currentTime: DateTime.now(),
+                              locale: LocaleType.ru);
                         },
-                      ),
-                      Expanded(
-                          child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text("Я соглашаюсь с "),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.pushNamed(context, "/about_us",
-                                  arguments:
-                                      "https://wmn-plus.flycricket.io/privacy.html");
-                            },
-                            child: Expanded(
-                              child: Text(
-                                "Политикой конфиденциальности и Условиями использования",
-                                style: TextStyle(
-                                    decoration: TextDecoration.underline,
-                                    fontWeight: FontWeight.bold,
-                                    color: Theme.of(context).accentColor),
-                              ),
-                            ),
-                          )
-                        ],
-                      ))
-                    ],
+                        child: Container(
+                          padding: EdgeInsets.all(12),
+                          color: Theme.of(context).accentColor,
+                          child: Text(birthDayDate,
+                              style: TextStyle(
+                                  fontSize: ScreenUtil().setSp(30),
+                                  fontWeight: FontWeight.w300,
+                                  color: Colors.white,
+                                  letterSpacing: 0.3)),
+                        )),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    TextField(
+                        keyboardType: TextInputType.text,
+                        controller: _controllerPass,
+                        obscureText: true,
+                        decoration: InputDecoration(
+                            hintText: "Поставьте пароль к вашему профилю",
+                            hintStyle: TextStyle(
+                                fontSize: ScreenUtil().setSp(30),
+                                fontWeight: FontWeight.w300,
+                                color: Colors.grey.shade700))),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    TextField(
+                        keyboardType: TextInputType.text,
+                        controller: _controllerPasswordVerification,
+                        obscureText: true,
+                        decoration: InputDecoration(
+                            hintText: "Повторите пароль",
+                            hintStyle: TextStyle(
+                                fontSize: ScreenUtil().setSp(30),
+                                fontWeight: FontWeight.w300,
+                                color: Colors.grey.shade700))),
+                    SizedBox(
+                      height: 20,
+                    ),
+                  ],
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Checkbox(
+                    value: policy,
+                    onChanged: (val) {
+                      setState(() {
+                        policy = val;
+                      });
+                    },
                   ),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Container(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Checkbox(
-                        value: policy,
-                        onChanged: (val) {
-                          setState(() {
-                            policy = val;
-                          });
-                        },
-                      ),
-                      Expanded(
-                          child: Column(
+                  Expanded(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text("Я соглашаюсь с "),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.pushNamed(context, "/about_us",
+                                arguments:
+                                    "https://wmn-plus.flycricket.io/privacy.html");
+                          },
+                          child: Text(
+                            "Политикой конфиденциальности и Условиями использования",
+                            style: TextStyle(
+                                decoration: TextDecoration.underline,
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context).accentColor),
+                          ),
+                        )
+                      ],
+                    ),
+                  )
+                ],
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Checkbox(
+                    value: policy,
+                    onChanged: (val) {
+                      setState(() {
+                        policy = val;
+                      });
+                    },
+                  ),
+                  Expanded(
+                      flex: 2,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
@@ -290,23 +306,19 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                   arguments:
                                       "https://wmn-plus.flycricket.io/privacy.html");
                             },
-                            child: Expanded(
-                              child: Text(
-                                "Политике конфиденциальности",
-                                style: TextStyle(
-                                    decoration: TextDecoration.underline,
-                                    fontWeight: FontWeight.bold,
-                                    color: Theme.of(context).accentColor),
-                              ),
+                            child: Text(
+                              "Политике конфиденциальности",
+                              style: TextStyle(
+                                  decoration: TextDecoration.underline,
+                                  fontWeight: FontWeight.bold,
+                                  color: Theme.of(context).accentColor),
                             ),
                           )
                         ],
                       ))
-                    ],
-                  ),
-                ),
-              ],
-            ),
+                ],
+              ),
+            ],
           ),
           buildBottomButton()
         ],
@@ -342,7 +354,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         _controllerPasswordVerification.text.isEmpty) {
       showInSnackBar("Поле пароль пусто, заполните пожалуйста");
     } else if (!birthDayDate.contains('/')) {
-      showInSnackBar("Выберите дату рождения");
+      showInSnackBar("Выберит�� дату рождения");
     } else if (!policy) {
       showInSnackBar("Соглашения с политикой конфиденциальности");
     } else if (_controllerPass.text.length < 5 &&
@@ -356,10 +368,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       else
         Navigator.pushNamed(context, "/registration_mode",
             arguments: RegistrationModel(
+                dateOfBirth: birthDayForServer,
+                surname: _controllerSur.text.trim(),
                 firstname: _controllerName.text.trim(),
                 password: _controllerPass.text.trim(),
                 phone: _controllerEmail.text.trim()));
-      //surname, birthdate
     }
   }
 }

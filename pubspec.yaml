@@ -53,6 +53,8 @@ dependencies:
   flushbar: ^1.8.2
   get_it: ^1.0.3+2
   back_button_interceptor: ^4.1.1
+  flutter_open_whatsapp: ^0.1.2
+
 
 dev_dependencies:
   flutter_test:

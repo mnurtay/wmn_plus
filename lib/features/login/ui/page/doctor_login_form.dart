@@ -62,7 +62,7 @@ class _LoginFormState extends State<DoctorLoginForm> {
           child: Column(
             children: <Widget>[
               TextField(
-                  keyboardType: TextInputType.phone,
+                  keyboardType: TextInputType.text,
                   controller: loginController,
                   decoration: InputDecoration(
                       border: OutlineInputBorder(
@@ -110,7 +110,7 @@ class _LoginFormState extends State<DoctorLoginForm> {
                   _onLoginButtonPressed();
                 },
                 child: Container(
-                  height: ScreenUtil.getInstance().setHeight(55),
+                  height: 40,
                   margin:
                       EdgeInsets.all(ScreenUtil.getInstance().setHeight(20)),
                   child: Center(

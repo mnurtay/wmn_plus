@@ -1,3 +1,5 @@
+import 'package:wmn_plus/features/ecommerce/models/order.dart';
+
 class BuyProduct {
   String phone;
   String name;
@@ -10,6 +12,7 @@ class BuyProduct {
   int subcategoryId;
   int productId;
   int count;
+  Order order;
 
   BuyProduct(
       {this.phone,
@@ -20,6 +23,7 @@ class BuyProduct {
       this.comments,
       this.privacyPolicy,
       this.categoryId,
+      this.order,
       this.subcategoryId,
       this.productId,
       this.count});
@@ -47,10 +51,7 @@ class BuyProduct {
     data['delivery'] = this.delivery;
     data['comments'] = this.comments;
     data['privacy_policy'] = this.privacyPolicy;
-    data['category_id'] = this.categoryId;
-    data['subcategory_id'] = this.subcategoryId;
-    data['product_id'] = this.productId;
-    data['count'] = this.count;
+    data['orders'] = this.order.toJson();
     return data;
   }
 }
@@ -73,6 +74,3 @@ class ResponseJson {
     return data;
   }
 }
-
-
-

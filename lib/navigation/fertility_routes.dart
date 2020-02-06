@@ -86,122 +86,113 @@ class AuthenticatedFertilityRoutes extends StatelessWidget {
   List<int> _categoryId = [10, 11, 12, 13, 14, 15, 16];
 
   Widget buildRoutes(BuildContext context) {
-    var data = EasyLocalizationProvider.of(context).data;
-    return EasyLocalizationProvider(
-      data: data,
-      child: MaterialApp(
-        localizationsDelegates: [
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          //app-specific localization
-          EasylocaLizationDelegate(locale: data.locale, path: 'path'),
-        ],
-        supportedLocales: [
-          Locale('ru', 'RU'),
-          Locale('en', 'US'),
-          Locale('kk', 'KZ')
-        ],
-        locale: data.locale,
-        debugShowCheckedModeBanner: false,
-        theme: THEME,
-        routes: {
-          '/': (BuildContext context) => BottomNavigation(
-              modeColor: Theme.of(context).accentColor,
-              pageOptions: pageOptions(context),
-              barItems: barItems(context)),
-          '/new_consultation': (BuildContext context) => NewConsultationPage(),
-          '/discounts': (BuildContext context) => DiscountsPage(),
-          '/settings_language': (BuildContext context) => LanguagePage(),
-          '/profile': (BuildContext context) => ProfilPage(),
-          '/news': (BuildContext context) => NewsPage(_category, _categoryId),
-          '/faq': (BuildContext context) => FAQ(),
-          '/settings_change_mode': (BuildContext context) => ChangeModePage(),
-          '/change_mode_fertility': (BuildContext context) =>
-              ChangeModeFertilityPage(),
-          '/change_mode_pregnancy': (BuildContext context) =>
-              ChangeModePregnancyPage(),
-          '/about_us': (BuildContext context) => AboutUs()
-        },
-        onGenerateRoute: (RouteSettings settings) {
-          if (settings.name == CategoryDetailPage.routeName) {
-            return PageTransition(
-              child: CategoryDetailPage(settings.arguments),
-              type: PageTransitionType.scale,
-              settings: settings,
-            );
-          }
-          if (settings.name == SubCategoryProductsPage.routeName) {
-            return PageTransition(
-              child: SubCategoryProductsPage(settings.arguments),
-              type: PageTransitionType.rotate,
-              settings: settings,
-            );
-          }
+    return MaterialApp(
+      // locale: data.locale,
+      debugShowCheckedModeBanner: false,
+      theme: THEME,
+      routes: {
+        '/': (BuildContext context) => BottomNavigation(
+            modeColor: Theme.of(context).accentColor,
+            pageOptions: pageOptions(context),
+            barItems: barItems(context)),
+        '/new_consultation': (BuildContext context) => NewConsultationPage(),
+        '/discounts': (BuildContext context) => DiscountsPage(),
+        '/settings_language': (BuildContext context) => LanguagePage(),
+        '/profile': (BuildContext context) => ProfilPage(),
+        '/news': (BuildContext context) => NewsPage(_category, _categoryId),
+        '/faq': (BuildContext context) => FAQ(),
+        '/settings_change_mode': (BuildContext context) => ChangeModePage(),
+        '/change_mode_fertility': (BuildContext context) =>
+            ChangeModeFertilityPage(),
+        '/change_mode_pregnancy': (BuildContext context) =>
+            ChangeModePregnancyPage(),
+      },
+      onGenerateRoute: (RouteSettings settings) {
+        if (settings.name == "/about_us") {
+          return PageTransition(
+            child: AboutUs(settings.arguments),
+            type: PageTransitionType.leftToRightWithFade,
+            settings: settings,
+          );
+        }
+        if (settings.name == CategoryDetailPage.routeName) {
+          return PageTransition(
+            child: CategoryDetailPage(settings.arguments),
+            type: PageTransitionType.scale,
+            settings: settings,
+          );
+        }
+        if (settings.name == SubCategoryProductsPage.routeName) {
+          return PageTransition(
+            child: SubCategoryProductsPage(settings.arguments),
+            type: PageTransitionType.rotate,
+            settings: settings,
+          );
+        }
 
-          if (settings.name == ProductDetailPage.routeName) {
-            return PageTransition(
-              child: ProductDetailPage(settings.arguments),
-              type: PageTransitionType.leftToRightWithFade,
-              settings: settings,
-            );
-          }
+        if (settings.name == ProductDetailPage.routeName) {
+          return PageTransition(
+            child: ProductDetailPage(settings.arguments),
+            type: PageTransitionType.leftToRightWithFade,
+            settings: settings,
+          );
+        }
 
-          if (settings.name == BuyProductPage.routeName) {
-            return PageTransition(
-              child: BuyProductPage(settings.arguments),
-              type: PageTransitionType.rightToLeftWithFade,
-              settings: settings,
-            );
-          }
-          if (settings.name == '/news_detail') {
-            return MaterialPageRoute(
-                builder: (BuildContext context) =>
-                    NewsDetailPage(settings.arguments));
-          }
-          if (settings.name == '/discount_detail') {
-            return MaterialPageRoute(
-                builder: (BuildContext context) =>
-                    DiscountDetailPage(settings.arguments));
-          }
-          if (settings.name == '/doctors_list') {
-            return MaterialPageRoute(
-                builder: (BuildContext context) =>
-                    DoctorsListPage(category: settings.arguments));
-          }
-          if (settings.name == '/chat_page') {
-            Map object = settings.arguments;
-            return MaterialPageRoute(
-              builder: (BuildContext context) => ChatPage(
-                consultation: object['consultation'],
-                currentUser: object['user'],
-                role: object['type'],
-                fullName: object['full_name'],
-              ),
-            );
-          }
-          if (settings.name == '/doctor_page') {
-            return MaterialPageRoute(
-                builder: (BuildContext context) =>
-                    DoctorPage(doctor: settings.arguments));
-          }
-          if (settings.name == '/consultation_payment') {
-            return MaterialPageRoute(
-                builder: (BuildContext context) =>
-                    ConsulatationPaymentPage(url: settings.arguments));
-          }
-          if (settings.name == '/change_mode_fertility_duration') {
-            return MaterialPageRoute(
-                builder: (BuildContext context) =>
-                    ChangeModeFertilityDurationPage(settings.arguments));
-          }
-          if (settings.name == '/change_mode_fertility_period') {
-            return MaterialPageRoute(
-                builder: (BuildContext context) =>
-                    ChangeModeFertilityPeriodPage(settings.arguments));
-          }
-          return null;
-        },
-      ),
+        if (settings.name == BuyProductPage.routeName) {
+          return PageTransition(
+            child: BuyProductPage(),
+            type: PageTransitionType.rightToLeftWithFade,
+            settings: settings,
+          );
+        }
+        if (settings.name == '/news_detail') {
+          return MaterialPageRoute(
+              builder: (BuildContext context) =>
+                  NewsDetailPage(settings.arguments));
+        }
+        if (settings.name == '/discount_detail') {
+          return MaterialPageRoute(
+              builder: (BuildContext context) =>
+                  DiscountDetailPage(settings.arguments));
+        }
+        if (settings.name == '/doctors_list') {
+          return MaterialPageRoute(
+              builder: (BuildContext context) =>
+                  DoctorsListPage(category: settings.arguments));
+        }
+        if (settings.name == '/chat_page') {
+          Map object = settings.arguments;
+          return MaterialPageRoute(
+            builder: (BuildContext context) => ChatPage(
+              consultation: object['consultation'],
+              currentUser: object['user'],
+              role: object['type'],
+              fullName: object['full_name'],
+            ),
+          );
+        }
+        if (settings.name == '/doctor_page') {
+          return MaterialPageRoute(
+              builder: (BuildContext context) =>
+                  DoctorPage(doctor: settings.arguments));
+        }
+        if (settings.name == '/consultation_payment') {
+          return MaterialPageRoute(
+              builder: (BuildContext context) =>
+                  ConsulatationPaymentPage(url: settings.arguments));
+        }
+        if (settings.name == '/change_mode_fertility_duration') {
+          return MaterialPageRoute(
+              builder: (BuildContext context) =>
+                  ChangeModeFertilityDurationPage(settings.arguments));
+        }
+        if (settings.name == '/change_mode_fertility_period') {
+          return MaterialPageRoute(
+              builder: (BuildContext context) =>
+                  ChangeModeFertilityPeriodPage(settings.arguments));
+        }
+        return null;
+      },
     );
   }
 

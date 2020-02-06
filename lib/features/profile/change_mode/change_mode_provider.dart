@@ -26,6 +26,7 @@ class ChangeModeProvider {
         String body = utf8.decode(response.bodyBytes);
         Map regObject = json.decode(body);
         Us.User user = Us.User.fromJson(regObject);
+        print(regObject.toString());
         return user;
       } else {
         return null;

@@ -33,6 +33,7 @@ class _DoctorLoginPageState extends State<DoctorLoginPage> {
         ScreenUtil(width: 828, height: 1792, allowFontScaling: true)
           ..init(context);
     return Scaffold(
+      appBar: AppBar(),
       body: GestureDetector(
         onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
         child: Stack(
@@ -50,14 +51,12 @@ class _DoctorLoginPageState extends State<DoctorLoginPage> {
         child: Center(
           child: Column(
             children: <Widget>[
+              SizedBox(height: 50),
               Container(
-                height: 50,
-                color: Colors.white,
-              ),
-              Container(
-                height: ScreenUtil.getInstance().setHeight(500),
+                height: ScreenUtil.getInstance().setHeight(300),
                 child: Image.asset("assets/doctor_login_logo.png"),
               ),
+              SizedBox(height: 50),
               DoctorLoginForm(
                 authBloc: _authBloc,
                 loginBloc: _loginBloc,

@@ -68,21 +68,11 @@ class _ProductSearchState extends State<ProductSearch> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     sortBy = '';
     _dropDownMenuItems = getDropDownMenuItems();
     _currentItem = _dropDownMenuItems[0].value;
-    if (widget.slug != null) {
-      print("SLUG AVAILABLE ${widget.slug}");
-      setState(() {
-        slug = widget.slug;
-        isSearched = true;
-        searchProducts = [];
-        currentPage = 1;
-      });
-      searchProduct();
-    }
+
     scrollController.addListener(() {
       if (scrollController.offset >=
               scrollController.position.maxScrollExtent &&
@@ -90,7 +80,6 @@ class _ProductSearchState extends State<ProductSearch> {
         searchProduct();
       }
     });
-    getBrandsList();
     locator<ConnectivityManager>().initConnectivity(context);
   }
 
@@ -164,7 +153,6 @@ class _ProductSearchState extends State<ProductSearch> {
               ),
             ],
           ),
-          endDrawer: filterDrawer(),
           body: Stack(
             children: <Widget>[
               Padding(
@@ -187,19 +175,19 @@ class _ProductSearchState extends State<ProductSearch> {
                                   padding: EdgeInsets.symmetric(vertical: 50.0),
                                   child: Center(
                                     child: Text(
-                                      'No Product Found',
+                                      'Продуктов нету',
                                       style: TextStyle(fontSize: 20.0),
                                       textAlign: TextAlign.center,
                                     ),
                                   ),
                                 );
                               }
-                              if (!hasMore || model.isLoading) {
+                              if (model.isLoading) {
                                 return Padding(
                                   padding: EdgeInsets.symmetric(vertical: 25.0),
                                   child: Center(
                                       child: CircularProgressIndicator(
-                                    backgroundColor: Colors.white,
+                                    backgroundColor: Colors.purple,
                                   )),
                                 );
                               } else {
@@ -220,212 +208,64 @@ class _ProductSearchState extends State<ProductSearch> {
                       child: Padding(
                         padding: const EdgeInsets.only(top: 18.0, left: 16.0),
                         child: Text(
-                          '$totalCount Results',
+                          'Найдено $totalCount',
                           textAlign: TextAlign.left,
                           style: TextStyle(color: Colors.grey.shade700),
                         ),
                       ),
                     ),
                   )),
-              Visibility(
-                visible: searchProducts.length > 0,
-                child: Container(
-                  padding: EdgeInsets.only(right: 20.0, top: 20.0),
-                  alignment: Alignment.topRight,
-                  child: FloatingActionButton(
-                    onPressed: () {
-                      _scaffoldKey.currentState.openEndDrawer();
-                    },
-                    child: Icon(
-                      Icons.filter_list,
-                      color: Colors.white,
-                    ),
-                    backgroundColor: Colors.orange,
-                  ),
-                ),
-              ),
-              Visibility(
-                  visible: model.isLoading,
-                  child: Center(
-                    child: CircularProgressIndicator(
-                      backgroundColor: Colors.green,
-                    ),
-                  )),
-              // )
             ],
           ));
     });
   }
 
   Future<List<Product>> searchProduct() async {
+    _isLoading = true;
     Map<String, String> headers = await getHeaders();
     Map<String, dynamic> responseBody = Map();
-    print('SENDING REQUEST $slug');
-    setState(() {
-      hasMore = false;
-    });
-    print(Settings.SERVER_URL +
-        'api/v1/products?q[name_cont_all]=$slug&page=$currentPage&per_page=$perPage&q[s]=$sortBy&data_set=small');
+
+    Map body = {"query": slug};
+    int count = 0;
     http.Response response;
-    if (sortBy != null) {
-      response = await http.get(
-          Settings.SERVER_URL +
-              'api/v1/products?q[name_cont_all]=$slug&page=$currentPage&per_page=$perPage&q[s]=$sortBy&data_set=small',
-          headers: headers);
-    } else {
-      print("searching $slug");
-      response = await http.get(
-          Settings.SERVER_URL +
-              'api/v1/products?q[name_cont_all]=$slug&page=$currentPage&per_page=$perPage&data_set=small',
-          headers: headers);
-    }
-    currentPage++;
+    response = await http.post(
+        'http://194.146.43.98:4000/api/v1/patient/searchProduct',
+        headers: headers,
+        body: jsonEncode(body));
     responseBody = json.decode(response.body);
+    print(responseBody);
 
-    responseBody['data'].forEach((searchObj) {
-      searchProducts.add(Product(
-        image: searchObj['attributes']['product_url'],
-        currencySymbol: searchObj['attributes']['currency_symbol'],
-        price: searchObj['attributes']['price'],
-      ));
-    });
-    totalCount = responseBody['pagination']['total_count'];
-    setState(() {
-      hasMore = true;
-      _isLoading = false;
-    });
-
-    print(hasMore);
-    print(searchProducts.length);
-
-    return searchProducts;
-  }
-
-  Widget filterDrawer() {
-    return Drawer(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          Material(
-            elevation: 3.0,
-            child: Container(
-                alignment: Alignment.centerLeft,
-                color: Colors.orange,
-                height: 150.0,
-                child: ListTile(
-                  title: Row(
-                    children: <Widget>[
-                      Text(
-                        'Sort By:  ',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                            fontSize: 18.0),
-                      ),
-                      DropdownButton(
-                        underline: Container(),
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 15.0,
-                            fontWeight: FontWeight.normal),
-                        hint: Text(
-                          _currentItem,
-                          style: TextStyle(
-                              color: Colors.white70,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        value: null,
-                        icon: Icon(
-                          Icons.arrow_drop_down,
-                          color: Colors.white,
-                        ),
-                        items: _dropDownMenuItems,
-                        onChanged: changedDropDownItem,
-                      )
-                    ],
-                  ),
-                )),
-          ),
-          Expanded(
-            child: Theme(
-                data: ThemeData(primarySwatch: Colors.green),
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  padding: EdgeInsets.all(8.0),
-                  itemBuilder: (BuildContext context, int index) {
-                    return GestureDetector(
-                        onTap: () {
-                          Navigator.pop(context);
-                          productsByBrand = [];
-                          setState(() {
-                            _isLoading = true;
-                            slug = brands[index].name;
-                            isSearched = true;
-                            searchProducts = [];
-                            currentPage = 1;
-                            searchProduct();
-                          });
-                        },
-                        child: Container(
-                            width: _deviceSize.width,
-                            alignment: Alignment.centerLeft,
-                            margin: EdgeInsets.all(10),
-                            padding: EdgeInsets.all(10),
-                            child: Text(
-                              brands[index].name,
-                              style: TextStyle(
-                                fontSize: 20,
-                              ),
-                            )));
-                  },
-                  itemCount: brands.length,
-                )),
-          ),
-        ],
-      ),
-    );
-  }
-
-  getBrandsList() {
-    http
-        .get(Settings.SERVER_URL +
-            'api/v1/taxonomies?q[name_cont]=Brands&set=nested')
-        .then((response) {
-      responseBody = json.decode(response.body);
-      responseBody['taxonomies'][0]['root']['taxons'].forEach((brandObj) {
-        setState(() {
-          brands.add(Brand(name: brandObj['name'], id: brandObj['id']));
-        });
+    try {
+      responseBody['result']?.forEach((searchObj) {
+        searchProducts.add(Product(
+          catId: searchObj['category_id'],
+          subCatId: searchObj['subcategory_id'],
+          description: searchObj['description'],
+          title: searchObj['title'],
+          id: searchObj['id'],
+          image: "http://194.146.43.98:4000/image?uri=" +
+              searchObj['image_urls'][0],
+          price: searchObj['price'].toString(),
+        ));
+        count++;
       });
-    });
-  }
+      setState(() {
+        hasMore = false;
+        totalCount = count;
+        _isLoading = false;
+      });
 
-  void changedDropDownItem(String selectedCity) {
-    String sortingWith = '';
-    setState(() {
-      _currentItem = selectedCity;
-      switch (_currentItem) {
-        case 'Newest':
-          sortingWith = 'updated_at+asc';
-          break;
-        case 'Avg.Customer Review':
-          sortingWith = 'avg_rating+desc ';
-          break;
-        case 'Most Reviews':
-          sortingWith = 'reviews_count+desc';
-          break;
-        case 'A TO Z':
-          sortingWith = 'name+asc';
-          break;
-        case 'Z TO A':
-          sortingWith = 'name+desc';
-          break;
-      }
-      isSearched = true;
-      searchProducts = [];
-      currentPage = 1;
-      this.sortBy = sortingWith;
-      searchProduct();
-    });
+      print(hasMore);
+      print(searchProducts.length);
+
+      return searchProducts;
+    } catch (e) {
+      setState(() {
+        hasMore = false;
+        totalCount = 0;
+        _isLoading = false;
+      });
+      return [];
+    }
   }
 }

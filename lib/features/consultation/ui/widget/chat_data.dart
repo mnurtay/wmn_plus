@@ -90,7 +90,7 @@ class _ChatDataState extends State<ChatData> {
           // --- MESSAGE
           Container(
             decoration: BoxDecoration(
-              color: chat.sendByMe ? Color(0xFF7B68EE) : Color(0xFFD3D3D3),
+              color: chat.sendByMe ? Color(0xFF7B68EE) : Colors.grey.withOpacity(0.1),
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(ScreenUtil().setSp(35)),
                 topRight: Radius.circular(ScreenUtil().setSp(30)),

@@ -84,7 +84,6 @@ class _OrderList extends State<OrderList> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     locator<ConnectivityManager>().dispose();
   }

@@ -53,44 +53,29 @@ class AuthenticatedDoctorRoutes extends StatelessWidget {
   List<int> _categoryId = [22];
 
   Widget buildRoutes(BuildContext context) {
-    var data = EasyLocalizationProvider.of(context).data;
-    return EasyLocalizationProvider(
-        data: data,
-        child: MaterialApp(
-          localizationsDelegates: [
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            //app-specific localization
-            EasylocaLizationDelegate(locale: data.locale, path: 'path'),
-          ],
-          supportedLocales: [
-            Locale('ru', 'RU'),
-            Locale('en', 'US'),
-            Locale('kk', 'KZ')
-          ],
-          locale: data.locale,
-          debugShowCheckedModeBanner: false,
-          theme: THEME,
-          routes: {
-            '/': (BuildContext context) => BottomNavigation(
-                modeColor: Theme.of(context).accentColor,
-                pageOptions: pageOptions(context),
-                barItems: barItems(context)),
-          },
-          onGenerateRoute: (RouteSettings settings) {
-            if (settings.name == '/chat_page') {
-              Map object = settings.arguments;
-              return MaterialPageRoute(
-                builder: (BuildContext context) => ChatPage(
-                  consultation: object['consultation'],
-                  currentUser: object['user'],
-                  role: object['type'],
-                  fullName: object['full_name'],
-                ),
-              );
-            }
-          },
-        ));
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: THEME,
+      routes: {
+        '/': (BuildContext context) => BottomNavigation(
+            modeColor: Theme.of(context).accentColor,
+            pageOptions: pageOptions(context),
+            barItems: barItems(context)),
+      },
+      onGenerateRoute: (RouteSettings settings) {
+        if (settings.name == '/chat_page') {
+          Map object = settings.arguments;
+          return MaterialPageRoute(
+            builder: (BuildContext context) => ChatPage(
+              consultation: object['consultation'],
+              currentUser: object['user'],
+              role: object['type'],
+              fullName: object['full_name'],
+            ),
+          );
+        }
+      },
+    );
   }
 
   @override

@@ -56,62 +56,65 @@ class FertilityPeriodScreenState extends State<FertilityPeriodScreen> {
         Expanded(
             child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
-          child: Container(
-              child: Column(
-            children: <Widget>[
-              buildHeaderTitle(),
-              SizedBox(
-                height: 60,
-              ),
-              Container(
+          child: SingleChildScrollView(
+            child: Container(
+              height: MediaQuery.of(context).size.height,
                 child: Column(
-                  children: <Widget>[
-                    NumberPicker.integer(
-                        initialValue: _currentValue,
-                        minValue: 1,
-                        maxValue: 100,
-                        onChanged: (newValue) {
-                          setState(() => _currentValue = newValue);
-                        }),
-                    Container(
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Text(
-                              _currentValue.toString(),
-                              style: TextStyle(
-                                fontSize: ScreenUtil().setSp(65),
-                                fontWeight: FontWeight.w400,
-                                color: Colors.black,
-                              ),
-                            ),
-                            SizedBox(
-                              width: 7,
-                            ),
-                            Text(
-                              "дней",
-                              style: TextStyle(
-                                fontSize: ScreenUtil().setSp(60),
-                                fontWeight: FontWeight.w200,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ]),
-                    ),
-                  ],
+              children: <Widget>[
+                buildHeaderTitle(),
+                SizedBox(
+                  height: 30,
                 ),
-              ),
-            ],
-          )),
+                Container(
+                  child: Column(
+                    children: <Widget>[
+                      NumberPicker.integer(
+                          initialValue: _currentValue,
+                          minValue: 1,
+                          maxValue: 100,
+                          onChanged: (newValue) {
+                            setState(() => _currentValue = newValue);
+                          }),
+                      Container(
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Text(
+                                _currentValue.toString(),
+                                style: TextStyle(
+                                  fontSize: ScreenUtil().setSp(65),
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              SizedBox(
+                                width: 7,
+                              ),
+                              Text(
+                                "дней",
+                                style: TextStyle(
+                                  fontSize: ScreenUtil().setSp(60),
+                                  fontWeight: FontWeight.w200,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ]),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            )),
+          ),
         )),
         InkWell(
           onTap: () {
             var obj = new RegistrationModel(
                 firstname: widget._registrationModel.firstname,
                 password: widget._registrationModel.password,
-                dateOfBirth: 20,
-                pushToken: "00",
-                surname: "sample",
+                dateOfBirth: widget._registrationModel.dateOfBirth,
+                pushToken: "0000000",
+                surname: widget._registrationModel.surname,
                 phone: widget._registrationModel.phone,
                 fertility: Fertility(
                     start: widget._registrationModel.fertility.start,
