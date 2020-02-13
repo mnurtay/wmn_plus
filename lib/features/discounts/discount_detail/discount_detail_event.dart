@@ -20,7 +20,7 @@ class UnDiscountDetailEvent extends DiscountDetailEvent {
 }
 
 class LoadDiscountDetailEvent extends DiscountDetailEvent {
-  final Map<String, int> route;
+  final Map<String, dynamic> route;
   @override
   String toString() => 'LoadDiscountDetailEvent';
 
@@ -34,8 +34,9 @@ class LoadDiscountDetailEvent extends DiscountDetailEvent {
         return currentState.getNewVersion();
       }
 
-      Discountdetail discountdetail =
-          await this._discountDetailRepository.fetchDiscountDetail(route["catId"], route["disId"]);
+      Discountdetail discountdetail = await this
+          ._discountDetailRepository
+          .fetchDiscountDetail(route["catId"], route["disId"]);
 
       return InDiscountDetailState(0, discountdetail);
     } catch (_, stackTrace) {

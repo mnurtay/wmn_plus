@@ -165,7 +165,6 @@ class FertilityCalendarScreenState extends State<FertilityCalendarScreen> {
           bool isThisMonthDay,
           DateTime day,
         ) {
-          // print(widget._currentTime.toLocal());
           if (result.babyDays.contains(day)) {
             return Container(
               width: 50,

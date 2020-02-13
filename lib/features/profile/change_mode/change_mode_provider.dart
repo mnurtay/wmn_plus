@@ -13,7 +13,7 @@ class ChangeModeProvider {
       User user = await UserRepository().getCurrentUser();
 
       Response response;
-      Map mp = {"climax": "climax"};
+      Map mp = {"klimax": "climax"};
       response = await post(
           'http://194.146.43.98:4000/api/v1/patient/changeRegime',
           body: json.encode(mp),

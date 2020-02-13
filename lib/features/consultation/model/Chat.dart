@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 class Chat extends Equatable {
   final String message;
   final String date;
+  final String type;
   final String time;
   final bool sendByMe;
 
   Chat(
-      {@required this.message,
+      {this.type,
+      @required this.message,
       @required this.date,
       @required this.time,
       @required this.sendByMe});
@@ -17,6 +19,8 @@ class Chat extends Equatable {
     String date = objectMap['date'].split('T')[0];
     String time = objectMap['date'].split('T')[1];
     Chat instance = Chat(
+       
+        type: objectMap['status'],
         message: objectMap['content'],
         sendByMe: objectMap['from'] == 'PAT',
         date: date,

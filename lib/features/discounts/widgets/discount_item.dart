@@ -19,15 +19,16 @@ class DiscountItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Map<String, int> route = Map();
+        Map<String, dynamic> route = Map();
         route["catId"] = this.catId;
         route["disId"] = this.result.id;
+        route["discountName"] = this.result.title.toString();
         Navigator.pushNamed(context, '/discount_detail', arguments: route);
       },
       child: Container(
           margin:
               EdgeInsets.only(bottom: ScreenUtil.getInstance().setHeight(25)),
-          height: ScreenUtil.getInstance().setHeight(450),
+          height: ScreenUtil.getInstance().setHeight(550),
           width: MediaQuery.of(context).size.width,
           child: Container(
             alignment: Alignment.bottomLeft,
@@ -59,7 +60,7 @@ class DiscountItem extends StatelessWidget {
                             fontWeight: FontWeight.w400),
                       ),
                       SizedBox(
-                        height: 12,
+                        height: 8,
                       ),
                       Text(
                         "Просмотрено: ${result.watched} раз",
@@ -72,7 +73,7 @@ class DiscountItem extends StatelessWidget {
                     ],
                   ),
                 ),
-                height: ScreenUtil.getInstance().setHeight(200),
+                height: 100,
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
                     color: Colors.white,

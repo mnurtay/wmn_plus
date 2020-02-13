@@ -8,6 +8,7 @@ import 'package:share/share.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:wmn_plus/features/auth/bloc/auth_bloc.dart';
 import 'package:wmn_plus/features/auth/bloc/auth_event.dart';
+import 'package:wmn_plus/features/auth/model/User.dart';
 import 'package:wmn_plus/features/profile/index.dart';
 import 'package:wmn_plus/locale/app_localization.dart';
 
@@ -38,7 +39,7 @@ class ProfileScreenState extends State<ProfileScreen> {
 
   @override
   void dispose() {
-    _profileBloc.close();
+    // _profileBloc.close();
     super.dispose();
   }
 
@@ -139,7 +140,9 @@ class ProfileScreenState extends State<ProfileScreen> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           changeRegimeWidget(currentState.hello),
-
+          _buildCard(
+              title: "Изменить профиль",
+              navigate: () => Navigator.pushNamed(context, '/change_profile')),
           // _buildCard(
           //     title:
           //         AppLocalizations.of(context).tr('settings.language_settings'),
@@ -181,14 +184,16 @@ class ProfileScreenState extends State<ProfileScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(
-            state.hello,
-            style: TextStyle(
-                color: Colors.black.withOpacity(0.8),
-                fontFamily: 'HolyFat',
-                fontSize: 20,
-                fontWeight: FontWeight.w800),
-          ),
+          (state.hello.regime != "doctor")
+              ? Text(
+                  state.hello.firstname + " " + state.hello.surname,
+                  style: TextStyle(
+                      color: Colors.black.withOpacity(0.8),
+                      fontFamily: 'HolyFat',
+                      fontSize: 20,
+                      fontWeight: FontWeight.w800),
+                )
+              : Container()
           // Row(
           //   children: <Widget>[
           //     Padding(
@@ -270,15 +275,15 @@ class ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  changeRegimeWidget(String hello) {
-    print(hello);
-    if (hello != " ")
+  changeRegimeWidget(Result hello) {
+    print(hello.regime);
+    if (hello.regime == "climax" || hello.regime == "doctor")
+      return Container();
+    else
       return _buildCard(
           title: "Поменять режим",
           navigate: () {
             Navigator.pushNamed(context, "/settings_change_mode");
           });
-    else
-      return Container();
   }
 }

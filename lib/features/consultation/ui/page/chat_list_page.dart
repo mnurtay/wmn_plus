@@ -146,7 +146,7 @@ class _ChatListPageState extends State<ChatListPage> {
   }
 
   Widget chatListBody(BuildContext context) {
-    if (widget.type == "doctor") {
+    if (widget.type == "doctor" && consultations.isEmpty) {
       return Column(
         children: <Widget>[
           SizedBox(height: ScreenUtil().setHeight(50)),

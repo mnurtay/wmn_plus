@@ -22,6 +22,7 @@ class BlueHeader extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -33,6 +34,21 @@ class BlueHeader extends StatelessWidget {
                 color: Colors.white,
               ),
             ),
+            Row(
+              children: <Widget>[
+                Expanded(
+                  child: Container(),
+                ),
+                InkWell(
+                  onTap: (){
+                    Navigator.pushNamed(context, "/change_mode_fertility");
+                  },
+                    child: Icon(
+                  Icons.settings,
+                  color: Colors.white,
+                ))
+              ],
+            )
           ],
         ),
       ),

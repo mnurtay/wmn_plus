@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_launch/flutter_launch.dart';
+import 'package:flutter_open_whatsapp/flutter_open_whatsapp.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
@@ -274,33 +276,31 @@ class _ProductDetailScreenState extends State<ProductDetailScreen>
             width: double.infinity,
             height: 45.0,
             child: FlatButton(
-              shape: RoundedRectangleBorder(
-                side: BorderSide(
-                  color: true ? Colors.deepOrange : Colors.grey,
+                shape: RoundedRectangleBorder(
+                  side: BorderSide(
+                    color: true ? Colors.deepOrange : Colors.grey,
+                  ),
+                  borderRadius: BorderRadius.circular(4),
                 ),
-                borderRadius: BorderRadius.circular(4),
-              ),
-              child: Text(
-                true ? 'Купить сейчас' : 'OUT OF STOCK',
-                style: TextStyle(color: true ? Colors.deepOrange : Colors.grey),
-              ),
-              onPressed: true
-                  ? () {
-                      Scaffold.of(context).showSnackBar(processSnackbar);
-                      if (true) {
-                        model.addProduct(product: selectedProduct);
-                        print(selectedProduct.id + quantity);
-                        if (!model.isLoading) {
-                          Scaffold.of(context).showSnackBar(completeSnackbar);
-                          MaterialPageRoute route =
-                              MaterialPageRoute(builder: (context) => Cart());
+                child: Text(
+                  'Купить сейчас',
+                  style:
+                      TextStyle(color: true ? Colors.deepOrange : Colors.grey),
+                ),
+                onPressed: () async {
+                  Scaffold.of(context).showSnackBar(processWhatsAppSnackbar);
+                  int price = quantity * int.parse(selectedProduct.price);
+                  Map tempProduct = Map();
+                  tempProduct['Название'] = selectedProduct.title;
+                  tempProduct['Продукт ID'] = selectedProduct.id;
+                  tempProduct['Количество'] = quantity;
+                  tempProduct['Общая цена'] = price.toString() + " KZT";
 
-                          Navigator.push(context, route);
-                        }
-                      }
-                    }
-                  : () {},
-            ),
+                  String temp = jsonEncode(tempProduct);
+
+                  await FlutterOpenWhatsapp.sendSingleMessage(
+                      "+77028928915", temp);
+                }),
           ),
         );
       },
@@ -351,27 +351,27 @@ class _ProductDetailScreenState extends State<ProductDetailScreen>
   Widget addToCartFAB() {
     return ScopedModelDescendant<MainModel>(
       builder: (BuildContext context, Widget child, MainModel model) {
-       return FloatingActionButton(
-                child: Icon(
-                  Icons.shopping_cart,
-                  color: Colors.white,
-                ),
-                onPressed: true
-                    ? () {
-                        Scaffold.of(context).showSnackBar(processSnackbar);
-                        true
-                            ? model.addProduct(
-                                product: selectedProduct, quantity: quantity)
-                            : null;
-                        print(selectedProduct.id + quantity);
+        return FloatingActionButton(
+          child: Icon(
+            Icons.shopping_cart,
+            color: Colors.white,
+          ),
+          onPressed: true
+              ? () {
+                  Scaffold.of(context).showSnackBar(processSnackbar);
+                  true
+                      ? model.addProduct(
+                          product: selectedProduct, quantity: quantity)
+                      : null;
+                  print(selectedProduct.id + quantity);
 
-                        if (!model.isLoading) {
-                          Scaffold.of(context).showSnackBar(completeSnackbar);
-                        }
-                      }
-                    : () {},
-                backgroundColor: true ? Colors.deepOrange : Colors.grey,
-              );
+                  if (!model.isLoading) {
+                    Scaffold.of(context).showSnackBar(completeSnackbar);
+                  }
+                }
+              : () {},
+          backgroundColor: true ? Colors.deepOrange : Colors.grey,
+        );
       },
     );
   }
@@ -397,7 +397,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen>
           padding: EdgeInsets.all(10),
           child: RichText(
             text: TextSpan(children: [
-              
               TextSpan(text: '   '),
               TextSpan(
                   text: value,

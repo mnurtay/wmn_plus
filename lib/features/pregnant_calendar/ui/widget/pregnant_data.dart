@@ -146,35 +146,26 @@ class _PregnantDataState extends State<PregnantData> {
       );
     }
     return Column(
+      mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text(
-          "${getInstructionDate(instruction.fromDate)} - ${getInstructionDate(instruction.toDate)}",
-          style: TextStyle(
-            fontSize: ScreenUtil().setSp(45),
-            color: Colors.grey,
-          ),
-        ),
-        SizedBox(height: ScreenUtil().setHeight(15)),
+        // Text(
+        //   "${getInstructionDate(instruction.fromDate)} - ${getInstructionDate(instruction.toDate)}",
+        //   style: TextStyle(
+        //     fontSize: ScreenUtil().setSp(45),
+        //     color: Colors.grey,
+        //   ),
+        // ),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: instruction.messages.map((item) {
-            return Container(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Container(
-                    width: 5,
-                    height: 5,
-                    decoration: BoxDecoration(
-                      color: Colors.black,
-                      shape: BoxShape.circle,
-                    ),
-                  ),
-                  SizedBox(width: ScreenUtil().setWidth(20)),
-                  Text(item),
-                ],
-              ),
+            return Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: Text(item,
+                  style: TextStyle(
+                      fontFamily: 'HolyFat',
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600)),
             );
           }).toList(),
         ),
@@ -195,7 +186,7 @@ class _PregnantDataState extends State<PregnantData> {
         ),
         SizedBox(height: ScreenUtil().setHeight(10)),
         Text(
-          'Неделя ${pregnant.week}, День ${pregnant.day}',
+          'Неделя ${pregnant.week}',
           style: TextStyle(
             fontSize: ScreenUtil().setSp(50),
             color: Colors.black,

@@ -23,6 +23,7 @@ import 'package:wmn_plus/features/profile/change_mode/change_mode_fertility/chan
 import 'package:wmn_plus/features/profile/change_mode/change_mode_fertility/change_mode_fertility_period/change_mode_fertility_period_page.dart';
 import 'package:wmn_plus/features/profile/change_mode/change_mode_page.dart';
 import 'package:wmn_plus/features/profile/change_mode/change_mode_pregnancy/change_mode_pregnancy_page.dart';
+import 'package:wmn_plus/features/profile/changeprofile/changeprofile_page.dart';
 import 'package:wmn_plus/features/profile/profile_page.dart';
 import 'package:wmn_plus/features/profile/screen/language/index.dart';
 import 'package:wmn_plus/features/shop/buy_product/buy_product_page.dart';
@@ -123,6 +124,7 @@ class _PregnantRoutes extends State<AuthenticatedPregnantRoutes> {
             ChangeModeFertilityPage(),
         '/change_mode_pregnancy': (BuildContext context) =>
             ChangeModePregnancyPage(),
+        '/change_profile': (BuildContext context) => ChangeprofilePage(),
       },
       onGenerateRoute: (RouteSettings settings) {
         if (settings.name == "/about_us") {

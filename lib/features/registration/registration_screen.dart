@@ -167,15 +167,19 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                               birthDayDate =
                                   "${date.month}/${date.day}/${date.year}";
                               if (date.day < 10) {
-                                if (date.month < 10)
+                                if (date.month <= DateTime.september)
                                   birthDayForServer =
                                       "${date.year}0${date.month}0${date.day}";
                                 else
                                   birthDayForServer =
                                       "${date.year}${date.month}0${date.day}";
                               } else {
-                                birthDayForServer =
-                                    "${date.year}${date.month}${date.day}";
+                                if (date.month <= DateTime.september)
+                                  birthDayForServer =
+                                      "${date.year}0${date.month}${date.day}";
+                                else
+                                  birthDayForServer =
+                                      "${date.year}${date.month}${date.day}";
                               }
                             });
                           }, onConfirm: (date) {
@@ -183,15 +187,19 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                               birthDayDate =
                                   "${date.month}/${date.day}/${date.year}";
                               if (date.day < 10) {
-                                if (date.month < 10)
+                                if (date.month <= DateTime.september)
                                   birthDayForServer =
                                       "${date.year}0${date.month}0${date.day}";
                                 else
                                   birthDayForServer =
                                       "${date.year}${date.month}0${date.day}";
                               } else {
-                                birthDayForServer =
-                                    "${date.year}${date.month}${date.day}";
+                                if (date.month <= DateTime.september)
+                                  birthDayForServer =
+                                      "${date.year}0${date.month}${date.day}";
+                                else
+                                  birthDayForServer =
+                                      "${date.year}${date.month}${date.day}";
                               }
                             });
                           },
@@ -261,8 +269,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         GestureDetector(
                           onTap: () {
                             Navigator.pushNamed(context, "/about_us",
-                                arguments:
-                                    "https://wmn-plus.flycricket.io/privacy.html");
+                                arguments: "http://194.146.43.98/privacy");
                           },
                           child: Text(
                             "Политикой конфиденциальности и Условиями использования",
@@ -303,8 +310,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           GestureDetector(
                             onTap: () {
                               Navigator.pushNamed(context, "/about_us",
-                                  arguments:
-                                      "https://wmn-plus.flycricket.io/privacy.html");
+                                  arguments: "http://194.146.43.98/privacy");
                             },
                             child: Text(
                               "Политике конфиденциальности",
@@ -354,7 +360,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         _controllerPasswordVerification.text.isEmpty) {
       showInSnackBar("Поле пароль пусто, заполните пожалуйста");
     } else if (!birthDayDate.contains('/')) {
-      showInSnackBar("Выберит�� дату рождения");
+      showInSnackBar("Выберите дату рождения");
     } else if (!policy) {
       showInSnackBar("Соглашения с политикой конфиденциальности");
     } else if (_controllerPass.text.length < 5 &&

@@ -33,7 +33,7 @@ class Result {
   String password;
   String regime;
   String language;
-  int dateOfBirth;
+  String dateOfBirth;
   Pregnancy pregnancy;
   Fertility fertility;
 
@@ -59,9 +59,9 @@ class Result {
     surname = json['surname'];
     regime = json['regime'];
     phone = json['phone'];
+    dateOfBirth = json['dateOfBirth'].toString();
     password = json['password'];
     language = json['language'];
-    dateOfBirth = json['age'];
     pregnancy = json['pregnancy'] != null
         ? new Pregnancy.fromJson(json['pregnancy'])
         : null;
@@ -78,10 +78,10 @@ class Result {
     data['firstname'] = this.firstname;
     data['surname'] = this.surname;
     data['phone'] = this.phone;
+    data['dateOfBirth'] = this.dateOfBirth;
     data['regime'] = this.regime;
     data['password'] = this.password;
     data['language'] = this.language;
-    data['age'] = this.dateOfBirth;
     if (this.pregnancy != null) {
       data['pregnancy'] = this.pregnancy.toJson();
     }
@@ -96,7 +96,7 @@ class Result {
       return "ru";
     else if (this.language == "eng")
       return "en";
-    else 
+    else
       return "kk";
   }
 }

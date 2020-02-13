@@ -29,6 +29,7 @@ class RegistrationModeBloc
     try {
       if (event is CompleteRegistrationModeEvent) {
         //climax
+        print(event.registrationModel.toJson());
         var user = await _pregnantModeRepository
             .requestUserClimaxRegistration(event.registrationModel);
         if (user.result.token.isNotEmpty)

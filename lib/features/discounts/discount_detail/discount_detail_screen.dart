@@ -9,13 +9,13 @@ class DiscountDetailScreen extends StatefulWidget {
   const DiscountDetailScreen({
     Key key,
     @required DiscountDetailBloc discountDetailBloc,
-    @required Map<String, int> route,
+    @required Map<String, dynamic> route,
   })  : _discountDetailBloc = discountDetailBloc,
         _route = route,
         super(key: key);
 
   final DiscountDetailBloc _discountDetailBloc;
-  final Map<String, int> _route;
+  final Map<String, dynamic> _route;
 
   @override
   DiscountDetailScreenState createState() {

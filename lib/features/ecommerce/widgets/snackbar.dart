@@ -6,6 +6,10 @@ final processSnackbar = SnackBar(
   content: Text('Добавление товара в корзину...'),
   duration: Duration(seconds: 1),
 );
+final processWhatsAppSnackbar = SnackBar(
+  content: Text('Отправка товара в WhatsApp...'),
+  duration: Duration(seconds: 1),
+);
 final completeSnackbar = SnackBar(
   content: Text('Товар успешно добавлен в корзину!'),
   duration: Duration(seconds: 1),

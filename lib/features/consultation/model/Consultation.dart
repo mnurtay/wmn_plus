@@ -30,7 +30,7 @@ class Consultation extends Equatable {
       String date = objectMap['history']['date'].split('T')[0];
       instance = Consultation(
           id: objectMap['id'],
-          messageContent: objectMap['history']['content'],
+          messageContent: objectMap['history']['content'].toString().length < 200 ? objectMap['history']['content'] : "Картинка",
           messageFromMe: objectMap['history']['from'] == 'PAT',
           date: date.replaceAll('-', '.'),
           newMessageCount: 0,

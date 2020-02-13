@@ -21,9 +21,11 @@ import 'package:wmn_plus/features/profile/change_mode/change_mode_fertility/chan
 import 'package:wmn_plus/features/profile/change_mode/change_mode_fertility/change_mode_fertility_period/index.dart';
 import 'package:wmn_plus/features/profile/change_mode/change_mode_page.dart';
 import 'package:wmn_plus/features/profile/change_mode/change_mode_pregnancy/change_mode_pregnancy_page.dart';
+import 'package:wmn_plus/features/profile/changeprofile/index.dart';
 import 'package:wmn_plus/features/profile/profile_page.dart';
 import 'package:wmn_plus/features/profile/screen/faq/faq.dart';
 import 'package:wmn_plus/features/profile/screen/language/language_page.dart';
+import 'package:wmn_plus/features/registration/registration_screen.dart';
 import 'package:wmn_plus/features/shop/buy_product/buy_product_page.dart';
 import 'package:wmn_plus/features/shop/product_detail/product_detail_page.dart';
 import 'package:wmn_plus/features/shop/sub_category_detail/index.dart';
@@ -104,6 +106,7 @@ class _ClimaxRoutes extends State<AuthenticatedClimaxRoutes> {
             ChangeModeFertilityPage(),
         '/change_mode_pregnancy': (BuildContext context) =>
             ChangeModePregnancyPage(),
+        '/change_profile': (BuildContext context) => ChangeprofilePage(),
       },
       onGenerateRoute: (RouteSettings settings) {
         if (settings.name == "/about_us") {

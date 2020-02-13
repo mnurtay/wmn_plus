@@ -177,37 +177,39 @@ mixin CartModel on Model {
     int totalPrice = 0;
     try {
       sharedOrder = jsonDecode(prefs.getString('order'));
+
+      int totalLinePrice = 0;
+      if (sharedOrder != null) {
+        _lineItems.clear();
+        print(sharedOrder.toString());
+        sharedOrder.forEach((v) {
+          lineItem = LineItem(
+              image: v['product']['image_url'].toString(),
+              id: v['product']['id'],
+              productId: v['product']['id'],
+              subCategoryId: v['product']['subId'],
+              categoryId: v['product']['catId'],
+              count: v['quantity'],
+              title: v['product']['title'],
+              price: int.parse(v['product']['price']));
+          totalLinePrice = int.parse(v['product']['price']) * v['quantity'];
+          totalPrice += totalLinePrice;
+          _lineItems.add(lineItem);
+        });
+
+        order = Order(
+          totalPrice: totalPrice.toString(),
+          count: _lineItems.length.toString(),
+          lineItems: _lineItems,
+        );
+
+        orderString = jsonEncode(order);
+        print("ORDER STRING " + prefs.getString('order'));
+
+        _isLoading = false;
+        notifyListeners();
+      }
     } catch (exp) {
-      _isLoading = false;
-    }
-    int totalLinePrice = 0;
-    if (sharedOrder != null) {
-      _lineItems.clear();
-      print(sharedOrder.toString());
-      sharedOrder.forEach((v) {
-        lineItem = LineItem(
-            image: v['product']['image_url'].toString(),
-            id: v['product']['id'],
-            productId: v['product']['id'],
-            subCategoryId: v['product']['subId'],
-            categoryId: v['product']['catId'],
-            count: v['quantity'],
-            title: v['product']['title'],
-            price: int.parse(v['product']['price']));
-        totalLinePrice = int.parse(v['product']['price']) * v['quantity'];
-        totalPrice += totalLinePrice;
-        _lineItems.add(lineItem);
-      });
-
-      order = Order(
-        totalPrice: totalPrice.toString(),
-        count: _lineItems.length.toString(),
-        lineItems: _lineItems,
-      );
-
-      orderString = jsonEncode(order);
-      print("ORDER STRING " + prefs.getString('order'));
-
       _isLoading = false;
       notifyListeners();
     }

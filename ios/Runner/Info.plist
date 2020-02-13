@@ -2,6 +2,12 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Microphone uses to record patients messages in audio format </string>
+	<key>NSCameraUsageDescription</key>
+	<string>Camera uses for taking photo of medial documents of patients of the chat </string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Photo uses for sending the images of medical documents of the chat</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
