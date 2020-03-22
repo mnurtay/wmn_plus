@@ -30,11 +30,13 @@ class NewsItem extends StatelessWidget {
               padding: EdgeInsets.all(ScreenUtil.getInstance().setHeight(50)),
               child: Text(data.name,
                   style: TextStyle(
-                      fontSize: ScreenUtil.getInstance().setSp(50),
+                      fontWeight: FontWeight.w500,
+                      fontSize: ScreenUtil.getInstance().setSp(40),
                       color: Colors.white)),
             ),
             decoration: BoxDecoration(
-                color: Colors.black12, borderRadius: BorderRadius.circular(10)),
+                color: Colors.black.withOpacity(0.4),
+                borderRadius: BorderRadius.circular(10)),
           ),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),

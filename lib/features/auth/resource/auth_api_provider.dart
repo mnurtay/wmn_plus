@@ -15,9 +15,12 @@ class AuthApiProvider {
             "Authorization": "wmn538179",
           });
       String body = utf8.decode(response.bodyBytes);
+      print(body);
       var user = User.fromJson(jsonDecode(body));
       return user;
     } catch (error) {
+            print(error.toString());
+
       throw (error.toString());
     }
   }

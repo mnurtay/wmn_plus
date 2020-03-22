@@ -44,7 +44,7 @@ class _ChatListPageState extends State<ChatListPage> {
         if (state is AuthenticatedDoctorAuthState) {
           url = 'ws://194.146.43.98:8080/convlist?role=DOC&token=';
           url += state.user.result.token;
-
+          print(url);
           IOWebSocketChannel channel = IOWebSocketChannel.connect(url);
           return Scaffold(
             backgroundColor: Color(0xFFF5F5F5),
@@ -82,6 +82,7 @@ class _ChatListPageState extends State<ChatListPage> {
         } else {
           url += state.user.result.token;
           currentUser = state.user;
+          print(url);
 
           IOWebSocketChannel channel = IOWebSocketChannel.connect(url);
           return Scaffold(
@@ -117,7 +118,7 @@ class _ChatListPageState extends State<ChatListPage> {
   }
 
   Widget chatList(BuildContext context, IOWebSocketChannel channel) {
-    return StreamBuilder(
+    return new StreamBuilder(
       stream: channel.stream,
       builder: (context, snapshot) {
         if (snapshot.hasData && snapshot.data != oldData) {
@@ -146,6 +147,29 @@ class _ChatListPageState extends State<ChatListPage> {
   }
 
   Widget chatListBody(BuildContext context) {
+    if (widget.type == "doctor" && consultations.isEmpty) {
+      return Column(
+        children: <Widget>[
+          SizedBox(height: ScreenUtil().setHeight(50)),
+          Container(
+            alignment: Alignment.center,
+            padding: EdgeInsets.symmetric(
+              vertical: ScreenUtil().setHeight(30),
+            ),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.all(
+                Radius.circular(ScreenUtil().setSp(30)),
+              ),
+            ),
+            child: Text(
+              'Здесь автоматический появится список сообщении',
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ],
+      );
+    }
     if (consultations.isEmpty) {
       return Column(
         children: <Widget>[
@@ -174,15 +198,14 @@ class _ChatListPageState extends State<ChatListPage> {
         String name = "";
         String search = "";
         String surname = "";
-        print(item.pat.firstname);
         if (widget.type == "doctor") {
-          search = searchController.text.toLowerCase();
-          name = item.pat.firstname.toLowerCase();
-          surname = item.pat.surname.toLowerCase();
+          search = searchController.text;
+          name = item.pat.firstname;
+          surname = item.pat.surname;
         } else {
-          search = searchController.text.toLowerCase();
-          name = item.doctor.firstName.toLowerCase();
-          surname = item.doctor.surname.toLowerCase();
+          search = searchController.text;
+          name = item.doctor.firstName;
+          surname = item.doctor.surname;
         }
 
         if (search.isEmpty ||
@@ -225,61 +248,92 @@ class _ChatListPageState extends State<ChatListPage> {
         padding: EdgeInsets.symmetric(
             vertical: ScreenUtil().setHeight(30),
             horizontal: ScreenUtil().setWidth(30)),
-        margin: EdgeInsets.only(bottom: ScreenUtil().setHeight(30)),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
+        margin: EdgeInsets.only(bottom: ScreenUtil().setHeight(10)),
+        child: Column(
           children: <Widget>[
-            // --- DOCTOR IMAGE
-            doctorAvatar(context, consultation),
-            // --- CHAT INFORMATION
-            SizedBox(width: ScreenUtil().setWidth(35)),
-            Expanded(
-              child: Container(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                // --- DOCTOR IMAGE
+                doctorAvatar(context, consultation, currentUser.result.regime),
+                // --- CHAT INFORMATION
+                SizedBox(width: ScreenUtil().setWidth(35)),
+                Expanded(
+                  child: Container(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
-                        userTitle(name, surname),
-                        consultation.newMessageCount != 0
-                            ? Container(
-                                width: 30,
-                                height: 30,
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle, color: Colors.red),
-                                child: Center(
-                                  child: Text('${consultation.newMessageCount}',
-                                      style: TextStyle(color: Colors.white)),
-                                ),
-                              )
-                            : Text('${consultation.date}',
-                                style: Theme.of(context).textTheme.display2),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            userTitle(name, surname),
+                            consultation.newMessageCount != 0
+                                ? Container(
+                                    width: 30,
+                                    height: 30,
+                                    decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: Colors.red),
+                                    child: Center(
+                                      child: Text(
+                                          '${consultation.newMessageCount}',
+                                          style:
+                                              TextStyle(color: Colors.white)),
+                                    ),
+                                  )
+                                : Text('${consultation.date}',
+                                    style:
+                                        Theme.of(context).textTheme.display2),
+                          ],
+                        ),
+                        SizedBox(height: ScreenUtil().setHeight(10)),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            Text(
+                              "Вы:",
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                  fontFamily: 'HolyFat',
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w300),
+                            ),
+                            Text(
+                              consultation.messageFromMe
+                                  ? "${consultation.messageContent}"
+                                  : consultation.messageContent,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                  fontFamily: 'HolyFat',
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w200),
+                            ),
+                          ],
+                        ),
                       ],
                     ),
-                    SizedBox(height: ScreenUtil().setHeight(10)),
-                    Text(
-                      consultation.messageFromMe
-                          ? "Вы: ${consultation.messageContent}"
-                          : consultation.messageContent,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.display2,
-                    ),
-                  ],
+                  ),
                 ),
-              ),
+              ],
             ),
+            Container(
+                margin: EdgeInsets.only(top: 10),
+                height: 1,
+                color: Colors.grey.withOpacity(0.3))
           ],
         ),
       ),
     );
   }
 
-  Widget doctorAvatar(BuildContext context, Consultation consultation) {
-    if (consultation.doctor.image == '') {
+  Widget doctorAvatar(
+      BuildContext context, Consultation consultation, String type) {
+    if (consultation.doctor.image == '' || type == 'doctor') {
       return Container(
         width: 70,
         height: 70,
@@ -304,8 +358,7 @@ class _ChatListPageState extends State<ChatListPage> {
       width: 70,
       height: 70,
       decoration: BoxDecoration(
-          borderRadius:
-              BorderRadius.all(Radius.circular(ScreenUtil().setSp(40))),
+          shape: BoxShape.circle,
           color: Color(0xFFF5F5F5),
           image: DecorationImage(
               image: NetworkImage(consultation.doctor.image),

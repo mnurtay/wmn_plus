@@ -17,6 +17,7 @@ class ChatApiProvider {
         '$BACKEND_URL/api/v1/patient/doctors/$categoryId',
         headers: {"Authorization": 'wmn538179 $token'},
       );
+      print(utf8.decode(response.bodyBytes));
     } catch (e) {
       throw (e);
     }

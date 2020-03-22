@@ -340,6 +340,8 @@ class FertilityModeScreenState extends State<FertilityModeScreen> {
       firstname: widget._registrationModel.firstname,
       password: widget._registrationModel.password,
       phone: widget._registrationModel.phone,
+      dateOfBirth: widget._registrationModel.dateOfBirth,
+      surname: widget._registrationModel.surname,
       fertility: Fertility(start: "${widget._varCurrentTime.year}$month$day"),
     );
     print(obj.toJson().toString());

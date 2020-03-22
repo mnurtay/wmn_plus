@@ -62,7 +62,7 @@ class Doctor extends Equatable {
         firstName: objectMap['firstname'],
         surname: objectMap['surname'],
         secondName: objectMap['secondname'],
-        image: objectMap['image_url'],
+        image: "http://194.146.43.98:4000/image?uri="+objectMap['image_url'],
         token: objectMap['token'],
         positionId: objectMap['positionId'],
         experience: objectMap['experience'],

@@ -107,9 +107,9 @@ class PregnantModeScreenState extends State<PregnantModeScreen> {
           onTap: () {
             var obj = new RegistrationModel(
                 firstname: widget._registrationModel.firstname,
-                surname: "surname",
-                dateOfBirth: 21,
-                pushToken: "00",
+                surname: widget._registrationModel.surname,
+                dateOfBirth: widget._registrationModel.dateOfBirth,
+                pushToken: "0000000",
                 password: widget._registrationModel.password,
                 phone: widget._registrationModel.phone,
                 pregnancy: Pregnancy(week: _currentValue));

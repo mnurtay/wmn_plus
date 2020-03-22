@@ -11,6 +11,9 @@ class BuyProductProvider {
   Future<BReponse.ResponseJson> postRequestBuyProduct(
       BReponse.BuyProduct product) async {
     Response response;
+
+    print(jsonEncode(product.toJson()));
+
     try {
       var userRepo = UserRepository();
       User user = await userRepo.getCurrentUser();
@@ -20,7 +23,7 @@ class BuyProductProvider {
                 "Content-Type": "application/json",
                 "Authorization": "wmn538179 ${user.result.token}",
               },
-              body: json.encode(product));
+              body: json.encode(product.toJson()));
       String body = utf8.decode(response.bodyBytes);
       Map shopObj = json.decode(body);
       var shop = BReponse.ResponseJson.fromJson(shopObj);

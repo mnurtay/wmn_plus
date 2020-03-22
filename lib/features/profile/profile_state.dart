@@ -1,12 +1,13 @@
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
+import 'package:wmn_plus/features/auth/model/User.dart';
 
 abstract class ProfileState extends Equatable {
   /// notify change state without deep clone state
   final int version;
-  
+
   final Iterable propss;
-  ProfileState(this.version,[this.propss]);
+  ProfileState(this.version, [this.propss]);
 
   /// Copy object for use in action
   /// if need use deep clone
@@ -20,7 +21,6 @@ abstract class ProfileState extends Equatable {
 
 /// UnInitialized
 class UnProfileState extends ProfileState {
-
   UnProfileState(version) : super(version);
 
   @override
@@ -33,13 +33,13 @@ class UnProfileState extends ProfileState {
 
   @override
   UnProfileState getNewVersion() {
-    return UnProfileState(version+1);
+    return UnProfileState(version + 1);
   }
 }
 
 /// Initialized
 class InProfileState extends ProfileState {
-  final String hello;
+  final Result hello;
 
   InProfileState(version, this.hello) : super(version, [hello]);
 
@@ -53,15 +53,16 @@ class InProfileState extends ProfileState {
 
   @override
   InProfileState getNewVersion() {
-    return InProfileState(version+1, this.hello);
+    return InProfileState(version + 1, this.hello);
   }
 }
 
 class ErrorProfileState extends ProfileState {
   final String errorMessage;
 
-  ErrorProfileState(version, this.errorMessage): super(version, [errorMessage]);
-  
+  ErrorProfileState(version, this.errorMessage)
+      : super(version, [errorMessage]);
+
   @override
   String toString() => 'ErrorProfileState';
 
@@ -72,6 +73,6 @@ class ErrorProfileState extends ProfileState {
 
   @override
   ErrorProfileState getNewVersion() {
-    return ErrorProfileState(version+1, this.errorMessage);
+    return ErrorProfileState(version + 1, this.errorMessage);
   }
 }

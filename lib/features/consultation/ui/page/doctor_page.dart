@@ -31,11 +31,30 @@ class _DoctorPageState extends State<DoctorPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFEFEFEF),
       appBar: appBar(context),
+      backgroundColor: Colors.white,
       body: DoctorData(
         doctor: widget.doctor,
         onPressButton: this.onPressConsultationButton,
+      ),
+      bottomNavigationBar: button(context),
+    );
+  }
+
+  Widget button(BuildContext context) {
+    return Container(
+      height: 60,
+      width: ScreenUtil().width,
+      child: RaisedButton(
+        onPressed: () => onPressConsultationButton(),
+        padding: EdgeInsets.symmetric(vertical: ScreenUtil().setHeight(30)),
+        color: Colors.purpleAccent,
+        child: Text('Консультироваться',
+            style: TextStyle(
+                fontFamily: 'HolyFat',
+                fontWeight: FontWeight.w500,
+                fontSize: ScreenUtil.getInstance().setSp(50),
+                color: Colors.white)),
       ),
     );
   }
@@ -120,6 +139,7 @@ class _DoctorPageState extends State<DoctorPage> {
   }
 
   Widget paymentContent(BuildContext context, Map payment) {
+    print(widget.doctor);
     return Container(
       padding: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(25)),
       alignment: Alignment.center,
@@ -229,10 +249,11 @@ class _DoctorPageState extends State<DoctorPage> {
       builder: (BuildContext context) {
         return Container(
           color: Color(0XFF737373),
+          alignment: Alignment.center,
           height: ScreenUtil().setHeight(600),
           child: Container(
             decoration: BoxDecoration(
-              color: Colors.black,
+              color: Colors.white,
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(ScreenUtil().setWidth(45)),
                 topRight: Radius.circular(ScreenUtil().setWidth(45)),

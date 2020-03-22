@@ -17,7 +17,7 @@ class ProfilPage extends StatelessWidget {
   Widget appBar(BuildContext context) {
     return AppBar(
         title: Text(
-          AppLocalizations.of(context).tr('profil'),
+          "Профиль",
           style: TextStyle(color: Colors.black),
         ),
         backgroundColor: Colors.white,

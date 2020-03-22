@@ -8,7 +8,6 @@ import 'package:meta/meta.dart';
 abstract class FertilityDurationEvent {
   Future<FertilityDurationState> applyAsync(
       {FertilityDurationState currentState, FertilityDurationBloc bloc});
-  final FertilityDurationRepository _fertilityDurationRepository = FertilityDurationRepository();
 }
 
 class UnFertilityDurationEvent extends FertilityDurationEvent {
@@ -33,8 +32,7 @@ class LoadFertilityDurationEvent extends FertilityDurationEvent {
       if (currentState is InFertilityDurationState) {
         return currentState.getNewVersion();
       }
-      // await Future.delayed(Duration(seconds: 2));
-      this._fertilityDurationRepository.test(this.isError);
+    
       return InFertilityDurationState(0, "Hello world");
     } catch (_, stackTrace) {
       developer.log('$_', name: 'LoadFertilityDurationEvent', error: _, stackTrace: stackTrace);

@@ -14,13 +14,13 @@ abstract class ProfileEvent {
 
 class UnProfileEvent extends ProfileEvent {
   @override
-  Future<ProfileState> applyAsync({ProfileState currentState, ProfileBloc bloc}) async {
+  Future<ProfileState> applyAsync(
+      {ProfileState currentState, ProfileBloc bloc}) async {
     return UnProfileState(0);
   }
 }
 
 class LoadProfileEvent extends ProfileEvent {
-   
   final bool isError;
   @override
   String toString() => 'LoadProfileEvent';
@@ -32,12 +32,10 @@ class LoadProfileEvent extends ProfileEvent {
       {ProfileState currentState, ProfileBloc bloc}) async {
     try {
       User user = await UserRepository().getCurrentUser();
-      if (user.result.regime == "doctor")
-        return InProfileState(0, " ");
-      else 
-        return InProfileState(0, user.result.firstname);
+      return InProfileState(0, user.result);
     } catch (_, stackTrace) {
-      developer.log('$_', name: 'LoadProfileEvent', error: _, stackTrace: stackTrace);
+      developer.log('$_',
+          name: 'LoadProfileEvent', error: _, stackTrace: stackTrace);
       return ErrorProfileState(0, _?.toString());
     }
   }

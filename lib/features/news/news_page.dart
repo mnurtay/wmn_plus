@@ -46,7 +46,7 @@ class _NewsPageState extends State<NewsPage> {
   Widget appBar(BuildContext context) {
     return AppBar(
         title: Text(
-          AppLocalizations.of(context).tr('news'), style: TextStyle(color: Colors.black)
+          "Новости", style: TextStyle(color: Colors.black)
         ),
         backgroundColor: Colors.white,
         centerTitle: false,

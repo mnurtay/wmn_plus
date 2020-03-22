@@ -4,7 +4,7 @@ class RegistrationModel {
   String password;
   String phone;
   String pushToken;
-  int dateOfBirth;
+  String dateOfBirth;
   Fertility fertility;
   Pregnancy pregnancy;
   String climax;
@@ -26,7 +26,7 @@ class RegistrationModel {
     password = json['password'];
     pushToken = json['pushToken'];
     phone = json['phone'];
-    dateOfBirth = json['age'];
+    dateOfBirth = json['dateOfBirth'];
     fertility = json['fertility'] != null
         ? new Fertility.fromJson(json['fertility'])
         : null;
@@ -43,7 +43,7 @@ class RegistrationModel {
     data['password'] = this.password;
     data['phone'] = this.phone;
     data['pregnancy'] = this.pregnancy;
-    data['age'] = this.dateOfBirth;
+    data['dateOfBirth'] = this.dateOfBirth;
     if (this.fertility != null) {
       data['fertility'] = this.fertility.toJson();
     }

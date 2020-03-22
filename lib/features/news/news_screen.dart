@@ -73,7 +73,7 @@ class NewsScreenState extends State<NewsScreen> {
             Colors.white,
           ])),
       child: Padding(
-        padding: EdgeInsets.all(ScreenUtil.getInstance().setHeight(30)),
+        padding: EdgeInsets.fromLTRB(16, 0, 16, 10),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,

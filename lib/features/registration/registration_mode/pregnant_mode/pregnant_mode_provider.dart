@@ -15,9 +15,9 @@ class PregnantModeProvider {
     try {
       RegistrationModel model = new RegistrationModel(
         firstname: registrationModel.firstname,
-        surname: "Untitled",
+        surname: registrationModel.surname,
         password: registrationModel.password,
-        dateOfBirth: 21,
+        dateOfBirth: registrationModel.dateOfBirth,
         phone: registrationModel.phone,
         pushToken: token,
         pregnancy: Pregnancy(week: registrationModel.pregnancy.week),
@@ -40,20 +40,20 @@ class PregnantModeProvider {
     }
   }
 
-   Future<Us.User> registerUserClimax(RegistrationModel registrationModel) async {
+  Future<Us.User> registerUserClimax(
+      RegistrationModel registrationModel) async {
     Response response;
     var token = await UserRepository().getToken();
 
     try {
       RegistrationModel model = new RegistrationModel(
-        firstname: registrationModel.firstname,
-        surname: "Untitled",
-        password: registrationModel.password,
-        dateOfBirth: 21,
-        phone: registrationModel.phone,
-        pushToken: token,
-        climax: "climax"
-      );
+          firstname: registrationModel.firstname,
+          surname: registrationModel.surname,
+          password: registrationModel.password,
+          dateOfBirth: registrationModel.dateOfBirth,
+          phone: registrationModel.phone,
+          pushToken: token,
+          climax: "climax");
 
       response = await post(
           'http://194.146.43.98:4000/api/v1/patient/registration',

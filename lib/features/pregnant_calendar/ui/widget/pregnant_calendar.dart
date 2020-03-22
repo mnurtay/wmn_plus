@@ -77,6 +77,7 @@ class _PregnantCalendarState extends State<PregnantCalendar> {
         initialCalendarFormat: CalendarFormat.week,
         onDaySelected: (date, list) {
           final dateTime = DateTime.parse(date.toString().split(" ")[0]);
+          print(dateTime);
           pregnantBloc.add(SelectDatePregnantEvent(dateTime));
         },
       ),

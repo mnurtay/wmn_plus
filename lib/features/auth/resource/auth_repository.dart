@@ -99,7 +99,8 @@ class UserRepository {
   Future<void> deleteUser() async {
     /// delete from keystore/keychain
     SharedPreferences spInstance = await SharedPreferences.getInstance();
+    await spInstance.remove(spKey);
     // spInstance.remove(spKey);
-    spInstance.clear();
+    // spInstance.clear();
   }
 }

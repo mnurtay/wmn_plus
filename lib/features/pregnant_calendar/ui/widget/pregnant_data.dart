@@ -13,6 +13,7 @@ class PregnantData extends StatefulWidget {
 class _PregnantDataState extends State<PregnantData> {
   PregnantBloc pregnantBloc;
   Pregnant pregnant;
+  int week;
   PregnantInstruction instruction;
   DateTime selectedDate = DateTime.now();
 
@@ -36,6 +37,7 @@ class _PregnantDataState extends State<PregnantData> {
       pregnant.instructions.forEach((item) {
         if (selectedDate.compareTo(item.fromDate) >= 0) {
           if (selectedDate.compareTo(item.toDate) <= 0) {
+            week = item.week;
             instruction = item;
             check = true;
           }
@@ -106,6 +108,7 @@ class _PregnantDataState extends State<PregnantData> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 buildTitle(),
+                // buildBabyWeekImage(),
                 Container(
                   padding: EdgeInsets.symmetric(
                     vertical: ScreenUtil().setHeight(12),
@@ -145,35 +148,26 @@ class _PregnantDataState extends State<PregnantData> {
       );
     }
     return Column(
+      mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text(
-          "${getInstructionDate(instruction.fromDate)} - ${getInstructionDate(instruction.toDate)}",
-          style: TextStyle(
-            fontSize: ScreenUtil().setSp(45),
-            color: Colors.grey,
-          ),
-        ),
-        SizedBox(height: ScreenUtil().setHeight(15)),
+        // Text(
+        //   "${getInstructionDate(instruction.fromDate)} - ${getInstructionDate(instruction.toDate)}",
+        //   style: TextStyle(
+        //     fontSize: ScreenUtil().setSp(45),
+        //     color: Colors.grey,
+        //   ),
+        // ),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: instruction.messages.map((item) {
-            return Container(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Container(
-                    width: 5,
-                    height: 5,
-                    decoration: BoxDecoration(
-                      color: Colors.black,
-                      shape: BoxShape.circle,
-                    ),
-                  ),
-                  SizedBox(width: ScreenUtil().setWidth(20)),
-                  Text(item),
-                ],
-              ),
+            return Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: Text(item,
+                  style: TextStyle(
+                      fontFamily: 'HolyFat',
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600)),
             );
           }).toList(),
         ),
@@ -194,7 +188,7 @@ class _PregnantDataState extends State<PregnantData> {
         ),
         SizedBox(height: ScreenUtil().setHeight(10)),
         Text(
-          'Неделя ${pregnant.week}, День ${pregnant.day}',
+          'Неделя ${week}',
           style: TextStyle(
             fontSize: ScreenUtil().setSp(50),
             color: Colors.black,
@@ -216,5 +210,17 @@ class _PregnantDataState extends State<PregnantData> {
     String date = MONTH_NAME[selectedDate.month - 1];
     date += ' ${selectedDate.day}';
     return date;
+  }
+
+  buildBabyWeekImage() {
+    return pregnant.week == 3
+        ? Container(
+            color: Colors.lightBlue,
+            height: 10,
+          )
+        : Container(
+            color: Colors.lime,
+            height: 10,
+          );
   }
 }

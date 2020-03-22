@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:wmn_plus/features/shop/database/database.dart';
 import 'package:wmn_plus/features/shop/product_detail/product_detail_page.dart';
 
 import 'package:wmn_plus/features/shop/sub_category_products/sub_category_products_page.dart';
 
-class ProductsListItem extends StatelessWidget {
+class ProductsListItem extends StatefulWidget {
   final String name;
   final int currentPrice;
   final int originalPrice;
@@ -12,8 +13,9 @@ class ProductsListItem extends StatelessWidget {
   final int cat;
   final int sub;
   final int prodId;
+  final dbHelper = DatabaseHelper.instance;
 
-  const ProductsListItem(
+  ProductsListItem(
       {Key key,
       this.name,
       this.currentPrice,
@@ -24,6 +26,13 @@ class ProductsListItem extends StatelessWidget {
       this.sub,
       this.imageUrl})
       : super(key: key);
+
+  @override
+  _ProductsListItemState createState() => _ProductsListItemState();
+}
+
+class _ProductsListItemState extends State<ProductsListItem> {
+  bool added = false;
 
   @override
   Widget build(BuildContext context) {
@@ -40,10 +49,9 @@ class ProductsListItem extends StatelessWidget {
     return InkWell(
       onTap: () {
         Map<String, int> keyRoute = new Map();
-        keyRoute["cat"] = this.cat;
-        keyRoute["sub"] = this.sub;
-        keyRoute["id"] = this.prodId;
-        print("PIW $cat $sub $prodId");
+        keyRoute["cat"] = widget.cat;
+        keyRoute["sub"] = widget.sub;
+        keyRoute["id"] = widget.prodId;
 
         Navigator.pushNamed(context, ProductDetailPage.routeName,
             arguments: keyRoute);
@@ -60,38 +68,27 @@ class ProductsListItem extends StatelessWidget {
               children: <Widget>[
                 Container(
                   child: Image.network(
-                    imageUrl,
+                    widget.imageUrl,
                   ),
-                  height: 250.0,
+                  height: 200.0,
                   width: MediaQuery.of(context).size.width / 2.5,
-                ),
-                SizedBox(
-                  height: 8.0,
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     Text(
-                      name,
+                      widget.name,
                       style: TextStyle(fontSize: 16.0, color: Colors.grey),
                     ),
-                    SizedBox(
-                      height: 2.0,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        Text(
-                          "$currentPrice KZT",
-                          style: TextStyle(fontSize: 16.0, color: Colors.black),
-                        ),
-                      ],
+                    Text(
+                      "${widget.currentPrice} KZT",
+                      style: TextStyle(fontSize: 14.0, color: Colors.black),
                     ),
                     SizedBox(
                       height: 8.0,
                     ),
+                    raisedButton(context),
                   ],
                 ),
               ],
@@ -100,5 +97,52 @@ class ProductsListItem extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Widget raisedButton(BuildContext context) {
+    if (!added)
+      return RaisedButton(
+        onPressed: () {
+          _insert();
+        },
+        child: Container(
+          padding: EdgeInsets.all(4),
+          width: MediaQuery.of(context).size.width,
+          child: Center(
+            child: Text(
+              "Добавить в корзину",
+              style: TextStyle(fontSize: 14.0, color: Colors.black),
+            ),
+          ),
+        ),
+      );
+    else
+      return Container(
+        padding: EdgeInsets.all(4),
+        color: Colors.greenAccent,
+        width: MediaQuery.of(context).size.width,
+        child: Center(
+          child: Text(
+            "Добавлено",
+            style: TextStyle(fontSize: 14.0, color: Colors.white),
+          ),
+        ),
+      );
+  }
+
+  void _insert() async {
+    // row to insert
+    Map<String, dynamic> row = {
+      DatabaseHelper.columnName: widget.name,
+      DatabaseHelper.columnPrice: widget.currentPrice,
+      DatabaseHelper.columnProdId: widget.prodId
+    };
+    print(row.toString());
+    final id = await widget.dbHelper.insert(row);
+
+    setState(() {
+      print("$id inserted");
+      added = !added;
+    });
   }
 }

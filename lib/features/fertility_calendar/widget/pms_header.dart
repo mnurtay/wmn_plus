@@ -41,6 +41,20 @@ class PMSHeader extends StatelessWidget {
                 color: Colors.black,
               ),
             ),
+            Row(
+              children: <Widget>[
+                Expanded(
+                  child: Container(),
+                ),
+                InkWell(
+                    onTap: () {
+                      Navigator.pushNamed(context, "/change_mode_fertility");
+                    },
+                    child: Icon(
+                      Icons.settings,
+                    ))
+              ],
+            )
           ],
         ),
       ),
