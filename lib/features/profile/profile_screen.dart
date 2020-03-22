@@ -139,7 +139,7 @@ class ProfileScreenState extends State<ProfileScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          changeRegimeWidget(currentState.hello),
+          changeRegimeWidget(),
           _buildCard(
               title: "Изменить профиль",
               navigate: () => Navigator.pushNamed(context, '/change_profile')),
@@ -275,15 +275,11 @@ class ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  changeRegimeWidget(Result hello) {
-    print(hello.regime);
-    if (hello.regime == "climax" || hello.regime == "doctor")
-      return Container();
-    else
-      return _buildCard(
-          title: "Поменять режим",
-          navigate: () {
-            Navigator.pushNamed(context, "/settings_change_mode");
-          });
+  changeRegimeWidget() {
+    return _buildCard(
+        title: "Поменять режим",
+        navigate: () {
+          Navigator.pushNamed(context, "/settings_change_mode");
+        });
   }
 }

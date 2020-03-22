@@ -16,11 +16,7 @@ class BuyProductScreen extends StatefulWidget {
         super(key: key);
   final BuyProductBloc _buyProductBloc;
 
-  TextEditingController _nameController = TextEditingController();
-  TextEditingController _phoneController = TextEditingController();
-  TextEditingController _emailController = TextEditingController();
-
-  TextEditingController _commentsController = TextEditingController();
+ 
 
   @override
   BuyProductScreenState createState() {
@@ -36,6 +32,12 @@ class BuyProductScreenState extends State<BuyProductScreen> {
   int deliveryPosition = 0;
   String paymentType;
   String deliveryType;
+
+   TextEditingController _nameController = TextEditingController();
+  TextEditingController _phoneController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
+
+  TextEditingController _commentsController = TextEditingController();
 
   List<String> _paymentChoose = ['Наличными', 'Kaspi.kz'];
   List<String> _deliveryChoose = ['Самовывоз', 'Доставка'];
@@ -99,46 +101,40 @@ class BuyProductScreenState extends State<BuyProductScreen> {
               ),
             );
           }
-          return Scaffold(
-            backgroundColor: Colors.grey.withOpacity(0.2),
-            body: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    color: Colors.white,
-                    child: Column(
-                      children: <Widget>[
-                        Container(
-                          margin: EdgeInsets.all(10),
-                          child: Text(
-                            "Товары",
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                                fontFamily: 'HolyFat',
-                                fontSize: 18,
-                                fontWeight: FontWeight.w700),
-                          ),
-                        ),
-                        itemsList(),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  buildInfoBlock(context),
-                  buildPaymentChooser(context),
-                  buildDeliveryChooser(context),
-                  buildComments(context),
-                ],
+          return ListView(
+            children: <Widget>[
+              SizedBox(
+                height: 10,
               ),
-            ),
-            bottomNavigationBar: _buildBottomNavigationBar(),
+              Container(
+                color: Colors.white,
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      margin: EdgeInsets.all(10),
+                      child: Text(
+                        "Товары",
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                            fontFamily: 'HolyFat',
+                            fontSize: 18,
+                            fontWeight: FontWeight.w700),
+                      ),
+                    ),
+                    itemsList(),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              buildInfoBlock(context),
+              buildPaymentChooser(context),
+              buildDeliveryChooser(context),
+              buildComments(context),
+              _buildBottomNavigationBar(),
+            ],
           );
         });
   }
@@ -159,8 +155,8 @@ class BuyProductScreenState extends State<BuyProductScreen> {
     return ScopedModelDescendant<MainModel>(
         builder: (BuildContext context, Widget child, MainModel model) {
       return Container(
-        height: 300,
         child: ListView.builder(
+          shrinkWrap: true,
           itemBuilder: (context, index) {
             return GestureDetector(
                 onTap: () {},
@@ -500,36 +496,42 @@ class BuyProductScreenState extends State<BuyProductScreen> {
   _buildBottomNavigationBar() {
     return ScopedModelDescendant<MainModel>(
         builder: (BuildContext context, Widget child, MainModel model) {
-      return BottomAppBar(
-          elevation: 4.0,
-          child: Container(
-              height: 90,
-              child: Column(children: [
-                Container(height: 1, color: Colors.black.withOpacity(0.3)),
-                Container(
-                    padding: EdgeInsets.only(top: 10),
-                    alignment: Alignment.center,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text(
-                          'Общая сумма заказа: ',
-                          style: TextStyle(
-                              color: Colors.grey.shade600,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16),
-                        ),
-                        Text(
-                          '${model.order.totalPrice} KZT',
-                          style: TextStyle(
-                              color: Colors.red,
-                              fontWeight: FontWeight.w600,
-                              fontSize: 16),
-                        )
-                      ],
-                    )),
-                paymentButton(context),
-              ])));
+      return Container(
+          height: 90,
+          child: Column(children: [
+            Container(height: 1, color: Colors.black.withOpacity(0.3)),
+            Container(
+                padding: EdgeInsets.only(top: 10),
+                alignment: Alignment.center,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      'Общая сумма заказа: ',
+                      style: TextStyle(
+                          color: Colors.grey.shade600,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16),
+                    ),
+                    model.order != null
+                        ? Text(
+                            '${model.order.totalPrice} KZT',
+                            style: TextStyle(
+                                color: Colors.red,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 16),
+                          )
+                        : Text(
+                            '... KZT',
+                            style: TextStyle(
+                                color: Colors.red,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 16),
+                          )
+                  ],
+                )),
+            paymentButton(context),
+          ]));
     });
   }
 
@@ -549,7 +551,7 @@ class BuyProductScreenState extends State<BuyProductScreen> {
                 child: Text(
                   'Заказать',
                   style: TextStyle(
-                      fontSize: 15,
+                      fontSize: 15,  
                       color: Colors.white,
                       fontWeight: FontWeight.w300),
                 ),
@@ -569,10 +571,10 @@ class BuyProductScreenState extends State<BuyProductScreen> {
   void buyProduct(Order order) {
     BuyProduct product = BuyProduct(
         privacyPolicy: true,
-        phone: widget._phoneController.text.trim().toString(),
-        name: widget._nameController.text.trim().toString(),
-        email: widget._emailController.text.trim().toString(),
-        comments: widget._commentsController.text.trim().toString(),
+        phone: _phoneController.text.trim().toString(),
+        name: _nameController.text.trim().toString(),
+        email:_emailController.text.trim().toString(),
+        comments: _commentsController.text.trim().toString(),
         payment: paymentType,
         delivery: deliveryType,
         order: order);
@@ -589,7 +591,7 @@ class BuyProductScreenState extends State<BuyProductScreen> {
           width: MediaQuery.of(context).size.width,
           child: Center(
             child: TextField(
-              controller: widget._commentsController,
+              controller: _commentsController,
               decoration: InputDecoration(hintText: "Комментарий к заказу"),
             ),
           ),
@@ -616,15 +618,15 @@ class BuyProductScreenState extends State<BuyProductScreen> {
               ],
             ),
             TextField(
-              controller: widget._nameController,
+              controller: _nameController,
               decoration: InputDecoration(hintText: "Имя*"),
             ),
             TextField(
-              controller: widget._phoneController,
+              controller: _phoneController,
               decoration: InputDecoration(hintText: "Телефон*"),
             ),
             TextField(
-              controller: widget._emailController,
+              controller: _emailController,
               decoration: InputDecoration(hintText: "Почта*"),
             ),
           ],

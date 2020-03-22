@@ -1,3 +1,4 @@
+import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
@@ -31,14 +32,17 @@ class ChangeprofileScreenState extends State<ChangeprofileScreen> {
             ))));
   }
 
-  var name = "";
-
-  TextEditingController _controllerName = TextEditingController();
-  TextEditingController _controllerSur = TextEditingController();
-  TextEditingController _controllerEmail = TextEditingController();
-  TextEditingController _controllerPass = TextEditingController();
-  TextEditingController _controllerPasswordVerification =
+  static TextEditingController _controllerName = TextEditingController();
+  static TextEditingController _controllerSur = TextEditingController();
+  static TextEditingController _controllerEmail = TextEditingController();
+  static TextEditingController _controllerPass = TextEditingController();
+  static TextEditingController _controllerPasswordVerification =
       TextEditingController();
+
+  String name = "";
+  String surname = "";
+  String email = "";
+  String password = "";
 
   String birthDayDate = 'Выберите дату рождения';
   String birthDayForServer = "";
@@ -53,11 +57,7 @@ class ChangeprofileScreenState extends State<ChangeprofileScreen> {
 
   @override
   void dispose() {
-    _controllerSur.dispose();
-    _controllerName.dispose();
-    _controllerEmail.dispose();
-    _controllerPass.dispose();
-    _controllerPasswordVerification.dispose();
+    // _changeprofileBloc.close();
     super.dispose();
   }
 
@@ -88,7 +88,7 @@ class ChangeprofileScreenState extends State<ChangeprofileScreen> {
                   padding: const EdgeInsets.only(top: 32.0),
                   child: RaisedButton(
                     color: Colors.blue,
-                    child: Text("reload"),
+                    child: Text("Загрузить"),
                     onPressed: () => this._load(),
                   ),
                 ),
@@ -96,18 +96,24 @@ class ChangeprofileScreenState extends State<ChangeprofileScreen> {
             ));
           }
           if (currentState is InChangeprofileState) {
-            _controllerName.text = currentState.user.result.firstname;
-            _controllerSur.text = currentState.user.result.surname;
-            _controllerEmail.text = currentState.user.result.phone;
-            _controllerPass.text = currentState.user.result.password;
-            _controllerPasswordVerification.text =
-                currentState.user.result.password;
+            name = currentState.user.result.firstname;
+            surname = currentState.user.result.surname;
+            email = currentState.user.result.phone;
+            password = currentState.user.result.password;
+            // _controllerPasswordVerification.text =
+            //     currentState.user.result.password;
 
             String year = currentState.user.result.dateOfBirth.substring(0, 4);
             String day = currentState.user.result.dateOfBirth.substring(4, 6);
             String month = currentState.user.result.dateOfBirth.substring(6, 8);
 
-            birthDayDate = "$day.$month.$year";
+            if (currentState.version == 0)
+              birthDayDate = "$day.$month.$year";
+            else
+              birthDayDate = currentState.dateTime;
+
+            birthDayForServer = "$year$day$month";
+            print(birthDayForServer);
 
             return Scaffold(
               key: _scaffoldKey,
@@ -125,12 +131,14 @@ class ChangeprofileScreenState extends State<ChangeprofileScreen> {
                                 keyboardType: TextInputType.text,
                                 controller: _controllerName,
                                 decoration: InputDecoration(
-                                    hintText: "Ваше имя",
+                                    hintText:
+                                        currentState.user.result.firstname,
                                     hintStyle: TextStyle(
                                         fontSize: ScreenUtil().setSp(30),
                                         fontWeight: FontWeight.w300,
-                                        color: Colors.grey.shade700,
+                                        color: Colors.black,
                                         letterSpacing: 0.3))),
+
                             SizedBox(
                               height: 10,
                             ),
@@ -138,11 +146,11 @@ class ChangeprofileScreenState extends State<ChangeprofileScreen> {
                                 keyboardType: TextInputType.text,
                                 controller: _controllerSur,
                                 decoration: InputDecoration(
-                                    hintText: "Ваша фамилия",
+                                    hintText: currentState.user.result.surname,
                                     hintStyle: TextStyle(
                                         fontSize: ScreenUtil().setSp(30),
                                         fontWeight: FontWeight.w300,
-                                        color: Colors.grey.shade700,
+                                        color: Colors.black,
                                         letterSpacing: 0.3))),
                             SizedBox(
                               height: 10,
@@ -151,108 +159,123 @@ class ChangeprofileScreenState extends State<ChangeprofileScreen> {
                                 keyboardType: TextInputType.emailAddress,
                                 controller: _controllerEmail,
                                 decoration: InputDecoration(
-                                    hintText: "Ваш email?",
+                                    hintText: currentState.user.result.phone,
                                     hintStyle: TextStyle(
                                         fontSize: ScreenUtil().setSp(30),
                                         fontWeight: FontWeight.w300,
-                                        color: Colors.grey.shade700,
+                                        color: Colors.black,
                                         letterSpacing: 0.3))),
                             SizedBox(
                               height: 20,
                             ),
-                            Row(
-                              children: <Widget>[
-                                Text("Изменить дату рождения:"),
-                                SizedBox(width: 5),
-                                GestureDetector(
-                                    onTap: () {
-                                      String zeroForDay = "0";
-                                      DatePicker.showDatePicker(context,
-                                          showTitleActions: true,
-                                          minTime: DateTime(1920, 3, 5),
-                                          maxTime: DateTime.now(),
-                                          onChanged: (date) {
-                                        print('change $date');
-                                        setState(() {
-                                          birthDayDate =
-                                              "${date.month}/${date.day}/${date.year}";
-                                          if (date.day < 10) {
-                                            if (date.month < 10)
-                                              birthDayForServer =
-                                                  "${date.year}0${date.month}0${date.day}";
-                                            else
-                                              birthDayForServer =
-                                                  "${date.year}${date.month}0${date.day}";
-                                          } else {
-                                            birthDayForServer =
-                                                "${date.year}${date.month}${date.day}";
-                                          }
-                                        });
-                                      }, onConfirm: (date) {
-                                        setState(() {
-                                          birthDayDate =
-                                              "${date.month}/${date.day}/${date.year}";
-                                          if (date.day < 10) {
-                                            if (date.month < 10)
-                                              birthDayForServer =
-                                                  "${date.year}0${date.month}0${date.day}";
-                                            else
-                                              birthDayForServer =
-                                                  "${date.year}${date.month}0${date.day}";
-                                          } else {
-                                            birthDayForServer =
-                                                "${date.year}${date.month}${date.day}";
-                                          }
-                                        });
-                                      },
-                                          currentTime: DateTime.now(),
-                                          locale: LocaleType.ru);
-                                    },
-                                    child: Container(
-                                      padding: EdgeInsets.all(12),
-                                      color: Theme.of(context).accentColor,
-                                      child: Text(birthDayDate,
-                                          style: TextStyle(
-                                              fontSize: ScreenUtil().setSp(30),
-                                              fontWeight: FontWeight.w300,
-                                              color: Colors.white,
-                                              letterSpacing: 0.3)),
-                                    )),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
+                            // Row(
+                            //   children: <Widget>[
+                            //     Text("Изменить дату рождения:"),
+                            //     SizedBox(width: 5),
+                            //     GestureDetector(
+                            //         onTap: () {
+                            //           String zeroForDay = "0";
+                            //           DatePicker.showDatePicker(context,
+                            //               showTitleActions: true,
+                            //               minTime: DateTime(1920, 3, 5),
+                            //               maxTime: DateTime.now(),
+                            //               onChanged: (date) {
+                            //             print('change $date');
+                            //             setState(() {
+                            //               birthDayDate =
+                            //                   "${date.month}/${date.day}/${date.year}";
+                            //               if (date.day < 10) {
+                            //                 if (date.month <=
+                            //                     DateTime.september)
+                            //                   birthDayForServer =
+                            //                       "${date.year}0${date.month}0${date.day}";
+                            //                 else
+                            //                   birthDayForServer =
+                            //                       "${date.year}${date.month}0${date.day}";
+                            //               } else {
+                            //                 if (date.month <=
+                            //                     DateTime.september)
+                            //                   birthDayForServer =
+                            //                       "${date.year}0${date.month}${date.day}";
+                            //                 else
+                            //                   birthDayForServer =
+                            //                       "${date.year}${date.month}${date.day}";
+                            //               }
+                            //               widget._changeprofileBloc.add(
+                            //                   LoadChangeprofileEvent(true,
+                            //                       dateTime: birthDayDate));
+                            //             });
+                            //           }, onConfirm: (date) {
+                            //             setState(() {
+                            //               birthDayDate =
+                            //                   "${date.month}/${date.day}/${date.year}";
+                            //               if (date.day < 10) {
+                            //                 if (date.month <=
+                            //                     DateTime.september) {
+                            //                   birthDayDate =
+                            //                       "${date.month}/${date.day}/${date.year}";
+                            //                   birthDayForServer =
+                            //                       "${date.year}0${date.month}0${date.day}";
+                            //                 } else {
+                            //                   birthDayDate =
+                            //                       "${date.month}/${date.day}/${date.year}";
+                            //                   birthDayForServer =
+                            //                       "${date.year}${date.month}0${date.day}";
+                            //                 }
+                            //               } else {
+                            //                 if (date.month <=
+                            //                     DateTime.september) {
+                            //                   birthDayDate =
+                            //                       "${date.month}/${date.day}/${date.year}";
+                            //                   birthDayForServer =
+                            //                       "${date.year}0${date.month}${date.day}";
+                            //                 } else {
+                            //                   birthDayDate =
+                            //                       "${date.month}/${date.day}/${date.year}";
+                            //                   birthDayForServer =
+                            //                       "${date.year}${date.month}${date.day}";
+                            //                 }
+                            //               }
+                            //               widget._changeprofileBloc.add(
+                            //                   LoadChangeprofileEvent(true,
+                            //                       dateTime: birthDayDate));
+                            //             });
+                            //           },
+                            //               currentTime: DateTime.now(),
+                            //               locale: LocaleType.ru);
+                            //         },
+                            //         child: Container(
+                            //           padding: EdgeInsets.all(12),
+                            //           color: Theme.of(context).accentColor,
+                            //           child: Text(birthDayDate,
+                            //               style: TextStyle(
+                            //                   fontSize: ScreenUtil().setSp(30),
+                            //                   fontWeight: FontWeight.w300,
+                            //                   color: Colors.white,
+                            //                   letterSpacing: 0.3)),
+                            //         )),
+                            //   ],
+                            // ),
+                            // SizedBox(
+                            //   height: 10,
+                            // ),
                             TextField(
                                 keyboardType: TextInputType.text,
                                 controller: _controllerPass,
                                 obscureText: true,
                                 decoration: InputDecoration(
-                                    hintText:
-                                        "Поставьте пароль к вашему профилю",
+                                    hintText: currentState.user.result.password,
                                     hintStyle: TextStyle(
                                         fontSize: ScreenUtil().setSp(30),
                                         fontWeight: FontWeight.w300,
-                                        color: Colors.grey.shade700))),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            TextField(
-                                keyboardType: TextInputType.text,
-                                controller: _controllerPasswordVerification,
-                                obscureText: true,
-                                decoration: InputDecoration(
-                                    hintText: "Повторите пароль",
-                                    hintStyle: TextStyle(
-                                        fontSize: ScreenUtil().setSp(30),
-                                        fontWeight: FontWeight.w300,
-                                        color: Colors.grey.shade700))),
+                                        color: Colors.black))),
+
                             SizedBox(
                               height: 20,
                             ),
                             RaisedButton(
                                 color: Theme.of(context).accentColor,
-                                onPressed: () {},
+                                onPressed: _onChangeProfilePressed,
                                 child: Center(
                                   child: Text("Сохранить",
                                       style: TextStyle(color: Colors.white)),
@@ -266,7 +289,51 @@ class ChangeprofileScreenState extends State<ChangeprofileScreen> {
               ),
             );
           }
+
+          if (currentState is SuccessChangeprofileState) {
+            return Center(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                      width: 200,
+                      height: 200,
+                      child: FlareActor("assets/check.flr",
+                          animation: "Untitled")),
+                  Text("Данные успешно изменены",
+                      style: TextStyle(fontSize: 20))
+                ],
+              ),
+            );
+          }
         });
+  }
+
+  initValueToController() {
+    if (_controllerName.text.isEmpty) {
+      _controllerName.text = name;
+    }
+    if (_controllerSur.text.isEmpty) {
+      _controllerSur.text = surname;
+    }
+    if (_controllerEmail.text.isEmpty) {
+      _controllerEmail.text = email;
+    }
+    if (_controllerPass.text.isEmpty) {
+      _controllerPass.text = password;
+    }
+  }
+
+  _onChangeProfilePressed() {
+    initValueToController();
+    Map<String, dynamic> mapBody = new Map();
+    mapBody["firstname"] = _controllerName.text.toString();
+    mapBody["surname"] = _controllerSur.text.toString();
+    mapBody["phone"] = _controllerEmail.text.toString();
+    mapBody["password"] = _controllerPass.text.toString();
+    mapBody["birthday"] = birthDayForServer.toString();
+    widget._changeprofileBloc.add(PostServerChangeprofileEvent(mapBody));
   }
 
   _load() {

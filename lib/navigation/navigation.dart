@@ -103,7 +103,7 @@ class _AppState extends State<App> {
     return MultiBlocProvider(
       providers: [
         BlocProvider<AuthBloc>(
-          builder: (BuildContext context) => authBloc,
+          create: (BuildContext context) => authBloc,
         ),
       ],
       child: MaterialApp(

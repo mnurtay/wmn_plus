@@ -23,6 +23,7 @@ class _ConsulatationPaymentPageState extends State<ConsulatationPaymentPage> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.url);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,

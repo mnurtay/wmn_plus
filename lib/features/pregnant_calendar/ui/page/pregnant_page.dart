@@ -29,7 +29,7 @@ class _PregnantPageState extends State<PregnantPage> {
       appBar: buildAppBar(context),
       backgroundColor: Color(0xFFF5F5F5),
       body: BlocProvider(
-        builder: (context) => pregnantBloc,
+        create: (context) => pregnantBloc,
         child: buildBody(context),
       ),
     );

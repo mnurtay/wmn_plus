@@ -44,7 +44,7 @@ class _ChatListPageState extends State<ChatListPage> {
         if (state is AuthenticatedDoctorAuthState) {
           url = 'ws://194.146.43.98:8080/convlist?role=DOC&token=';
           url += state.user.result.token;
-
+          print(url);
           IOWebSocketChannel channel = IOWebSocketChannel.connect(url);
           return Scaffold(
             backgroundColor: Color(0xFFF5F5F5),
@@ -82,6 +82,7 @@ class _ChatListPageState extends State<ChatListPage> {
         } else {
           url += state.user.result.token;
           currentUser = state.user;
+          print(url);
 
           IOWebSocketChannel channel = IOWebSocketChannel.connect(url);
           return Scaffold(
@@ -117,7 +118,7 @@ class _ChatListPageState extends State<ChatListPage> {
   }
 
   Widget chatList(BuildContext context, IOWebSocketChannel channel) {
-    return StreamBuilder(
+    return new StreamBuilder(
       stream: channel.stream,
       builder: (context, snapshot) {
         if (snapshot.hasData && snapshot.data != oldData) {

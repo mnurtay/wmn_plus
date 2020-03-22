@@ -8,11 +8,12 @@ class ChangeprofileRepository {
 
   ChangeprofileRepository();
 
-  void test(bool isError) {
-    this._changeprofileProvider.test(isError);
+  Future<User> getUser() async {
+     await userRepo.updateUserData();
+    return await userRepo.getCurrentUser();
   }
 
-  Future<User> getUser() async {
-    return await userRepo.getCurrentUser();
+  Future<User> postServerUser(String token, Map<String, dynamic> bodyMap) async {
+    return await _changeprofileProvider.requestChangeMode(token, bodyMap);
   }
 }

@@ -23,7 +23,7 @@ class _DoctorLoginPageState extends State<DoctorLoginPage> {
 
   @override
   void dispose() {
-    _loginBloc.close();
+    // _loginBloc.close();
     super.dispose();
   }
 

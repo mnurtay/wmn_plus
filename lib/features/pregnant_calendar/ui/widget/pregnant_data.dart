@@ -13,6 +13,7 @@ class PregnantData extends StatefulWidget {
 class _PregnantDataState extends State<PregnantData> {
   PregnantBloc pregnantBloc;
   Pregnant pregnant;
+  int week;
   PregnantInstruction instruction;
   DateTime selectedDate = DateTime.now();
 
@@ -36,6 +37,7 @@ class _PregnantDataState extends State<PregnantData> {
       pregnant.instructions.forEach((item) {
         if (selectedDate.compareTo(item.fromDate) >= 0) {
           if (selectedDate.compareTo(item.toDate) <= 0) {
+            week = item.week;
             instruction = item;
             check = true;
           }
@@ -186,7 +188,7 @@ class _PregnantDataState extends State<PregnantData> {
         ),
         SizedBox(height: ScreenUtil().setHeight(10)),
         Text(
-          'Неделя ${pregnant.week}',
+          'Неделя ${week}',
           style: TextStyle(
             fontSize: ScreenUtil().setSp(50),
             color: Colors.black,

@@ -14,6 +14,7 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  bool _serviceAvailable = false;
 
   Future<void> checkFirstSeen() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -22,9 +23,6 @@ class _SplashScreenState extends State<SplashScreen> {
       print("not first");
     } else {
       firebaseConfigure();
-      await prefs.setString('codeC', "RU");
-      await prefs.setString('codeL', "ru");
-      await prefs.setBool('seen', true);
     }
   }
 
@@ -41,16 +39,15 @@ class _SplashScreenState extends State<SplashScreen> {
           ..init(context);
     return Scaffold(
       body: Container(
-        child: Center(
-            child: Text(
-          "WMN+",
-          style: TextStyle(
-            fontSize: ScreenUtil().setSp(90),
-            fontWeight: FontWeight.w400,
-            color: Color(0xffD748DA),
-          ),
-        )),
-      ),
+          child: Center(
+              child: Text(
+        "WMN+",
+        style: TextStyle(
+          fontSize: ScreenUtil().setSp(90),
+          fontWeight: FontWeight.w400,
+          color: Color(0xffD748DA),
+        ),
+      ))),
     );
   }
 
@@ -59,6 +56,11 @@ class _SplashScreenState extends State<SplashScreen> {
     _firebaseMessaging.getToken().then((token) {
       UserRepository userRepository = UserRepository();
       userRepository.persistToken(token);
+    }).catchError((error) {
+      print("ERROR" + error);
+      setState(() {
+        _serviceAvailable = false;
+      });
     });
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {

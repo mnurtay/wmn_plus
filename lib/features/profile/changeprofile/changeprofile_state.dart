@@ -39,20 +39,22 @@ class UnChangeprofileState extends ChangeprofileState {
 /// Initialized
 class InChangeprofileState extends ChangeprofileState {
   final User user;
+  String dateTime;
 
-  InChangeprofileState(int version, this.user) : super(version, [user]);
+  InChangeprofileState(int version, this.user, {this.dateTime})
+      : super(version, [user, dateTime]);
 
   @override
   String toString() => 'InChangeprofileState $user';
 
   @override
   InChangeprofileState getStateCopy() {
-    return InChangeprofileState(this.version, this.user);
+    return InChangeprofileState(this.version, this.user, dateTime: this.dateTime);
   }
 
   @override
   InChangeprofileState getNewVersion() {
-    return InChangeprofileState(version + 1, this.user);
+    return InChangeprofileState(version + 1, this.user, dateTime: this.dateTime);
   }
 }
 
@@ -73,5 +75,22 @@ class ErrorChangeprofileState extends ChangeprofileState {
   @override
   ErrorChangeprofileState getNewVersion() {
     return ErrorChangeprofileState(version + 1, this.errorMessage);
+  }
+}
+
+class SuccessChangeprofileState extends ChangeprofileState {
+  SuccessChangeprofileState(int version) : super(version);
+
+  @override
+  String toString() => 'ErrorChangeprofileState';
+
+  @override
+  SuccessChangeprofileState getStateCopy() {
+    return SuccessChangeprofileState(version);
+  }
+
+  @override
+  SuccessChangeprofileState getNewVersion() {
+    return SuccessChangeprofileState(version + 1);
   }
 }

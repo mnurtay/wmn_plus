@@ -8,6 +8,10 @@
 	<string>Camera uses for taking photo of medial documents of patients of the chat </string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Photo uses for sending the images of medical documents of the chat</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Location uses to suggest the nearest medical clinics for user</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+    <string>Location uses to suggest the nearest medical clinics or services for user</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>

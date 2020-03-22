@@ -32,8 +32,10 @@ class RegistrationModeBloc
         print(event.registrationModel.toJson());
         var user = await _pregnantModeRepository
             .requestUserClimaxRegistration(event.registrationModel);
-        if (user.result.token.isNotEmpty)
+        if (user.result != null)
           authBloc.add(LoggedInAuthEvent(user: user));
+        else
+          authBloc.add(LoggedOutAuthEvent());
       }
 
       yield await event.applyAsync(currentState: state, bloc: this);

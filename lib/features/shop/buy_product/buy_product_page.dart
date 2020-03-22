@@ -11,6 +11,7 @@ class BuyProductPage extends StatelessWidget {
   Widget build(BuildContext context) {
     var _buyProductBloc = BuyProductBloc();
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         iconTheme: IconThemeData(
           color: Colors.black,

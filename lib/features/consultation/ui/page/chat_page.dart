@@ -44,12 +44,14 @@ class _ChatPageState extends State<ChatPage> {
       String url =
           'ws://194.146.43.98:8080/conversation?token=${widget.currentUser.token}&convID=${widget.consultation.id}&role=DOC';
       channel = IOWebSocketChannel.connect(url);
+      print(url);
     } else {
       doctor = widget.consultation.doctor;
       print(widget.currentUser.token + "!!!!!!!" + widget.consultation.id);
       String url =
           'ws://194.146.43.98:8080/conversation?token=${widget.currentUser.token}&convID=${widget.consultation.id}&role=PAT';
       channel = IOWebSocketChannel.connect(url);
+      print(url);
     }
 
     super.initState();
@@ -74,12 +76,11 @@ class _ChatPageState extends State<ChatPage> {
             initAspectRatio: CropAspectRatioPreset.original,
             lockAspectRatio: false),
         iosUiSettings: IOSUiSettings(
-
           minimumAspectRatio: 1.0,
         ));
 
     var byte = await _readFileByte(croppedFile.path);
-  
+
     _sendMessageImage(byte);
 
     setState(() {
